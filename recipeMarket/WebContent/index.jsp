@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
-    <link rel="stylesheet" href="${contextPath}/css/main.css">
+    <link rel="stylesheet" href="${contextPath}/css/index.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,7 +22,7 @@
     <script src="${contextPath}/js/favoriteBtn.js"></script>
     <script src="${contextPath}/js/card.js"></script>
     <script src="${contextPath}/js/footer.js"></script>
-    <script src="${contextPath}/js/main.js"></script>
+    <script src="${contextPath}/js/index.js"></script>
     <script>
     </script>
 </head>
@@ -38,9 +38,8 @@
         <div class="headerRightSection">
             <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
                 <h1 class="account">Sign in</h1>
-<%--                 <img src="${contextPath}/img/user.png" class="account"> --%>
                 <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="login.html">로그인</a>
@@ -53,7 +52,7 @@
     <!-- 메인 메뉴의 컨텐츠 영역 -->
     <div class="mainContent">
         <div class="middleSection">
-            <h1>당신의 냉장고에 있는 <b style="color: #FE8340;">[재료]</b>로</h1>
+            <h1>당신의 냉장고에 있는 <b style="color: #D2302C;">[재료]</b>로</h1>
             <h1>지금 검색해보세요</h1>
             <h2>A space where you can experience the joy of various recipes</h2>
             <!-- 검색 -->
@@ -149,7 +148,7 @@
                     <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
                     <div class="cardContainer">
                         <h4><b>레시피 8</b></h4>
-                        <p>레시피 한 줄 요약</p>
+                        <p>레시피 한 줄 요약aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                         <img src="${contextPath}/img/heart.png" class="favorite">
                         <img src="${contextPath}/img/dislike.png" class="dislike">
                         <img src="${contextPath}/img/like.png" class="like">

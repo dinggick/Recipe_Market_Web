@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 
@@ -9,20 +10,20 @@
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-    <link rel="icon" href="./images/titlecon.png">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/header.css">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/customScrollBar.css">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/divContent.css">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/contents.css">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/footer.css">
-    <link rel="stylesheet" href="/RecipeMarketPrac/css/recipeInfo.css">
+    <link rel="icon" href="${contextPath}/img/titlecon.png">
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
+    <link rel="stylesheet" href="${contextPath}/css/divContent.css">
+    <link rel="stylesheet" href="${contextPath}/css/contents.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
+    <link rel="stylesheet" href="${contextPath}/css/recipeInfo.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/RecipeMarketPrac/js/dropdownMenu.js"></script>
-    <script src="/RecipeMarketPrac/js/favoriteBtn.js"></script>
-    <script src="/RecipeMarketPrac/js/header.js"></script>
-    <script src="/RecipeMarketPrac/js/footer.js"></script>
-    <script src="/RecipeMarketPrac/js/recipeInfo.js"></script>
+    <script src="${contextPath}/js/dropdownMenu.js"></script>
+    <script src="${contextPath}/js/favoriteBtn.js"></script>
+    <script src="${contextPath}/js/header.js"></script>
+    <script src="${contextPath}/js/footer.js"></script>
+    <script src="${contextPath}/js/recipeInfo.js"></script>
 </head>
 
 <body>
@@ -38,8 +39,8 @@
         <div class="headerRightSection">
             <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <img src="./images/user.png" class="account">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
                 <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
@@ -60,9 +61,9 @@
                 </ul>
             </div>
             <%-- <div class="ad">
-                <img src="./images/ad1.jpg" class="adImg">
-                <img src="./images/ad2.jpg" class="adImg">
-                <img src="./images/ad3.jpg" class="adImg">
+                <img src="${contextPath}/img/ad1.jpg" class="adImg">
+                <img src="${contextPath}/img/ad2.jpg" class="adImg">
+                <img src="${contextPath}/img/ad3.jpg" class="adImg">
             </div>--%>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
@@ -74,9 +75,9 @@
                     <p>${requestScope.recipeInfo.recipeSumm}</p>
                     <p><span class="recipePrice">${requestScope.recipeInfo.recipePrice}</span> 원</p>
                     <div class="buttonSection">
-                        <label><img src="./images/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
-                        <label><img src="./images/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
-                        <img src="./images/heart.png" class="favorite">
+                        <label><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
+                        <label><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
+                        <img src="${contextPath}/img/heart.png" class="favorite">
                         <button class="cartBtn">장바구니 추가</button>
                         <button class="purchaseBtn">구매하기</button>
                     </div>
