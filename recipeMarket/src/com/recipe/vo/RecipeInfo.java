@@ -1,13 +1,12 @@
 package com.recipe.vo;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 public class RecipeInfo {
 	private int recipeCode; //레시피코드
 	private String recipeName; //레시피이름
 	private String recipeSumm; //레시피요약
-	private double recipePrice; //레시피가격
+	private int recipePrice; //레시피가격
 	private String recipeProcess; //레시피조리과정
 	private String imgUrl; //이미지경로
 	private Point point; //좋아요
@@ -15,7 +14,7 @@ public class RecipeInfo {
 	
 	public RecipeInfo() {}
 
-	public RecipeInfo(int recipeCode, String recipeName, String recipeSumm, double recipePrice, String recipeProcess,
+	public RecipeInfo(int recipeCode, String recipeName, String recipeSumm, int recipePrice, String recipeProcess,
 			String imgUrl, Point point, List<RecipeIngredient> ingredients) {
 		super();
 		this.recipeCode = recipeCode;
@@ -52,11 +51,11 @@ public class RecipeInfo {
 		this.recipeSumm = recipeSumm;
 	}
 
-	public double getRecipePrice() {
+	public int getRecipePrice() {
 		return recipePrice;
 	}
 
-	public void setRecipePrice(double recipePrice) {
+	public void setRecipePrice(int recipePrice) {
 		this.recipePrice = recipePrice;
 	}
 
