@@ -35,9 +35,9 @@ public class PurchaseDAO {
 			e.printStackTrace();
 		}
 		//나의 구매내역을 가져오는 query문
-		String detailSQL = "select p.purchase_date, ri.recipe_name, pd.purchase_quantity, pd.purchase_quantity*ri.recipe_price, r.review_comment\r\n" + 
-				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code)\r\n" + 
-				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code)\r\n" + 
+		String detailSQL = "select p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
+				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
+				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
 				"where p.customer_email=?";
 		try {
 			ps = con.prepareStatement(detailSQL);
@@ -53,15 +53,16 @@ public class PurchaseDAO {
 				Review r = new Review();
 				
 				r.setReviewComment(rs.getString("review_comment"));
+				
 				ri.setRecipeName(rs.getString("recipe_name"));
-				ri.setRecipePrice(rs.getInt("recipe_price"));
+				ri.setRecipePrice(rs.getDouble("recipe_price"));
 				pd.setRecipeInfo(ri);
 				pd.setPurchaseDetailQuantity(rs.getInt("purchase_quantity"));
 				
 				p.setPurchaseDate(rs.getDate("purchase_date"));
 				p.setPurchaseDetail(pd);
 				p.setReview(r);
-				
+			
 				//Purchase list에 담는다
 				list.add(p);
 			}
@@ -80,6 +81,12 @@ public class PurchaseDAO {
 		}
 	}
 	
+	/*
+	 * public static void main(String[] args) { PurchaseDAO d = new PurchaseDAO();
+	 * try { List<Purchase> list = d.selectById("pyonjw@recipe.com"); for(Purchase p
+	 * : list) { System.out.println(p); } } catch (FindException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } }
+	 */
 	
 	/**
 	 * 나의 구매하기
