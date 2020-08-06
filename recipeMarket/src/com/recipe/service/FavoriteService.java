@@ -15,7 +15,17 @@ import com.recipe.vo.Favorite;
  *
  */
 public class FavoriteService {
-	private FavoriteDAO dao = new FavoriteDAO();
+	private static FavoriteService instance;
+	private FavoriteDAO dao;
+	
+	private FavoriteService() {
+		dao = new FavoriteDAO();
+	}
+	
+	public static FavoriteService getInstance() {
+		if(instance == null) instance = new FavoriteService();
+		return instance;
+	}
 	
 	public void add(Favorite f)	throws AddException, DuplicatedException {
 		dao.insert(f);

@@ -24,7 +24,7 @@ public class RecipeInfoController implements Controller{
 	private static final long serialVersionUID = 1L;
        
     private RecipeInfoController() {
-    	recipeService = new RecipeService();
+    	recipeService = RecipeService.getInstance(); //싱글턴 객체 획득
     }
     
     public static RecipeInfoController getInstance() {
@@ -62,6 +62,7 @@ public class RecipeInfoController implements Controller{
 			return "/recipeInfo.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
+			request.setAttribute("msg", e.getMessage().replace("\"", ""));
 			return "/fail.jsp";
 		}
 	}

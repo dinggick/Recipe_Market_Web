@@ -9,15 +9,25 @@ import com.recipe.exception.FindException;
 import com.recipe.vo.Purchase;
 
 public class PurchaseService {
-	PurchaseDAO purchasedao = new PurchaseDAO();
+	private static PurchaseService instance;
+	private PurchaseDAO dao;
+	
+	private PurchaseService() {
+		dao = new PurchaseDAO();
+	}
+	
+	public static PurchaseService getInstance() {
+		if(instance == null) instance = new PurchaseService();
+		return instance;
+	}
 
 	public void buy(Purchase p)  throws AddException{
-		purchasedao.insert(p);
+		dao.insert(p);
 	}
 	
 	
 	public List<Purchase> findById(String customerId) throws FindException{
-		return purchasedao.selectById(customerId);
+		return dao.selectById(customerId);
 	}
 
 }

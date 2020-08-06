@@ -13,18 +13,30 @@ import com.recipe.vo.Ingredient;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeService {
-	private RecipeInfoDAO dao = new RecipeInfoDAO();	
-	private RecipeIngredientDAO idao = new RecipeIngredientDAO();
-	private PointDAO pointDAO = new PointDAO();
+	private static RecipeService instance;
+	private RecipeInfoDAO recipeInfoDAO;	
+	private RecipeIngredientDAO recipeIngredientDAO;
+	private PointDAO pointDAO;
+	
+	private RecipeService() {
+		recipeInfoDAO = new RecipeInfoDAO();
+		recipeIngredientDAO = new RecipeIngredientDAO();
+		pointDAO = new PointDAO();
+	}
+	
+	public static RecipeService getInstance() {
+		if(instance == null) instance = new RecipeService();
+		return instance;
+	}
 	
 	public List<RecipeInfo> findByName(String recipeName) throws FindException{
-		return dao.selectByName(recipeName);		
+		return recipeInfoDAO.selectByName(recipeName);		
 	}
 	public RecipeInfo findByCode(int recipeCode) throws FindException {
-		return dao.selectByCode(recipeCode);
+		return recipeInfoDAO.selectByCode(recipeCode);
 	}
 	public List<RecipeInfo> findByIngName(List<String> ingName) throws FindException{
-		return idao.selectByIngName(ingName);
+		return recipeIngredientDAO.selectByIngName(ingName);
 	}
 	/**
 	 * 추천 레시피 절차를 위한 메소드
@@ -33,19 +45,19 @@ public class RecipeService {
 	 * @author 최종국
 	 */
 	public RecipeInfo findRecommended() throws FindException {
-		return dao.selectByRank();
+		return recipeInfoDAO.selectByRank();
 	}
 	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
-		dao.insert(rdId, recipeInfo, ingInfo, ingList, process);
+		recipeInfoDAO.insert(rdId, recipeInfo, ingInfo, ingList, process);
 	}
 	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
-		dao.update(rdId, recipeInfo, ingInfo, ingList, process);
+		recipeInfoDAO.update(rdId, recipeInfo, ingInfo, ingList, process);
 	}
 	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
-		dao.remove(rdId, recipeInfo);
+		recipeInfoDAO.remove(rdId, recipeInfo);
 	}
 	public List<RecipeInfo> findAll() throws FindException {
-		return dao.selectAll();
+		return recipeInfoDAO.selectAll();
 	}
 	/**
 	 * 포인트 수정 절차를 위한 메소드
