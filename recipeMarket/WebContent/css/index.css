@@ -157,6 +157,7 @@ cardContainer는 레시피 제목, 한 줄 요약, 좋아요 버튼, 싫어요 �
 
 .card>img {
     width: 100%;
+    height: 50%;
 }
 
 .cardContainer {

@@ -479,7 +479,7 @@ public class RecipeInfoDAO {
 		String selectByRankSQL = "SELECT ri.recipe_code, ri.recipe_name, ri.recipe_summ, ri.recipe_price, ri.recipe_process, ri.img_url, po.like_count, po.dislike_count\r\n" + 
 				"FROM recipe_info ri JOIN point po ON (ri.recipe_code = po.recipe_code)\r\n" + 
 				"WHERE\r\n" + 
-				"    ri.recipe_code = (\r\n" + 
+				"    ri.recipe_code IN (\r\n" + 
 				"        SELECT\r\n" + 
 				"            recipe_code\r\n" + 
 				"        FROM\r\n" + 
@@ -500,7 +500,7 @@ public class RecipeInfoDAO {
 				"                        FROM\r\n" + 
 				"                            review\r\n" + 
 				"                        WHERE\r\n" + 
-				"                            recipe_code = p.recipe_code\r\n" + 
+				"                            i.recipe_code = p.recipe_code\r\n" + 
 				"                    ) DESC\r\n" + 
 				"            )\r\n" + 
 				"        WHERE\r\n" + 
