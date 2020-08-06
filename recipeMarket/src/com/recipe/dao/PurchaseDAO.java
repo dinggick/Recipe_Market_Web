@@ -14,6 +14,7 @@ import com.recipe.vo.Point;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.Review;
 
 public class PurchaseDAO {
 	/**
@@ -34,24 +35,10 @@ public class PurchaseDAO {
 			e.printStackTrace();
 		}
 		//나의 구매내역을 가져오는 query문
-		String detailSQL = "select \r\n" + 
-				"    p.purchase_date,\r\n" + 
-				"    pd.purchase_quantity,\r\n" + 
-				"    r.review_comment,\r\n" + 
-				"    i.recipe_code,\r\n" + 
-				"    i.recipe_name,\r\n" + 
-				"    i.recipe_summ,\r\n" + 
-				"    i.recipe_price,\r\n" + 
-				"    i.recipe_process,\r\n" + 
-				"    po.like_count,\r\n" + 
-				"    po.dislike_count\r\n" + 
-				"from\r\n" + 
-				"    purchase p\r\n" + 
-				"    join purchase_detail pd on ( p.purchase_code = pd.purchase_code)\r\n" + 
-				"    left join review r on ( p.customer_id = r.customer_id and pd.recipe_code = r.recipe_code)\r\n" + 
-				"    join recipe_info i on( pd.recipe_code = i.recipe_code ) \r\n" + 
-				"    join point po on(i.recipe_code= po.recipe_code)\r\n" + 
-				"    where p.customer_id =?";
+		String detailSQL = "select p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
+				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
+				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
+				"where p.customer_email=?";
 		try {
 			ps = con.prepareStatement(detailSQL);
 			
@@ -61,28 +48,21 @@ public class PurchaseDAO {
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Purchase p = new Purchase();
-				RecipeInfo r = new RecipeInfo();
+				RecipeInfo ri = new RecipeInfo();
 				PurchaseDetail pd = new PurchaseDetail();
-				Point po = new Point();
-			
-				po.setLikeCount(rs.getInt("like_count"));
-				po.setDisLikeCount(rs.getInt("dislike_count"));
-				r.setPoint(po);
-				//레시피정보 가져오기
-				r.setRecipeCode(rs.getInt("recipe_code"));
-				r.setRecipeName(rs.getString("recipe_name"));
-				r.setRecipeSumm(rs.getString("recipe_summ"));
-				r.setRecipePrice(rs.getDouble("recipe_price"));
-				r.setRecipeProcess(rs.getString("recipe_process"));
+				Review r = new Review();
 				
-				//Purchasedetail에 recipeInfo담아
-				pd.setRecipeInfo(r);
+				r.setReviewComment(rs.getString("review_comment"));
+				
+				ri.setRecipeName(rs.getString("recipe_name"));
+				ri.setRecipePrice(rs.getInt("recipe_price"));
+				pd.setRecipeInfo(ri);
 				pd.setPurchaseDetailQuantity(rs.getInt("purchase_quantity"));
 				
-				//Purchase에 Purchasedetail담고
-				p.setPurchaseDetail(pd);
 				p.setPurchaseDate(rs.getDate("purchase_date"));
-				
+				p.setPurchaseDetail(pd);
+				p.setReview(r);
+			
 				//Purchase list에 담는다
 				list.add(p);
 			}
@@ -101,6 +81,12 @@ public class PurchaseDAO {
 		}
 	}
 	
+	/*
+	 * public static void main(String[] args) { PurchaseDAO d = new PurchaseDAO();
+	 * try { List<Purchase> list = d.selectById("pyonjw@recipe.com"); for(Purchase p
+	 * : list) { System.out.println(p); } } catch (FindException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } }
+	 */
 	
 	/**
 	 * 나의 구매하기
@@ -126,7 +112,7 @@ public class PurchaseDAO {
 			ps = con.prepareStatement(insertSQL);
 			
 			//현재 사용자ID를 추가
-			ps.setString(1, p.getCustomerId());
+			ps.setString(1, p.getCustomerEmail());
 			ps.executeUpdate();
 			ps.close();
 			
