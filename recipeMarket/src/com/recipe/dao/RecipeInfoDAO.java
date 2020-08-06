@@ -29,7 +29,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 
 		}
-		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RIN.IMG_URL, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -47,6 +47,7 @@ public class RecipeInfoDAO {
 				int rCode = rs.getInt("recipe_code");
 				int ingCode = rs.getInt("ing_code");
 				String ingName = rs.getString("ing_name");
+				String img_url = rs.getString("img_url");
 				Ingredient ingredient = new Ingredient(ingCode, ingName);
 				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);
 				//코드랑 이름 값 (Ingredient) recipeIng 에 넣어주고 리스트에 애드해줌
@@ -54,6 +55,7 @@ public class RecipeInfoDAO {
 				//코드값이 바뀔떄 recipeInfo 에 값 넣어주기
 				if (prevCode != rCode) {
 					recipeInfo.setRecipeCode(rCode);
+					recipeInfo.setImgUrl(rs.getString("img_url"));
 					recipeInfo.setRecipeName(rs.getString("recipe_name"));
 					recipeInfo.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo.setRecipeSumm(rs.getString("recipe_summ"));
@@ -88,7 +90,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
-		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -108,6 +110,7 @@ public class RecipeInfoDAO {
 					ingList = new ArrayList<>();
 					recipeInfo2.setIngredients(ingList);
 					recipeInfo2.setRecipeCode(rCode);
+					recipeInfo2.setImgUrl(rs.getString("img_url"));
 					recipeInfo2.setRecipeName(rs.getString("recipe_name"));
 					recipeInfo2.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo2.setRecipeSumm(rs.getString("recipe_summ"));

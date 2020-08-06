@@ -27,6 +27,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 <header id="header">
 	<!-- 왼쪽 영역 -->
 	<div class="headerLeftSection">
