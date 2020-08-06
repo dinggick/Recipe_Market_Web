@@ -20,9 +20,12 @@ import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoController implements Controller{
 	private static RecipeInfoController instance;
+	private RecipeService recipeService;
 	private static final long serialVersionUID = 1L;
        
-    public RecipeInfoController() {}
+    private RecipeInfoController() {
+    	recipeService = new RecipeService();
+    }
     
     public static RecipeInfoController getInstance() {
     	if(instance == null) instance = new RecipeInfoController();
@@ -38,9 +41,8 @@ public class RecipeInfoController implements Controller{
 		request.setCharacterEncoding("UTF-8");
 		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
 		
-		RecipeService service = new RecipeService();
 		try {
-			RecipeInfo ri = service.findByCode(recipeCode); //DB에서 레시피 정보를 가져온다
+			RecipeInfo ri = recipeService.findByCode(recipeCode); //DB에서 레시피 정보를 가져온다
 			URL processUrl = new URL(ri.getRecipeProcess()); //해당 레시피의 재료, 과정 정보를 가진 텍스트 파일에 접근하기 위한 URL 설정
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(processUrl.openStream()));
