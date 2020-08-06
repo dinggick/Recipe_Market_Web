@@ -21,6 +21,7 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
+	
 	public List<Pair<Integer, Pair<String, Integer>>> selectByYearG1(String year) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
