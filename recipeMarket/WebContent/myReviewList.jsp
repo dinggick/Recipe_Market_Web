@@ -33,15 +33,10 @@ $(function()  {
 	// 후기 목록 조회
 
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
-	
-	$(this).find('ul>li:first-child').html();
-	
-	$recipeInfoObj.on('click', $myReviewListObj.find("td"), function(e){
-	//body > div > section > div > form > ul > li:nth-child(6) > button
-	//prod_no=C0001&quantity=3
-	
-	var recipe_code = $myReviewListObj.find('td>input[name=recipe_code]').val();
+	$myReviewListObj.on('click', 'tr', function(e){
+	var recipe_code = $(this).find('td>input[name=recipe_code]').val();
 		console.log(recipe_code);
+		console.log($(this));
 	});
 
 	// 후기 삭제

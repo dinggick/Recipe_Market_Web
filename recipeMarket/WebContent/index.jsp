@@ -10,7 +10,8 @@
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <link rel="icon" href="${contextPath}/img/titlecon.png">
     <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
-	<link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
     <link rel="stylesheet" href="${contextPath}/css/index.css">
     <!-- Google Fonts -->
@@ -176,7 +177,12 @@
             </section>
         </section>
     </div>
-    <jsp:include page="/static/footer.html"></jsp:include>
+    <footer>
+        <p>
+            © 2020 RECIPE MARKET All rights reserved.
+        </p>
+        <a class="topBtn">&uarr;TOP</a>
+    </footer>
 </body>
 
 </html>
