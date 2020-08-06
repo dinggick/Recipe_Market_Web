@@ -36,17 +36,7 @@
 	</div>
 	<!-- 오른쪽 영역 -->
 	<div class="headerRightSection">
-		<!-- 드롭다운 메뉴 -->
-		<div class="dropdown">
-			<!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-			<h1 class="account">Sign in</h1>
-			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-			<div class="dropdown-content">
-				<a href="/recipeMarket/static/login.html">로그인</a>
-				<a href="#">Menu 2</a> 
-				<a href="#">Menu 3</a>
-			</div>
-		</div>
+		<jsp:include page="/dropdownMenu.jsp"></jsp:include>
 	</div>
 </header>
     <!-- 메인 메뉴의 컨텐츠 영역 -->
