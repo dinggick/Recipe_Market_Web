@@ -232,7 +232,11 @@
                 	   		<td><a href="./recipeCart.html" class="recipeName">${p.purchaseDetail.recipeInfo.recipeName}</a></td>
                 	   		<td>${p.purchaseDetail.purchaseDetailQuantity}</td>
                 	   		<td>${p.purchaseDetail.purchaseDetailQuantity*p.purchaseDetail.recipeInfo.recipePrice}</td>
-                	   		<td>${p.review.reviewComment}</td></tr>
+                	   		<td>
+                	   			<c:if test="${p.review.reviewComment eq null}">
+                	   				<button type="submit" class="img"><img src="./img/list.png" class="toy"></button>
+                	   			</c:if>
+                	   		</td></tr>
                 	   </c:forEach>
                 	   <!-- <td>2020-07-20</td>
                 	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
