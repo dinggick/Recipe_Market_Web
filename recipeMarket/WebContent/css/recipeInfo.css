@@ -78,6 +78,8 @@ body {
     margin-top: 50px;
     text-align: right;
     padding-right: 15%;
+    align-items: center;
+    vertical-align: middle;
 }
 
 .rightSection>.recipeInfo>.basicInfo>.buttonSection>label {
@@ -86,6 +88,8 @@ body {
     margin-left: 5%;
     font-size: x-large;
     color: black;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 .rightSection>.recipeInfo>.basicInfo>.buttonSection>label:hover {

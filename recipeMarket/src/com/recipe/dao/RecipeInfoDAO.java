@@ -29,7 +29,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 
 		}
-		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RIN.IMG_URL, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -58,6 +58,7 @@ public class RecipeInfoDAO {
 					recipeInfo.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo.setRecipeSumm(rs.getString("recipe_summ"));
 					recipeInfo.setRecipeProcess(rs.getString("recipe_process"));
+					recipeInfo.setImgUrl(rs.getString("img_url"));
 					recipeInfo.setIngredients(ingList);
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo.setPoint(pt);
