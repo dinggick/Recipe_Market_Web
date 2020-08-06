@@ -55,7 +55,7 @@ public class PurchaseDAO {
 				r.setReviewComment(rs.getString("review_comment"));
 				
 				ri.setRecipeName(rs.getString("recipe_name"));
-				ri.setRecipePrice(rs.getDouble("recipe_price"));
+				ri.setRecipePrice(rs.getInt("recipe_price"));
 				pd.setRecipeInfo(ri);
 				pd.setPurchaseDetailQuantity(rs.getInt("purchase_quantity"));
 				
