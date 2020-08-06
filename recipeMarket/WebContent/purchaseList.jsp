@@ -183,7 +183,9 @@
 	    	});
 	   });
 	   
-	   
+	   $('.img').click(function(){
+		   
+	   });
 	   
 	  	
     });
@@ -236,20 +238,13 @@
                 	   		<td>${p.purchaseDetail.purchaseDetailQuantity*p.purchaseDetail.recipeInfo.recipePrice}</td>
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
-                	   				<button type="submit" class="img"><img src="./img/list.png" class="toy"></button>
+                	   				<button type="submit" class="img" data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
                 	   			</c:if>
                 	   		</td></tr>
                 	   </c:forEach>
-                	   <!-- <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td> -->
-                	
-                	
-                	
                 </table>
             </div>
+            <jsp:include page="/static/reviewAdd.html"></jsp:include>
         </section>
         
     </div>
