@@ -183,7 +183,7 @@
 	    	});
 	   });
 	   
-	   $('.img').click(function(){
+	   $('.img').on('click','#reviewModal',function(){
 		   
 	   });
 	   
@@ -244,7 +244,7 @@
                 	   </c:forEach>
                 </table>
             </div>
-            <jsp:include page="/static/reviewAdd.html"></jsp:include>
+           	<%-- <jsp:include page="/static/reviewAdd.html"></jsp:include> --%>
         </section>
         
     </div>
