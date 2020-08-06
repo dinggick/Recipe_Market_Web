@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.recipe.dao.GraphDAO;
 import com.recipe.exception.FindException;
+import com.recipe.pair.Pair;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 public class StatisticsService {
 	private GraphDAO dao;

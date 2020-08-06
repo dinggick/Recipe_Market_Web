@@ -9,8 +9,9 @@ import java.util.List;
 
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
+import com.recipe.pair.Pair;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 public class GraphDAO {
 	/**
