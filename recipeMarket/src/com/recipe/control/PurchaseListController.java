@@ -17,7 +17,7 @@ public class PurchaseListController implements Controller{
 	private static final long serialVersionUID = 1L;
 	
 	private PurchaseListController() {
-		service = new PurchaseService();
+		service = PurchaseService.getInstance();
 	}
 	
 	public static PurchaseListController getInstance() {
