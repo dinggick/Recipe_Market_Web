@@ -10,8 +10,7 @@
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <link rel="icon" href="${contextPath}/img/titlecon.png">
     <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
-    <link rel="stylesheet" href="${contextPath}/css/header.css">
-    <link rel="stylesheet" href="${contextPath}/css/footer.css">
+	<link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
     <link rel="stylesheet" href="${contextPath}/css/index.css">
     <!-- Google Fonts -->
@@ -28,27 +27,28 @@
 </head>
 
 <body>
-    <header id="header">
-        <!-- 왼쪽 영역 -->
-        <div class="headerLeftSection">
-            <!-- 로고(홈 버튼) -->
-            <h1 class="home">RECIPE MARKET</h1>
-        </div>
-        <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">SIGN IN</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="login.html">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
-    </header>
+<header id="header">
+	<!-- 왼쪽 영역 -->
+	<div class="headerLeftSection">
+		<!-- 로고(홈 버튼) -->
+		<h1 class="home">RECIPE MARKET</h1>
+	</div>
+	<!-- 오른쪽 영역 -->
+	<div class="headerRightSection">
+		<!-- 드롭다운 메뉴 -->
+		<div class="dropdown">
+			<!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+			<h1 class="account">Sign in</h1>
+			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
+			<div class="dropdown-content">
+				<a href="/recipeMarket/static/login.html">로그인</a>
+				<a href="#">Menu 2</a> 
+				<a href="#">Menu 3</a>
+			</div>
+		</div>
+	</div>
+</header>
+>>>>>>> 5abb82544068846a8e2511e27437ffb503b4844c
     <!-- 메인 메뉴의 컨텐츠 영역 -->
     <div class="mainContent">
         <div class="middleSection">
@@ -177,12 +177,7 @@
             </section>
         </section>
     </div>
-    <footer>
-        <p>
-            © 2020 RECIPE MARKET All rights reserved.
-        </p>
-        <a class="topBtn">&uarr;TOP</a>
-    </footer>
+    <jsp:include page="/static/footer.html"></jsp:include>
 </body>
 
 </html>

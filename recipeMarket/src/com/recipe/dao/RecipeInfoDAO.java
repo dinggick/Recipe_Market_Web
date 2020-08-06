@@ -60,6 +60,7 @@ public class RecipeInfoDAO {
 					recipeInfo.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo.setRecipeSumm(rs.getString("recipe_summ"));
 					recipeInfo.setRecipeProcess(rs.getString("recipe_process"));
+					recipeInfo.setImgUrl(rs.getString("img_url"));
 					recipeInfo.setIngredients(ingList);
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo.setPoint(pt);
