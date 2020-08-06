@@ -476,36 +476,39 @@ public class RecipeInfoDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String selectByRankSQL = "SELECT ri.recipe_code, ri.recipe_name, ri.recipe_summ, ri.recipe_price, ri.recipe_process, ri.img_url, po.like_count, po.dislike_count\r\n" + 
-				"FROM recipe_info ri JOIN point po ON (ri.recipe_code = po.recipe_code)\r\n" + 
-				"WHERE\r\n" + 
-				"    ri.recipe_code IN (\r\n" + 
+		String selectByRankSQL = "SELECT\r\n" + 
+				"    *\r\n" + 
+				"FROM\r\n" + 
+				"    (\r\n" + 
 				"        SELECT\r\n" + 
-				"            recipe_code\r\n" + 
+				"            p.recipe_code       recipe_code,\r\n" + 
+				"            p.like_count        like_count,\r\n" + 
+				"            p.dislike_count     dislike_count,\r\n" + 
+				"            i.recipe_name       recipe_name,\r\n" + 
+				"            i.recipe_summ       recipe_summ,\r\n" + 
+				"            i.recipe_price      recipe_price,\r\n" + 
+				"            i.recipe_process    recipe_process,\r\n" + 
+				"            i.img_url           img_url,\r\n" + 
+				"            i.rd_email          rd_email\r\n" + 
 				"        FROM\r\n" + 
+				"                 point p\r\n" + 
+				"            JOIN recipe_info i ON ( p.recipe_code = i.recipe_code )\r\n" + 
+				"        WHERE\r\n" + 
+				"            i.recipe_status = '1'\r\n" + 
+				"        ORDER BY\r\n" + 
+				"            like_count DESC,\r\n" + 
+				"            dislike_count ASC,\r\n" + 
 				"            (\r\n" + 
 				"                SELECT\r\n" + 
-				"                    p.recipe_code\r\n" + 
+				"                    COUNT(*)\r\n" + 
 				"                FROM\r\n" + 
-				"                    point p\r\n" + 
-				"                    JOIN recipe_info i ON (p.recipe_code = i.recipe_code)\r\n" + 
+				"                    review\r\n" + 
 				"                WHERE\r\n" + 
-				"                    i.recipe_status = '1'\r\n" + 
-				"                ORDER BY\r\n" + 
-				"                    like_count DESC,\r\n" + 
-				"                    dislike_count ASC,\r\n" + 
-				"                    (\r\n" + 
-				"                        SELECT\r\n" + 
-				"                            COUNT(*)\r\n" + 
-				"                        FROM\r\n" + 
-				"                            review\r\n" + 
-				"                        WHERE\r\n" + 
-				"                            i.recipe_code = p.recipe_code\r\n" + 
-				"                    ) DESC\r\n" + 
-				"            )\r\n" + 
-				"        WHERE\r\n" + 
-				"            ROWNUM BETWEEN 1 AND 10\r\n" + 
-				"    )";
+				"                    i.recipe_code = p.recipe_code\r\n" + 
+				"            ) DESC\r\n" + 
+				"    )\r\n" + 
+				"WHERE\r\n" + 
+				"    ROWNUM BETWEEN 1 AND 10";
 
 		try {
 			pstmt = con.prepareStatement(selectByRankSQL);
