@@ -199,7 +199,7 @@
             <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
                 <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <img src="./images/user.png" class="account">
+                <h1 class="account">Sign in</h1>
                 <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
