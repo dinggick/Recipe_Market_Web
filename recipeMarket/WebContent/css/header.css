@@ -92,7 +92,7 @@ header>.headerRightSection {
 header>.headerRightSection>.dropdown>.account,
 header>.headerRightSection>.dropdown>.account:focus {
     width: 100%;
-    font-size: 130%;
+    font-size: 110%;
     margin: 0 auto 0 auto;
     padding: 0 0 0 10px;
     opacity: 0.5;

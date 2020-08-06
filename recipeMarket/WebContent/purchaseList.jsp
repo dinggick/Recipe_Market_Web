@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -179,7 +181,9 @@
 					$("#datepicker").hide();
 	    		}
 	    	});
-	   })
+	   });
+	   
+	   
 	   
 	  	
     });
@@ -224,62 +228,25 @@
             <div class="dd"><button type="submit" class="conditon">1주일</button><button type="submit" class="conditon">1개월</button><button type="submit" class="conditon">3개월</button><button type="submit" class="conditon">6개월</button><button type="submit" class="conditon" id="dt">조건검색</button></div>
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
-                	<tr>
-                	   <td>2020-07-20</td>
+                	
+                	   <c:forEach items="${requestScope.list}" var="p">
+                	   		<tr><td>${p.purchaseDate}</td>
+                	   		<td><a href="./recipeCart.html" class="recipeName">${p.purchaseDetail.recipeInfo.recipeName}</a></td>
+                	   		<td>${p.purchaseDetail.purchaseDetailQuantity}</td>
+                	   		<td>${p.purchaseDetail.purchaseDetailQuantity*p.purchaseDetail.recipeInfo.recipePrice}</td>
+                	   		<td>
+                	   			<c:if test="${p.review.reviewComment eq null}">
+                	   				<button type="submit" class="img"><img src="./img/list.png" class="toy"></button>
+                	   			</c:if>
+                	   		</td></tr>
+                	   </c:forEach>
+                	   <!-- <td>2020-07-20</td>
                 	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
                 	   <td>3개</td>
                 	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
-                	<tr>
-                	   <td>2020-07-20</td>
-                	   <td><a href="./recipeCart.html" class="recipeName">김치찌개</a></td>
-                	   <td>3개</td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td>
-                	</tr>
+                	   <td><button type="submit" class="img"><img src="./img/list.png" class="toy"></button></td> -->
+                	
+                	
                 	
                 </table>
             </div>
