@@ -1,82 +1,59 @@
 package com.recipe.vo;
 
 public class RD {
-	private String rdEmail; //아이디
-	private String rdPwd; //비밀번호
-	private String rdManagerName;//담당자이름
-	private String rdTeamName;//부서이름
-	private String rdPhone;//전화번호
-	
+	private String rdEmail;
+	private String rdPwd;
+	private String rdManagerName;
+	private String rdTeamName;
+	private String rdPhone;
+
 	public RD() {}
-	public RD(String rdId, String rdPwd, String rdManagerName, String rdTeamName, String rdPhone) {
-		super();
-		this.rdEmail = rdId;
+	
+	public RD(String rdEmail, String rdPwd, String rdManagerName, String rdTeamName, String rdPhone) {
+		this.rdEmail = rdEmail;
 		this.rdPwd = rdPwd;
 		this.rdManagerName = rdManagerName;
 		this.rdTeamName = rdTeamName;
 		this.rdPhone = rdPhone;
 	}
-	
 
-	public String getRdId() {
+	public String getRdEmail() {
 		return rdEmail;
 	}
 
-
-	public void setRdId(String rdId) {
-		this.rdEmail = rdId;
+	public void setRdEmail(String rdEmail) {
+		this.rdEmail = rdEmail;
 	}
-
 
 	public String getRdPwd() {
 		return rdPwd;
 	}
 
-
 	public void setRdPwd(String rdPwd) {
 		this.rdPwd = rdPwd;
 	}
-
 
 	public String getRdManagerName() {
 		return rdManagerName;
 	}
 
-
 	public void setRdManagerName(String rdManagerName) {
 		this.rdManagerName = rdManagerName;
 	}
-
 
 	public String getRdTeamName() {
 		return rdTeamName;
 	}
 
-
 	public void setRdTeamName(String rdTeamName) {
 		this.rdTeamName = rdTeamName;
 	}
-
 
 	public String getRdPhone() {
 		return rdPhone;
 	}
 
-
 	public void setRdPhone(String rdPhone) {
 		this.rdPhone = rdPhone;
 	}
-
-
-	@Override
-	public String toString() {
-		String result = "";
-		result += "아이디 : " + rdEmail + "\n";
-		result += "비밀번호 : " + rdPwd + "\n";
-		result += "관리자 이름 : " + rdManagerName + "\n";
-		result += "부서 이름 : " + rdTeamName + "\n";
-		result += "전화번호 : " + rdPhone + "\n";
-		return result;
-	}
-	
 }

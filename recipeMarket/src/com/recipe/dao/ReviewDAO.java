@@ -52,8 +52,7 @@ public class ReviewDAO {
 				+ " WHERE p.RECIPE_CODE = ?";
 		
 		try {
-			con = MyConnection.getConnection();
-			
+			con = MyConnection.getConnection();		
 		} catch (ClassNotFoundException | SQLException e ) {
 			e.printStackTrace();
 		}
