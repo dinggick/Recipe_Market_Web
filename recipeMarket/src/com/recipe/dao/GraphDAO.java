@@ -21,7 +21,6 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	
 	public List<Pair<Integer, Pair<String, Integer>>> selectByYearG1(String year) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -68,6 +67,7 @@ public class GraphDAO {
 
 				p2 = new Pair<>(groupGender, purchaseAmount);
 				p1 = new Pair<>(ageGroup, p2);
+				
 				list.add(p1);
 			}
 
@@ -124,6 +124,7 @@ public class GraphDAO {
 				int totalSales = rs.getInt("total_sales");
 
 				p1 = new Pair<>(rdEmail, totalSales);
+				
 				list.add(p1);
 			}
 
@@ -183,6 +184,7 @@ public class GraphDAO {
 				int salesVolume = rs.getInt("sales_volume");
 
 				p1 = new Pair<>(recipeName, salesVolume);
+				
 				list.add(p1);
 			}
 

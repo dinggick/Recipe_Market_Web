@@ -9,13 +9,23 @@ import com.recipe.pair.Pair;
 //import javafx.util.Pair;
 
 public class StatisticsService {
+	private static StatisticsService service = new StatisticsService();
+	
 	private GraphDAO dao;
 	
 	/**
 	 * 
 	 */
-	public StatisticsService() {
+	private StatisticsService() {
 		dao = new GraphDAO();
+	}
+	
+	/**
+	 * For single tone pattern
+	 * @return StatisticsService
+	 */
+	public StatisticsService getInstance() {
+		return service;
 	}
 	
 	/**
