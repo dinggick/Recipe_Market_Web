@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
@@ -70,7 +70,7 @@
         <section class="rightSection">
             <div class="recipeInfo">
                 <div class="basicInfo">
-                    <img src="${requestScope.imgUrl}" class="recipeImg">
+                    <img src="${requestScope.recipeInfo.imgUrl}" class="recipeImg">
                     <h1 style="padding-top: 30px; font-size: xx-large;">${requestScope.recipeInfo.recipeName}</h1>
                     <p>${requestScope.recipeInfo.recipeSumm}</p>
                     <p><span class="recipePrice">${requestScope.recipeInfo.recipePrice}</span> 원</p>

@@ -9,10 +9,16 @@ import com.recipe.exception.RemoveException;
 import com.recipe.vo.Customer;
 
 public class AccountService {
-	CustomerDAO customerDAO;
+	private static AccountService instance;
+	private CustomerDAO customerDAO;
 
-	public AccountService() {
+	private AccountService() {
 		customerDAO = new CustomerDAO();
+	}
+	
+	public static AccountService getInstance() {
+		if(instance == null) instance = new AccountService();
+		return instance;
 	}
 
 	/**
@@ -26,7 +32,7 @@ public class AccountService {
 	public void login(String customerId, String customerPwd) throws FindException {
 		Customer c;
 		try {
-			c = customerDAO.selectById(customerId);
+			c = customerDAO.selectByEmail(customerId);
 		} catch (FindException e) {
 			throw new FindException("로그인 실패");
 		}
@@ -49,8 +55,8 @@ public class AccountService {
 	 * Customer 내 정보 보기 호출
 	 * @author 영민
 	 */
-	public Customer findById(String id) throws FindException {
-		return customerDAO.selectById(id);
+	public Customer findByEmail(String email) throws FindException {
+		return customerDAO.selectByEmail(email);
 	}
 
 	/*
