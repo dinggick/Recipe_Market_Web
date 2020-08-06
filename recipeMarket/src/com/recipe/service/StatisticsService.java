@@ -20,8 +20,9 @@ public class StatisticsService {
 	/**
 	 * Function for graph1
 	 * @param year
-	 * @return
+	 * @return List<Pair<Integer, Pair<String, Integer>>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<Integer, Pair<String, Integer>>> findByYearG1(String year) 
 			throws FindException {
@@ -32,8 +33,9 @@ public class StatisticsService {
 	/**
 	 * Function for graph2
 	 * @param year
-	 * @return
+	 * @return List<Pair<String, Integer>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<String, Integer>> findByYearG2(String year) 
 			throws FindException {
@@ -45,8 +47,9 @@ public class StatisticsService {
 	 * Function for graph3
 	 * @param startDate
 	 * @param endDate
-	 * @return
+	 * @return List<Pair<String, Integer>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<String, Integer>> findBySeasonG3(String startDate, String endDate) 
 			throws FindException {

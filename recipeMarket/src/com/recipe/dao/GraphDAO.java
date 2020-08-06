@@ -16,8 +16,9 @@ public class GraphDAO {
 	/**
 	 * Function for graph1
 	 * @param year
-	 * @return
+	 * @return List<Pair<Integer, Pair<String, Integer>>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<Integer, Pair<String, Integer>>> selectByYearG1(String year) throws FindException {
 		Connection con = null;
@@ -29,7 +30,8 @@ public class GraphDAO {
 		Pair<Integer, Pair<String, Integer>> p1 = null;
 		Pair<String, Integer> p2 = null;
 
-		String selectByYearSQL = "SELECT TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10 AS age_group\r\n"
+		String selectByYearSQL = 
+				"SELECT TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10 AS age_group\r\n"
 				+ "    , c.customer_gender AS group_gender\r\n"
 				+ "    , SUM(recipe_price * pd.purchase_quantity) AS purchase_amount\r\n"
 				+ "FROM customer c JOIN purchase p ON (c.customer_email = p.customer_email)\r\n"
@@ -79,8 +81,9 @@ public class GraphDAO {
 	/**
 	 * Function for graph2
 	 * @param year
-	 * @return
+	 * @return List<Pair<String, Integer>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<String, Integer>> selectByYearG2(String year) throws FindException {
 		Connection con = null;
@@ -90,7 +93,8 @@ public class GraphDAO {
 		List<Pair<String, Integer>> list = null;
 		Pair<String, Integer> p1 = null;
 
-		String selectByYearMonthSQL = "SELECT rd.rd_email AS rd_email\r\n"
+		String selectByYearMonthSQL = 
+				"SELECT rd.rd_email AS rd_email\r\n"
 				+ "    , SUM(ri.recipe_price * pd.purchase_quantity) AS total_sales\r\n"
 				+ "FROM rd JOIN recipe_info ri ON (rd.rd_email = ri.rd_email)\r\n"
 				+ "    JOIN purchase_detail pd ON (ri.recipe_code = pd.recipe_code)\r\n"
@@ -134,8 +138,9 @@ public class GraphDAO {
 	 * Function for graph3
 	 * @param startDate
 	 * @param endDate
-	 * @return
+	 * @return List<Pair<String, Integer>>
 	 * @throws FindException
+	 * @author yonghwan
 	 */
 	public List<Pair<String, Integer>> selectBySeasonG3(String startDate, String endDate) throws FindException {
 		Connection con = null;
@@ -145,7 +150,8 @@ public class GraphDAO {
 		List<Pair<String, Integer>> list = null;
 		Pair<String, Integer> p1 = null;
 
-		String selectByYearMonthSQL = "SELECT ri.recipe_name AS recipe_name\r\n" + 
+		String selectByYearMonthSQL = 
+				"SELECT ri.recipe_name AS recipe_name\r\n" + 
 				"    , SUM(pd.purchase_quantity) AS sales_volume\r\n" + 
 				"FROM recipe_info ri JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
 				"    JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
