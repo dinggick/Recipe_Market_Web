@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Market - 오늘 뭐 먹지?</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
+    <link rel="icon" href="../img/titlecon.png">
+	<!-- 외부CSS -->
+    <link rel="stylesheet" href="../css/review.css">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <script>
+    $(function() { 
+     	var $reviewContentObj = $("div.reviewContent>input");
+    	$reviewContentObj.focus();
+		$reviewContentObj.keydown(function (e){
+   	      var content = $(this).val();
+   	      var count= 50-content.length;
+   	         if(content.length > 50) {
+   	            $(this).val($(this).val().substring(0, 50));
+   	         	count=0;
+   	         } 
+   	     	 $('.remainText').html("남은글자수: "+ count +"/50자");
+    	}); // review content 입력 이벤트 
+    	
+    	
+    	// 화면으로부터 전달받은 데이터,구매정보 입력받은 후기 내용 등록 ( ajax )
+    	
+    
+    }); // end of load
+    
+    </script>
+</head>
+
+<body>
+    <div class="divContent">
+        <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
+       	  <!-- Trigger the modal with a button -->
+	  	  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#reviewModal">리뷰등록</button>
+	</div>
+      
+    <!-- Modal -->
+	<form class="reviewAddForm">
+		<div class="modal fade" id="reviewModal" role="dialog">
+			<div class="modal-dialog">
+			  
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">후기등록</h4>
+				</div>
+				<div class="modal-body">
+					<div class="reviewContent">
+						<input id="content" type="text" value="" size="50" placeholder="후기를 입력해주세요"><br><br>
+						<span class="remainText">남은글자수 : 50/50자 </span>
+					</div>
+					<button type="button" class="reviewBtn" data-dismiss="modal">등록하긔</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	  
+</body>
+</html>
