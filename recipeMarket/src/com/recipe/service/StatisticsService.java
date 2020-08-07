@@ -9,19 +9,32 @@ import com.recipe.pair.Pair;
 //import javafx.util.Pair;
 
 public class StatisticsService {
+	private static StatisticsService service = new StatisticsService();
+	
 	private GraphDAO dao;
 	
 	/**
 	 * 
 	 */
-	public StatisticsService() {
+	private StatisticsService() {
 		dao = new GraphDAO();
 	}
 	
 	/**
-	 * Function for graph1
+	 * For single tone pattern
+	 * @return StatisticsService
+	 */
+	public static StatisticsService getInstance() {
+		return service;
+	}
+	
+	/**
+	 * Function for Graph1
+	 * Graph1 is Annual Gender and Age purchase amount Statistics
 	 * @param year
 	 * @return List<Pair<Integer, Pair<String, Integer>>>
+	 * Pair<Integer(age_group), Pair<String(group_gender), Integer(purchase_amount)>> is
+	 * Object(age_group, group_gender, purchase_amount)
 	 * @throws FindException
 	 * @author yonghwan
 	 */
@@ -32,9 +45,12 @@ public class StatisticsService {
 	}
 	
 	/**
-	 * Function for graph2
+	 * Function for Graph2
+	 * Graph2 is Departmental Revenue Statistics by Year
 	 * @param year
 	 * @return List<Pair<String, Integer>>
+	 * Pair<String(rd_email), Integer(total_sales)> is
+	 * Object(rd_email, total_sales)
 	 * @throws FindException
 	 * @author yonghwan
 	 */
@@ -45,10 +61,13 @@ public class StatisticsService {
 	}
 	
 	/**
-	 * Function for graph3
+	 * Function for Graph3
+	 * Graph3 is seasonal recipe sales Statistics
 	 * @param startDate
 	 * @param endDate
 	 * @return List<Pair<String, Integer>>
+	 * Pair<String(recipe_name), Integer(sales_volume)> is
+	 * Object(recipe_name, sales_volume)
 	 * @throws FindException
 	 * @author yonghwan
 	 */
