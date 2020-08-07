@@ -137,7 +137,7 @@ public class RecipeInfoDAO {
 
 		return recipeInfo;
 	}
-	public void insert(String rdId, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
+	public void insert(String rdEmail, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
@@ -151,7 +151,7 @@ public class RecipeInfoDAO {
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(quary);
-			pstmt.setString(1,  recipe_InfoVo.getRecipeName());
+			pstmt.setString(1, recipe_InfoVo.getRecipeName());
 
 			rs = pstmt.executeQuery();
 
@@ -204,20 +204,30 @@ public class RecipeInfoDAO {
 			while(rs.next()){
 				recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
 			}
-			recipe_InfoVo.setRecipeProcess("c:/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
-			//Mac전용 경로
-//			recipe_InfoVo.setRecipeProcess("/Users/elannien/project/recipe_server/resource/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+			recipe_InfoVo.setRecipeProcess("http://localhost/files/recipeProcess/" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+			//Win전용 Process경로
+//			("http://localhost/files/recipeProcess/")
+			//Win전용 Img경로
+//			("http://localhost/files/img/7.png")
+			
+			//Mac전용 Process경로
+//			recipe_InfoVo.setRecipeProcess("/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/recipeProcess" + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+			//Mac전용 Img경로
+//			("/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img")
 			rs.close();
 			pstmt.close();
-			quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?)";		//RECIPE_INFO 에 값들을 넣어주는 쿼리문
+			quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?, ?)";		//RECIPE_INFO 에 값들을 넣어주는 쿼리문
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
 			pstmt.setString(2, recipe_InfoVo.getRecipeName());
 			pstmt.setString(3, recipe_InfoVo.getRecipeSumm());
 			pstmt.setDouble(4, recipe_InfoVo.getRecipePrice());
 			pstmt.setString(5, recipe_InfoVo.getRecipeProcess());
-			pstmt.setString(6, ("1"));		//status는 1로 고정
-			pstmt.setString(7, rdId);		//일단 rd아이디는 id9로 고정
+			
+			pstmt.setString(6, recipe_InfoVo.getImgUrl());
+			pstmt.setString(7, rdEmail);
+			
+			pstmt.setString(8, ("1"));		//status는 1로 고정
 
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -251,7 +261,7 @@ public class RecipeInfoDAO {
 			}
 		}
 	}
-	public void update(String rdId, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws ModifyException {
+	public void update(String rdEmail, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws ModifyException {
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
@@ -282,15 +292,15 @@ public class RecipeInfoDAO {
 			rs.close();
 			pstmt.close();
 
-			quary = "SELECT RD_ID FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
+			quary = "SELECT RD_EMAIL FROM RECIPE_INFO WHERE RECIPE_CODE = ?";
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
 
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 //				String selectedRdId = rs.getString("rd_Id");
-				String selectedRdId = rs.getString(1);
-				if(!selectedRdId.equals(rdId)) {
+				String selectedRdEmail = rs.getString(1);
+				if(!selectedRdEmail.equals(rdEmail)) {
 					throw new ModifyException("이 레시피의 작성자가 아닙니다"); 
 				}
 			}
@@ -349,7 +359,9 @@ public class RecipeInfoDAO {
 			pstmt.close();
 
 			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
-
+//-------------------------------------------------------------------------------------------------------------------------------------			
+//이미지수정시 파일경로 재추가 어떻게할지?---------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------
 			for(Ingredient ingredientVO : ing_codeList) {			//ing_codeList에 있는것들을 ingredientVO에 넣으면서 반복문 돌림.
 				quary = "INSERT INTO RECIPE_INGREDIENT VALUES (?, ?)";		//리세피코드, 재료코드, 용량 insert 해주는 쿼리
 				pstmt = con.prepareStatement(quary);
@@ -369,7 +381,7 @@ public class RecipeInfoDAO {
 			}
 		}
 	}
-	public void remove(String rdId, RecipeInfo recipeInfo) throws ModifyException {
+	public void remove(String rdEmail, RecipeInfo recipeInfo) throws ModifyException {
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
@@ -383,8 +395,8 @@ public class RecipeInfoDAO {
 
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				String selectedRdId = rs.getString("rd_Id");
-				if(!selectedRdId.equals(rdId)) {
+				String selectedRdEmail = rs.getString("rd_Email");
+				if(!selectedRdEmail.equals(rdEmail)) {
 					throw new ModifyException("이 레시피의 작성자가 아닙니다"); 
 				}
 			}
@@ -416,7 +428,7 @@ public class RecipeInfoDAO {
 
 		List<RecipeInfo> recipeInfoList = new ArrayList<>();
 
-		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code where i.recipe_status=1";
+		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, i.imgUrl, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code where i.recipe_status=1";
 
 		try {
 			con = MyConnection.getConnection();
@@ -432,8 +444,9 @@ public class RecipeInfoDAO {
 				recipeInfo.setRecipeSumm(rs.getString(3));		//세번째값은 레시피요약값으로
 				recipeInfo.setRecipePrice(rs.getInt(4));		//네번째값은 레시피가격값으로
 				recipeInfo.setRecipeProcess(rs.getString(5));		//다섯번째값은 경로값으로
-				point.setLikeCount(rs.getInt(6));		//여섯번째값은 좋아요값으로
-				point.setDisLikeCount(rs.getInt(7));		//일곱번째값은 싫어요값으로
+				recipeInfo.setImgUrl(rs.getString(6));
+				point.setLikeCount(rs.getInt(7));		//여섯번째값은 좋아요값으로
+				point.setDisLikeCount(rs.getInt(8));		//일곱번째값은 싫어요값으로
 				recipeInfo.setPoint(point);					//좋아요,싫어요 값을 Point에 넣는다.
 
 				recipeInfoList.add(recipeInfo);		//인덱스 하나하나 recipeInfoList에 넣어준다.
