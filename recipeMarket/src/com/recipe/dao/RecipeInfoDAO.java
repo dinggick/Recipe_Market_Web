@@ -79,7 +79,7 @@ public class RecipeInfoDAO {
 
 		return recipeInfo;
 	}
-	public List<RecipeInfo> selectByName(String recipeName) throws FindException{
+	public List<RecipeInfo> selectByNameAndIngredient(List<String> ingName) throws FindException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -90,15 +90,42 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
-		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String newSQL =""; 
+		//더해질 쿼리
+		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+				"FROM RECIPE_INGREDIENT RI \r\n" + 
+				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
+				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
+				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" +
+				"WHERE RI.recipe_code IN \r\n" + 
+				"(select ring.recipe_code FROM Ingredient ig JOIN recipe_ingredient ring on ig.ing_code = ring.ing_code Where ig.ing_name LIKE ?) AND RIN.RECIPE_Status = 1 INTERSECT  ";
+		
+		for (int i = 1; i < ingName.size(); i++ ) {
+			newSQL += selectByIngNameSQL;	
+			//리스트 사이즈만큼 돌면서 쿼리가 더해지고, 마지막줄은 INTERSECT 를 서브스트링해 더해짐
+			if (i == ingName.size() -1) {
+				newSQL += selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
+			}			
+		}
+		if (ingName.size() == 1) {
+			newSQL = selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
+		}
+		String recipeName = "";
+		for(String s : ingName) {
+			recipeName += s;
+		}
+		newSQL += "UNION SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
 				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
 				"WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1";
 		try {
-			pstmt = con.prepareStatement(selectByNameSQL);
-			pstmt.setString(1, "%" + recipeName + "%");
+			pstmt = con.prepareStatement(newSQL);
+			for (int i = 1; i < ingName.size()+1; i++) {
+				pstmt.setString(i, "%" +ingName.get(i-1) + "%");
+			}
+			pstmt.setString(ingName.size() +1, recipeName);
 			rs = pstmt.executeQuery();
 			List<RecipeIngredient> ingList = null;	
 			int prevCode = 0;
@@ -124,8 +151,8 @@ public class RecipeInfoDAO {
 				}
 
 				int ingCode = rs.getInt("ing_code");
-				String ingName = rs.getString("ing_name");
-				Ingredient ingredient = new Ingredient(ingCode, ingName);
+				String ingName2 = rs.getString("ing_name");
+				Ingredient ingredient = new Ingredient(ingCode, ingName2);
 				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);				
 				ingList.add(recipeIng);
 
@@ -543,8 +570,19 @@ public class RecipeInfoDAO {
 	}
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
-		int code = 10;
-		System.out.println(10%5);
+		List<String> ingName = new ArrayList<>();
+		ingName.add("김치");
+		ingName.add("참치");
+		try {
+			List<RecipeInfo> infos = dao.selectByNameAndIngredient(ingName);
+			for (RecipeInfo i : infos) {
+				System.out.println(i.getRecipeName());
+			}
+			
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		
 //		try {
 //			RecipeInfo info = dao.selectByCode(code);
