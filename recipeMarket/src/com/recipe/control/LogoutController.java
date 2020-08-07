@@ -21,9 +21,9 @@ public class LogoutController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if("".equals(session.getAttribute("loginInfo"))) {
+		if(!"".equals(session.getAttribute("loginInfo"))) {
 			session.removeAttribute("loginInfo");
-			return "/success.jsp";
+			return "/index.jsp";
 		}
 		request.setAttribute("msg","로그아웃 실패");
 		return "/fail.jsp";

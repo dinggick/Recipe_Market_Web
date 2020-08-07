@@ -36,17 +36,7 @@
 	</div>
 	<!-- 오른쪽 영역 -->
 	<div class="headerRightSection">
-		<!-- 드롭다운 메뉴 -->
-		<div class="dropdown">
-			<!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-			<h1 class="account">Sign in</h1>
-			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-			<div class="dropdown-content">
-				<a href="/recipeMarket/static/login.html">로그인</a>
-				<a href="#">Menu 2</a> 
-				<a href="#">Menu 3</a>
-			</div>
-		</div>
+		<jsp:include page="/dropdownMenu.jsp"></jsp:include>
 	</div>
 </header>
     <!-- 메인 메뉴의 컨텐츠 영역 -->
@@ -70,111 +60,6 @@
         <section class="bottomSection">
             <h2>실시간 베스트 10</h2>
             <hr>
-            <!-- 한줄에 5개씩 열개를 보여준다 -->
-            <section class="bestRecipeSection">
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 1</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 2</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 3</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 4</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 5</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-            </section>
-            <section class="bestRecipeSection">
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 6</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 7</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 8</b></h4>
-                        <p>레시피 한 줄 요약aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 9</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="${contextPath}/img/148299577268400131.gif" alt="Avatar">
-                    <div class="cardContainer">
-                        <h4><b>레시피 10</b></h4>
-                        <p>레시피 한 줄 요약</p>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <img src="${contextPath}/img/dislike.png" class="dislike">
-                        <img src="${contextPath}/img/like.png" class="like">
-                    </div>
-                </div>
-            </section>
         </section>
     </div>
     <footer>

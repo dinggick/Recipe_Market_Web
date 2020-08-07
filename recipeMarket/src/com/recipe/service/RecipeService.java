@@ -44,7 +44,7 @@ public class RecipeService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public RecipeInfo findRecommended() throws FindException {
+	public List<RecipeInfo> findRecommended() throws FindException {
 		return recipeInfoDAO.selectByRank();
 	}
 	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
