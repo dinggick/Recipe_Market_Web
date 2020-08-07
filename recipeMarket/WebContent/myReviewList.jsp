@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="reviewList" value="${requestScope.reviewList}"></c:set>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +38,6 @@ $(function()  {
 	$myReviewListObj.on('click', 'tr', function(e){
 	var recipe_code = $(this).find('td>input[name=recipe_code]').val();
 		console.log(recipe_code);
-		console.log($(this));
 	});
 
 	// 후기 삭제
@@ -74,7 +75,7 @@ $(function()  {
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의후기</h1>
             <hr><br>
-            <p> 10건이 조회 되었습니다.<p>
+            <p> ${reviewList.size()} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
