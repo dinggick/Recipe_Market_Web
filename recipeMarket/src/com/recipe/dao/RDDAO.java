@@ -24,11 +24,12 @@ public class RDDAO {
 	 */
 	public void insert(RD r) throws AddException, DuplicatedException {
 		try {
-			selectById(r.getRdId());
-			throw new DuplicatedException("이미 해당 아이디가 존재합니다");
+			selectById(r.getRdEmail());
+			throw new DuplicatedException("이미 가입된 이메일입니다.");
 		} catch (FindException e) {
-			
+			e.getStackTrace();
 		}
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -37,10 +38,10 @@ public class RDDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		String insertSQL = "INSERT INTO rd (rd_id, rd_pwd, rd_manager_name, rd_team_name, rd_phone, rd_status) VALUES (?, ?, ?, ?, ?, '1')";
+		String insertSQL = "INSERT INTO rd (rd_email, rd_pwd, rd_manager_name, rd_team_name, rd_phone, rd_status) VALUES (?, ?, ?, ?, ?, '1')";
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setString(1, r.getRdId());
+			pstmt.setString(1, r.getRdEmail());
 			pstmt.setString(2, r.getRdPwd());
 			pstmt.setString(3, r.getRdManagerName());
 			pstmt.setString(4, r.getRdTeamName());
@@ -50,7 +51,7 @@ public class RDDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			if(e.getErrorCode() == 1)
-				throw new AddException("해당 아이디로 계정을 생성할 수 없습니다");
+				throw new AddException("이미 가입된 이메일입니다.");
 		} finally {
 			MyConnection.close(pstmt, con);
 		}
@@ -92,7 +93,7 @@ public class RDDAO {
 	 * @throws FindException 매개변수로 전달받은 아이디를 포함한 R&D계정이 존재하지 않는 경우
 	 * @author 최종국
 	 */
-	public RD selectById(String rdId) throws FindException {
+	public RD selectById(String rdEmail) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -106,9 +107,9 @@ public class RDDAO {
 		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ? and rd_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
-			pstmt.setString(1, rdId);
+			pstmt.setString(1, rdEmail);
 			rs = pstmt.executeQuery();
-			if(rs.next()) return new RD(rdId, rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone"));
+			if(rs.next()) return new RD(rdEmail, rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -125,7 +126,7 @@ public class RDDAO {
 	 */
 	public void update(RD r) throws ModifyException {
 		try {
-			selectById(r.getRdId());
+			selectById(r.getRdEmail());
 		} catch (FindException e) {
 			throw new ModifyException(e.getMessage());
 		}
@@ -144,7 +145,7 @@ public class RDDAO {
 			pstmt.setString(2, r.getRdManagerName());
 			pstmt.setString(3, r.getRdTeamName());
 			pstmt.setString(4, r.getRdPhone());
-			pstmt.setString(5, r.getRdId());
+			pstmt.setString(5, r.getRdEmail());
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

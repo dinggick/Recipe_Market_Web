@@ -7,12 +7,19 @@ import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.vo.Customer;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 public class AccountService {
-	CustomerDAO customerDAO;
+	private static AccountService instance;
+	private CustomerDAO customerDAO;
 
-	public AccountService() {
+	private AccountService() {
 		customerDAO = new CustomerDAO();
+	}
+	
+	public static AccountService getInstance() {
+		if(instance == null) instance = new AccountService();
+		return instance;
 	}
 
 	/**
@@ -23,15 +30,17 @@ public class AccountService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public void login(String customerId, String customerPwd) throws FindException {
+	public String login(String customerId, String customerPwd) throws FindException {
 		Customer c;
 		try {
-			c = customerDAO.selectById(customerId);
+			c = customerDAO.selectByEmail(customerId);
 		} catch (FindException e) {
 			throw new FindException("로그인 실패");
 		}
 		if (!c.getCustomerPwd().equals(customerPwd))
 			throw new FindException("로그인 실패");
+		
+		return c.getCustomerName();
 
 		//CustomerShare.addSession(customerId);
 	}
@@ -49,8 +58,8 @@ public class AccountService {
 	 * Customer 내 정보 보기 호출
 	 * @author 영민
 	 */
-	public Customer findById(String id) throws FindException {
-		return customerDAO.selectById(id);
+	public Customer findByEmail(String email) throws FindException {
+		return customerDAO.selectByEmail(email);
 	}
 
 	/*

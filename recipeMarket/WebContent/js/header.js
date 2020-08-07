@@ -1,6 +1,6 @@
 addEventListener("load", () => {
     $("header>.headerLeftSection>.home").click((e) => {
-        location.href = "main.html";
+        location.href = "/recipeMarket";
     });
 
     // 뒤로가기 버튼 클릭 이벤트 처리

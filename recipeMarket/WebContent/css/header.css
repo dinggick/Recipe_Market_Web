@@ -1,22 +1,10 @@
 /*------------header styles------------*/
 
-@font-face {
-    font-family: 'LotteMartHappy';
-    font-style: normal;
-    font-weight: 400;
-    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyMedium.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyMedium.woff') format('woff');
-}
-
-@font-face {
-    font-family: 'LotteMartHappy';
-    font-style: normal;
-    font-weight: 700;
-    src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyBold.woff2') format('woff2'), url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartHappy/LotteMartHappyBold.woff') format('woff');
-}
+@font-face { font-family: 'IBMPlexSansKR-Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff'); font-weight: normal; font-style: normal; }
 
 * {
     box-sizing: border-box;
-    font-family: 'LotteMartHappy', sans-serif;
+    font-family: 'IBMPlexSansKR-Regular', sans-serif;
 }
 
 
@@ -82,7 +70,7 @@ header>.headerLeftSection>.prev {
 }
 
 header>.headerLeftSection>.home {
-    font-size: 130%;
+    font-size: 150%;
     margin: 0 auto 0 auto;
     padding: 0 20px 0 10px;
 }
@@ -104,7 +92,7 @@ header>.headerRightSection {
 header>.headerRightSection>.dropdown>.account,
 header>.headerRightSection>.dropdown>.account:focus {
     width: 100%;
-    font-size: 130%;
+    font-size: 110%;
     margin: 0 auto 0 auto;
     padding: 0 0 0 10px;
     opacity: 0.5;

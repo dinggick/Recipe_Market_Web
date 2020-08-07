@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
@@ -37,17 +37,7 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
+            <jsp:include page="dropdownMenu.jsp"></jsp:include>
         </div>
     </header>
     <div class="divContent">
@@ -70,7 +60,7 @@
         <section class="rightSection">
             <div class="recipeInfo">
                 <div class="basicInfo">
-                    <img src="${requestScope.imgUrl}" class="recipeImg">
+                    <img src="${requestScope.recipeInfo.imgUrl}" class="recipeImg">
                     <h1 style="padding-top: 30px; font-size: xx-large;">${requestScope.recipeInfo.recipeName}</h1>
                     <p>${requestScope.recipeInfo.recipeSumm}</p>
                     <p><span class="recipePrice">${requestScope.recipeInfo.recipePrice}</span> 원</p>

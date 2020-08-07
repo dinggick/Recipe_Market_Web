@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Market</title>
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/divContent.css">
-    <link rel="stylesheet" href="./css/footer.css">
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="/recipeMarket/css/header.css">
+    <link rel="stylesheet" href="/recipeMarket/css/divContent.css">
+    <link rel="stylesheet" href="/recipeMarket/css/footer.css">
+    <link rel="stylesheet" href="/recipeMarket/css/login.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/dropdownMenu.js"></script>
-    <script src="./js/header.js"></script>
-    <script src="./js/login.js"></script>
-    <script src="./js/footer.js"></script>
+    <script src="/recipeMarket/js/dropdownMenu.js"></script>
+    <script src="/recipeMarket/js/header.js"></script>
+    <script src="/recipeMarket/js/login.js"></script>
+    <script src="/recipeMarket/js/footer.js"></script>
 </head>
 
 <body>
@@ -28,8 +28,8 @@
         <div class="headerRightSection">
             <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <img src="./images/user.png" class="account">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
                 <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
@@ -47,7 +47,7 @@
         </section> -->
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
-            <form action="">
+            <form action="/recipeMarket/login" method="POST">
                 <label><input type="text" name="id" placeholder="Email..."></label>
                 <label><input type="password" name="pwd" placeholder="Password..."></label>
                 <button type="submit">로그인</button>

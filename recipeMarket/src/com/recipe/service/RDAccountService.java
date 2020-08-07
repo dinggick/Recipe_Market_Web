@@ -11,10 +11,16 @@ import com.recipe.exception.RemoveException;
 import com.recipe.vo.RD;
 
 public class RDAccountService {
-	RDDAO rdDAO;
+	private static RDAccountService instance;
+	private RDDAO rdDAO;
 	
-	public RDAccountService() {
+	private RDAccountService() {
 		rdDAO = new RDDAO();
+	}
+	
+	public static RDAccountService getInstance() {
+		if(instance == null) instance = new RDAccountService();
+		return instance;
 	}
 	
 	/**

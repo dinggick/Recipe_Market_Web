@@ -5,9 +5,15 @@ import com.recipe.exception.FindException;
 import com.recipe.vo.Admin;
 
 public class AdminAccountService {
-	AdminDAO adminDAO;
-	public AdminAccountService() {
+	private static AdminAccountService instance;
+	private AdminDAO adminDAO;
+	private AdminAccountService() {
 		adminDAO = new AdminDAO();
+	}
+	
+	public static AdminAccountService getInstance() {
+		if(instance == null) instance = new AdminAccountService();
+		return instance;
 	}
 	
 	/**
