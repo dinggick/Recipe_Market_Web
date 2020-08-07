@@ -17,10 +17,7 @@
     <link rel="stylesheet" href="css/contents.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
-    
-   
-     <link rel="stylesheet" href="./css/review.css">
-    
+    <link rel="stylesheet" href="./css/review.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
     <style>
     	 .leftSection{
@@ -160,7 +157,7 @@
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="js/dropdownMenu.js"></script>
     <script src="js/favoriteBtn.js"></script>
@@ -197,16 +194,7 @@
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
             <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
+           <jsp:include page="/dropdownMenu.jsp"></jsp:include>
         </div>
     </header>
     <div class="divContent">
@@ -238,9 +226,7 @@
                 	   </c:forEach>
                 </table>
             </div>
-           	
         </section>
-        
     </div>
     <jsp:include page="./static/reviewAdd.html"></jsp:include>
     <footer>

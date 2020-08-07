@@ -100,6 +100,7 @@ public class PurchaseDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
+		
 		try {
 			con = MyConnection.getConnection();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -122,10 +123,12 @@ public class PurchaseDAO {
 			//위 쿼리문을 PurchaseDetail에 추가
 			ps = con.prepareStatement(insertSQL2);
 			
-			//ps.setInt(1, p.getPurchaseDetails().getRecipeInfo().getRecipeCode());
-			//ps.setInt(2, p.getPurchaseDetails().getPurchaseDetailQuantity());
-			
-			ps.executeUpdate();
+			for(PurchaseDetail pd : p.getPurchaseDetails()) {
+				ps.setInt(1, pd.getRecipeInfo().getRecipeCode());
+				ps.setInt(2, pd.getPurchaseDetailQuantity());
+				ps.addBatch();
+			}
+			ps.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException("구매되지 않았습니다");
