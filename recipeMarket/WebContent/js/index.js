@@ -23,3 +23,8 @@ addEventListener("change", () => {
     $(".middleSection").css("height", screen.height - parseFloat($("header").css("height")) * 3.5);
     $(".middleSection").css("background-size", $(".middleSection").css("width") + " " + $(".middleSection").css("height"));
 });
+
+$('.searchIcon').click(function(){
+	var value = $('.searchText').val();
+	
+});

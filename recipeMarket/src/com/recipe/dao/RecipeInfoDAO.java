@@ -133,6 +133,7 @@ public class RecipeInfoDAO {
 			if (recipeInfo.size() == 0) {
 				throw new FindException("찾은 레시피가 없습니다");
 			}
+			System.out.println("찾은갯수" +recipeInfo.size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
