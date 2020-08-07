@@ -122,8 +122,8 @@ public class PurchaseDAO {
 			//위 쿼리문을 PurchaseDetail에 추가
 			ps = con.prepareStatement(insertSQL2);
 			
-			//ps.setInt(1, p.getPurchaseDetail().getRecipeInfo().getRecipeCode());
-			//ps.setInt(2, p.getPurchaseDetail().getPurchaseDetailQuantity());
+			//ps.setInt(1, p.getPurchaseDetails().getRecipeInfo().getRecipeCode());
+			//ps.setInt(2, p.getPurchaseDetails().getPurchaseDetailQuantity());
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {

@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     
+   
+     <link rel="stylesheet" href="./css/review.css">
+    
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
     <style>
     	 .leftSection{
@@ -92,7 +95,7 @@
        	   padding:0;
         }
        
-       .img{
+       .addReview{
        	  width:30px;
        	  border:0;
 		  outline:0;
@@ -153,13 +156,11 @@
        .recipeName{
        	text-decoration:none;
        	color:black;  
-       }
-       
-       
+       }     
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="js/dropdownMenu.js"></script>
     <script src="js/favoriteBtn.js"></script>
@@ -182,10 +183,6 @@
 	    	});
 	   });
 	   
-	   $('.img').on('click','#reviewModal',function(){
-		   
-	   });
-	   
 	  	
     });
     </script>
@@ -194,8 +191,6 @@
     <header>
         <!-- 왼쪽 영역 -->
         <div class="headerLeftSection">
-            <!-- 뒤로 가기 버튼 -->
-            <a class="glyphicon glyphicon-chevron-left"></a>
             <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
@@ -236,17 +231,18 @@
                 	   		<td>${purchaseDetail.purchaseDetailQuantity*purchaseDetail.recipeInfo.recipePrice}</td>
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
-                	   				<button type="submit" class="img" data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
+                	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
                 	   			</c:if>
                 	   		</td></tr>
                 	   		</c:forEach>
                 	   </c:forEach>
                 </table>
             </div>
-           	<%-- <jsp:include page="/static/reviewAdd.html"></jsp:include> --%>
+           	
         </section>
         
     </div>
+    <jsp:include page="./static/reviewAdd.html"></jsp:include>
     <footer>
         <p>
             © 2020 RECIPE MARKET All rights reserved.
