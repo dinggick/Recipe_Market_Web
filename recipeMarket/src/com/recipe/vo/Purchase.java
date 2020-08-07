@@ -6,18 +6,18 @@ public class Purchase {
 	private int purchaseCode; //구매코드
 	private String customerEmail; //고객ID
 	private Date purchaseDate; //구매일자
-	private List<PurchaseDetail> purchaseDetail; //구매상세내역
+	private List<PurchaseDetail> purchaseDetails; //구매상세내역
 	private Review review; //리뷰
 	
 	public Purchase() {}
 
-	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetail,
+	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetails,
 			Review review) {
 		super();
 		this.purchaseCode = purchaseCode;
 		this.customerEmail = customerEmail;
 		this.purchaseDate = purchaseDate;
-		this.purchaseDetail = purchaseDetail;
+		this.purchaseDetails = purchaseDetails;
 		this.review = review;
 	}
 
@@ -45,12 +45,12 @@ public class Purchase {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public List<PurchaseDetail> getPurchaseDetail() {
-		return purchaseDetail;
+	public List<PurchaseDetail> getPurchaseDetails() {
+		return purchaseDetails;
 	}
 
-	public void setPurchaseDetail(List<PurchaseDetail> purchaseDetail) {
-		this.purchaseDetail = purchaseDetail;
+	public void setPurchaseDetails(List<PurchaseDetail> purchaseDetails) {
+		this.purchaseDetails = purchaseDetails;
 	}
 
 	public Review getReview() {
@@ -64,8 +64,10 @@ public class Purchase {
 	@Override
 	public String toString() {
 		return "Purchase [purchaseCode=" + purchaseCode + ", customerEmail=" + customerEmail + ", purchaseDate="
-				+ purchaseDate + ", purchaseDetail=" + purchaseDetail + ", review=" + review + "]";
+				+ purchaseDate + ", purchaseDetails=" + purchaseDetails + ", review=" + review + "]";
 	}
+
+	
 	
 	
 	

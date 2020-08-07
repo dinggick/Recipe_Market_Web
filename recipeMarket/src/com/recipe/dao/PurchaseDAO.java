@@ -63,7 +63,7 @@ public class PurchaseDAO {
 				pdList.add(pd);
 				
 				p.setPurchaseDate(rs.getDate("purchase_date"));
-				p.setPurchaseDetail(pdList);
+				p.setPurchaseDetails(pdList);
 				p.setReview(r);
 			
 				//Purchase list에 담는다

@@ -229,15 +229,17 @@
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
                 	   <c:forEach items="${requestScope.list}" var="p">
+                	   		<c:forEach items="${p.purchaseDetails}" var="purchaseDetail">
                 	   		<tr><td>${p.purchaseDate}</td>
-                	   		<td><a href="./recipeCart.html" class="recipeName">${p.purchaseDetail.recipeInfo.recipeName}</a></td>
-                	   		<td>${p.purchaseDetail.purchaseDetailQuantity}</td>
-                	   		<td>${p.purchaseDetail.purchaseDetailQuantity*p.purchaseDetail.recipeInfo.recipePrice}</td>
+                	   		<td><a href="./recipeCart.html" class="recipeName">${purchaseDetail.recipeInfo.recipeName}</a></td>
+                	   		<td>${purchaseDetail.purchaseDetailQuantity}</td>
+                	   		<td>${purchaseDetail.purchaseDetailQuantity*purchaseDetail.recipeInfo.recipePrice}</td>
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
                 	   				<button type="submit" class="img" data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
                 	   			</c:if>
                 	   		</td></tr>
+                	   		</c:forEach>
                 	   </c:forEach>
                 </table>
             </div>
