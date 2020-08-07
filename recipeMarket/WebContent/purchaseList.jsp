@@ -222,7 +222,7 @@
             <h1>구매내역</h1>
             <hr>
         </section>
-        
+
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
             <div class="purchaseInfo">
