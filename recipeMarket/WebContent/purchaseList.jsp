@@ -140,7 +140,6 @@
        	 position:absolute;
        	 margin-top:3.4%;
        	 padding-left:53%;  
-       	    
        }
        
        .dd{
@@ -222,7 +221,6 @@
             <h1>구매내역</h1>
             <hr>
         </section>
-
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
             <div class="purchaseInfo">
@@ -230,7 +228,6 @@
             <div class="dd"><button type="submit" class="conditon">1주일</button><button type="submit" class="conditon">1개월</button><button type="submit" class="conditon">3개월</button><button type="submit" class="conditon">6개월</button><button type="submit" class="conditon" id="dt">조건검색</button></div>
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
-                	
                 	   <c:forEach items="${requestScope.list}" var="p">
                 	   		<tr><td>${p.purchaseDate}</td>
                 	   		<td><a href="./recipeCart.html" class="recipeName">${p.purchaseDetail.recipeInfo.recipeName}</a></td>

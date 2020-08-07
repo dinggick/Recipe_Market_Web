@@ -1,16 +1,17 @@
 package com.recipe.vo;
 import java.util.Date;
+import java.util.List;
 
 public class Purchase {
 	private int purchaseCode; //구매코드
 	private String customerEmail; //고객ID
 	private Date purchaseDate; //구매일자
-	private PurchaseDetail purchaseDetail; //구매상세내역
+	private List<PurchaseDetail> purchaseDetail; //구매상세내역
 	private Review review; //리뷰
 	
 	public Purchase() {}
 
-	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, PurchaseDetail purchaseDetail,
+	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetail,
 			Review review) {
 		super();
 		this.purchaseCode = purchaseCode;
@@ -44,11 +45,11 @@ public class Purchase {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public PurchaseDetail getPurchaseDetail() {
+	public List<PurchaseDetail> getPurchaseDetail() {
 		return purchaseDetail;
 	}
 
-	public void setPurchaseDetail(PurchaseDetail purchaseDetail) {
+	public void setPurchaseDetail(List<PurchaseDetail> purchaseDetail) {
 		this.purchaseDetail = purchaseDetail;
 	}
 
@@ -65,6 +66,9 @@ public class Purchase {
 		return "Purchase [purchaseCode=" + purchaseCode + ", customerEmail=" + customerEmail + ", purchaseDate="
 				+ purchaseDate + ", purchaseDetail=" + purchaseDetail + ", review=" + review + "]";
 	}
+	
+	
+	
 	
 	
 	
