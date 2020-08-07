@@ -29,7 +29,7 @@ public class RecipeIngredientDAO {
 		//보내질 쿼리
 		String newSQL =""; 
 		//더해질 쿼리
-		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -64,6 +64,7 @@ public class RecipeIngredientDAO {
 					ingList = new ArrayList<>();
 					recipeInfo2.setIngredients(ingList);
 					recipeInfo2.setRecipeCode(rCode);
+					recipeInfo2.setImgUrl(rs.getString("img_url"));
 					recipeInfo2.setRecipeName(rs.getString("recipe_name"));
 					recipeInfo2.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo2.setRecipeSumm(rs.getString("recipe_summ"));

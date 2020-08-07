@@ -12,3 +12,4 @@ Servers/
 .classpath
 .project
 .settings/
+/build/

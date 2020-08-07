@@ -1,0 +1,140 @@
+/*------------header styles------------*/
+
+@font-face { font-family: 'IBMPlexSansKR-Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+* {
+    box-sizing: border-box;
+    font-family: 'IBMPlexSansKR-Regular', sans-serif;
+}
+
+
+/* 스크롤 부드럽게 넘기기 */
+
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+
+/* header : leftSection, rightSection으로 구성되어 있다.
+leftSection은 뒤로가기 버튼, 로고로 구성되어있으며,
+rightSection은 드롭다운 메뉴를 포함하고 있다. */
+
+header {
+    display: inline-flex;
+    justify-content: space-between;
+/*     background-color: #293E31; */
+    background-color: #D2302C;
+    width: 100%;
+    clear: both;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+header>.headerLeftSection,
+header>.headerRightSection {
+/*     background-color: #FE8340; */
+}
+
+header>.headerLeftSection {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+header>.headerLeftSection>h1 {
+    color: #ffffff;
+}
+
+header>.headerLeftSection>.prev:hover {
+    color: greenyellow;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+header>.headerLeftSection>.prev {
+    display: inline-block;
+    position: relative;
+    background-color: inherit;
+    color: #f1f1f1;
+    transition: 0.3s;
+    text-decoration: none;
+    font-size: 450%;
+    padding-left: 5%;
+    font-weight: 100;
+}
+
+header>.headerLeftSection>.home {
+    font-size: 150%;
+    margin: 0 auto 0 auto;
+    padding: 0 20px 0 10px;
+}
+
+header>.headerLeftSection>.home:hover {
+    cursor: pointer;
+}
+
+header>.headerRightSection {
+	position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+
+/* 드롭다운 메뉴 */
+
+header>.headerRightSection>.dropdown>.account,
+header>.headerRightSection>.dropdown>.account:focus {
+    width: 100%;
+    font-size: 110%;
+    margin: 0 auto 0 auto;
+    padding: 0 0 0 10px;
+    opacity: 0.5;
+    transition: 0.3s;
+    font-size: 130%;
+    color: #ffffff;
+}
+
+header>.headerRightSection>.dropdown>.account:hover {
+    cursor: pointer;
+    opacity: 1.0;
+    transition: 0.3s;
+}
+
+header>.headerRightSection>.dropdown {
+    padding: 15px 15px 15px 15px;
+}
+
+header>.headerRightSection>.dropdown>.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    margin-top: 20px;
+    right: 20px;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+header>.headerRightSection>.dropdown>.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+header>.headerRightSection>.dropdown>.dropdown-content a:hover {
+    background-color: #ddd;
+    font-size: larger;
+}
+
+header>.headerRightSection>.dropdown:hover .account {
+    opacity: 1.0;
+}

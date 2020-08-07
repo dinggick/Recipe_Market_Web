@@ -15,10 +15,16 @@ import com.recipe.vo.Review;
  *
  */
 public class ReviewService {
+	private static ReviewService instance;
 	private ReviewDAO dao;
 	
-	public ReviewService() {
+	private ReviewService() {
 		dao = new ReviewDAO();
+	}
+	
+	public static ReviewService getInstance() {
+		if(instance == null) instance = new ReviewService();
+		return instance;
 	}
 	
 	public List<Review> findByCode(int recipeCode) throws FindException {

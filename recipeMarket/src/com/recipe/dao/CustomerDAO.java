@@ -1,6 +1,7 @@
 package com.recipe.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,7 +65,7 @@ public class CustomerDAO {
 	 * @author 영민
 	 */
 
-	public Customer selectById(String id) throws FindException {
+	public Customer selectByEmail(String email) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -73,22 +74,23 @@ public class CustomerDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException("selectById:" + e.getMessage());
 		}
-		String selectByIdSQL = "SELECT c.customer_id, c.customer_pwd, c.customer_email, c.customer_name, c.customer_phone, c.customer_addr"
+		String selectByIdSQL = "SELECT c.customer_email, c.customer_pwd, c.customer_name, c.customer_gender, c.customer_birth_date, c.customer_phone, c.customer_addr"
 				+ " , p.zipcode\r\n" + "      , p.buildingno\r\n"
 				+ "      ,sido ||' ' || NVL(p.sigungu, ' ') ||' ' || NVL(p.eupmyun, ' ')  city    \r\n"
 				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
 				+ "      ,p.building      \r\n"
-				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE customer_id=? and customer_status='1'";
+				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n" + "WHERE customer_email=? and customer_status='1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
-			pstmt.setString(1, id);
+			pstmt.setString(1, email);
 			rs = pstmt.executeQuery();
 			if (rs.next()) { // 행이 존재한다
 				Customer c = new Customer();
-				c.setCustomerEmail(rs.getString("customer_id"));
-				c.setCustomerPwd(rs.getString("customer_pwd"));
 				c.setCustomerEmail(rs.getString("customer_email"));
+				c.setCustomerPwd(rs.getString("customer_pwd"));
 				c.setCustomerName(rs.getString("customer_name"));
+				c.setCustomerGender(rs.getString("customer_gender"));
+				c.setCustomerBirthDate(rs.getDate("customer_birth_date"));
 				c.setCustomerPhone(rs.getString("customer_phone"));
 				Postal p = new Postal();
 				p.setZipcode(rs.getString("zipcode"));

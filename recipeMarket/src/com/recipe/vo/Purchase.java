@@ -1,20 +1,24 @@
 package com.recipe.vo;
 import java.util.Date;
+import java.util.List;
 
 public class Purchase {
 	private int purchaseCode; //구매코드
 	private String customerEmail; //고객ID
 	private Date purchaseDate; //구매일자
-	private PurchaseDetail purchaseDetail; //구매상세내역
+	private List<PurchaseDetail> purchaseDetails; //구매상세내역
+	private Review review; //리뷰
 	
 	public Purchase() {}
 
-	public Purchase(int purchaseCode, String customerId, Date purchaseDate, PurchaseDetail purchaseDetail) {
+	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetails,
+			Review review) {
 		super();
 		this.purchaseCode = purchaseCode;
-		this.customerEmail = customerId;
+		this.customerEmail = customerEmail;
 		this.purchaseDate = purchaseDate;
-		this.purchaseDetail = purchaseDetail;
+		this.purchaseDetails = purchaseDetails;
+		this.review = review;
 	}
 
 	public int getPurchaseCode() {
@@ -25,12 +29,12 @@ public class Purchase {
 		this.purchaseCode = purchaseCode;
 	}
 
-	public String getCustomerId() {
+	public String getCustomerEmail() {
 		return customerEmail;
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerEmail = customerId;
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
 	}
 
 	public Date getPurchaseDate() {
@@ -41,18 +45,33 @@ public class Purchase {
 		this.purchaseDate = purchaseDate;
 	}
 
-	public PurchaseDetail getPurchaseDetail() {
-		return purchaseDetail;
+	public List<PurchaseDetail> getPurchaseDetails() {
+		return purchaseDetails;
 	}
 
-	public void setPurchaseDetail(PurchaseDetail purchaseDetail) {
-		this.purchaseDetail = purchaseDetail;
+	public void setPurchaseDetails(List<PurchaseDetail> purchaseDetails) {
+		this.purchaseDetails = purchaseDetails;
+	}
+
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
 	}
 
 	@Override
 	public String toString() {
-		return "Purchase [purchaseCode=" + purchaseCode + ", customerId=" + customerEmail + ", purchaseDate="
-				+ purchaseDate + ", purchaseDetail=" + purchaseDetail + "]";
+		return "Purchase [purchaseCode=" + purchaseCode + ", customerEmail=" + customerEmail + ", purchaseDate="
+				+ purchaseDate + ", purchaseDetails=" + purchaseDetails + ", review=" + review + "]";
 	}
+
+	
+	
+	
+	
+	
+	
 	
 }

@@ -29,7 +29,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 
 		}
-		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByCodeSQL = "SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -47,6 +47,7 @@ public class RecipeInfoDAO {
 				int rCode = rs.getInt("recipe_code");
 				int ingCode = rs.getInt("ing_code");
 				String ingName = rs.getString("ing_name");
+				String img_url = rs.getString("img_url");
 				Ingredient ingredient = new Ingredient(ingCode, ingName);
 				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);
 				//코드랑 이름 값 (Ingredient) recipeIng 에 넣어주고 리스트에 애드해줌
@@ -54,10 +55,12 @@ public class RecipeInfoDAO {
 				//코드값이 바뀔떄 recipeInfo 에 값 넣어주기
 				if (prevCode != rCode) {
 					recipeInfo.setRecipeCode(rCode);
+					recipeInfo.setImgUrl(rs.getString("img_url"));
 					recipeInfo.setRecipeName(rs.getString("recipe_name"));
 					recipeInfo.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo.setRecipeSumm(rs.getString("recipe_summ"));
 					recipeInfo.setRecipeProcess(rs.getString("recipe_process"));
+					recipeInfo.setImgUrl(rs.getString("img_url"));
 					recipeInfo.setIngredients(ingList);
 					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
 					recipeInfo.setPoint(pt);
@@ -87,7 +90,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
-		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
@@ -107,6 +110,7 @@ public class RecipeInfoDAO {
 					ingList = new ArrayList<>();
 					recipeInfo2.setIngredients(ingList);
 					recipeInfo2.setRecipeCode(rCode);
+					recipeInfo2.setImgUrl(rs.getString("img_url"));
 					recipeInfo2.setRecipeName(rs.getString("recipe_name"));
 					recipeInfo2.setRecipePrice(rs.getInt("recipe_price"));
 					recipeInfo2.setRecipeSumm(rs.getString("recipe_summ"));
@@ -129,6 +133,7 @@ public class RecipeInfoDAO {
 			if (recipeInfo.size() == 0) {
 				throw new FindException("찾은 레시피가 없습니다");
 			}
+			System.out.println("찾은갯수" +recipeInfo.size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -458,7 +463,9 @@ public class RecipeInfoDAO {
 	 * @return 추천 레시피 정보를 포함한 RecipeInfo 객체
 	 * @throws FindException
 	 */
-	public RecipeInfo selectByRank() throws FindException {
+	public List<RecipeInfo> selectByRank() throws FindException {
+		List<RecipeInfo> result = new ArrayList<RecipeInfo>();
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -470,48 +477,54 @@ public class RecipeInfoDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String selectByRankSQL = "SELECT ri.recipe_code, ri.recipe_name, ri.recipe_summ, ri.recipe_price, ri.recipe_process, po.like_count, po.dislike_count\r\n" + 
-				"FROM recipe_info ri JOIN point po ON (ri.recipe_code = po.recipe_code)\r\n" + 
-				"WHERE\r\n" + 
-				"    ri.recipe_code = (\r\n" + 
+		String selectByRankSQL = "SELECT\r\n" + 
+				"    *\r\n" + 
+				"FROM\r\n" + 
+				"    (\r\n" + 
 				"        SELECT\r\n" + 
-				"            recipe_code\r\n" + 
+				"            p.recipe_code       recipe_code,\r\n" + 
+				"            p.like_count        like_count,\r\n" + 
+				"            p.dislike_count     dislike_count,\r\n" + 
+				"            i.recipe_name       recipe_name,\r\n" + 
+				"            i.recipe_summ       recipe_summ,\r\n" + 
+				"            i.recipe_price      recipe_price,\r\n" + 
+				"            i.recipe_process    recipe_process,\r\n" + 
+				"            i.img_url           img_url,\r\n" + 
+				"            i.rd_email          rd_email\r\n" + 
 				"        FROM\r\n" + 
+				"                 point p\r\n" + 
+				"            JOIN recipe_info i ON ( p.recipe_code = i.recipe_code )\r\n" + 
+				"        WHERE\r\n" + 
+				"            i.recipe_status = '1'\r\n" + 
+				"        ORDER BY\r\n" + 
+				"            like_count DESC,\r\n" + 
+				"            dislike_count ASC,\r\n" + 
 				"            (\r\n" + 
 				"                SELECT\r\n" + 
-				"                    p.recipe_code\r\n" + 
+				"                    COUNT(*)\r\n" + 
 				"                FROM\r\n" + 
-				"                    point p\r\n" + 
-				"                    JOIN recipe_info i ON (p.recipe_code = i.recipe_code)\r\n" + 
+				"                    review\r\n" + 
 				"                WHERE\r\n" + 
-				"                    i.recipe_status = '1'\r\n" + 
-				"                ORDER BY\r\n" + 
-				"                    like_count DESC,\r\n" + 
-				"                    dislike_count ASC,\r\n" + 
-				"                    (\r\n" + 
-				"                        SELECT\r\n" + 
-				"                            COUNT(*)\r\n" + 
-				"                        FROM\r\n" + 
-				"                            review\r\n" + 
-				"                        WHERE\r\n" + 
-				"                            recipe_code = p.recipe_code\r\n" + 
-				"                    ) DESC\r\n" + 
-				"            )\r\n" + 
-				"        WHERE\r\n" + 
-				"            ROWNUM = 1\r\n" + 
-				"    )";
+				"                    i.recipe_code = p.recipe_code\r\n" + 
+				"            ) DESC\r\n" + 
+				"    )\r\n" + 
+				"WHERE\r\n" + 
+				"    ROWNUM BETWEEN 1 AND 10";
 
 		try {
 			pstmt = con.prepareStatement(selectByRankSQL);
 			rs = pstmt.executeQuery();
 
+			while(rs.next()) result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
 			//if(rs.next()) return new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getDouble("recipe_price"), rs.getString("recipe_process"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if(result.isEmpty()) throw new FindException("추천 레시피 탐색 오류");
 
-		throw new FindException("추천 레시피 탐색 오류");
+		return result;
 	}
+	
 	private boolean fileOutput(String fileFullPath, String message) {
 		try {
 
