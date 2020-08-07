@@ -11,12 +11,13 @@ import com.recipe.vo.Point;
 public class PointDAO {
 	
 	/**
-	 * UPDATE할 값을 가진 Point 객체를 전달받아 DB의 POINT 테이블을 수정한다
-	 * @param p 수정된 값을 가진 Point 객체
+	 * 좋아요 개수를 하나 늘릴 레시피 코드를 매개변수로 전달받아
+	 * DB의 POINT 테이블을 수정
+	 * @param 좋아요 개수를 수정할 레시피 코드
 	 * @throws ModifyException
 	 * @author 최종국
 	 */
-	public void update(Point p) throws ModifyException {
+	public void updateLike(int recipeCode) throws ModifyException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
@@ -27,12 +28,40 @@ public class PointDAO {
 			throw new ModifyException(e.getMessage());
 		}
 		
-		String updatePointSQL = "UPDATE point SET like_count = ?, dislike_count = ? WHERE recipe_code = ?";
+		String updatePointSQL = "UPDATE point SET like_count = like_count+1 WHERE recipe_code = ?";
 		try {
 			pstmt = con.prepareStatement(updatePointSQL);
-			pstmt.setInt(1, p.getLikeCount());
-			pstmt.setInt(2, p.getDisLikeCount());
-			pstmt.setInt(3, p.getRecipeCode());
+			pstmt.setInt(1, recipeCode);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 싫어요 개수를 하나 늘릴 레시피 코드를 매개변수로 전달받아
+	 * DB의 POINT 테이블을 수정
+	 * @param 싫어요 개수를 수정할 레시피 코드
+	 * @throws ModifyException
+	 * @author 최종국
+	 */
+	public void updateDisLike(int recipeCode) throws ModifyException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		}
+		
+		String updatePointSQL = "UPDATE point SET dislike_count = dislike_count+1 WHERE recipe_code = ?";
+		try {
+			pstmt = con.prepareStatement(updatePointSQL);
+			pstmt.setInt(1, recipeCode);
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
