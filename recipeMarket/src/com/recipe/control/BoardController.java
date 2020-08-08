@@ -21,6 +21,14 @@ public class BoardController implements Controller {
 		service = BoardService.getInstance();
 	}
 	
+	/**
+	 * 
+	 * @return BoardController
+	 */
+	public static BoardController getInstance() {
+		return ctr;
+	}
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

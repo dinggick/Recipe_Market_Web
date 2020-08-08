@@ -19,7 +19,7 @@ public class StatisticsController implements Controller {
 	private static StatisticsController ctr = new StatisticsController();
 	private StatisticsService service;
 	
-	public StatisticsController() {
+	private StatisticsController() {
 		service = StatisticsService.getInstance();
 	}
 	

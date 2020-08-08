@@ -9,10 +9,20 @@ import com.recipe.model.PageBean;
 import com.recipe.vo.Board;
 
 public class BoardService {
+	private static BoardService service = new BoardService();
+	
 	private BoardDAO dao;
 
-	public BoardService() {
+	private BoardService() {
 		dao = new BoardDAO();
+	}
+	
+	/**
+	 * For single tone pattern
+	 * @return BoardService
+	 */
+	public static BoardService getInstance() {
+		return service;
 	}
 
 	public void write(Board board) throws AddException {
