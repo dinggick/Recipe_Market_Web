@@ -1,6 +1,3 @@
-/**
- * @author yonghwan
- */
 package com.recipe.control;
 
 import java.io.IOException;
@@ -16,6 +13,11 @@ import com.recipe.model.PageBean;
 import com.recipe.service.BoardService;
 import com.recipe.vo.Board;
 
+/**
+ * 
+ * @author yonghwan
+ *
+ */
 public class BoardController implements Controller {
 	private static BoardController ctr = new BoardController();
 	private BoardService service;

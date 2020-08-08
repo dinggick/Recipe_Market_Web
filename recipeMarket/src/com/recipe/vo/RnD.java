@@ -56,4 +56,10 @@ public class RnD {
 	public void setRdPhone(String rdPhone) {
 		this.rdPhone = rdPhone;
 	}
+
+	@Override
+	public String toString() {
+		return "RnD [rdEmail=" + rdEmail + ", rdPwd=" + rdPwd + ", rdManagerName=" + rdManagerName + ", rdTeamName="
+				+ rdTeamName + ", rdPhone=" + rdPhone + "]";
+	}
 }

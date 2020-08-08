@@ -50,6 +50,9 @@ public class RnDDAO {
 			pstmt.setString(4, r.getRdTeamName());
 			pstmt.setString(5, r.getRdPhone());
 
+//			System.out.println(r.getRdEmail() + r.getRdPwd() + r.getRdManagerName() +
+//					r.getRdTeamName() + r.getRdPhone());
+			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -113,7 +116,7 @@ public class RnDDAO {
 			e.printStackTrace();
 		}
 
-		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_id = ? and rd_status = '1'";
+		String selectByIdSQL = "SELECT rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_email = ? and rd_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, rdEmail);

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RnDAdd</title>
+
+    <link rel="icon" href="../images/titlecon.png">
+
+    <link rel="stylesheet" href="../css/adminCommonSection.css">
+
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    
+    <link rel="stylesheet" href="../css/RnDAdd.css">
+    <!-- <link rel="stylesheet" href="./css/RnDInfo.css"> -->
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100&display=swap" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="../js/adminCommonSection.js"></script>
+    <script src="../js/RnDAdd.js"></script>
+
+    <script src="../js/header.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/dropdownMenu.js"></script>
+</head>
+<body>
+    <header id="header" style="background-color: #D2302C;">
+        <div class="headerLeftSection" style="background-color: #D2302C;">
+            <!-- <img src="./images/titlecon.png" style="width: 50px; padding-left: 10px; background-color: #D2302C;"> -->
+            <h1 class="home">RECIPE MARKET</h1>
+        </div>
+        <div class="headerRightSection" style="background-color: #D2302C;">
+            <div class="dropdown">
+                <img src="./images/user.png" class="account">
+                <div class="dropdown-content">
+                    <a href="#">로그인</a>
+                    <a href="#">Menu 2</a>
+                    <a href="#">Menu 3</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="bodySection">
+    <section class="leftSection">
+        <div class="titleWrapper">
+            <span>
+                RnDAdd
+            </span>
+        </div>
+
+        <div class="underLineWrapper">
+            <hr>
+        </div>
+
+        <div class="menuWrapper">
+            <ul>
+                <li>
+                    <span>RnD management</span>
+                    <ul>
+                        <li><a href="RnDAdd.html">AddRnD</a></li>
+                        <li><a href="#">RnDList</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <span>CRM</span>
+                    <ul>
+                        <li><a href="#">graph1</a></li>
+                        <li><a href="#">graph2</a></li>
+                    </ul>
+                </li>
+            </ul>                            
+        </div>
+    </section>
+
+    <section class="rightSection">
+                                        
+        <div class="contentsWrapper">
+
+            <div class="infoWrapper">
+
+                <form class="formWrapper" action="#" method="post">
+
+                    <tr>
+                        <td><input class="dataInput" type="text" id="rd_email" name="rd_email" placeholder="이메일을 입력하세요." required></td>
+                        <td><span class="duplicatedId">이미 가입된 이메일입니다.</span></td>
+                        <td><span class="invalidId">메일 형식이 올바르지 않습니다.</span></td>
+                    </tr>
+                    <tr>
+                        <td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" placeholder="비밀번호를 입력하세요. (8자 이상, 영문 및 특수문자 포함)" required></td>
+                        <td><span class="invalidPwd">비밀번호 형식이 올바르지 않습니다.</span></td>
+                    </tr>
+                    <tr>
+                        <td><input class="dataInput" type="password" id="r_rd_pwd" name="r_rd_pwd" placeholder="비밀번호를 재입력하세요." required></td>
+                        <td><span class="eqaulPwd">비밀번호가 일치하지 않습니다.</span></td>
+                    </tr>
+                    <tr>
+                        <td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" placeholder="이름을 입력하세요." required></td>
+                    </tr>
+                    <tr>
+                        <td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" placeholder="부서를 입력하세요." required></td>
+                    </tr>
+                    <tr>
+                        <td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" placeholder="연락처를 입력하세요. ('-' 제외)" required></td>
+                        <td><span class="invalidPhone">연락처 형식이 올바르지 않습니다.</span></td>
+                    </tr>
+                                        
+                    <div class="buttonSection">
+                        <button class="addBtn" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>                             
+    </section>
+    
+    </div>
+    
+    <footer>
+        <p>
+            © 2020 RECIPE MARKET All rights reserved.
+        </p>
+        <a class="topBtn">&uarr;TOP</a>
+    </footer>
+</body>
+</html>

@@ -1,7 +1,3 @@
-/**
- * RnD-related controller
- * @author yonghwan
- */
 package com.recipe.control;
 
 import java.io.IOException;
@@ -18,6 +14,12 @@ import com.recipe.model.PageBean;
 import com.recipe.service.RnDService;
 import com.recipe.vo.RnD;
 
+
+/**
+ * 
+ * @author yonghwan
+ *
+ */
 class RnDMethod {
 	static RnD getNewInstance(HttpServletRequest request) {
 		return new RnD(request.getParameter("rd_email"),
@@ -28,6 +30,10 @@ class RnDMethod {
 	}
 }
 
+/**
+ * RnD-related controller
+ * @author yonghwan
+ */
 public class RnDController implements Controller {
 	private static RnDController ctr = new RnDController();
 	private RnDService service;
@@ -55,6 +61,7 @@ public class RnDController implements Controller {
 		
 		if("/add".equals(pathInfo)) { /* Add RnD's account */
 			try {
+				RnD rnd = RnDMethod.getNewInstance(request);
 				service.add(RnDMethod.getNewInstance(request));
 				
 				jspFileName = "/success.jsp";
@@ -62,6 +69,16 @@ public class RnDController implements Controller {
 			} catch (AddException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
+			}
+		} else if("/find".equals(pathInfo)) { /* Add RnD's account */
+			try {
+				service.findById(request.getParameter("rd_email"));
+				
+				jspFileName = "/success.jsp";
+				
+			} catch (FindException e) {
+				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage().replace("\"", ""));
 			}
 		} else if("/modify".equals(pathInfo)) { /* Modify RnD's account */				
 			try {
@@ -88,7 +105,7 @@ public class RnDController implements Controller {
 				RnD rnd = service.findById(request.getParameter("rd_email"));
 				request.setAttribute("rnd", rnd);
 				
-				jspFileName = "/success.jsp";
+				jspFileName = "/RnDInfo.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();

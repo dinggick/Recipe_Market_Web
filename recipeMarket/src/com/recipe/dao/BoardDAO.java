@@ -13,7 +13,6 @@ import java.util.List;
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
-import com.recipe.pair.Pair;
 import com.recipe.vo.Board;
 
 public class BoardDAO {
@@ -23,8 +22,8 @@ public class BoardDAO {
 	 * @throws AddException
 	 */
 	public void insert(Board board) throws AddException{
-		Connection con=null;
-		PreparedStatement pstmt=null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		
 		String insertSQL = "INSERT INTO board ("
 				+ "board_no, "
@@ -64,9 +63,9 @@ public class BoardDAO {
 	 * @throws FindException
 	 */
 	public List<Board> selectAll(int startRow, int endRow) throws FindException{
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		List<Board> list = null;
 				
@@ -98,17 +97,15 @@ public class BoardDAO {
 
 			rs.previous();
 			
-			while(rs.next()) {
-				Board b = new Board(rs.getInt("level"), 
+			while(rs.next()) {				
+				list.add(new Board(rs.getInt("level"), 
 						rs.getInt("board_no"), 
 						rs.getInt("parent_no"), 
 						rs.getString("board_title"), 
 						rs.getString("board_writer"), 
 						rs.getDate("board_dt"), 
 						rs.getString("board_content"), 
-						rs.getInt("board_views"));
-				
-				list.add(b);
+						rs.getInt("board_views")));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -165,7 +162,6 @@ public class BoardDAO {
 		String selectAllSQL = "SELECT * FROM board WHERE board_no=?";
 		
 		List<Board> list = null;
-
 
 		try {
 			con = MyConnection.getConnection();

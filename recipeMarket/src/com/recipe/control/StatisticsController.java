@@ -1,7 +1,3 @@
-/**
- * Statistics-related controller
- * @author yonghwan
- */
 package com.recipe.control;
 
 import java.io.IOException;
@@ -15,6 +11,10 @@ import com.recipe.exception.FindException;
 import com.recipe.pair.Pair;
 import com.recipe.service.StatisticsService;
 
+/**
+ * Statistics-related controller
+ * @author yonghwan
+ */
 public class StatisticsController implements Controller {
 	private static StatisticsController ctr = new StatisticsController();
 	private StatisticsService service;
