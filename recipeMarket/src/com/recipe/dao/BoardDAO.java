@@ -1,3 +1,6 @@
+/**
+ * @author yonghwan
+ */
 package com.recipe.dao;
 
 import java.sql.Connection;
@@ -10,6 +13,7 @@ import java.util.List;
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.jdbc.MyConnection;
+import com.recipe.pair.Pair;
 import com.recipe.vo.Board;
 
 public class BoardDAO {
@@ -153,32 +157,50 @@ public class BoardDAO {
 	 * @return
 	 * @throws FindException
 	 */
-	public Board selectByNo(int board_no) throws FindException{
-		Connection con=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
+	public List<Board> selectByNo(int board_no) throws FindException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String selectAllSQL = "SELECT * FROM board WHERE board_no=?";
+		
+		List<Board> list = null;
+
+
 		try {
 			con = MyConnection.getConnection();
-			String selectAllSQL = "SELECT * FROM board WHERE board_no=?";			
-			pstmt = con.prepareStatement(selectAllSQL);
+			
+			pstmt = con.prepareStatement(selectAllSQL, ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			
 			pstmt.setInt(1, board_no);
-			rs = pstmt.executeQuery();			
-			if(rs.next()) {
-				int parent_no = rs.getInt("parent_no");
-				String board_title = rs.getString("board_title");
-				String board_writer = rs.getString("board_writer");
-				java.sql.Date board_dt = rs.getDate("board_dt");
-				String board_content = rs.getString("board_content");
-				int board_views = rs.getInt("board_views");
-				Board b = new Board(0, board_no, parent_no, board_title, board_writer, board_dt, board_content, board_views);
-				return b;
+			
+			rs = pstmt.executeQuery();
+			
+			if (!rs.next())
+				throw new FindException("There is no data corresponding to the condition.");
+
+			list = new ArrayList<>();
+
+			rs.previous();
+			
+			while(rs.next()) {
+				list.add(new Board(0, 
+						board_no, 
+						rs.getInt("parent_no"), 
+						rs.getString("board_title"), 
+						rs.getString("board_writer"), 
+						rs.getDate("board_dt"), 
+						rs.getString("board_content"), 
+						rs.getInt("board_views")));
 			}
-			throw new FindException(board_no+"에 해당하는 게시글이 없습니다");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
+		
+		return list;
 	}
 }

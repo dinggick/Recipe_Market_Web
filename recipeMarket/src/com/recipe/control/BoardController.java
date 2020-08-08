@@ -1,3 +1,6 @@
+/**
+ * @author yonghwan
+ */
 package com.recipe.control;
 
 import java.io.IOException;
@@ -54,8 +57,8 @@ public class BoardController implements Controller {
 			int board_no = Integer.parseInt(strBoard_no);
 			
 			try {
-				Board board = service.findByNo(board_no);
-				request.setAttribute("detail", board);
+				List<Board> boards = service.findByNo(board_no);
+				request.setAttribute("detail", boards);
 				
 				jspFileName = "/boardDetail.jsp";
 				

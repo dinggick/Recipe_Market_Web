@@ -1,3 +1,6 @@
+/**
+ * @author yonghwan
+ */
 package com.recipe.service;
 
 import java.util.List;
@@ -68,7 +71,7 @@ public class BoardService {
 		return pb;
 	}
 
-	public Board findByNo(int board_no) throws FindException {
+	public List<Board> findByNo(int board_no) throws FindException {
 		return dao.selectByNo(board_no);
 	}
 }

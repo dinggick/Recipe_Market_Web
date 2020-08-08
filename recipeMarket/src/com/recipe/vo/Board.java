@@ -1,3 +1,6 @@
+/**
+ * @author yonghwan
+ */
 package com.recipe.vo;
 
 import java.util.Date;
