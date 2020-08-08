@@ -61,7 +61,7 @@ $(() => {
         if (chkEmail($rdEmailInput.val())) {
             $invalidIdSpan.fadeOut();
             $.ajax({
-            	url: "rnd/find",
+            	url: "../rnd/find",
             	data: { "rd_email" : $rdEmailInput.val() },
             	success: (responseObj) => {
             		if (responseObj.status == "success") {
@@ -142,7 +142,7 @@ $(() => {
     	}
 		
     	$.ajax({
-    		url: "rnd/add",
+    		url: "../rnd/add",
     		method: "POST",
     		data: $("form").serialize(),
     		success: (responseObj) => {
