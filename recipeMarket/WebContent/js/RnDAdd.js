@@ -46,24 +46,28 @@ $(() => {
     var $rdEmailInput = $("#rd_email");
     var $invalidIdSpan = $(".invalidId");
     var $duplicatedIdSpan = $(".duplicatedId");
+    var $validIdSpan = $(".validId");
     $rdEmailInput.on("blur", function(evt) {
         if (chkEmail($rdEmailInput.val())) {
             $invalidIdSpan.fadeOut();
+            $.ajax({
+            	url: "rnd/find",
+            	data: { "rd_email" : $rdEmailInput.val() },
+            	success: (responseObj) => {
+            		if (responseObj.status == "success") {
+            			$duplicatedIdSpan.fadeIn();
+            			$validIdSpan.fadeOut();
+            		} else {
+            			$duplicatedIdSpan.fadeOut();
+            			$validIdSpan.fadeIn();
+            		}
+            	}
+            });
         } else {
         	$rdEmailInput.css("border", "0.5px solid red");
             $invalidIdSpan.fadeIn();
+			$validIdSpan.fadeOut();
         }
-        $.ajax({
-        	url: "rnd/find",
-        	data: { "rd_email" : $rdEmailInput.val() },
-        	success: (responseObj) => {
-        		if (responseObj.status == "success") {
-        			$duplicatedIdSpan.fadeIn();
-        		} else {
-        			$duplicatedIdSpan.fadeOut();
-        		}
-        	}
-        });
     });
 
     var $rdPwdInput = $("#rd_pwd");
