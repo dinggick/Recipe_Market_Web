@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
 import com.recipe.service.AccountService;
+import com.recipe.vo.Customer;
 
 public class LoginController implements Controller {
 	private static LoginController instance;
@@ -29,8 +30,9 @@ public class LoginController implements Controller {
 		String pwd = request.getParameter("pwd");
 		
 		try {
-			accountService.login(id, pwd);
+			String customerName = accountService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
+			request.getSession().setAttribute("userName", customerName);
 			return "/index.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();

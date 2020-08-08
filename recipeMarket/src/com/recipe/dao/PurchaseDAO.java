@@ -49,6 +49,7 @@ public class PurchaseDAO {
 			while (rs.next()) {
 				Purchase p = new Purchase();
 				RecipeInfo ri = new RecipeInfo();
+				List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
 				PurchaseDetail pd = new PurchaseDetail();
 				Review r = new Review();
 				
@@ -56,11 +57,13 @@ public class PurchaseDAO {
 				
 				ri.setRecipeName(rs.getString("recipe_name"));
 				ri.setRecipePrice(rs.getInt("recipe_price"));
+				
 				pd.setRecipeInfo(ri);
 				pd.setPurchaseDetailQuantity(rs.getInt("purchase_quantity"));
+				pdList.add(pd);
 				
 				p.setPurchaseDate(rs.getDate("purchase_date"));
-				p.setPurchaseDetail(pd);
+				p.setPurchaseDetails(pdList);
 				p.setReview(r);
 			
 				//Purchase list에 담는다
@@ -97,6 +100,7 @@ public class PurchaseDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
+		
 		try {
 			con = MyConnection.getConnection();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -119,10 +123,12 @@ public class PurchaseDAO {
 			//위 쿼리문을 PurchaseDetail에 추가
 			ps = con.prepareStatement(insertSQL2);
 			
-			ps.setInt(1, p.getPurchaseDetail().getRecipeInfo().getRecipeCode());
-			ps.setInt(2, p.getPurchaseDetail().getPurchaseDetailQuantity());
-			
-			ps.executeUpdate();
+			for(PurchaseDetail pd : p.getPurchaseDetails()) {
+				ps.setInt(1, pd.getRecipeInfo().getRecipeCode());
+				ps.setInt(2, pd.getPurchaseDetailQuantity());
+				ps.addBatch();
+			}
+			ps.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException("구매되지 않았습니다");

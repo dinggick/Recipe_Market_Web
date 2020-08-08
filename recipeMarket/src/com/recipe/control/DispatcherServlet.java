@@ -17,7 +17,6 @@ public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     public DispatcherServlet() {}
-
     /**
      * 서버가 수신한 각 요청에 해당하는 컨트롤러를 로드하여 컨트롤러들이 역할을 수행할 수 있도록 처리
      * @author CJK

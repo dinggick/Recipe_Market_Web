@@ -29,8 +29,8 @@ public class RecipeService {
 		return instance;
 	}
 	
-	public List<RecipeInfo> findByName(String recipeName) throws FindException{
-		return recipeInfoDAO.selectByName(recipeName);		
+	public List<RecipeInfo> findRecipe(List<String> ingName) throws FindException{
+		return recipeInfoDAO.selectByNameAndIngredient(ingName);		
 	}
 	public RecipeInfo findByCode(int recipeCode) throws FindException {
 		return recipeInfoDAO.selectByCode(recipeCode);
@@ -44,7 +44,7 @@ public class RecipeService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public RecipeInfo findRecommended() throws FindException {
+	public List<RecipeInfo> findRecommended() throws FindException {
 		return recipeInfoDAO.selectByRank();
 	}
 	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {

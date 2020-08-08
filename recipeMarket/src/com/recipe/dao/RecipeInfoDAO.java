@@ -79,7 +79,7 @@ public class RecipeInfoDAO {
 
 		return recipeInfo;
 	}
-	public List<RecipeInfo> selectByName(String recipeName) throws FindException{
+	public List<RecipeInfo> selectByNameAndIngredient(List<String> ingName) throws FindException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -90,15 +90,42 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
-		String selectByNameSQL = "SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+		String newSQL =""; 
+		//더해질 쿼리
+		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
+				"FROM RECIPE_INGREDIENT RI \r\n" + 
+				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
+				"JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
+				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" +
+				"WHERE RI.recipe_code IN \r\n" + 
+				"(select ring.recipe_code FROM Ingredient ig JOIN recipe_ingredient ring on ig.ing_code = ring.ing_code Where ig.ing_name LIKE ?) AND RIN.RECIPE_Status = 1 INTERSECT  ";
+		
+		for (int i = 1; i < ingName.size(); i++ ) {
+			newSQL += selectByIngNameSQL;	
+			//리스트 사이즈만큼 돌면서 쿼리가 더해지고, 마지막줄은 INTERSECT 를 서브스트링해 더해짐
+			if (i == ingName.size() -1) {
+				newSQL += selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
+			}			
+		}
+		if (ingName.size() == 1) {
+			newSQL = selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
+		}
+		String recipeName = "";
+		for(String s : ingName) {
+			recipeName += s;
+		}
+		newSQL += "UNION SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
 				"LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
 				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
 				"WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1";
 		try {
-			pstmt = con.prepareStatement(selectByNameSQL);
-			pstmt.setString(1, "%" + recipeName + "%");
+			pstmt = con.prepareStatement(newSQL);
+			for (int i = 1; i < ingName.size()+1; i++) {
+				pstmt.setString(i, "%" +ingName.get(i-1) + "%");
+			}
+			pstmt.setString(ingName.size() +1, recipeName);
 			rs = pstmt.executeQuery();
 			List<RecipeIngredient> ingList = null;	
 			int prevCode = 0;
@@ -124,8 +151,8 @@ public class RecipeInfoDAO {
 				}
 
 				int ingCode = rs.getInt("ing_code");
-				String ingName = rs.getString("ing_name");
-				Ingredient ingredient = new Ingredient(ingCode, ingName);
+				String ingName2 = rs.getString("ing_name");
+				Ingredient ingredient = new Ingredient(ingCode, ingName2);
 				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);				
 				ingList.add(recipeIng);
 
@@ -133,6 +160,7 @@ public class RecipeInfoDAO {
 			if (recipeInfo.size() == 0) {
 				throw new FindException("찾은 레시피가 없습니다");
 			}
+			System.out.println("찾은갯수" +recipeInfo.size());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -462,7 +490,9 @@ public class RecipeInfoDAO {
 	 * @return 추천 레시피 정보를 포함한 RecipeInfo 객체
 	 * @throws FindException
 	 */
-	public RecipeInfo selectByRank() throws FindException {
+	public List<RecipeInfo> selectByRank() throws FindException {
+		List<RecipeInfo> result = new ArrayList<RecipeInfo>();
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -474,48 +504,54 @@ public class RecipeInfoDAO {
 			throw new FindException(e.getMessage());
 		}
 
-		String selectByRankSQL = "SELECT ri.recipe_code, ri.recipe_name, ri.recipe_summ, ri.recipe_price, ri.recipe_process, po.like_count, po.dislike_count\r\n" + 
-				"FROM recipe_info ri JOIN point po ON (ri.recipe_code = po.recipe_code)\r\n" + 
-				"WHERE\r\n" + 
-				"    ri.recipe_code = (\r\n" + 
+		String selectByRankSQL = "SELECT\r\n" + 
+				"    *\r\n" + 
+				"FROM\r\n" + 
+				"    (\r\n" + 
 				"        SELECT\r\n" + 
-				"            recipe_code\r\n" + 
+				"            p.recipe_code       recipe_code,\r\n" + 
+				"            p.like_count        like_count,\r\n" + 
+				"            p.dislike_count     dislike_count,\r\n" + 
+				"            i.recipe_name       recipe_name,\r\n" + 
+				"            i.recipe_summ       recipe_summ,\r\n" + 
+				"            i.recipe_price      recipe_price,\r\n" + 
+				"            i.recipe_process    recipe_process,\r\n" + 
+				"            i.img_url           img_url,\r\n" + 
+				"            i.rd_email          rd_email\r\n" + 
 				"        FROM\r\n" + 
+				"                 point p\r\n" + 
+				"            JOIN recipe_info i ON ( p.recipe_code = i.recipe_code )\r\n" + 
+				"        WHERE\r\n" + 
+				"            i.recipe_status = '1'\r\n" + 
+				"        ORDER BY\r\n" + 
+				"            like_count DESC,\r\n" + 
+				"            dislike_count ASC,\r\n" + 
 				"            (\r\n" + 
 				"                SELECT\r\n" + 
-				"                    p.recipe_code\r\n" + 
+				"                    COUNT(*)\r\n" + 
 				"                FROM\r\n" + 
-				"                    point p\r\n" + 
-				"                    JOIN recipe_info i ON (p.recipe_code = i.recipe_code)\r\n" + 
+				"                    review\r\n" + 
 				"                WHERE\r\n" + 
-				"                    i.recipe_status = '1'\r\n" + 
-				"                ORDER BY\r\n" + 
-				"                    like_count DESC,\r\n" + 
-				"                    dislike_count ASC,\r\n" + 
-				"                    (\r\n" + 
-				"                        SELECT\r\n" + 
-				"                            COUNT(*)\r\n" + 
-				"                        FROM\r\n" + 
-				"                            review\r\n" + 
-				"                        WHERE\r\n" + 
-				"                            recipe_code = p.recipe_code\r\n" + 
-				"                    ) DESC\r\n" + 
-				"            )\r\n" + 
-				"        WHERE\r\n" + 
-				"            ROWNUM = 1\r\n" + 
-				"    )";
+				"                    i.recipe_code = p.recipe_code\r\n" + 
+				"            ) DESC\r\n" + 
+				"    )\r\n" + 
+				"WHERE\r\n" + 
+				"    ROWNUM BETWEEN 1 AND 10";
 
 		try {
 			pstmt = con.prepareStatement(selectByRankSQL);
 			rs = pstmt.executeQuery();
 
+			while(rs.next()) result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
 			//if(rs.next()) return new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getDouble("recipe_price"), rs.getString("recipe_process"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if(result.isEmpty()) throw new FindException("추천 레시피 탐색 오류");
 
-		throw new FindException("추천 레시피 탐색 오류");
+		return result;
 	}
+	
 	private boolean fileOutput(String fileFullPath, String message) {
 		try {
 
@@ -534,8 +570,19 @@ public class RecipeInfoDAO {
 	}
 	public static void main(String[] args) {
 		RecipeInfoDAO dao = new RecipeInfoDAO();
-		int code = 10;
-		System.out.println(10%5);
+		List<String> ingName = new ArrayList<>();
+		ingName.add("김치");
+		ingName.add("참치");
+		try {
+			List<RecipeInfo> infos = dao.selectByNameAndIngredient(ingName);
+			for (RecipeInfo i : infos) {
+				System.out.println(i.getRecipeName());
+			}
+			
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		
 //		try {
 //			RecipeInfo info = dao.selectByCode(code);

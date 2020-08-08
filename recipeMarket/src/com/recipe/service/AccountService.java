@@ -29,7 +29,7 @@ public class AccountService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public void login(String customerId, String customerPwd) throws FindException {
+	public String login(String customerId, String customerPwd) throws FindException {
 		Customer c;
 		try {
 			c = customerDAO.selectByEmail(customerId);
@@ -38,6 +38,8 @@ public class AccountService {
 		}
 		if (!c.getCustomerPwd().equals(customerPwd))
 			throw new FindException("로그인 실패");
+		
+		return c.getCustomerName();
 
 		//CustomerShare.addSession(customerId);
 	}
