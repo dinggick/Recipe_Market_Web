@@ -9,9 +9,9 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
+import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.service.RnDService;
@@ -73,6 +73,14 @@ public class RnDController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
+		} else if ("/info".equals(pathInfo)) { /* Show RnD's account */
+			try {
+				service.findById(request.getParameter("rd_email"));
+				return "/success.jsp";
+			} catch (FindException e) {
+				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage());
+			}
 		} else if ("/list".equals(pathInfo)) { /* Show RnD list */
 			try {
 				return "/success.jsp";
@@ -80,8 +88,7 @@ public class RnDController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		}
-		
+		}	
 		return "/fail.jsp";
 	}
 }

@@ -66,8 +66,8 @@ public class StatisticsController implements Controller {
 		} else if("/graph3".equals(pathInfo)) { /* show graph3 */
 			try {
 				List<Pair<String, Integer>> dataList = null;
-				dataList = service.findBySeasonG3(request.getParameter("startDate"),
-						request.getParameter("endDate"));
+				dataList = service.findBySeasonG3(request.getParameter("start_date"),
+						request.getParameter("end_date"));
 				
 				request.setAttribute("data_list", dataList);
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class PageBean {
 	public static final int CNT_PER_PAGE = 10; // 페이지당 보여줄 목록수, service 단에 있었다.
 	public static final int CNT_PER_PAGEGROUP = 5; // 페이지 그룹 수
-	
+
 	private String url = ""; // 링크 클릭시 이동할 URL
 	private int currentPage; // 현재 페이지
 	private int startRow; // 페이지당 보여줄 시작행
@@ -15,12 +15,33 @@ public class PageBean {
 	private int startPage; // 페이지 그룹의 시작 페이지
 	private int endPage; // 페이지 그룹의 끝 페이지
 
-	public PageBean() {}
+	public PageBean() { }
 
 	public PageBean(int currentPage) {
 		this.currentPage = currentPage;
 		this.endRow = CNT_PER_PAGE * currentPage;
 		this.startRow = endRow - (CNT_PER_PAGE - 1);
+	}
+
+	/**
+	 * 
+	 * @param currentPage
+	 * @param rowCnt
+	 * @author yonghwan
+	 */
+	public PageBean(int currentPage, int rowCnt) {
+		this(currentPage);
+				
+		int totalPage = (rowCnt + PageBean.CNT_PER_PAGE - 1) / PageBean.CNT_PER_PAGE;
+		setTotalPage(totalPage);
+
+		int endPage = ((currentPage - 1) / PageBean.CNT_PER_PAGEGROUP + 1) * PageBean.CNT_PER_PAGEGROUP;
+		int startPage = endPage - (PageBean.CNT_PER_PAGEGROUP - 1);
+
+		endPage = Math.min(endPage, totalPage);
+
+		setStartPage(startPage);
+		setEndPage(endPage);
 	}
 
 	public String getUrl() {
@@ -85,5 +106,12 @@ public class PageBean {
 
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
+	}
+
+	@Override
+	public String toString() {
+		return "PageBean [url=" + url + ", currentPage=" + currentPage + ", startRow=" + startRow + ", endRow=" + endRow
+				+ ", totalPage=" + totalPage + ", list=" + list + ", startPage=" + startPage + ", endPage=" + endPage
+				+ "]";
 	}
 }

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.model.PageBean;
-import com.recipe.service.RnDService;
+import com.recipe.service.BoardService;
 import com.recipe.vo.Board;
 
 public class BoardController implements Controller {
@@ -52,9 +52,8 @@ public class BoardController implements Controller {
 			} catch (FindException e) {
 				String errorMsg = e.getMessage().replace("\n", ",");
 				request.setAttribute("errorMsg", errorMsg);
-				return "/fail.jsp";
-
 				e.printStackTrace();
+				return "/fail.jsp";
 			}
 		} else if("/reply".equals(pathInfo)) {
 			int parent_no = Integer.parseInt(request.getParameter("parent_no")); 
@@ -69,8 +68,8 @@ public class BoardController implements Controller {
 			} catch (AddException e) {
 				String errorMsg = e.getMessage().replace("\n", ",");
 				request.setAttribute("errorMsg", errorMsg);
-				return "/fail.jsp";
 				e.printStackTrace();
+				return "/fail.jsp";
 			}
 		} else if("/list".equals(pathInfo)) {
 			List<Board> list;
