@@ -3,53 +3,67 @@ package com.recipe.vo;
 import java.util.Date;
 
 public class Board {
-	private int level; // 실제 테이블에는 노출되어 있지는 않지만 수도 컬럼으로 내장되어있다.
-
-	private int board_no;
-	private int parent_no;
-	private String board_title;
-	private String board_writer;
-	private Date board_dt;
-	private String board_content;
+	private int level;
+	private int boardNo;
+	private int parentNo;
+	private String boardTitle;
+	private String boardWriter;
+	private Date boardDt;
+	private String boardContent;
+	private int boardViews;
 
 	public Board() {}
 
-	public Board(int level, int board_no, int parent_no, String board_title, 
-			String board_writer, Date board_dt, String board_content) {
-		
+	/**
+	 * 
+	 * @param level
+	 * @param boardNo
+	 * @param parentNo
+	 * @param boardTitle
+	 * @param boardWriter
+	 * @param boardDt
+	 * @param boardContent
+	 * @param boardViews
+	 */
+	public Board(int level, int boardNo, int parentNo, String boardTitle, String boardWriter, Date boardDt,
+			String boardContent, int boardViews) {
+		super();
 		this.level = level;
-		this.board_no = board_no;
-		this.parent_no = parent_no;
-		this.board_title = board_title;
-		this.board_writer = board_writer;
-		this.board_dt = board_dt;
-		this.board_content = board_content;
+		this.boardNo = boardNo;
+		this.parentNo = parentNo;
+		this.boardTitle = boardTitle;
+		this.boardWriter = boardWriter;
+		this.boardDt = boardDt;
+		this.boardContent = boardContent;
+		this.boardViews = boardViews;
 	}
 
 	/**
 	 * For writer
+	 * 
 	 * @param board_title
 	 * @param board_writer
 	 * @param board_content
 	 */
-	public Board(String board_title, String board_writer, String board_content) {
-		this.board_title = board_title;
-		this.board_writer = board_writer;
-		this.board_content = board_content;
+	public Board(String boardTitle, String boardWriter, String boardContent) {
+		this.boardTitle = boardTitle;
+		this.boardWriter = boardWriter;
+		this.boardContent = boardContent;
 	}
-	
+
 	/**
 	 * For replier
+	 * 
 	 * @param parent_no
 	 * @param board_title
 	 * @param board_writer
 	 * @param board_content
 	 */
-	public Board(int parent_no, String board_title, String board_writer, String board_content) {
-		this.parent_no = parent_no;
-		this.board_title = board_title;
-		this.board_writer = board_writer;
-		this.board_content = board_content;
+	public Board(int parentNo, String boardTitle, String boardWriter, String boardContent) {
+		this.parentNo = parentNo;
+		this.boardTitle = boardTitle;
+		this.boardWriter = boardWriter;
+		this.boardContent = boardContent;
 	}
 
 	public int getLevel() {
@@ -60,59 +74,67 @@ public class Board {
 		this.level = level;
 	}
 
-	public int getBoard_no() {
-		return board_no;
+	public int getBoardNo() {
+		return boardNo;
 	}
 
-	public void setBoard_no(int board_no) {
-		this.board_no = board_no;
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
 	}
 
-	public int getParent_no() {
-		return parent_no;
+	public int getParentNo() {
+		return parentNo;
 	}
 
-	public void setParent_no(int parent_no) {
-		this.parent_no = parent_no;
+	public void setParentNo(int parentNo) {
+		this.parentNo = parentNo;
 	}
 
-	public String getBoard_title() {
-		return board_title;
+	public String getBoardTitle() {
+		return boardTitle;
 	}
 
-	public void setBoard_title(String board_title) {
-		this.board_title = board_title;
+	public void setBoardTitle(String boardTitle) {
+		this.boardTitle = boardTitle;
 	}
 
-	public String getBoard_writer() {
-		return board_writer;
+	public String getBoardWriter() {
+		return boardWriter;
 	}
 
-	public void setBoard_writer(String board_writer) {
-		this.board_writer = board_writer;
+	public void setBoardWriter(String boardWriter) {
+		this.boardWriter = boardWriter;
 	}
 
-	public Date getBoard_dt() {
-		return board_dt;
+	public Date getBoardDt() {
+		return boardDt;
 	}
 
-	public void setBoard_dt(Date board_dt) {
-		this.board_dt = board_dt;
+	public void setBoardDt(Date boardDt) {
+		this.boardDt = boardDt;
 	}
 
-	public String getBoard_content() {
-		return board_content;
+	public String getBoardContent() {
+		return boardContent;
 	}
 
-	public void setBoard_content(String board_content) {
-		this.board_content = board_content;
+	public void setBoardContent(String boardContent) {
+		this.boardContent = boardContent;
+	}
+
+	public int getBoardViews() {
+		return boardViews;
+	}
+
+	public void setBoardViews(int boardViews) {
+		this.boardViews = boardViews;
 	}
 
 	@Override
 	public String toString() {
-		return "Board [level=" + level + ", board_no=" + board_no + ", parent_no=" + parent_no + ", board_title="
-				+ board_title + ", board_writer=" + board_writer + ", board_dt=" + board_dt + ", board_content="
-				+ board_content + "]";
+		return "Board [level=" + level + ", boardNo=" + boardNo + ", parentNo=" + parentNo + ", boardTitle="
+				+ boardTitle + ", boardWriter=" + boardWriter + ", boardDt=" + boardDt + ", boardContent="
+				+ boardContent + ", boardViews=" + boardViews + "]";
 	}
 
 }

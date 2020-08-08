@@ -25,45 +25,46 @@ public class BoardService {
 		return service;
 	}
 
+	/**
+	 * 
+	 * @param board
+	 * @throws AddException
+	 */
 	public void write(Board board) throws AddException {
-		if (board.getParent_no() != 0) {
-			throw new AddException("부모글번호가 필요없습니다");
-		}
+		if (board.getParentNo() != 0)
+			throw new AddException("No parent_no required");
+		
 		dao.insert(board);
 	}
 
+	/**
+	 * 
+	 * @param board
+	 * @throws AddException
+	 */
 	public void reply(Board board) throws AddException {
-		if (board.getParent_no() == 0) {
-			throw new AddException("부모글번호가 없습니다");
-		}
+		if (board.getParentNo() == 0)
+			throw new AddException("No parent_no");
+		
 		dao.insert(board);
 	}
 
-	// public List<Board> findAll(int page) throws FindException{
+	/**
+	 * 
+	 * @param page
+	 * @return
+	 * @throws FindException
+	 */
 	public PageBean findAll(int page) throws FindException {
-		if (page < 1) {
-			throw new FindException(page + " 페이지가  존재하지 않습니다");
-		}
-		// PageBean pb = new PageBean(page);//현재페이지, 시작행, 끝행
-//		List<Board> list =  dao.selectAll(pb.getStartRow(), pb.getEndRow());
-//		pb.setList(list);
-//		
-//		int rowCnt = dao.selectCount();//게시판 총 행수
-//		int totalPage = (int) Math.ceil((double)rowCnt/PageBean.CNT_PER_PAGE);//총페이지수: 게시판 총행수와 페이지당 보여줄 목록수로 계산
-//		pb.setTotalPage(totalPage);
-//		
-//		int startPage = (page-1)/PageBean.CNT_PER_PAGEGROUP * PageBean.CNT_PER_PAGEGROUP + 1;
-//		int endPage = startPage + PageBean.CNT_PER_PAGEGROUP - 1;
-//		if(endPage > totalPage) {
-//			endPage = totalPage;
-//		}		
-//		pb.setStartPage(startPage);
-//		pb.setEndPage(endPage);
+		if (page < 1)
+			throw new FindException("The page does not exist");
 
-		int rowCnt = dao.selectCount();// 게시판 총 행수
-		PageBean pb = new PageBean(page, rowCnt);// 현재페이지, 시작행, 끝행, 총페이지, 시작페이지, 끝페이지
+		int rowCnt = dao.selectCount();
+		PageBean pb = new PageBean(page, rowCnt);
+		
 		List<Board> list = dao.selectAll(pb.getStartRow(), pb.getEndRow());
 		pb.setList(list);
+		
 		return pb;
 	}
 

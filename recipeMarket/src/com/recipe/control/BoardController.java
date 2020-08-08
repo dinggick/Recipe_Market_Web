@@ -34,18 +34,17 @@ public class BoardController implements Controller {
 			throws ServletException, IOException {
 
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
-
+		String jspFileName = "/fail.jsp";
+		
 		if("/write".equals(pathInfo)) {
-			String board_writer = request.getParameter("board_writer");
-			String board_title = request.getParameter("board_title");
-			String board_content = request.getParameter("board_content");
-
-			Board board = new Board(board_title, board_writer, board_content);
+			Board board = new Board(request.getParameter("board_writer"), 
+					request.getParameter("board_title"), 
+					request.getParameter("board_content"));
 			
 			try {
 				service.write(board);
 				
-				return "/success.jsp";
+				jspFileName = "/success.jsp";
 				
 			} catch (AddException e) {
 				e.printStackTrace();
@@ -53,56 +52,56 @@ public class BoardController implements Controller {
 		} else if("/detail".equals(pathInfo)) {
 			String strBoard_no = request.getParameter("board_no");
 			int board_no = Integer.parseInt(strBoard_no);
+			
 			try {
 				Board board = service.findByNo(board_no);
 				request.setAttribute("detail", board);
-				return "/boardDetail.jsp";
+				
+				jspFileName = "/boardDetail.jsp";
+				
 			} catch (FindException e) {
-				String errorMsg = e.getMessage().replace("\n", ",");
-				request.setAttribute("errorMsg", errorMsg);
 				e.printStackTrace();
-				return "/fail.jsp";
+				request.setAttribute("msg", e.getMessage());
 			}
 		} else if("/reply".equals(pathInfo)) {
-			int parent_no = Integer.parseInt(request.getParameter("parent_no")); 
-			String board_title = request.getParameter("board_title");
-			String board_writer = request.getParameter("board_writer");
-			String board_content = request.getParameter("board_content");
-			Board board = new Board(parent_no, board_title, board_writer, board_content);
+			Board board = new Board(Integer.parseInt(request.getParameter("parent_no")), 
+					request.getParameter("board_title"), 
+					request.getParameter("board_writer"), 
+					request.getParameter("board_content"));
 			try {
 				service.reply(board);
-				return "/success.jsp";
+				
+				jspFileName = "/success.jsp";
 				
 			} catch (AddException e) {
-				String errorMsg = e.getMessage().replace("\n", ",");
-				request.setAttribute("errorMsg", errorMsg);
 				e.printStackTrace();
-				return "/fail.jsp";
+				request.setAttribute("msg", e.getMessage());
 			}
 		} else if("/list".equals(pathInfo)) {
-			
 			try {
 				String strPage = request.getParameter("currentPage");
+				
 				int currentPage = 1;
-				if(!"".equals(strPage)) {
+				
+				if(!"".equals(strPage))
 					currentPage = Integer.parseInt(strPage);
-				}
+				
 				PageBean pb = service.findAll(currentPage);
+				
 				String url = request.getServletPath() + request.getPathInfo();
 				pb.setUrl(url);
-				
-				System.out.println(pb);
-				
+								
 				request.setAttribute("pb", pb);
 				
-				return "/boardList.jsp";
+				jspFileName = "/boardList.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage());
 			}
 		}
 		
-		return "/fail.jsp";
+		return jspFileName;
 	}
 
 }
