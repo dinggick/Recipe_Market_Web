@@ -8,6 +8,8 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
+import com.recipe.model.PageBean;
+import com.recipe.vo.Board;
 import com.recipe.vo.RnD;
 
 public class RnDService {
@@ -86,5 +88,27 @@ public class RnDService {
 	
 	public RnD findById(String rdId) throws FindException {
 		return rdDAO.selectById(rdId);
+	}
+	
+	/***********************************************************************************/
+
+	/**
+	 * Create page bean object of requested page
+	 * @param page
+	 * @return PageBean
+	 * @throws FindException
+	 * @author yonghwan
+	 */
+	public PageBean findAll(int page) throws FindException {
+		if (page < 1)
+			throw new FindException("The page does not exist");
+		
+		int rowCnt = rdDAO.selectCount();
+		PageBean pb = new PageBean(page, rowCnt);
+		
+		List<RnD> list = rdDAO.selectAll(pb.getStartRow(), pb.getEndRow());
+		pb.setList(list);
+		
+		return pb;
 	}
 }

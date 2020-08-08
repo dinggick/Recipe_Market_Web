@@ -36,7 +36,8 @@ public class StatisticsController implements Controller {
 			throws ServletException, IOException {
 		
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
-
+		String jspFileName = "/fail.jsp";
+		
 		if("/graph1".equals(pathInfo)) { /* show graph1 */
 			try {
 				List<Pair<Integer, Pair<String, Integer>>> dataList = null;
@@ -44,7 +45,7 @@ public class StatisticsController implements Controller {
 				
 				request.setAttribute("data_list", dataList);
 				
-				return "/graph1.jsp";
+				jspFileName = "/graph1.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
@@ -57,7 +58,7 @@ public class StatisticsController implements Controller {
 				
 				request.setAttribute("data_list", dataList);
 
-				return "/graph2.jsp";
+				jspFileName = "/graph2.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
@@ -71,7 +72,7 @@ public class StatisticsController implements Controller {
 				
 				request.setAttribute("data_list", dataList);
 
-				return "/graph3.jsp";
+				jspFileName = "/graph3.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
@@ -79,6 +80,6 @@ public class StatisticsController implements Controller {
 			}
 		}
 		
-		return "/fail.jsp";
+		return jspFileName;
 	}
 }

@@ -14,6 +14,7 @@ import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
+import com.recipe.model.PageBean;
 import com.recipe.service.RnDService;
 import com.recipe.vo.RnD;
 
@@ -21,8 +22,8 @@ class RnDMethod {
 	static RnD getNewInstance(HttpServletRequest request) {
 		return new RnD(request.getParameter("rd_email"),
 				request.getParameter("rd_pwd"), 
-				request.getParameter("rd_managerName"), 
-				request.getParameter("rd_teamName"), 
+				request.getParameter("rd_manager_name"), 
+				request.getParameter("rd_team_name"), 
 				request.getParameter("rd_phone"));
 	}
 }
@@ -47,12 +48,17 @@ public class RnDController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
-
+		String servletPath = request.getServletPath();
+		String pathInfo = servletPath.substring(servletPath.lastIndexOf("/"));
+		
+		String jspFileName = "/fail.jsp";
+		
 		if("/add".equals(pathInfo)) { /* Add RnD's account */
 			try {
 				service.add(RnDMethod.getNewInstance(request));
-				return "/success.jsp";
+				
+				jspFileName = "/success.jsp";
+				
 			} catch (AddException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
@@ -60,7 +66,9 @@ public class RnDController implements Controller {
 		} else if("/modify".equals(pathInfo)) { /* Modify RnD's account */				
 			try {
 				service.modify(RnDMethod.getNewInstance(request));
-				return "/success.jsp";
+				
+				jspFileName = "/success.jsp";
+				
 			} catch (ModifyException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
@@ -68,27 +76,46 @@ public class RnDController implements Controller {
 		} else if ("/remove".equals(pathInfo)) { /* Remove RnD's account */
 			try {
 				service.remove(request.getParameter("rd_email"));
-				return "/success.jsp";
+				
+				jspFileName = "/success.jsp";
+				
 			} catch (RemoveException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
 		} else if ("/info".equals(pathInfo)) { /* Show RnD's account */
 			try {
-				service.findById(request.getParameter("rd_email"));
-				return "/success.jsp";
+				RnD rnd = service.findById(request.getParameter("rd_email"));
+				request.setAttribute("rnd", rnd);
+				
+				jspFileName = "/success.jsp";
+				
 			} catch (FindException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/list".equals(pathInfo)) { /* Show RnD list */
-			try {
-				return "/success.jsp";
-			} catch (AddException e) {
+		} else if ("/list".equals(pathInfo)) { /* Show RnD list */			
+			String strPage = request.getParameter("currentPage");
+			
+			int currentPage = 1;
+			
+			if(!"".equals(strPage))
+				currentPage = Integer.parseInt(strPage);
+			
+			try {				
+				PageBean pb = service.findAll(currentPage);
+				pb.setUrl(servletPath);
+								
+				request.setAttribute("pb", pb);
+				
+				jspFileName = "/RnDList.jsp";
+				
+			} catch (FindException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
 		}	
-		return "/fail.jsp";
+		
+		return jspFileName;
 	}
 }

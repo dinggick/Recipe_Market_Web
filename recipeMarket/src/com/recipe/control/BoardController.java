@@ -80,7 +80,7 @@ public class BoardController implements Controller {
 				return "/fail.jsp";
 			}
 		} else if("/list".equals(pathInfo)) {
-			List<Board> list;
+			
 			try {
 				String strPage = request.getParameter("currentPage");
 				int currentPage = 1;
