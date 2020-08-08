@@ -1,15 +1,15 @@
 package com.recipe.vo;
 
-public class RD {
+public class RnD {
 	private String rdEmail;
 	private String rdPwd;
 	private String rdManagerName;
 	private String rdTeamName;
 	private String rdPhone;
 
-	public RD() {}
+	public RnD() {}
 	
-	public RD(String rdEmail, String rdPwd, String rdManagerName, String rdTeamName, String rdPhone) {
+	public RnD(String rdEmail, String rdPwd, String rdManagerName, String rdTeamName, String rdPhone) {
 		this.rdEmail = rdEmail;
 		this.rdPwd = rdPwd;
 		this.rdManagerName = rdManagerName;

@@ -13,16 +13,16 @@ import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
-import com.recipe.vo.RD;
+import com.recipe.vo.RnD;
 
-public class RDDAO {
+public class RnDDAO {
 	/**
 	 * 새로 추가할 R&D 계정의 정보를 가진 RD 객체를 이용하여 rd 테이블에 새로운 R&D 정보를 추가한다
 	 * @param r 추가할 R&D 계정의 정보를 가진 RD
 	 * @throws AddException
 	 * @throws DuplicatedException 아이디가 이미 존재하는 경우
 	 */
-	public void insert(RD r) throws AddException, DuplicatedException {
+	public void insert(RnD r) throws AddException, DuplicatedException {
 		try {
 			selectById(r.getRdEmail());
 			throw new DuplicatedException("이미 가입된 이메일입니다.");
@@ -62,8 +62,8 @@ public class RDDAO {
 	 * @throws FindException R&D계정이 하나도 존재하지 않는 경우
 	 * @author 최종국
 	 */
-	public List<RD> selectAll() throws FindException{
-		List<RD> result = new ArrayList<RD>();
+	public List<RnD> selectAll() throws FindException{
+		List<RnD> result = new ArrayList<RnD>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -78,7 +78,7 @@ public class RDDAO {
 			pstmt = con.prepareStatement(selectAllSQL);
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) result.add(new RD(rs.getString("rd_id"), rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone")));
+			while(rs.next()) result.add(new RnD(rs.getString("rd_id"), rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -93,7 +93,7 @@ public class RDDAO {
 	 * @throws FindException 매개변수로 전달받은 아이디를 포함한 R&D계정이 존재하지 않는 경우
 	 * @author 최종국
 	 */
-	public RD selectById(String rdEmail) throws FindException {
+	public RnD selectById(String rdEmail) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -109,7 +109,7 @@ public class RDDAO {
 			pstmt = con.prepareStatement(selectByIdSQL);
 			pstmt.setString(1, rdEmail);
 			rs = pstmt.executeQuery();
-			if(rs.next()) return new RD(rdEmail, rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone"));
+			if(rs.next()) return new RnD(rdEmail, rs.getString("rd_pwd"), rs.getString("rd_manager_name"), rs.getString("rd_team_name"), rs.getString("rd_phone"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -124,7 +124,7 @@ public class RDDAO {
 	 * @throws ModifyException 수정하려는 R&D 계정이 존재하지 않는 경우
 	 * @author 최종국
 	 */
-	public void update(RD r) throws ModifyException {
+	public void update(RnD r) throws ModifyException {
 		try {
 			selectById(r.getRdEmail());
 		} catch (FindException e) {
