@@ -23,8 +23,18 @@ function chkPhone(phone) {
 }
 
 $(() => {
+	var rdEmail = false, rdPwd = false, rRdPwd = false, rdPhone = false, flg = false;;
+	
     var $dataInput = $(".dataInput");
     $dataInput.attr("size", "70");
+    
+    $dataInput.on("blur", function(evt) {
+    	if ($(evt.target).val() == "" || $(evt.target).val() == undefined) {
+    		flg = false;
+    	} else {
+    		flg = true;
+    	}
+    });
     
     $dataInput.on("focus", function(evt) {
         $evtObj = $(this);
@@ -57,9 +67,11 @@ $(() => {
             		if (responseObj.status == "success") {
             			$duplicatedIdSpan.fadeIn();
             			$validIdSpan.fadeOut();
+            			rdEmail = false;
             		} else {
             			$duplicatedIdSpan.fadeOut();
             			$validIdSpan.fadeIn();
+            			rdEmail = true;
             		}
             	}
             });
@@ -67,6 +79,7 @@ $(() => {
         	$rdEmailInput.css("border", "0.5px solid red");
             $invalidIdSpan.fadeIn();
 			$validIdSpan.fadeOut();
+			rdEmail = false;
         }
     });
 
@@ -81,32 +94,38 @@ $(() => {
 
         if (chkPwd($($rdPwdInput).val())) {
             $($invalidPwdSpan).fadeOut();
+            rdPwd = true;
         } else {
             $($rdPwdInput).css("border", "0.5px solid red");
             $($invalidPwdSpan).fadeIn();
+            rdPwd = false;
         }
         
         if ($($rdPwdInput).val() != $($RrdPwdInput).val()) {
             $($RrdPwdInput).css("border", "0.5px solid red");
             $equalPwdSpan.fadeIn();
+            rRdPwd = false;
         } else {
             $($RrdPwdInput).css("border", "none");
             $equalPwdSpan.fadeOut();
+            rRdPwd = true;
         }
     });
 
     var $rdPhoneInput = $("#rd_phone");
     var $invalidPhoneSpan = $(".invalidPhone");
     $rdPhoneInput.on("blur", function(evt) {
-        if ($rdPhoneInput.val == undefined) {
+        if ($rdPhoneInput.val() == undefined) {
             return;
         }
 
         if (chkPhone($rdPhoneInput.val())) {
             $invalidPhoneSpan.fadeOut();
+            rdPhone = true;
         } else {
             $rdPhoneInput.css("border", "0.5px solid red");
             $invalidPhoneSpan.fadeIn();
+            rdPhone = false;
         }    
     });
     
@@ -117,7 +136,11 @@ $(() => {
     });
     
     $(".addBtn").on("click", function(evt) {
-		alert($("form").serialize());
+    	if (!rdEmail || !rdPwd || !rRdPwd || !rdPhone || !flg) {
+    		alert($("form").serialize());
+    		return false;
+    	}
+		
     	$.ajax({
     		url: "rnd/add",
     		method: "POST",
@@ -127,6 +150,7 @@ $(() => {
 				location.reload();
     		}
     	});
+    	
     	return false;
     });
 });
