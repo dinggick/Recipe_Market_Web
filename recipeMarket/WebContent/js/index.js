@@ -15,11 +15,23 @@ addEventListener("load", () => {
     
     $(".bottomSection").on("click", ".card", function() {
     	var recipeCode = $(this).find("input[type=hidden]").val();
-    	location.href = "/recipeMarket/recipeInfo?recipeCode="+recipeCode;
+    	//location.href = "/recipeMarket/recipeInfo?recipeCode="+recipeCode;
+    	
+    	var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipeCode);
+    	form.appendChild(input);
+    	document.body.appendChild(form);
+    	form.submit();
     });
 
     
-    $(".bottomSection").on("click", ".like", function() {
+    $(".bottomSection").on("click", ".like", function(e) {
     	var recipeCode = $(this).parent().find("input[type=hidden]").val();
     	$.ajax({
     		url : "/recipeMarket/point/like",
@@ -30,9 +42,26 @@ addEventListener("load", () => {
     			} else {
     				alert("좋아요 실패 : " + data.msg);
     			}
+    			e.preventDefault();
     		}
     	});
-    }
+    });
+    
+    $(".bottomSection").on("click", ".dislike", function(e) {
+    	var recipeCode = $(this).parent().find("input[type=hidden]").val();
+    	$.ajax({
+    		url : "/recipeMarket/point/dislike",
+    		data: {recipeCode: recipeCode},
+    		success: (data, textStatus, jqXHR) => {
+    			if(data.status == "success") {
+    				alert("싫어요를 누르셨습니다");
+    			} else {
+    				alert("싫어요 실패 : " + data.msg);
+    			}
+    			e.preventDefault();
+    		}
+    	});
+    });
 
     $('body > div > div > div > form > label > a').click(function(){
     	var value = $('.searchText').val();

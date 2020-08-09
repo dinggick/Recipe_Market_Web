@@ -25,23 +25,45 @@ public class PointController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String path = request.getServletPath();
-		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+		String servletPath = request.getServletPath();
 		String forwardPath = "/fail.jsp";
 		
-		if("/point/like".equals(path)) {
-			try {
-				service.like(recipeCode);
-				forwardPath = "/sucess.jsp";
-			} catch (ModifyException e) {
-				e.printStackTrace();
-				request.setAttribute("msg", e.getMessage().replace("\"", ""));
-				forwardPath = "/fail.jsp";
-			}
-		} else if("/point/dislike".equals(path)) {
-			
+		if("/point/like".equals(servletPath)) {
+			forwardPath = like(request, response);
+		} else if("/point/dislike".equals(servletPath)) {
+			forwardPath = disLike(request, response);
 		}
 		
 		return forwardPath;
+	}
+	
+	private String like(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+		String result = "/fail.jsp";
+		try {
+			service.like(recipeCode);
+			result = "/success.jsp";
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			request.setAttribute("msg", e.getMessage().replace("\"", ""));
+			result = "/fail.jsp";
+		}
+		return result;
+	}
+	
+	private String disLike(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+		String result = "/fail.jsp";
+		try {
+			service.disLike(recipeCode);
+			result = "/success.jsp";
+		} catch (ModifyException e) {
+			e.printStackTrace();
+			request.setAttribute("msg", e.getMessage().replace("\"", ""));
+			result = "/fail.jsp";
+		}
+		return result;
 	}
 }
