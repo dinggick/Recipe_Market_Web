@@ -191,6 +191,27 @@
 	   $('.purchaseCart').click(function(){
 		   alert('주문이 완료되었습니다');
 	   })
+	   
+	   $('.quantity').click(function(){
+		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
+		  var quantity = $('.quantity').val();
+		  var recipePrice = parseInt($(this).parent().parent().find('td:nth-child(4)').html());
+		 
+		  $.ajax({
+			  url:'/recipeMarket/cartUpdate',
+			  data:{recipeCode:$recipeCode,quantity:quantity},
+			  success:function(responseObj){
+				  if(responseObj.status=="success"){
+					  $('.price').html((recipePrice*quantity)+'원');
+				  }else{
+					  alert('수량변경실패');
+				  }
+			  }
+		  })
+		  return false;
+	   });
+	   
+	   
     });
     </script>
 </head>
@@ -231,24 +252,18 @@
             <div class="cartInfo">
                 <table id="Cart">
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
-                	<tr class="cartList">
-                	   <td><input type="checkbox" class="check" ><label></label> </td>
-                	   <td><a href="./purchaseList.html"><img src="./img/list.png" class="recipePhoto"></a></td>
-                	   <td>김치찌개/맛나요</td>
-                	   <td>1000원</td>
-                	   <td><input type="number" class="quantity" value="1" min=1></td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="delete">X</button></td>
-                	</tr>
-                	<tr class="cartList">
-                	   <td><input type="checkbox" class="check" ><label></label> </td>
-                	   <td><a href="./purchaseList.html"><img src="./img/list.png" class="recipePhoto"></a></td>
-                	   <td>김치찌개/맛나요</td>
-                	   <td>1000원</td>
-                	   <td><input type="number" class="quantity" value="1" min=1></td>
-                	   <td>3000원</td>
-                	   <td><button type="submit" class="delete">X</button></td>
-                	</tr>
+                	<c:forEach items="${requestScope.list}" var="c">
+						  <tr class="cartList">
+						  	<c:set var="total" value="0"></c:set>
+                	   		<td><input type="checkbox" class="check" ><label></label> </td>
+                	   		<td><a href="./purchaseList.html"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
+                	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
+                	   		<td>${c.recipeInfo.recipePrice}</td>
+                	   		<td><input type="number" class="quantity" value="${c.cartQuantity}" min=1></td>
+                	  	 	<td class="price">${c.recipeInfo.recipePrice*c.cartQuantity}원</td>
+                	   		<td><button type="submit" class="delete">X</button></td>
+                	   		</tr>                		
+                	</c:forEach>
                 </table>
                 <hr class="purchaseLine">
             	  <div class="totalQuantity">총 금액 : 3000원</div>

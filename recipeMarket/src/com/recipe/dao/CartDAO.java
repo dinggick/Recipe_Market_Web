@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
 import com.recipe.vo.Cart;
@@ -62,7 +63,7 @@ public class CartDAO {
 			e.printStackTrace();
 		}
 		
-		String selectAllSQL = "select IMG_URL, recipe_name, recipe_summ, recipe_price, cart_quantity \r\n" + 
+		String selectAllSQL = "select ri.recipe_code, IMG_URL, recipe_name, recipe_summ, recipe_price, cart_quantity \r\n" + 
 				"from cart c join recipe_info ri on(c.recipe_code = ri.recipe_code)\r\n" + 
 				"where c.customer_email=?";
 		
@@ -73,6 +74,7 @@ public class CartDAO {
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				info.setRecipeCode(rs.getInt("recipe_code"));
 				info.setImgUrl(rs.getString("IMG_URL"));
 				info.setRecipeName(rs.getString("recipe_name"));
 				info.setRecipeSumm(rs.getString("recipe_summ"));
@@ -94,6 +96,35 @@ public class CartDAO {
 		
 	}
 	
+	//카트 수량 추가
+	public void update(Cart c) throws ModifyException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String updateSQL = "update cart set cart_quantity=? where recipe_code=?";
+		
+		try {
+			ps = con.prepareStatement(updateSQL);
+			
+			ps.setInt(1, c.getCartQuantity());
+			ps.setInt(2, c.getRecipeInfo().getRecipeCode());
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(ps, con);
+		}
+		
+	}
+	
+	//장바구니 삭제
 	public void delectByCode(Cart c)throws RemoveException{
 		Connection con = null;
 		PreparedStatement ps = null;
