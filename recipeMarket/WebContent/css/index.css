@@ -157,11 +157,11 @@ cardContainer는 레시피 제목, 한 줄 요약, 좋아요 버튼, 싫어요 �
 
 .card>img {
     width: 100%;
-    height: 50%;
+    height: 150px;
 }
 
 .cardContainer {
-    padding: 2px 16px;
+    padding: 0 16px;
 }
 
 .cardContainer > h4,
@@ -173,21 +173,21 @@ cardContainer는 레시피 제목, 한 줄 요약, 좋아요 버튼, 싫어요 �
 	overflow: hidden;
 }
 
-.cardContainer>.like,
-.cardContainer>.dislike {
+.like,
+.dislike {
     opacity: 0.5;
     transition: 0.3s;
 }
 
-.cardContainer>.like:hover,
-.cardContainer>.dislike:hover {
+.like:hover,
+.dislike:hover {
     opacity: 1.0;
 }
 
-.cardContainer>.favorite,
-.cardContainer>.like,
-.cardContainer>.dislike {
+.favorite,
+.like,
+.dislike {
     float: right;
     margin-left: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
