@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Purchase {
 	private int purchaseCode; //구매코드
-	private String customerEmail; //고객ID
+	private Customer customerEmail; //고객ID
 	private Date purchaseDate; //구매일자
 	private List<PurchaseDetail> purchaseDetails; //구매상세내역
 	private Review review; //리뷰
 	
 	public Purchase() {}
 
-	public Purchase(int purchaseCode, String customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetails,
+	public Purchase(int purchaseCode, Customer customerEmail, Date purchaseDate, List<PurchaseDetail> purchaseDetails,
 			Review review) {
 		super();
 		this.purchaseCode = purchaseCode;
@@ -29,11 +29,11 @@ public class Purchase {
 		this.purchaseCode = purchaseCode;
 	}
 
-	public String getCustomerEmail() {
+	public Customer getCustomerEmail() {
 		return customerEmail;
 	}
 
-	public void setCustomerEmail(String customerEmail) {
+	public void setCustomerEmail(Customer customerEmail) {
 		this.customerEmail = customerEmail;
 	}
 
@@ -67,6 +67,7 @@ public class Purchase {
 				+ purchaseDate + ", purchaseDetails=" + purchaseDetails + ", review=" + review + "]";
 	}
 
+	
 	
 	
 	

@@ -116,7 +116,7 @@ public class PurchaseDAO {
 			ps = con.prepareStatement(insertSQL);
 			
 			//현재 사용자ID를 추가
-			ps.setString(1, p.getCustomerEmail());
+			ps.setString(1, p.getCustomerEmail().getCustomerEmail());
 			ps.executeUpdate();
 			ps.close();
 			
