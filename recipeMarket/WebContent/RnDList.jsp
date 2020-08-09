@@ -8,6 +8,7 @@
 <c:set var="pb" value="${requestScope.pb}"/>
 <c:set var="currentPage" value="${pb.currentPage}"/>
 <c:set var="list" value="${pb.list}"/>
+<c:set var="CNT_PER_PAGE" value="${PageBean.CNT_PER_PAGE}"/>
 <c:set var="CNT_PER_PAGEGROUP" value="${PageBean.CNT_PER_PAGEGROUP}"/>
 <c:set var="startRow" value="${pb.startRow}"/>
 <c:set var="totalPage" value="${pb.totalPage}"/>
@@ -141,11 +142,17 @@
 
                         <tbody>
                         	<c:forEach items="${list}" var="r" varStatus="status">
+                        		<c:set var="cur" value="${status.index}"/>
                             	<tr>
-                            		<td>${status.index + startRow}</td>
+                            		<td>${cur + startRow}</td>
                             		<td>${r.rdEmail}</td>
                             		<td>${r.rdTeamName}</td>
                             		<td><img></td>
+                            	</tr>
+                            </c:forEach>
+                            <c:forEach begin="${cur + 1}" end="${CNT_PER_PAGE - 1}">
+                            	<tr>
+                            		<td colspan="4" style="color: white">#</td>
                             	</tr>
                             </c:forEach>
                         </tbody>
