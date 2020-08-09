@@ -81,23 +81,6 @@ $(() => {
         return false;
     });
 
-    $(".deleteBtn").on("click", function(evt) {
-        $.ajax({
-            url: "./remove",
-            data: { rd_email : $("#rd_email").val() },
-            success: (responseObj) => {
-                if (responseObj.status == "success") {
-                	alert("Account has been deleted");
-                	history.back();
-                } else {
-                	alert("Account has not been deleted");
-                }
-            }
-        });
-
-        return false;
-    });
-
     $(form).on("submit", function() {
         return false;
     });

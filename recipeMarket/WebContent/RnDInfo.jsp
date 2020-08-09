@@ -64,6 +64,27 @@
         }
     </style>
     
+    <script>
+    	$(function() {
+    	    $(".deleteBtn").on("click", function(evt) {
+    	        $.ajax({
+    	            url: "./remove",
+    	            data: { rd_email : $("#rd_email").val() },
+    	            success: function(responseObj) {
+    	                if (responseObj.status == "success") {
+    	                	alert("Account has been deleted");
+    	                	location.href = "${contextPath}/rnd/list?currentPage=${recentPage}";
+    	                } else {
+    	                	alert("Account has not been deleted");
+    	                }
+    	            }
+    	        });
+
+    	        return false;
+    	    });
+    	})
+    </script>
+    
 </head>
 <body>
     <header>

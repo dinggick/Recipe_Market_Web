@@ -104,6 +104,7 @@ public class RnDService {
 			throw new FindException("The page does not exist");
 		
 		int rowCnt = rdDAO.selectCount();
+		System.out.println(rowCnt);
 		PageBean pb = new PageBean(page, rowCnt);
 		
 		List<RnD> list = rdDAO.selectAll(pb.getStartRow(), pb.getEndRow());

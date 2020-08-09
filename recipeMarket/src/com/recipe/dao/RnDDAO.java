@@ -277,7 +277,7 @@ public class RnDDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String selectCountSQL = "SELECT COUNT(*) FROM rd";
+		String selectCountSQL = "SELECT COUNT(*) FROM rd WHERE rd_status = '1'";
 
 		try {
 			con = MyConnection.getConnection();
