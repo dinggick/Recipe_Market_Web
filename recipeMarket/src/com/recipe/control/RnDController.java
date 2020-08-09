@@ -113,6 +113,7 @@ public class RnDController implements Controller {
 			}
 		} else if ("/list".equals(pathInfo)) { /* Show RnD list */			
 			String strPage = request.getParameter("currentPage");
+			System.out.println("hello");
 			
 			int currentPage = 1;
 			
@@ -124,6 +125,8 @@ public class RnDController implements Controller {
 				pb.setUrl(servletPath);
 								
 				request.setAttribute("pb", pb);
+				
+				System.out.println(pb);
 				
 				jspFileName = "/RnDList.jsp";
 				

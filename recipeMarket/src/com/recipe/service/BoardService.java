@@ -65,12 +65,18 @@ public class BoardService {
 		int rowCnt = dao.selectCount();
 		PageBean pb = new PageBean(page, rowCnt);
 		
-		List<Board> list = dao.selectAll(pb.getStartRow(), pb.getEndRow());
+		List list = dao.selectAll(pb.getStartRow(), pb.getEndRow());
 		pb.setList(list);
 		
 		return pb;
 	}
 
+	/**
+	 * 
+	 * @param board_no
+	 * @return
+	 * @throws FindException
+	 */
 	public List<Board> findByNo(int board_no) throws FindException {
 		return dao.selectByNo(board_no);
 	}

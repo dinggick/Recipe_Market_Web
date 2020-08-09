@@ -1,0 +1,95 @@
+.contentsWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+
+    background-color: #F4EFEA;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.listWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 600px;
+    width: 100%;
+    border-radius: 10px;
+
+    text-align: center;
+}
+table {
+    height: 500px;
+    width: 900px;
+
+    border-collapse: collapse;
+}
+table td {
+    width: 100px;
+}
+thead {
+    /* background-color: rgb(52, 152, 219); */
+    background-color: #ddd;
+    opacity: 0.9;
+}
+thead > tr {
+    height: 50px;
+    border-bottom: 3px solid black;
+}
+tbody {
+    background-color: white;
+}
+tbody > tr img {
+    height: 20px;
+    cursor: pointer;
+}
+tr {
+    /* border-top: 3px solid black;
+    border-bottom: 3px solid black; */
+}
+tbody tr:hover {
+    background-color: ghostwhite;
+}
+/* .functionSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    height: 60px;
+    width: 700px;
+}
+.searchSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;        
+} */
+.pagingSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    
+    border-top: 1px solid;
+
+    margin-top: 30px;
+    padding-top: 10px;
+
+    width: 200px;
+}
+.pagingSection img {
+    height: 15px;
+    cursor: pointer;
+}
+.pagingSection span {
+    cursor: pointer;
+}
+.pagingSection span:hover {
+    color: grey;
+}
