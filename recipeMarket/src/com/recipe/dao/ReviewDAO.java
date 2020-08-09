@@ -12,7 +12,9 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
 import com.recipe.jdbc.MyConnection;
-import com.recipe.vo.Point;
+import com.recipe.vo.Customer;
+import com.recipe.vo.Purchase;
+import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 /**
@@ -27,7 +29,7 @@ public class ReviewDAO {
 	 * @throws FindException
 	 * @author Soojeong
 	 */
-	public List selectByCode(int recipeCode) throws FindException {
+	public List<Review> selectByCode(int recipeCode) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -58,22 +60,26 @@ public class ReviewDAO {
 			
 			while ( rs.next() ) {
 				// 리뷰등록날짜, 리뷰내용, 레시피코드, 리뷰등록한 사용자
+				
+				// PurchaseDetail 
+				Customer customer = new Customer();
+				customer.setCustomerName(rs.getString("C.CUSTOMER_NAME"));
+
+				Purchase purchase = new Purchase();
+				purchase.setCustomerEmail(customer);
+				
+				List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
+				RecipeInfo recipeInfo = new RecipeInfo();
+				recipeInfo.setRecipeCode(rs.getInt("PD.RECIPE_CODE"));
+				
+				PurchaseDetail purchaseDetail = new PurchaseDetail();
+				purchaseDetail.setRecipeInfo(recipeInfo);
+				list.add(purchaseDetail);
+				
 				Review r = new Review();
+				r.setReviewDate(rs.getDate("R.REVIEW_DATE"));
 				r.setReviewComment(rs.getString("R.REVIEW_COMMENT"));
-				r.setReviewDate(rs.getDate("R.REVIEW_COMMENT"));
-				
-				
-				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
-				r.setReviewDate(rs.getDate("REVIEW_DATE"));
-				
-				Point p = new Point();
-				p.setRecipeCode(rs.getInt("RECIPE_CODE"));
-				p.setLikeCount(rs.getInt("LIKE_COUNT"));
-				p.setDisLikeCount(rs.getInt("DISLIKE_COUNT"));
-				
-				RecipeInfo info = new RecipeInfo();
-				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
-				info.setPoint(p);
+				r.setPurchase(purchase);
 				
 				reviewList.add(r);
 			} //end while
@@ -111,6 +117,8 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = con.prepareStatement(insertSQL);
+			pstmt.setInt(1, r.getPurchase().getPurchaseCode());
+			pstmt.setString(2, r.getReviewComment());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -121,7 +129,6 @@ public class ReviewDAO {
 				e.printStackTrace();
 				throw new AddException("Fail : 후기 등록에 실패하였습니다.");
 			}
-			
 		} finally {
 			MyConnection.close(pstmt, con);
 		}
@@ -149,6 +156,7 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
+			pstmt.setInt(1, purchaseCode);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -180,17 +188,17 @@ public class ReviewDAO {
 			e.getStackTrace();
 		}
 		
-		String selectSQL = "SELECT R.purchase_code\r\n" + 
-				"         , R.review_comment\r\n" + 
-				"         , P.purchase_date\r\n" + 
-				"         , PD.recipe_code\r\n" + 
-				"         , RI.recipe_name\r\n" + 
-				"FROM review R\r\n" + 
-				"   JOIN purchase P ON (R.purchase_code = P.purchase_code)\r\n" + 
-				"   JOIN customer C ON (C.customer_email = P.customer_email)\r\n" + 
-				"   JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code)\r\n" + 
-				"   JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code)\r\n" + 
-				"WHERE\r\n" + 
+		String selectSQL = "SELECT R.purchase_code " + 
+				"         , R.review_comment " + 
+				"         , P.purchase_date " + 
+				"         , PD.recipe_code " + 
+				"         , RI.recipe_name " + 
+				"FROM review R " + 
+				"   JOIN purchase P ON (R.purchase_code = P.purchase_code) " + 
+				"   JOIN customer C ON (C.customer_email = P.customer_email) " + 
+				"   JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code) " + 
+				"   JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code) " + 
+				"WHERE " + 
 				"   C.customer_email = ? and RI.recipe_status = 1";
 		try {
 			pstmt = con.prepareStatement(selectSQL);
@@ -199,21 +207,28 @@ public class ReviewDAO {
 			reviewList = new ArrayList<>();
 			
 			while ( rs.next() ) {
+				
+				PurchaseDetail purchaseDetail = new PurchaseDetail();
+				RecipeInfo recipeInfo = new RecipeInfo();
+				recipeInfo.setRecipeCode(rs.getInt("PD.recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("RI.recipe_name"));
+				
+				purchaseDetail.setRecipeInfo(recipeInfo);
+				
+				List<PurchaseDetail> purchaseDetails = new ArrayList<PurchaseDetail>();
+				purchaseDetails.add(purchaseDetail);
+				
+				
+				Purchase purchase = new Purchase();
+				purchase.setPurchaseCode(rs.getInt("R.purchase_code"));
+				purchase.setPurchaseDate(rs.getDate("P.purchase_date"));
+				purchase.setPurchaseDetails(purchaseDetails);
+				
+				
 				Review r = new Review();
-				//r.setCustomerId(rs.getString("CUSTOMER_ID"));
-				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
-				r.setReviewDate(rs.getDate("REVIEW_DATE"));
-				
-				Point p = new Point();
-				p.setRecipeCode(rs.getInt("RECIPE_CODE"));
-				p.setLikeCount(rs.getInt("LIKE_COUNT"));
-				p.setDisLikeCount(rs.getInt("DISLIKE_COUNT"));
+				r.setPurchase(purchase);
+				r.setReviewComment(rs.getString("R.review_comment"));
 
-				RecipeInfo info = new RecipeInfo();
-				info.setPoint(p);
-				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
-				info.setRecipeName(rs.getString("RECIPE_NAME"));
-				
 				reviewList.add(r);
 			} //end while
 			
@@ -225,6 +240,6 @@ public class ReviewDAO {
 			MyConnection.close(rs, pstmt, con);
 		}
 		return reviewList;
-	} // end method selectById();
+	} // end method selectByEmail();
 	
 } //end class ReviewDAO

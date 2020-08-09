@@ -32,7 +32,7 @@ public class ReviewService {
 	 * @throws FindException
 	 * @author Soojeong
 	 */
-	public List findByCode(int recipeCode) throws FindException {
+	public List<Review> findByCode(int recipeCode) throws FindException {
 		return dao.selectByCode(recipeCode);
 	}
 	
