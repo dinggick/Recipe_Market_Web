@@ -8,8 +8,8 @@ import com.recipe.dao.RecipeIngredientDAO;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
-import com.recipe.vo.Point;
 import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeService {
