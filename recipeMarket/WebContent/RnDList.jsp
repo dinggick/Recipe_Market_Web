@@ -7,6 +7,7 @@
 <c:set var="pb" value="${requestScope.pb}"/>
 <c:set var="currentPage" value="${pb.currentPage}"/>
 <c:set var="list" value="${pb.list}"/>
+<c:set var="CNT_PER_PAGEGROUP" value="${PageBean.CNT_PER_PAGEGROUP}"/>
 <c:set var="startRow" value="${pb.startRow}"/>
 <c:set var="totalPage" value="${pb.totalPage}"/>
 <c:set var="startPage" value="${pb.startPage}"/>
@@ -42,8 +43,19 @@
     <script src="${contextPath}/js/RnDList.js"></script>
     <script>
     	$(function() {
-    		$("table > tbody img").attr({ "src": "${contextPath}" + "/img/register.png", "alt": "register" });
-    		
+    		$("table > tbody img").attr({ "src": "${contextPath}/img/register.png", "alt": "register" });
+ 			$("img[alt=prev1]").click(function() {
+ 				location.href = "${contextPath}/rnd/list?currentPage=${currentPage - 1}";
+ 			});
+    		$("img[alt=next1]").click(function() {
+ 				location.href = "${contextPath}/rnd/list?currentPage=${currentPage + 1}";
+ 			});
+ 			$("img[alt=prev2]").click(function() {
+ 				location.href = "${contextPath}/rnd/list?currentPage=${startPage - CNT_PER_PAGEGROUP}";
+ 			});
+    		$("img[alt=next2]").click(function() {
+ 				location.href = "${contextPath}/rnd/list?currentPage=${endPage + 1}";
+ 			});
     	});
     </script>
 </head>
@@ -143,14 +155,14 @@
 						<c:forEach begin="${startPage}" end="${endPage}" var="i">
 							<c:choose>
                         		<c:when test="${currentPage == i}">
-                        			<span style="
+                        			<a href="${contextPath}/rnd/list?currentPage=${i}" style="
                         							color: #D2302C; 
                         							font-weight: border">
                         				${i}
-                        			</span>				
+                        			</a>				
                         		</c:when>
                         		<c:otherwise>
-                        			<span>${i}</span>
+                        			<a href="${contextPath}/rnd/list?currentPage=${i}">${i}</a>
                         		</c:otherwise>
                         	</c:choose>
                         </c:forEach>

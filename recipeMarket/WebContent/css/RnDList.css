@@ -87,9 +87,10 @@ tbody tr:hover {
     height: 15px;
     cursor: pointer;
 }
-.pagingSection span {
-    cursor: pointer;
+.pagingSection a {
+	text-decoration: none;
+    color:lightslategray;
 }
-.pagingSection span:hover {
+.pagingSection a:hover {
     color: grey;
 }

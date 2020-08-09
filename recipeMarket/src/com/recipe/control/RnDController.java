@@ -61,7 +61,6 @@ public class RnDController implements Controller {
 		
 		if("/add".equals(pathInfo)) { /* Add RnD's account */
 			try {
-				RnD rnd = RnDMethod.getNewInstance(request);
 				service.add(RnDMethod.getNewInstance(request));
 				
 				jspFileName = "/success.jsp";
