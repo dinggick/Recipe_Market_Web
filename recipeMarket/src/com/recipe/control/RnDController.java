@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
@@ -100,6 +101,7 @@ public class RnDController implements Controller {
 				request.setAttribute("msg", e.getMessage());
 			}
 		} else if ("/info".equals(pathInfo)) { /* Show RnD's account */
+			System.out.println("world");
 			try {
 				RnD rnd = service.findById(request.getParameter("rd_email"));
 				request.setAttribute("rnd", rnd);
@@ -110,14 +112,18 @@ public class RnDController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/list".equals(pathInfo)) { /* Show RnD list */			
+		} else if ("/list".equals(pathInfo)) { /* Show RnD list */
 			String strPage = request.getParameter("currentPage");
-			System.out.println("hello");
 			
 			int currentPage = 1;
 			
 			if(!"".equals(strPage))
 				currentPage = Integer.parseInt(strPage);
+			
+			HttpSession session = null;
+			session = request.getSession();
+			
+			session.setAttribute("recentPage", currentPage);
 			
 			try {				
 				PageBean pb = service.findAll(currentPage);

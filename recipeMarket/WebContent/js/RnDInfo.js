@@ -31,23 +31,12 @@ $(() => {
     });
 
     var rdPwd = false;
-    $buttonSection.on("click", ".confirmBtn", function(evt) { 
-        if (!rdPwd) {
-            return false;
-        }
-
-        $dataInput.attr("readonly", "true");
-        $(this).remove();
-
-        $("#r_rd_pwd").parent().parent().remove();
-
-        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">reviseBtn</button>");
-        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">deleteBtn</button>");
-    });
-
+    
     $infoWrapper.on("blur", "#rd_pwd, #r_rd_pwd", function(evt) {
-        if ($("#rd_pwd").val() == undefined || $("#r_rd_pwd").val() == undefined)
+        if ($("#rd_pwd").val() == "" || $("#r_rd_pwd").val() == "") {
+        	rdPwd = false;
             return;
+        }
         
         if ($("#rd_pwd").val() != $("#r_rd_pwd").val()) {
             $("#r_rd_pwd").css("border", "0.5px solid red");
@@ -58,54 +47,50 @@ $(() => {
             rdPwd = true;
         }
     });
-
-    $(".deleteBtn").on("click", function(evt) {
-        $.ajax({
-            url: "rnd/remove",
-            data: { rd_email : $("#rd_email").val() },
-            success: (responseObj) => {
-                if (responseObj.status == "success") {
-
-                } else {
-
-                }
-            }
-        });
-
-        return false;
-    });
-
-    $buttonSection.on("click", ".deleteBtn", function(evt) {
-        $.ajax({
-            url: "rnd/remove",
-            data: { rd_email : $("#rd_email").val() },
-            success: (responseObj) => {
-                if (responseObj.status == "success") {
-
-                } else {
-
-                }
-            }
-        });
-
-        return false;
-    });
-
-    $buttonSection.on("click", ".confirmBtn", function(evt) {
+    
+    $buttonSection.on("click", ".confirmBtn", function(evt) { 
         if (!rdPwd) {
             alert("Passwords do not match");
             $("#r_rd_pwd").css("border", "0.5px solid red");
             return false;
         }
+        
+        rdPwd = false;
 
+        $dataInput.attr("readonly", "true");
+        $(this).remove();
+
+        $("#r_rd_pwd").parent().parent().remove();
+
+        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">reviseBtn</button>");
+        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">deleteBtn</button>");
+        
         $.ajax({
-            url: "rnd/modify",
-            data: $(form).serialize(),
+            url: "./modify",
+            data: $("form").serialize(),
             success: (responseObj) => {
                 if (responseObj.status == "success") {
-
+                	alert("Account has been modified");
                 } else {
-                    
+                	alert("Account has not been modified");
+                }
+            	location.reload();
+            }
+        });
+        
+        return false;
+    });
+
+    $(".deleteBtn").on("click", function(evt) {
+        $.ajax({
+            url: "./remove",
+            data: { rd_email : $("#rd_email").val() },
+            success: (responseObj) => {
+                if (responseObj.status == "success") {
+                	alert("Account has been deleted");
+                	history.back();
+                } else {
+                	alert("Account has not been deleted");
                 }
             }
         });

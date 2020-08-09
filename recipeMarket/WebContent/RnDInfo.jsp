@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@	page import="com.recipe.vo.RnD"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+
+<c:set var="rnd" value="${requestScope.rnd}"/>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -6,24 +13,24 @@
 
     <title>RnDInfo</title>
 
-    <link rel="icon" href="./images/titlecon.png">
+    <link rel="icon" href="${contextPath}/images/titlecon.png">
 
-    <link rel="stylesheet" href="./css/adminCommonSection.css">
+    <link rel="stylesheet" href="${contextPath}/css/adminCommonSection.css">
 
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
 
-    <link rel="stylesheet" href="./css/RnDInfo.css">
+    <link rel="stylesheet" href="${contextPath}/css/RnDInfo.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/adminCommonSection.js"></script>
-    <script src="js/RnDInfo.js"></script>
+    <script src="${contextPath}/js/adminCommonSection.js"></script>
+    <script src="${contextPath}/js/RnDInfo.js"></script>
 
-    <script src="./js/header.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/dropdownMenu.js"></script>
+    <script src="${contextPath}/js/header.js"></script>
+    <script src="${contextPath}/js/footer.js"></script>
+    <script src="${contextPath}/js/dropdownMenu.js"></script>
 
     <style>
     /* .infoWrapper {
@@ -59,14 +66,19 @@
     
 </head>
 <body>
-    <header id="header" style="background-color: #D2302C;">
-        <div class="headerLeftSection" style="background-color: #D2302C;">
-            <!-- <img src="./images/titlecon.png" style="width: 50px; padding-left: 10px; background-color: #D2302C;"> -->
+    <header>
+        <!-- 왼쪽 영역 -->
+        <div class="headerLeftSection">
+            <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
-        <div class="headerRightSection" style="background-color: #D2302C;">
+        <!-- 오른쪽 영역 -->
+        <div class="headerRightSection">
+            <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <img src="./images/user.png" class="account">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
+                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
                     <a href="#">Menu 2</a>
@@ -97,8 +109,8 @@
                 <li>
                     <span>RnD management</span>
                     <ul>
-                        <li><span>AddRnD</span></li>
-                        <li><span>RnDList</span></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
                     </ul>
                 </li>                
                 <li>
@@ -119,19 +131,19 @@
                 <form autocomplete="off" class="formWrapper" action="#" method="post">
                     <table>
                         <tr>
-                            <td><label for="rd_id">rd_id</label></td><td><input class="dataInput" type="text" id="rd_id" name="rd_id" readonly value="naneun@naver.com"></td>
+                            <td><label for="rd_id">rd_email</label></td><td><input class="dataInput" type="text" id="rd_email" name="rd_email" readonly value="${rnd.rdEmail}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_pwd">rd_pwd</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="123123"></td>
+                            <td><label for="rd_pwd">rd_pwd</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="${rnd.rdPwd}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_manager_name">rd_manager_name</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="조용환"></td>
+                            <td><label for="rd_manager_name">rd_manager_name</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="${rnd.rdManagerName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_team_name">rd_team_name</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="E&M"></td>
+                            <td><label for="rd_team_name">rd_team_name</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="${rnd.rdTeamName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_phone">rd_phone</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="01099679639"></td>
+                            <td><label for="rd_phone">rd_phone</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
                         </tr>                    
                     </table>                   
                     <div class="buttonSection">

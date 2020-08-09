@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@	page import="com.recipe.model.PageBean"%>
 <%@	page import="com.recipe.vo.RnD"%>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
 <c:set var="pb" value="${requestScope.pb}"/>
@@ -43,7 +44,7 @@
     <script src="${contextPath}/js/RnDList.js"></script>
     <script>
     	$(function() {
-    		$("table > tbody img").attr({ "src": "${contextPath}/img/register.png", "alt": "register" });
+    		$("table > tbody img").attr({ "src": "${contextPath}/img/register.png", "alt": "showInfo" });
  			$("img[alt=prev1]").click(function() {
  				location.href = "${contextPath}/rnd/list?currentPage=${currentPage - 1}";
  			});
@@ -56,19 +57,29 @@
     		$("img[alt=next2]").click(function() {
  				location.href = "${contextPath}/rnd/list?currentPage=${endPage + 1}";
  			});
+    		$("img[alt=showInfo]").click(function(evt) {
+    			var url = "${contextPath}/rnd/info?rd_email=";
+    			var rd_email = $(this).parent().parent().children("td:nth-child(2)").text();
+    			location.href = url + rd_email;
+    		});
     	});
     </script>
 </head>
 <body>
 
-    <header id="header" style="background-color: #D2302C;">
-        <div class="headerLeftSection" style="background-color: #D2302C;">
-            <!-- <img src="./images/titlecon.png" style="width: 50px; padding-left: 10px; background-color: #D2302C;"> -->
+    <header>
+        <!-- 왼쪽 영역 -->
+        <div class="headerLeftSection">
+            <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
-        <div class="headerRightSection" style="background-color: #D2302C;">
+        <!-- 오른쪽 영역 -->
+        <div class="headerRightSection">
+            <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <img src="${contextPath}/images/user.png" class="account">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
+                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
                     <a href="#">Menu 2</a>
@@ -97,7 +108,6 @@
         <div class="menuWrapper">
             <ul>
                 <li>
-                	<span>${contextPath}</span>
                     <span>RnD management</span>
                     <ul>
                         <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
