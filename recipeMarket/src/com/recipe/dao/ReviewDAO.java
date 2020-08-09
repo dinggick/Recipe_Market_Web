@@ -21,35 +21,28 @@ import com.recipe.vo.Review;
  */
 public class ReviewDAO {
 	
-	public static void main(String[] args) {
-		//test_review_selectByCode();
-		//test_review_selectById();
-		//test_review_insert();
-		test_review_remove();
-	}//end method main();
-	
 	/**
-	 * 레시피후기목록조회
-	 * @param int recipeCode
-	 * @return List<Review>
+	 * recipeCode로  후기목록 조회
+	 * @param recipeCode
+	 * @throws FindException
+	 * @author Soojeong
 	 */
-	public List<Review> selectByCode(int recipeCode) throws FindException {
+	public List selectByCode(int recipeCode) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Review> reviewList = null;
 
-		String selectSQL = "SELECT CUSTOMER_ID " + 
-				", REVIEW_COMMENT " + 
-				", REVIEW_DATE " + 
-				", r.RECIPE_CODE " + 
-				", LIKE_COUNT " + 
-				", DISLIKE_COUNT " + 
-				", info.RECIPE_NAME "+
-				"  FROM REVIEW r "
-				+ " LEFT JOIN POINT p ON r.recipe_code = p.recipe_code "
-				+ " JOIN RECIPE_INFO info ON info.recipe_code = r.recipe_code "
-				+ " WHERE p.RECIPE_CODE = ?";
+		String selectSQL = "SELECT R.REVIEW_DATE " + 
+				"        , R.REVIEW_COMMENT " + 
+				"        , PD.RECIPE_CODE " + 
+				"        , C.CUSTOMER_NAME " + 
+				"FROM purchase_detail PD " + 
+				"JOIN review R  on PD.purchase_code = R.purchase_code " + 
+				"JOIN purchase P on P.purchase_code = PD.purchase_code " + 
+				"JOIN customer C on P.customer_email = C.customer_email " + 
+				"WHERE recipe_code = ?  " + 
+				"ORDER BY REVIEW_DATE DESC";
 		
 		try {
 			con = MyConnection.getConnection();		
@@ -64,8 +57,12 @@ public class ReviewDAO {
 			reviewList = new ArrayList<>();
 			
 			while ( rs.next() ) {
+				// 리뷰등록날짜, 리뷰내용, 레시피코드, 리뷰등록한 사용자
 				Review r = new Review();
-				//r.setCustomerId(rs.getString("CUSTOMER_ID"));
+				r.setReviewComment(rs.getString("R.REVIEW_COMMENT"));
+				r.setReviewDate(rs.getDate("R.REVIEW_COMMENT"));
+				
+				
 				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
 				r.setReviewDate(rs.getDate("REVIEW_DATE"));
 				
@@ -77,7 +74,6 @@ public class ReviewDAO {
 				RecipeInfo info = new RecipeInfo();
 				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
 				info.setPoint(p);
-				r.setRecipeInfo(info);
 				
 				reviewList.add(r);
 			} //end while
@@ -95,15 +91,16 @@ public class ReviewDAO {
 
 	
 	/**
-	 * 나의 후기 등록
-	 * @param Review r
+	 * Review 객체로 리뷰 등록
+	 * @param Review 객체
+	 * @throws AddException, DuplicatedException
+	 * @author Soojeong
 	 */
 	public void insert(Review r) throws AddException, DuplicatedException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		String insertSQL = "INSERT INTO REVIEW(customer_id,recipe_code,review_comment,review_date)"
-				+ " values (?,?,?,sysdate)"; 
+		String insertSQL = "INSERT INTO REVIEW (purchase_code ,review_comment, review_date) VALUES ( ? , ? , SYSDATE)"; 
 
 		try {
 			con = MyConnection.getConnection();
@@ -114,9 +111,6 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			//pstmt.setString(1, r.getCustomerId());
-			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
-			pstmt.setString(3, r.getReviewComment());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -135,16 +129,16 @@ public class ReviewDAO {
 	} // end method insert();
 
 	/**
-	 * 나의 후기 등록
-	 * @param Review r
+	 * purchaseCode로 리뷰 삭제 ( 구매 1 : 리뷰 1 의 관계 )
+	 * @param purchaseCode
+	 * @throws RemoveException
+	 * @author Soojeong
 	 */
-	public void deleteByIdnCode(Review r ) throws RemoveException {
+	public void deleteByPurchaseCode(int purchaseCode ) throws RemoveException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		String deleteSQL = "DELETE FROM REVIEW "
-				+ " WHERE CUSTOMER_ID = ?"
-				+ " AND RECIPE_CODE = ?"; 
+		String deleteSQL = "DELETE FROM REVIEW WHERE purchase_code = ?"; 
 
 		try {
 			con = MyConnection.getConnection();
@@ -155,8 +149,6 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
-			//pstmt.setString(1, r.getCustomerId());
-			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -169,11 +161,13 @@ public class ReviewDAO {
 	} // end method ();
 	
 	/**
-	 * 나의 후기 목록 보기
-	 * @param String customerId
-	 * @return List<Review>
+	 * customerEmail
+	 * @return review 목록 반환
+	 * @param customerEmail
+	 * @throws FindException
+	 * @author Soojeong
 	 */
-	public List<Review> selectById(String customerId) throws FindException {
+	public List<Review> selectByEmail(String customerEmail) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -186,20 +180,21 @@ public class ReviewDAO {
 			e.getStackTrace();
 		}
 		
-		String selectSQL = "SELECT CUSTOMER_ID"
-				+ ", REVIEW_COMMENT"
-				+ ", REVIEW_DATE"
-				+ ", r.RECIPE_CODE"
-				+ ", LIKE_COUNT"
-				+ ", DISLIKE_COUNT"
-				+ ", info.RECIPE_NAME"
-				+ "  FROM REVIEW r "
-				+ " LEFT JOIN POINT p ON r.recipe_code = p.recipe_code"
-				+ " JOIN RECIPE_INFO info ON info.recipe_code = r.recipe_code "
-				+ " WHERE r.CUSTOMER_ID = ?";
+		String selectSQL = "SELECT R.purchase_code\r\n" + 
+				"         , R.review_comment\r\n" + 
+				"         , P.purchase_date\r\n" + 
+				"         , PD.recipe_code\r\n" + 
+				"         , RI.recipe_name\r\n" + 
+				"FROM review R\r\n" + 
+				"   JOIN purchase P ON (R.purchase_code = P.purchase_code)\r\n" + 
+				"   JOIN customer C ON (C.customer_email = P.customer_email)\r\n" + 
+				"   JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code)\r\n" + 
+				"   JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code)\r\n" + 
+				"WHERE\r\n" + 
+				"   C.customer_email = ? and RI.recipe_status = 1";
 		try {
 			pstmt = con.prepareStatement(selectSQL);
-			pstmt.setString(1, customerId);
+			pstmt.setString(1, customerEmail);
 			rs = pstmt.executeQuery();
 			reviewList = new ArrayList<>();
 			
@@ -218,7 +213,6 @@ public class ReviewDAO {
 				info.setPoint(p);
 				info.setRecipeCode(rs.getInt("RECIPE_CODE"));
 				info.setRecipeName(rs.getString("RECIPE_NAME"));
-				r.setRecipeInfo(info);
 				
 				reviewList.add(r);
 			} //end while
@@ -232,106 +226,5 @@ public class ReviewDAO {
 		}
 		return reviewList;
 	} // end method selectById();
-	
-	
-	// test_review_selectByCode
-	private static void test_review_selectByCode() {
-		ReviewDAO dao = new ReviewDAO();
-		int recipeCode = 134;
-		
-		List <Review> reviewList = new ArrayList<>();
-		
-		try {
-			reviewList = dao.selectByCode(recipeCode);
-			
-			if ( reviewList.size() == 0 ) {
-				System.out.println("Success : 등록된 후기 목록이 없습니다.");
-			} 
-			
-			System.out.println("Success : 후기 등록에 성공하였습니다.");
-			for ( Review r  : reviewList ) {
-				System.out.println("recipeCode: " + r.getRecipeInfo().getRecipeCode());
-				//System.out.println("customer_ID : " + r.getCustomerId());
-				System.out.println("reviewComment : " + r.getReviewComment());
-				System.out.println("reviewDate : " + r.getReviewDate());
-			}
-		} catch ( FindException e ) {
-			System.out.println(e.getMessage());
-		}
-	} //end test method 
-	
-	// test_review_selectByCode
-	private static void test_review_selectById() {
-		ReviewDAO dao = new ReviewDAO();
-		String customerId = "tester";
-		List <Review> reviewList = new ArrayList<>();
-
-		try {
-			reviewList = dao.selectById(customerId);
-
-			if ( reviewList.size() == 0 ) {
-				System.out.println("Success : 등록된 후기 목록이 없습니다.");
-			} 
-			
-			System.out.println("Success : 후기 목록 조회에 성공하였습니다.");
-			for ( Review r  : reviewList ) {
-				System.out.println("recipeCode: " + r.getRecipeInfo().getRecipeCode());
-				//System.out.println("customer_ID : " + r.getCustomerId());
-				System.out.println("reviewComment : " + r.getReviewComment());
-				System.out.println("reviewDate : " + r.getReviewDate());
-			}
-			
-		} catch (FindException e) { 
-			System.out.println(e.getMessage());
-		}
-	} //end test method 
-	
-	// test_review_selectByCode
-	private static void test_review_insert() {
-		ReviewDAO dao = new ReviewDAO();
-
-		String customerId = "tester";
-		String reviewComment = "나물비빔밥 최고에요!";
-		int recipeCode = 2;
-		
-		RecipeInfo info = new RecipeInfo();
-		info.setRecipeCode(recipeCode);
-		
-		Review r = new Review();
-		//r.setCustomerId(customerId);
-		r.setReviewComment(reviewComment);
-		r.setRecipeInfo(info);
-		
-		try {
-			dao.insert(r);
-			System.out.println("Success : 후기 등록에 성공하였습니다.");
-		} catch (DuplicatedException e) { 
-			System.out.println(e.getMessage());
-		} catch (AddException e) { 
-			System.out.println(e.getMessage());
-		}
-	} //end test method 
-	
-	// test_review_selectByCode
-	private static void test_review_remove() {
-		ReviewDAO dao = new ReviewDAO();
-
-		String customerId = "tester";
-		int recipeCode = 2;
-		
-		RecipeInfo info = new RecipeInfo();
-		info.setRecipeCode(recipeCode);
-		
-		Review r = new Review();
-		//r.setCustomerId(customerId);
-		r.setRecipeInfo(info);
-		
-		try {
-			dao.deleteByIdnCode(r);
-			System.out.println("Success : 후기삭제 성공");
-		} catch (RemoveException e) { 
-			System.out.println(e.getMessage());
-		}
-	} //end test method 
 	
 } //end class ReviewDAO
