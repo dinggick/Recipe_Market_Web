@@ -81,6 +81,12 @@ $(() => {
 			$validIdSpan.fadeOut();
 			rdEmail = false;
         }
+        
+        if ($rdEmailInput.val() == "") {
+			$duplicatedIdSpan.fadeOut();
+            $invalidIdSpan.fadeOut();
+			$validIdSpan.fadeOut();
+        }
     });
 
     var $rdPwdInput = $("#rd_pwd");

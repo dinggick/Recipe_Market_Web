@@ -41,8 +41,9 @@
 
     <script src="${contextPath}/js/RnDList.js"></script>
     <script>
-    	$(() => {
+    	$(function() {
     		$("table > tbody img").attr({ "src": "${contextPath}" + "/img/register.png", "alt": "register" });
+    		
     	});
     </script>
 </head>
@@ -131,9 +132,11 @@
                     
                     <div class="pagingSection">
 
-                        <img src="${contextPath}/img/prev2.png" alt="prev2">
-                        
-                        <c:if test="${startPage > 1 }">
+						<c:if test="${startPage > 1 }">
+                        	<img src="${contextPath}/img/prev2.png" alt="prev2">
+						</c:if>
+						
+                        <c:if test="${currentPage > 1 }">
                         	<img src="${contextPath}/img/prev1.png" alt="prev1">
                         </c:if>
 
@@ -141,10 +144,10 @@
 							<c:choose>
                         		<c:when test="${currentPage == i}">
                         			<span style="
-                        							color: white; 
+                        							color: #D2302C; 
                         							font-weight: border">
                         				${i}
-                        			</span>                        				
+                        			</span>				
                         		</c:when>
                         		<c:otherwise>
                         			<span>${i}</span>
@@ -156,8 +159,10 @@
                         	<img src="${contextPath}/img/next1.png" alt="next1">
                        	</c:if>
                        	
-                        <img src="${contextPath}/img/next2.png" alt="next2">
-                    
+                       	<c:if test="${endPage < totalPage}">
+                        	<img src="${contextPath}/img/next2.png" alt="next2">
+                    	</c:if>
+                    	
                     </div>
             </div>
         </div>                             
