@@ -219,7 +219,7 @@
                 	   		<td>${purchaseDetail.purchaseDetailQuantity*purchaseDetail.recipeInfo.recipePrice}</td>
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
-                	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
+                	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal" value="${p.purchaseCode}"><img src="./img/list.png" class="toy"></button>
                 	   			</c:if>
                 	   		</td></tr>
                 	   		</c:forEach>
