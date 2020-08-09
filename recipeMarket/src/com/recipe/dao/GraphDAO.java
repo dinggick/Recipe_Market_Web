@@ -31,9 +31,6 @@ public class GraphDAO {
 
 		List<Pair<Integer, Pair<String, Integer>>> list = null;
 
-		Pair<Integer, Pair<String, Integer>> p1 = null;
-		Pair<String, Integer> p2 = null;
-
 		String selectByYearSQL = 
 				"SELECT TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10 AS age_group\r\n"
 				+ "    , c.customer_gender AS group_gender\r\n"
@@ -63,15 +60,10 @@ public class GraphDAO {
 
 			list = new ArrayList<>();
 
-			while (rs.next()) {
-				int ageGroup = rs.getInt("age_group");
-				String groupGender = rs.getString("group_gender");
-				int purchaseAmount = rs.getInt("purchase_amount");
-
-				p2 = new Pair<>(groupGender, purchaseAmount);
-				p1 = new Pair<>(ageGroup, p2);
-				
-				list.add(p1);
+			while (rs.next()) {				
+				list.add(new Pair<>(rs.getInt("age_group")
+						, new Pair<>(rs.getString("group_gender")
+								, rs.getInt("purchase_amount"))));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -99,7 +91,6 @@ public class GraphDAO {
 		ResultSet rs = null;
 
 		List<Pair<String, Integer>> list = null;
-		Pair<String, Integer> p1 = null;
 
 		String selectByYearMonthSQL = 
 				"SELECT rd.rd_email AS rd_email\r\n"
@@ -126,12 +117,8 @@ public class GraphDAO {
 			rs.previous();
 
 			while (rs.next()) {
-				String rdEmail = rs.getString("rd_email");
-				int totalSales = rs.getInt("total_sales");
-
-				p1 = new Pair<>(rdEmail, totalSales);
-				
-				list.add(p1);
+				list.add(new Pair<>(rs.getString("rd_email")
+						, rs.getInt("total_sales")));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -160,7 +147,6 @@ public class GraphDAO {
 		ResultSet rs = null;
 
 		List<Pair<String, Integer>> list = null;
-		Pair<String, Integer> p1 = null;
 
 		String selectByYearMonthSQL = 
 				"SELECT ri.recipe_name AS recipe_name\r\n" + 
@@ -188,13 +174,9 @@ public class GraphDAO {
 
 			rs.previous();
 
-			while (rs.next()) {
-				String recipeName = rs.getString("recipe_name");
-				int salesVolume = rs.getInt("sales_volume");
-
-				p1 = new Pair<>(recipeName, salesVolume);
-				
-				list.add(p1);
+			while (rs.next()) {				
+				list.add(new Pair<>(rs.getString("recipe_name"), 
+						rs.getInt("sales_volume")));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
