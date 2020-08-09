@@ -63,7 +63,7 @@ public class PurchaseDAO {
 				pdList.add(pd);
 				
 				p.setPurchaseDate(rs.getDate("purchase_date"));
-				p.setPurchaseDetail(pdList);
+				p.setPurchaseDetails(pdList);
 				p.setReview(r);
 			
 				//Purchase list에 담는다
@@ -100,6 +100,7 @@ public class PurchaseDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
+		
 		try {
 			con = MyConnection.getConnection();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -115,17 +116,19 @@ public class PurchaseDAO {
 			ps = con.prepareStatement(insertSQL);
 			
 			//현재 사용자ID를 추가
-			ps.setString(1, p.getCustomerEmail());
+			ps.setString(1, p.getCustomerEmail().getCustomerEmail());
 			ps.executeUpdate();
 			ps.close();
 			
 			//위 쿼리문을 PurchaseDetail에 추가
 			ps = con.prepareStatement(insertSQL2);
 			
-			//ps.setInt(1, p.getPurchaseDetail().getRecipeInfo().getRecipeCode());
-			//ps.setInt(2, p.getPurchaseDetail().getPurchaseDetailQuantity());
-			
-			ps.executeUpdate();
+			for(PurchaseDetail pd : p.getPurchaseDetails()) {
+				ps.setInt(1, pd.getRecipeInfo().getRecipeCode());
+				ps.setInt(2, pd.getPurchaseDetailQuantity());
+				ps.addBatch();
+			}
+			ps.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException("구매되지 않았습니다");

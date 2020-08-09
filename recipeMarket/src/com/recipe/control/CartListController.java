@@ -9,23 +9,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.FindException;
+import com.recipe.service.CartService;
 import com.recipe.service.PurchaseService;
-import com.recipe.vo.Purchase;
+import com.recipe.vo.Cart;
 
-public class PurchaseListController implements Controller{
-	private static PurchaseListController instance;
-	private PurchaseService service;
+public class CartListController implements Controller {
+	private static CartListController instance;
+	private CartService service;
 	private static final long serialVersionUID = 1L;
 	
-	private PurchaseListController() {
-		service = PurchaseService.getInstance();
+	private CartListController() {
+		service = CartService.getInstance();
 	}
 	
-	public static PurchaseListController getInstance() {
-    	if(instance == null) instance = new PurchaseListController();
+	public static CartListController getInstance() {
+    	if(instance == null) instance = new CartListController();
     	return instance;
     }
-	
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
@@ -36,17 +36,16 @@ public class PurchaseListController implements Controller{
 		String servletPath = "";
 		
 		try {
-			List<Purchase> list = service.findById(customerEmail);
+			List<Cart> list = service.findById(customerEmail);
 			
 			request.setAttribute("list", list);
-			
-			servletPath = "/purchaseList.jsp";
-			return servletPath;
+			servletPath = "/recipeCart.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			return "/fail.jsp";
 		}
 		
-		
+		return servletPath;
 	}
+
 }
