@@ -29,8 +29,8 @@ public class RecipeService {
 		return instance;
 	}
 	
-	public List<RecipeInfo> findByName(String recipeName) throws FindException{
-		return recipeInfoDAO.selectByName(recipeName);		
+	public List<RecipeInfo> findRecipe(List<String> ingName) throws FindException{
+		return recipeInfoDAO.selectByNameAndIngredient(ingName);		
 	}
 	public RecipeInfo findByCode(int recipeCode) throws FindException {
 		return recipeInfoDAO.selectByCode(recipeCode);

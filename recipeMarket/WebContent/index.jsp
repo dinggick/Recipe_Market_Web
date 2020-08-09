@@ -51,7 +51,7 @@
                     <label>
                         <!-- 검색어 입력창 -->
                         <input type="text" class="searchText" size="40">
-                        <span class="fa fa-search searchIcon"></span>
+                      <a class="fa fa-search searchIcon"></a>
                     </label>
                 </form>
             </div>
