@@ -90,6 +90,7 @@ public class RecipeInfoDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException(e.getMessage());
 		}
+		
 		String newSQL =""; 
 		//더해질 쿼리
 		String selectByIngNameSQL ="SELECT RI.RECIPE_CODE, RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process, PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
@@ -110,10 +111,12 @@ public class RecipeInfoDAO {
 		if (ingName.size() == 1) {
 			newSQL = selectByIngNameSQL.substring(0, selectByIngNameSQL.length() -11);
 		}
+		
 		String recipeName = "";
 		for(String s : ingName) {
 			recipeName += s;
 		}
+	
 		newSQL += "UNION SELECT RIN.Recipe_code,RIN.img_url,RIN.RECIPE_NAME, RIN.RECIPE_SUMM, RIN.RECIPE_PRICE, RI.ing_code, ING.ING_NAME, RIN.recipe_process,PT.LIKE_COUNT, PT.DISLIKE_COUNT\r\n" + 
 				"FROM RECIPE_INGREDIENT RI \r\n" + 
 				"LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
@@ -121,15 +124,17 @@ public class RecipeInfoDAO {
 				"LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
 				"WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1";
 		try {
+			
 			pstmt = con.prepareStatement(newSQL);
 			for (int i = 1; i < ingName.size()+1; i++) {
 				pstmt.setString(i, "%" +ingName.get(i-1) + "%");
 			}
-			pstmt.setString(ingName.size() +1, recipeName);
+			pstmt.setString(ingName.size() +1, "%" + recipeName+"%");
 			rs = pstmt.executeQuery();
 			List<RecipeIngredient> ingList = null;	
 			int prevCode = 0;
-			while(rs.next()) {				
+			while(rs.next()) {	
+				
 				int rCode = rs.getInt("recipe_code");
 				//코드값이 바뀔떄 recipeInfo 객체 생성하고 값넣어줌		
 				if (prevCode != rCode) {					
@@ -157,10 +162,10 @@ public class RecipeInfoDAO {
 				ingList.add(recipeIng);
 
 			}
-			if (recipeInfo.size() == 0) {
-				throw new FindException("찾은 레시피가 없습니다");
-			}
-			System.out.println("찾은갯수" +recipeInfo.size());
+//			if (recipeInfo.size() == 0) {
+//				throw new FindException("찾은 레시피가 없습니다");
+//			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

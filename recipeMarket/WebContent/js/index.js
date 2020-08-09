@@ -65,21 +65,8 @@ addEventListener("load", () => {
 
     $('body > div > div > div > form > label > a').click(function(){
     	var value = $('.searchText').val();
-    	console.log(value);
-    	$.ajax({
-    		url: '/recipeMarket/recipeSearch',
-    		method: 'POST',
-    		data: {"ingName" : value },
-    		success: function(data){
-    			//var responseObj = JSON.parse(data);
-    			if (data.status == 'success') {
-    				alert('success');
-    			} else {
-    				alert('fail');
-    			}
-    			
-    		}
-    	});
+    	location.href = "/recipeMarket/recipeSearch?ingName="+value;
+    	
     });
 
 });

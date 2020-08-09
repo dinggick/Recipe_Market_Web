@@ -32,17 +32,19 @@ public class SearchController implements Controller {
 		List<String> ingName = new ArrayList<>();
 		
 		String value = request.getParameter("ingName");
+		request.setAttribute("ingName", value.trim());
 		String[] str = value.trim().split(" ");
 		for (String s : str) {
 			ingName.add(s);
-			System.out.println(s);
+			
 		}				
 		try {
 			List<RecipeInfo> infos = service.findRecipe(ingName);
 			request.setAttribute("recipeList", infos);
-			servletPath = "/success.jsp";
+			servletPath = "/recipeList.jsp";
 		} catch (FindException e) {
-			servletPath = "/fail.jsp";
+			servletPath = "/recipeList.jsp";
+			
 		}
 		return servletPath;
 	}
