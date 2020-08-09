@@ -196,13 +196,14 @@
 		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
 		  var quantity = $('.quantity').val();
 		  var recipePrice = parseInt($(this).parent().parent().find('td:nth-child(4)').html());
-		 
+		  var total=0;
 		  $.ajax({
 			  url:'/recipeMarket/cartUpdate',
 			  data:{recipeCode:$recipeCode,quantity:quantity},
 			  success:function(responseObj){
 				  if(responseObj.status=="success"){
 					  $('.price').html((recipePrice*quantity)+'원');
+					 
 				  }else{
 					  alert('수량변경실패');
 				  }
@@ -254,7 +255,7 @@
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:forEach items="${requestScope.list}" var="c">
 						  <tr class="cartList">
-						  	<c:set var="total" value="0"></c:set>
+						  	<c:set var="total" value=""></c:set>
                 	   		<td><input type="checkbox" class="check" ><label></label> </td>
                 	   		<td><a href="./purchaseList.html"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
                 	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
