@@ -31,14 +31,18 @@ public class CartListController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		//String customerEmail = (String)session.getAttribute("loginInfo");
+		String customerEmail = (String)session.getAttribute("loginInfo");
 		
-		String customerEmail = request.getParameter("customerEmail");
+//		String customerEmail = request.getParameter("customerEmail");
 		
 		String servletPath = "";
 		
 		try {
 			List<Cart> list = service.findById(customerEmail);
+			for(Cart c: list) {
+				System.out.println(c);
+			}
+			
 			
 			request.setAttribute("list", list);
 			servletPath = "/recipeCart.jsp";

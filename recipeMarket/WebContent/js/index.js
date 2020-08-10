@@ -63,11 +63,17 @@ addEventListener("load", () => {
     	return false;
     });
 
-    $('body > div > div > div > form > label > a').click(function(){
+    $('body > div > div > div >label > a').click(function(){
     	var value = $('.searchText').val();
-    	location.href = "/recipeMarket/recipeSearch?ingName="+value;
-    	
+    	location.href = "/recipeMarket/recipeSearch?ingName="+value;    	
     });
+    $('.searchText').keypress(function(event){
+	     if ( event.which == 13 ) {
+	    	 $('body > div > div > div > label > a').click();
+	         return false;
+	     }
+	});
+
 
 });
 addEventListener("change", () => {

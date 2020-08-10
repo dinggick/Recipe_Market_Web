@@ -54,9 +54,6 @@ public class CartDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<Cart> list = new ArrayList<>();
-		RecipeInfo info = new RecipeInfo();
-		Cart c = new Cart();
-		
 		try {
 			con = MyConnection.getConnection();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -74,6 +71,10 @@ public class CartDAO {
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
+				
+				RecipeInfo info = new RecipeInfo();
+				Cart c = new Cart();
+				
 				info.setRecipeCode(rs.getInt("recipe_code"));
 				info.setImgUrl(rs.getString("IMG_URL"));
 				info.setRecipeName(rs.getString("recipe_name"));

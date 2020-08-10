@@ -47,13 +47,13 @@
             <h2>A space where you can experience the joy of various recipes</h2>
             <!-- 검색 -->
             <div class="searchBlock">
-                <form method="POST" action="#">
+              
                     <label>
                         <!-- 검색어 입력창 -->
                         <input type="text" class="searchText" size="40">
                       <a class="fa fa-search searchIcon"></a>
                     </label>
-                </form>
+                
             </div>
         </div>
         <!-- 추천 레시피 영역 -->

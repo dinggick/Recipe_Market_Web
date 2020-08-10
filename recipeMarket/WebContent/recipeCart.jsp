@@ -145,7 +145,7 @@
        }
        
        .recipePhoto{
-       	 width:30px; 
+       	  width: 60px; 
        }
        
        .check{
@@ -183,15 +183,28 @@
 		  $('.check').prop('checked',this.checked); 
 	   });
 	   
-	  
+	  //내 레시피 삭제 
 	   $('.delete').click(function(e){
-		   $(e.target).parents('tr').remove();
+		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
+		  $.ajax({
+			   url:'/recipeMarket/cartRemove',
+			   data:{recipeCode:$recipeCode},
+			   success:function(responseObj){
+				   if(responseObj.status=="success"){
+					   $(e.target).parents('tr').remove();
+				   }else{
+					   alert('삭제실패');
+				   }
+			   }
+		  })
+		  return false;
 	   });
 	   
 	   $('.purchaseCart').click(function(){
 		   alert('주문이 완료되었습니다');
 	   })
 	   
+	   //수량 업데이트
 	   $('.quantity').click(function(){
 		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
 		  var quantity = $('.quantity').val();
@@ -255,7 +268,6 @@
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:forEach items="${requestScope.list}" var="c">
 						  <tr class="cartList">
-						  	<c:set var="total" value=""></c:set>
                 	   		<td><input type="checkbox" class="check" ><label></label> </td>
                 	   		<td><a href="./purchaseList.html"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
                 	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
@@ -267,7 +279,7 @@
                 	</c:forEach>
                 </table>
                 <hr class="purchaseLine">
-            	  <div class="totalQuantity">총 금액 : 3000원</div>
+            	  <div class="totalQuantity">총 금액 : ${total} += ${c.recipeInfo.recipePrice*c.cartQuantity}원</div>
             	  <button type="submit" class="purchaseCart">주문하기</button>
             </div>
         </section>
