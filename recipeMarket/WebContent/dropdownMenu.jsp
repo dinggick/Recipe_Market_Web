@@ -22,8 +22,8 @@
 				<a href="#">내 정보 보기</a>
 				<a href="#">구매 내역</a>
 				<a href="#">장바구니</a>
-				<a href="${contextPath}/favoriteList">즐겨찾기</a>
-				<a href="${contextPath}/myReviewList">내 후기 목록</a>
+				<a href="${contextPath}/favorite/favoriteList">즐겨찾기</a>
+				<a href="${contextPath}/review/myReviewList">내 후기 목록</a>
 				<a href="${contextPath}/logout">로그아웃</a>
 			</div>
 		</c:otherwise>
