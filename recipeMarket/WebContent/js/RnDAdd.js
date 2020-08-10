@@ -81,6 +81,11 @@ $(() => {
 			$validIdSpan.fadeOut();
 			rdEmail = false;
         }
+        
+        if ($rdEmailInput.val() == "") {
+			$duplicatedIdSpan.fadeOut();
+			$validIdSpan.fadeOut();
+        }
     });
 
     var $rdPwdInput = $("#rd_pwd");
@@ -88,25 +93,25 @@ $(() => {
     var $invalidPwdSpan = $(".invalidPwd");
     var $equalPwdSpan = $(".eqaulPwd");
     $("#rd_pwd, #r_rd_pwd").on("blur", function(evt) {
-        if ($rdPwdInput.val() == undefined || $($RrdPwdInput).val() == undefined) {
+        if ($rdPwdInput.val() == undefined || $RrdPwdInput.val() == undefined) {
             return;
         }
 
-        if (chkPwd($($rdPwdInput).val())) {
-            $($invalidPwdSpan).fadeOut();
+        if (chkPwd($rdPwdInput.val())) {
+            $invalidPwdSpan.fadeOut();
             rdPwd = true;
         } else {
-            $($rdPwdInput).css("border", "0.5px solid red");
-            $($invalidPwdSpan).fadeIn();
+            $rdPwdInput.css("border", "0.5px solid red");
+            $invalidPwdSpan.fadeIn();
             rdPwd = false;
         }
         
-        if ($($rdPwdInput).val() != $($RrdPwdInput).val()) {
-            $($RrdPwdInput).css("border", "0.5px solid red");
+        if ($rdPwdInput.val() != $($RrdPwdInput).val()) {
+            $RrdPwdInput.css("border", "0.5px solid red");
             $equalPwdSpan.fadeIn();
             rRdPwd = false;
         } else {
-            $($RrdPwdInput).css("border", "none");
+            $RrdPwdInput.css("border", "none");
             $equalPwdSpan.fadeOut();
             rRdPwd = true;
         }

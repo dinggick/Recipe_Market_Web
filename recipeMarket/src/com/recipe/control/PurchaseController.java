@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
 import com.recipe.service.PurchaseService;
+import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.PurchaseDetail;
 import com.recipe.vo.RecipeInfo;
@@ -37,17 +38,19 @@ public class PurchaseController implements Controller {
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
 		PurchaseDetail pd = new PurchaseDetail();
 		RecipeInfo ri = new RecipeInfo();
+		Customer c = new Customer();
 		
 		int code = Integer.parseInt(request.getParameter("recipeCode"));
 		int quantity = Integer.parseInt(request.getParameter("purchaseQuantity"));
 		
 		try {
+			c.setCustomerEmail(customerEmail);
 			ri.setRecipeCode(code);
 			
 			pd.setRecipeInfo(ri);
 			pd.setPurchaseDetailQuantity(quantity);
 			pdList.add(pd);
-			p.setCustomerEmail(customerEmail);
+			p.setCustomerEmail(c);
 			p.setPurchaseDetails(pdList);
 			
 			service.buy(p);

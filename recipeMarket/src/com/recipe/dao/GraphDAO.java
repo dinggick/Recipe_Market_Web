@@ -41,7 +41,7 @@ public class GraphDAO {
 				+ "WHERE TO_CHAR(p.purchase_date, 'YYYY') = ?\r\n"
 				+ "GROUP BY TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10)\r\n"
 				+ "    , c.customer_gender\r\n"
-				+ "ORDER BY TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10)\r\n"
+				+ "ORDER BY 1\r\n"
 				+ "    , c.customer_gender";
 
 		try {

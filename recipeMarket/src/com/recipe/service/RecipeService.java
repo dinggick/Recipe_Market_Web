@@ -8,8 +8,8 @@ import com.recipe.dao.RecipeIngredientDAO;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
-import com.recipe.vo.Point;
 import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeService {
@@ -59,15 +59,24 @@ public class RecipeService {
 	public List<RecipeInfo> findAll() throws FindException {
 		return recipeInfoDAO.selectAll();
 	}
+	
 	/**
-	 * 포인트 수정 절차를 위한 메소드
-	 * @param p 수정할 레시피 코드와 좋아요, 싫어요 개수를 포함한 Point 객체
+	 * 포인트 수정 절차(좋아요)를 위한 메소드
+	 * @param 포인트 수정 절차(좋아요)를 진행할 레시피 코드
 	 * @throws ModifyException
 	 * @author 최종국
 	 */
-	public void modifyPoint(Point p) throws ModifyException {
-		pointDAO.update(p);
+	public void like(int recipeCode) throws ModifyException {
+		pointDAO.updateLike(recipeCode);
 	}
 
-	
+	/**
+	 * 포인트 수정 절차(싫어요)를 위한 메소드
+	 * @param 포인트 수정 절차(싫어요)를 진행할 레시피 코드
+	 * @throws ModifyException
+	 * @author 최종국
+	 */
+	public void disLike(int recipeCode) throws ModifyException {
+		pointDAO.updateDisLike(recipeCode);
+	}
 }

@@ -65,11 +65,12 @@
                     <p>${requestScope.recipeInfo.recipeSumm}</p>
                     <p><span class="recipePrice">${requestScope.recipeInfo.recipePrice}</span> 원</p>
                     <div class="buttonSection">
-                        <label><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
-                        <label><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
+                        <label class="labelLike"><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
+                        <label class="labelDisLike"><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
                         <img src="${contextPath}/img/heart.png" class="favorite">
                         <button class="cartBtn">장바구니 추가</button>
                         <button class="purchaseBtn">구매하기</button>
+                        <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
                     </div>
                 </div>
                 <div class="ingredientSection">

@@ -5,6 +5,7 @@ import java.util.List;
 import com.recipe.dao.CartDAO;
 import com.recipe.exception.AddException;
 import com.recipe.exception.FindException;
+import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
 import com.recipe.vo.Cart;
 
@@ -23,6 +24,10 @@ public class CartService {
 	
 	public void add(Cart c) throws AddException{
 		dao.insert(c);
+	}
+	
+	public void update(Cart c) throws ModifyException{
+		dao.update(c);
 	}
 	
 	public List<Cart> findById(String customerEmail) throws FindException{

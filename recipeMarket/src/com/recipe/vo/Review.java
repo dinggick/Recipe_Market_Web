@@ -1,26 +1,28 @@
 package com.recipe.vo;
+
 import java.util.Date;
 
 public class Review {
-	private Purchase purchaseCode;
-	private String reviewComment; //후기내용
-	private Date reviewDate; //후기작성일자
-	
-	public Review() {}
+	private Purchase purchase; // 구매
+	private String reviewComment; // 후기내용
+	private Date reviewDate; // 후기작성일자
+
+	public Review() {
+	}
 
 	public Review(Purchase purchaseCode, String reviewComment, Date reviewDate) {
 		super();
-		this.purchaseCode = purchaseCode;
+		this.purchase = purchaseCode;
 		this.reviewComment = reviewComment;
 		this.reviewDate = reviewDate;
 	}
 
-	public Purchase getPurchaseCode() {
-		return purchaseCode;
+	public Purchase getPurchase() {
+		return purchase;
 	}
 
-	public void setPurchaseCode(Purchase purchaseCode) {
-		this.purchaseCode = purchaseCode;
+	public void setPurchase(Purchase purchase) {
+		this.purchase = purchase;
 	}
 
 	public String getReviewComment() {
@@ -41,12 +43,7 @@ public class Review {
 
 	@Override
 	public String toString() {
-		return "Review [purchaseCode=" + purchaseCode + ", reviewComment=" + reviewComment + ", reviewDate="
-				+ reviewDate + "]";
+		return "Review [purchase=" + purchase + ", reviewComment=" + reviewComment + ", reviewDate=" + reviewDate + "]";
 	}
 
-	
-
-	
-	
 }
