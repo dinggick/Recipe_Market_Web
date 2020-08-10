@@ -137,8 +137,9 @@
                 <li>
                     <span>CRM</span>
                     <ul>
-                        <li><span>graph1</span></li>
-                        <li><span>graph2</span></li>
+                        <li><a>graph1</a></li>
+                        <li><a>graph2</a></li>
+                        <li><a>graph3</a></li>
                     </ul>
                 </li>
             </ul>                            

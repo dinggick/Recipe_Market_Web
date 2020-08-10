@@ -54,7 +54,8 @@ public class StatisticsController implements Controller {
 		} else if("/graph2".equals(pathInfo)) { /* show graph2 */
 			try {
 				List<Pair<String, Integer>> dataList = null;
-				dataList = service.findByYearG2(request.getParameter("year"));
+				dataList = service.findByYearG2(request.getParameter("year"), 
+						Integer.parseInt(request.getParameter("count")));
 				
 				request.setAttribute("data_list", dataList);
 
@@ -67,8 +68,14 @@ public class StatisticsController implements Controller {
 		} else if("/graph3".equals(pathInfo)) { /* show graph3 */
 			try {
 				List<Pair<String, Integer>> dataList = null;
-				dataList = service.findBySeasonG3(request.getParameter("start_date"),
-						request.getParameter("end_date"));
+				
+				String termStr = request.getParameter("term");
+				
+				String[] dt = termStr.split("/");
+				String startDate = dt[0], endDate = dt[1];
+				
+				dataList = service.findBySeasonG3(startDate, endDate,
+						Integer.parseInt(request.getParameter("count")));
 				
 				request.setAttribute("data_list", dataList);
 
