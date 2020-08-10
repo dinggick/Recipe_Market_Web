@@ -49,8 +49,24 @@ $(function()  {
 	
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
-	var recipe_code = $(this).find('td>input[name=recipe_code]').val();
-		/* console.log("${contextPath}/recipeInfo?recipeCode="+recipe_code); */
+	var purchaseCode = $(this).find('input[name=deleteCode]').val();
+		
+		if ( e.target.className == 'delete' ) {
+			$.ajax({
+				url : '${contextPath}/review/remove' 
+				, data : {"purchaseCode" : purchaseCode}
+				, success : function(data) {
+					if ( data.status == 'success') {
+						alert("삭제에 성공했습니다.");
+						location.reload();
+					} else {
+						alert("삭제에 실패했습니다.");
+					}
+					
+				} //end of success
+			}); //end of Ajax
+			return false;
+		} // 삭제 이벤트 발생
 		
 		var recipeCodeForm = $("div.divContent>section.rightSection>form");
 		var recipeCodeObj = $('input[id=recipeCode]');
@@ -67,12 +83,8 @@ $(function()  {
     	form.appendChild(input);
     	document.body.appendChild(form);
     	form.submit();
+    	return false;
 	});
-
-
-	// 후기 삭제
-	
-
 }); // end of load
 </script>
 </head>
@@ -116,6 +128,7 @@ $(function()  {
 		        		<col width="20%"></col>
 		        		<col width="10%"></col>
 		        		<col width="*"></col>
+		        		<col width="5%"></col>
 		        	</colgroup>
 		        	<thead>
 		        	<tr>
@@ -126,15 +139,24 @@ $(function()  {
 			        	<td></td>
 		        	</thead>
 		        	<tbody>
+						<c:if test="${empty requestScope.myReviewList}" > 
+                	   		<tr> 
+                	   			<td colspan='5'> 등록된 후기가 없습니다.</td>
+							</tr>
+						
+						</c:if>
                 	   <c:forEach items="${requestScope.myReviewList}" var="review" varStatus="status">
                 	   		<c:forEach items="${review.purchase.purchaseDetails}" var="purchaseDetail" >
                 	   		<tr> 
                 	   			<td> ${status.index+1} </td>
                 	   			<td> ${purchaseDetail.recipeInfo.recipeName} </td>
                 	   			<td> ${review.purchase.purchaseDate} </td>
-                	   			<td> <span> ${review.reviewComment} </span>
-				        			<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        			<input type="hidden" name="recipe_code" value="${purchaseDetail.recipeInfo.recipeCode}"/>
+                	   			<td><span> ${review.reviewComment} </span> 
+                	   				<input type="hidden" name="recipe_code" value="${purchaseDetail.recipeInfo.recipeCode}"/>
+                	   			</td>
+                	   			<td class="delete"><a href="#">
+                	   				<img class="delete" src="${contextPath}/img/delete.png" class="remove-button" />
+                	   				<input type="hidden" name="deleteCode" value="${review.purchase.purchaseCode}"/></a>
 			        			</td>
 							</tr>
                 	   		</c:forEach>
