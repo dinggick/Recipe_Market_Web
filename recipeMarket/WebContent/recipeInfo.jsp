@@ -70,6 +70,7 @@
                         <img src="${contextPath}/img/heart.png" class="favorite">
                         <button class="cartBtn">장바구니 추가</button>
                         <button class="purchaseBtn">구매하기</button>
+                        <input type="number" name="quantity" value="1">
                         <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
                     </div>
                 </div>
