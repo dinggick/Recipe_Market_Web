@@ -57,7 +57,28 @@ addEventListener("load", () => {
 		});
 	});
 
-    $(".cartBtn").click((e) => {
-        //장바구니 추가 구현
+    $(".cartBtn").click(function(e) {
+    	console.log("test");
+    	var recipeCode = $(this).parent().find("input[type=hidden]").val();
+    	var quantity = $(".buttonSection>input[type=number]").val();
+    	
+    	$.ajax({
+    		url : "/recipeMarket/cartAdd",
+    		data : { recipeCode : recipeCode, quantity : quantity },
+    		success : (data, textStatus, jqXHR) => {
+    			if(data.status == "success") {
+    				alert("장바구니에 추가되었습니다.");
+    				if(confirm("장바구니를 확인하시겠습니까?")) {
+    					var form = document.createElement("form");
+				    	form.setAttribute("method", "POST");
+				    	form.setAttribute("action", "/recipeMarket/recipeCart");
+				    	document.body.appendChild(form);
+				    	form.submit();
+    				}
+    			} else {
+    				alert("장바구니 추가 실패 : " + msg);
+    			}
+    		}
+    	});
     });
 });

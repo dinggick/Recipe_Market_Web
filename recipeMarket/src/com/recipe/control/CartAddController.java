@@ -48,6 +48,7 @@ public class CartAddController implements Controller{
 			return servletPath;
 		} catch (AddException e) {
 			e.printStackTrace();
+			request.setAttribute("msg", e.getMessage().replace("\"", ""));
 			return "/fail.jsp";
 		}
 		
