@@ -42,9 +42,9 @@ addEventListener("load", () => {
     			} else {
     				alert("좋아요 실패 : " + data.msg);
     			}
-    			e.preventDefault();
     		}
     	});
+    	return false;
     });
     
     $(".bottomSection").on("click", ".dislike", function(e) {
@@ -58,9 +58,9 @@ addEventListener("load", () => {
     			} else {
     				alert("싫어요 실패 : " + data.msg);
     			}
-    			e.preventDefault();
     		}
     	});
+    	return false;
     });
 
     $('body > div > div > div > form > label > a').click(function(){
