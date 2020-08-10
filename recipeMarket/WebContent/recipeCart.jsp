@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -125,7 +126,7 @@
        }
        
        .totalQuantity{
-         padding-left:85%;
+         padding-left:80%;
          font-size:xx-large;	   
        }
        
@@ -162,7 +163,7 @@
        .purchaseLine{
          width:13.5%;
        	 display:block;
-       	 margin-left:85%;
+       	 margin-left:80.5%;
        	 margin-top:3%;
          border:1px solid #D2302C;
        }
@@ -180,7 +181,8 @@
     
    $(function(){
 	   $('#check-All').click(function(){
-		  $('.check').prop('checked',this.checked); 
+		  $('.check').prop('checked',this.checked);
+		  
 	   });
 	   
 	  //내 레시피 삭제 
@@ -200,23 +202,47 @@
 		  return false;
 	   });
 	   
+	  //체크항목 구매
 	   $('.purchaseCart').click(function(){
-		   alert('주문이 완료되었습니다');
+		  var $check = $('.check').val();
+		  var recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
+		  var quantity = $('.quantity').val();
+		  	$.ajax({
+				url:'/recipeMarket/purchase',
+				data:{recipeCode : recipeCode , purchaseQuantity : quantity},
+				success:function(responseObj){
+					if(responseObj.status=="success"){
+						alert('구매가 완료되었습니다');
+					}
+				}
+		 	})
+			return false;
 	   })
 	   
 	   //수량 업데이트
-	   $('.quantity').click(function(){
+	   $('.rightSection').on('click','.quantity',function(){
+		   console.log('test');
 		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
-		  var quantity = $('.quantity').val();
+		  console.log($recipeCode);
+		  var quantity = $(this).parent().parent().find('.quantity	').val();
+		  var priceList = $('.price');
+		  
 		  var recipePrice = parseInt($(this).parent().parent().find('td:nth-child(4)').html());
-		  var total=0;
+		  var $price = $(this).parent().parent().find('td:nth-child(6)');
+		  var $total = $('.totalQuantity');
+		  var totals = 0;
+		  
 		  $.ajax({
 			  url:'/recipeMarket/cartUpdate',
-			  data:{recipeCode:$recipeCode,quantity:quantity},
+			  data:{recipeCode:$recipeCode,quantity:quantity,customerEmail:"pyonjw@recipe.com"},
 			  success:function(responseObj){
 				  if(responseObj.status=="success"){
-					  $('.price').html((recipePrice*quantity)+'원');
-					 
+					  $price.html((recipePrice*quantity)+'원');
+					  for(x in priceList){
+						console.log(priceList[x].innerHTML);
+						totals += priceList[x].innerHTML; /*.substring(0,priceList[x].innerHTML.length-1) */ 
+					  }
+					  $total.html("총 금액 : " + totals+"원");
 				  }else{
 					  alert('수량변경실패');
 				  }
@@ -266,20 +292,22 @@
             <div class="cartInfo">
                 <table id="Cart">
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
-                	<c:forEach items="${requestScope.list}" var="c">
+                	<c:set var="total" value="0"></c:set>
+                	  <c:forEach items="${requestScope.list}" var="c">
+                	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />
 						  <tr class="cartList">
                 	   		<td><input type="checkbox" class="check" ><label></label> </td>
-                	   		<td><a href="./purchaseList.html"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
+                	   		<td><a href="./recipeInfo.jsp"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
                 	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
                 	   		<td>${c.recipeInfo.recipePrice}</td>
                 	   		<td><input type="number" class="quantity" value="${c.cartQuantity}" min=1></td>
-                	  	 	<td class="price">${c.recipeInfo.recipePrice*c.cartQuantity}원</td>
+                	  	 	<td class="price">${c.recipeInfo.recipePrice*c.cartQuantity}</td>
                 	   		<td><button type="submit" class="delete">X</button></td>
                 	   		</tr>                		
-                	</c:forEach>
+                	  </c:forEach>
                 </table>
                 <hr class="purchaseLine">
-            	  <div class="totalQuantity">총 금액 : ${total} += ${c.recipeInfo.recipePrice*c.cartQuantity}원</div>
+            	  <div class="totalQuantity">총 금액 : <fmt:formatNumber value="${total}" pattern="#,###"/>원</div>
             	  <button type="submit" class="purchaseCart">주문하기</button>
             </div>
         </section>
