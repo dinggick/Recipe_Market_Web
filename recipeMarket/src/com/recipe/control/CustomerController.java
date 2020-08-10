@@ -11,7 +11,6 @@ import com.recipe.exception.FindException;
 import com.recipe.service.AccountService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Postal;
-import com.sun.jmx.snmp.Timestamp;
 
 public class CustomerController implements Controller {
 	private static CustomerController instance;
