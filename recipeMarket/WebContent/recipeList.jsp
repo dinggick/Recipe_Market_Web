@@ -99,7 +99,7 @@
 }
         
          .rightSection>.recipeInfo { 
-         	justify-content:flex-start; 
+         	justify-content:center; 
          	display: flex; 
          	flex-wrap: wrap; 
          	padding: 25px 0px; 
@@ -136,7 +136,7 @@
         .searchText{
         	border: none;
         	width: 80%;
-        	height: 32px;
+        	height: 85%;
         }
        
          
@@ -169,7 +169,7 @@
             <div class="dropdown">
                 <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
 <!--                 <img src="./images/whisk.png" class="account"> -->
-               <label class="mainButton">LOGIN</label>
+               <label class="mainButton">로그인</label>
                 <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
@@ -226,7 +226,7 @@
 						<div>
 						
 						<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-						<h1>검색결과가 없습니다.</h1>
+						<h1 style="text-align: center;">검색결과가 없습니다.</h1>
 						<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 						
 						</div>
