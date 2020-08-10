@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,8 +15,12 @@ import com.recipe.exception.RemoveException;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.PurchaseDetail;
+import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
+
+@WebServlet("/review/")
 public class ReviewController implements Controller {
 	private static ReviewController instance;
 	private ReviewService reviewService;
@@ -44,12 +49,14 @@ public class ReviewController implements Controller {
 			throws ServletException, IOException {
 		String servletPath = "/fail.jsp";
 
-		// 후기 관련 메뉴는 로그인 사용자만 접근가능
-		Customer loginUser = (Customer)request.getSession().getAttribute("loginInfo");
-		if( loginUser == null) {
-			request.setAttribute("msg","로그인 되지 않은 사용자의 접근입니다.");
-			return servletPath;
-		} 
+ 		// 후기 관련 메뉴는 로그인 사용자만 접근가능
+//		Customer loginUser = (Customer)request.getSession().getAttribute("loginInfo");
+//		if( loginUser == null) {
+//			request.setAttribute("msg","로그인 되지 않은 사용자의 접근입니다.");
+//			return servletPath;
+//		}
+		Customer loginUser = new Customer();
+		loginUser.setCustomerEmail("kosj@recipe.com");
 
 		// 나의 리뷰 목록 보기 
 		String pathInfo = request.getServletPath();
@@ -77,6 +84,18 @@ public class ReviewController implements Controller {
 		
 		try {
 			List<Review> myReviewList = reviewService.findByEmail(loginUser.getCustomerEmail());
+			//레시피명, 구매일자, 후기내용, 레시피코드
+			for ( int i = 0 ; i < myReviewList.size(); i++ ) {
+				Purchase p = myReviewList.get(i).getPurchase();
+				List<PurchaseDetail> pdList = p.getPurchaseDetails();
+				for ( int j = 0; j < pdList.size(); j++ ) {
+					RecipeInfo ri = pdList.get(j).getRecipeInfo();
+					System.out.println("ri : " + ri.getRecipeName());
+					System.out.println("ri : " + ri.getRecipeCode());
+				}
+				System.out.println(p.getPurchaseDate());
+			}
+			
 			request.setAttribute("myReviewList", myReviewList);
 			result = "/myReviewList.jsp";
 		
@@ -139,10 +158,12 @@ public class ReviewController implements Controller {
 	private String reviewListByRecipeCode (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
 		
-		int recipeCode = (int)request.getAttribute("recipeCode");
-		if ( recipeCode == 0 ) {
-			request.setAttribute("msg","레시피코드값이 전달되지않았습니다.");
-		}
+		
+	  	int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+	  	if ( recipeCode ==  0 ) { 
+	  		request.setAttribute("msg","레시피코드값이 전달되지않았습니다."); 
+	  	}
+		 
 		try {
 			List<Review> list = reviewService.findByCode(recipeCode);
 			request.setAttribute("reviewListByRecipeCode", list);
