@@ -147,11 +147,6 @@
     <script src="js/favoriteBtn.js"></script>
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
-    <script>
-//     addEventListener("load", () => {
-//         $(".rightSection").height(window.innerHeight - (90 + $('footer').outerHeight() + $('header').outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-//     });
-    </script>
 </head>
 
 <body>
