@@ -7,10 +7,11 @@
 	<c:choose>
 		<c:when test="${empty sessionScope.loginInfo}">
 			<!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-			<h1 class="account">Sign in</h1>
+			<h1 class="account">로그인</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
 				<a href="${contextPath}/static/login.html">로그인</a>
+				<a>회원가입</a>
 			</div>
 		</c:when>
 		<c:otherwise>
