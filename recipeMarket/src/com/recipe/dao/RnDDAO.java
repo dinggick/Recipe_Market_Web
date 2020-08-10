@@ -153,7 +153,7 @@ public class RnDDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		String insertSQL = "UPDATE rd SET rd_pwd = ?, rd_manager_name = ?, rd_team_name = ?, rd_phone = ? WHERE rd_id = ?";
+		String insertSQL = "UPDATE rd SET rd_pwd = ?, rd_manager_name = ?, rd_team_name = ?, rd_phone = ? WHERE rd_email = ?";
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setString(1, r.getRdPwd());
@@ -176,9 +176,9 @@ public class RnDDAO {
 	 * @param rdId 비활성화할 R&D 계정 아이디
 	 * @throws RemoveException 비활성화하려는 R&D 계정이 존재하지 않는 경우
 	 */
-	public void disableRD(String rdId) throws RemoveException {
+	public void disableRD(String rdEmail) throws RemoveException {
 		try {
-			selectById(rdId);
+			selectById(rdEmail);
 		} catch (FindException e) {
 			throw new RemoveException(e.getMessage());
 		}
@@ -190,10 +190,10 @@ public class RnDDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		String insertSQL = "UPDATE rd SET rd_status = '0' WHERE rd_id = ?";
+		String insertSQL = "UPDATE rd SET rd_status = '0' WHERE rd_email = ?";
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setString(1, rdId);
+			pstmt.setString(1, rdEmail);
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -277,7 +277,7 @@ public class RnDDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		String selectCountSQL = "SELECT COUNT(*) FROM rd";
+		String selectCountSQL = "SELECT COUNT(*) FROM rd WHERE rd_status = '1'";
 
 		try {
 			con = MyConnection.getConnection();
