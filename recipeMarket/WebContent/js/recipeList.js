@@ -8,4 +8,13 @@ $(function(){
 	    	var recipeCode = $(this).find("input[type=hidden]").val();
 	    	location.href = "/recipeMarket/recipeInfo?recipeCode="+recipeCode;
 	    });
+	 $('.searchText').keypress(function(event){
+	     if ( event.which == 13 ) {
+	    	 $('body > div > section.leftSection > div > a').click();
+	         return false;
+	     }
+	});
+
+
+
 });
