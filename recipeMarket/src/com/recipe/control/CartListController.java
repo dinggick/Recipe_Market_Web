@@ -39,6 +39,10 @@ public class CartListController implements Controller {
 		
 		try {
 			List<Cart> list = service.findById(customerEmail);
+			for(Cart c: list) {
+				System.out.println(c);
+			}
+			
 			
 			request.setAttribute("list", list);
 			servletPath = "/recipeCart.jsp";
