@@ -153,18 +153,19 @@ $(function()  {
 			        	</tr>
 		        	</tbody>
 		        </table>
-		        <div class="pagingSection">
-			            <img src="${contextPath}/img/pre2.png" alt="prev2">
-			            <img src="${contextPath}/img/pre.png" alt="prev1">
-			            <span><a href="#">1</a></span>
-			            <span><a href="#">2</a></span>
-			            <span><a href="#">3</a></span>
-			            <span><a href="#">4</a></span>
-			            <span><a href="#">5</a></span>
-			            
-			            <img src="${contextPath}/img/next.png" alt="next1">
-			            <img src="${contextPath}/img/next2.png" alt="next2">
-		        </div>
+       	        <div class="pagingSection">
+		            <img src="${contextPath}/img/prev2.png" alt="prev2">
+		            <img src="${contextPath}/img/prev1.png" alt="prev1">
+		            <span><a href="#">1</a></span>
+		            <span><a href="#">2</a></span>
+		            <span><a href="#">3</a></span>
+		            <span><a href="#">4</a></span>
+		            <span><a href="#">5</a></span>
+		            
+		            <img src="${contextPath}/img/next1.png" alt="next1">
+		            <img src="${contextPath}/img/next2.png" alt="next2">
+	        	</div>
+
 	        </div>
         </section>
     </div>
