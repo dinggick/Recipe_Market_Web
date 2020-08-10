@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.ModifyException;
 import com.recipe.service.CartService;
@@ -29,7 +30,12 @@ public class CartUpdateController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		int code = Integer.parseInt(request.getParameter("recipeCode"));
+		HttpSession session = request.getSession();
 		
+		//String customerEmail = (String)session.getAttribute("loginInfo");
+		String customerEmail = request.getParameter("customerEmail");
+		
+		System.out.println(customerEmail);
 		System.out.println(code);
 		System.out.println(quantity);
 		
@@ -40,6 +46,7 @@ public class CartUpdateController implements Controller {
 			info.setRecipeCode(code);
 			c.setCartQuantity(quantity);
 			c.setRecipeInfo(info);
+			c.setCustomerEmail(customerEmail);
 			
 			service.update(c);
 			servletPath="/success.jsp";
