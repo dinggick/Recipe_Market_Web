@@ -5,7 +5,11 @@
 /* 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); */
 }
 
+
 .rightSection {
+	margin-bottom: 0;
+	text-align: center;
+	
 }
 
 .rightSection>.recipeInfo {
@@ -21,73 +25,47 @@
 	width: 100%;
 }
 
-.rightSection>.recipeInfo>.reviewSection {
-	padding-bottom: 20px;
-}
-
 .leftSection>hr {
 	width: 55%;
 	border: 2px solid #D2302C;
 }
 
-<!-- table Css -->
+/* <!-- table Css --> */
 table.favoriteList {
 	text-align: center;
-	margin: 20px 10px;
-	width: 70%;
+	margin: 40px auto 0;
+	width: 80%;
 	border-spacing: 0 20px;
 }
 
 table.favoriteList > thead td {
 	font-weight: bold;
-	margin: 20px 10px;
-    padding:2.5%;
     border-bottom:2px solid #D2302C;
-	text-align: center;
 	font-size: large;
 }
 
 table.favoriteList>tbody>tr>td {
-	width: 10%;
-	padding: 10px;
 	font-size: large;
-	text-align: center;
 	vertical-align: middle;
 }
 
+table.favoriteList>tbody>tr>td>a {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    float: right;
+    margin-right: 3%;
+}
+
+
 img.recipeImg {
-	width: 80%;
+	width: 150px;
+	height: 100px;
+	
 }
-
-/* table.favoriteList>tbody>tr>td:nth-child(1)
-	{
-	width: 1%;
-	padding: 10px;
-	font-size: medium;
-}
-table.favoriteList>tbody>tr>td:nth-child(2)
-	{
-	width: 10%;
-	padding: 10px;
-	font-size: medium;
-}
-
-table.favoriteList>tbody>tr>td:nth-child(3)
-	{
-	width: 10%;
-	padding: 10px;
-	font-size: medium;
-}
-
-table.favoriteList>tbody>tr>td:nth-child(4)
-	{
-	width: 10%;
-	padding: 10px;
-	font-size: medium;
-} */
 
 img.delete {
-	width: 10%;
+	width: 100%;
 	margin-bottom: 10px;
 }
 
@@ -96,9 +74,9 @@ table.favoriteList>tbody>tr:hover {
 	color: black;
 }
 
-<!-- 페이징 처리 부분 -->
+/*페이징 처리 부분 */
 div.pagingSection {
-	padding:15px;
+	width: 100%;
 }
 
 div.pagingSection>img {

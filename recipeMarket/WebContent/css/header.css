@@ -57,18 +57,6 @@ header>.headerLeftSection>.prev:hover {
     transition: 0.3s;
 }
 
-header>.headerLeftSection>.prev {
-    display: inline-block;
-    position: relative;
-    background-color: inherit;
-    color: #f1f1f1;
-    transition: 0.3s;
-    text-decoration: none;
-    font-size: 450%;
-    padding-left: 5%;
-    font-weight: 100;
-}
-
 header>.headerLeftSection>.home {
     font-size: 150%;
     margin: 0 auto 0 auto;

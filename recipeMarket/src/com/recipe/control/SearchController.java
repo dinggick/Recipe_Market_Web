@@ -1,6 +1,7 @@
 package com.recipe.control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,9 @@ import com.recipe.vo.RecipeInfo;
 public class SearchController implements Controller {
 	private static SearchController instance;
 	private RecipeService service;
-	private SearchController() {}
+	private SearchController() {
+		service = RecipeService.getInstance();
+	}
 	
 	public static SearchController getInstance() {
 		if(instance == null) instance = new SearchController();
@@ -26,13 +29,22 @@ public class SearchController implements Controller {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = "";
-		String recipeName = request.getParameter("recipeName");
+		List<String> ingName = new ArrayList<>();
+		
+		String value = request.getParameter("ingName");
+		request.setAttribute("ingName", value.trim());
+		String[] str = value.trim().split(" ");
+		for (String s : str) {
+			ingName.add(s);
+			
+		}				
 		try {
-			List<RecipeInfo> infos = service.findByName(recipeName);
+			List<RecipeInfo> infos = service.findRecipe(ingName);
 			request.setAttribute("recipeList", infos);
-			servletPath = "/success.jsp";
+			servletPath = "/recipeList.jsp";
 		} catch (FindException e) {
-			servletPath = "/fail.jsp";
+			servletPath = "/recipeList.jsp";
+			
 		}
 		return servletPath;
 	}

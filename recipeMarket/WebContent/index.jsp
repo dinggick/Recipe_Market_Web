@@ -19,10 +19,10 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
-    <script src="${contextPath}/js/favoriteBtn.js"></script>
-    <script src="${contextPath}/js/card.js"></script>
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/index.js"></script>
+    <script src="${contextPath}/js/favoriteBtn.js"></script>
+	<script src="${contextPath}/js/card.js"></script>
     <script>
     </script>
 </head>
@@ -51,7 +51,7 @@
                     <label>
                         <!-- 검색어 입력창 -->
                         <input type="text" class="searchText" size="40">
-                        <span class="fa fa-search searchIcon"></span>
+                      <a class="fa fa-search searchIcon"></a>
                     </label>
                 </form>
             </div>

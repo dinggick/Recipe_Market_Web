@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,7 +41,7 @@ public class RecipeInfoController implements Controller{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
-		
+
 		try {
 			RecipeInfo ri = recipeService.findByCode(recipeCode); //DB에서 레시피 정보를 가져온다
 			URL processUrl = new URL(ri.getRecipeProcess()); //해당 레시피의 재료, 과정 정보를 가진 텍스트 파일에 접근하기 위한 URL 설정

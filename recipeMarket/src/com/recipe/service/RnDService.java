@@ -2,24 +2,26 @@ package com.recipe.service;
 
 import java.util.List;
 
-import com.recipe.dao.RDDAO;
+import com.recipe.dao.RnDDAO;
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
-import com.recipe.vo.RD;
+import com.recipe.model.PageBean;
+import com.recipe.vo.Board;
+import com.recipe.vo.RnD;
 
-public class RDAccountService {
-	private static RDAccountService instance;
-	private RDDAO rdDAO;
+public class RnDService {
+	private static RnDService instance;
+	private RnDDAO rdDAO;
 	
-	private RDAccountService() {
-		rdDAO = new RDDAO();
+	private RnDService() {
+		rdDAO = new RnDDAO();
 	}
 	
-	public static RDAccountService getInstance() {
-		if(instance == null) instance = new RDAccountService();
+	public static RnDService getInstance() {
+		if(instance == null) instance = new RnDService();
 		return instance;
 	}
 	
@@ -32,7 +34,7 @@ public class RDAccountService {
 	 * @author 최종국
 	 */
 	public void login(String rdId, String rdPwd) throws FindException{
-		RD r;
+		RnD r;
 		try {
 			r = rdDAO.selectById(rdId);
 		} catch (FindException e) {
@@ -49,7 +51,7 @@ public class RDAccountService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public List<RD> findAll() throws FindException {
+	public List<RnD> findAll() throws FindException {
 		return rdDAO.selectAll();
 	}
 	
@@ -60,7 +62,7 @@ public class RDAccountService {
 	 * @throws DuplicatedException 아이디가 중복되면 발생
 	 * @author 최종국
 	 */
-	public void add(RD r) throws AddException, DuplicatedException {
+	public void add(RnD r) throws AddException, DuplicatedException {
 		rdDAO.insert(r);
 	}
 	
@@ -70,7 +72,7 @@ public class RDAccountService {
 	 * @throws ModifyException 수정하려는 R&D 계정이 존재하지 않으면 발생
 	 * @author 최종국
 	 */
-	public void modify(RD r) throws ModifyException {
+	public void modify(RnD r) throws ModifyException {
 		rdDAO.update(r);
 	}
 	
@@ -84,7 +86,30 @@ public class RDAccountService {
 		rdDAO.disableRD(rdId);
 	}
 	
-	public RD findById(String rdId) throws FindException {
+	public RnD findById(String rdId) throws FindException {
 		return rdDAO.selectById(rdId);
+	}
+	
+	/***********************************************************************************/
+
+	/**
+	 * Create page bean object of requested page
+	 * @param page
+	 * @return PageBean
+	 * @throws FindException
+	 * @author yonghwan
+	 */
+	public PageBean findAll(int page) throws FindException {
+		if (page < 1)
+			throw new FindException("The page does not exist");
+		
+		int rowCnt = rdDAO.selectCount();
+		System.out.println(rowCnt);
+		PageBean pb = new PageBean(page, rowCnt);
+		
+		List<RnD> list = rdDAO.selectAll(pb.getStartRow(), pb.getEndRow());
+		pb.setList(list);
+		
+		return pb;
 	}
 }

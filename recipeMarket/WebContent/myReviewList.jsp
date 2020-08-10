@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="myReviewList" value="${requestScope.myReviewList}"></c:set>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +38,6 @@ $(function()  {
 	$myReviewListObj.on('click', 'tr', function(e){
 	var recipe_code = $(this).find('td>input[name=recipe_code]').val();
 		console.log(recipe_code);
-		console.log($(this));
 	});
 
 	// 후기 삭제
@@ -74,12 +75,18 @@ $(function()  {
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의후기</h1>
             <hr><br>
-            <p> 10건이 조회 되었습니다.<p>
+            <p> ${reviewList.size()} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
 	        <div class="recipeInfo">
 		        <table class="myReviewList">
+		        	<colgroup>
+		        		<col width="3%"></col>
+		        		<col width="15%"></col>
+		        		<col width="15%"></col>
+		        		<col width="*"></col>
+		        	</colgroup>
 		        	<thead>
 		        	<tr>
 			        	<td>NO</td>
@@ -93,98 +100,95 @@ $(function()  {
 			        		<td>1</td>
 			        		<td>당근찌개</td>
 			        		<td>2020/08/01</td>
-			        		<td>맛있어요! 굳</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0001"/>
-				        	</td>
+			        		</td>
 		        		</tr>
 			        	<tr>
 				        	<td>2</td>
 				        	<td>고구마찌개</td>
 				        	<td>2020/07/31</td>
-				        	<td>음~달아달아~~</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0002"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>3</td>
 				        	<td>김치찌개</td>
 				        	<td>2020/07/28</td>
-				        	<td>뷁...ㅎ</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0003"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>4</td>
 				        	<td>어피치찌개</td>
 				        	<td>2020/07/25</td>
-				        	<td>잔인해...ㅎ</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0004"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>5</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0005"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>6</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0006"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>7</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0007"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>8</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0008"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>9</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0009"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 			        	<tr>
 				        	<td>10</td>
 				        	<td>라이언찌개</td>
 				        	<td>2020/07/20</td>
-				        	<td>사자고기가 정말 맛있어요</td>
-				        	<td><a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
+			        		<td><span>맛있어요! 굳</span>
+				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 				        		<input type="hidden" name="recipe_code" value="0010"/>
-				        	</td>
+			        		</td>
 			        	</tr>
 		        	</tbody>
 		        </table>
-   		        
-
-	        </div>
-	        <div class="pagingSection">
+       	        <div class="pagingSection">
 		            <img src="${contextPath}/img/pre2.png" alt="prev2">
 		            <img src="${contextPath}/img/pre.png" alt="prev1">
 		            <span><a href="#">1</a></span>
@@ -195,7 +199,10 @@ $(function()  {
 		            
 		            <img src="${contextPath}/img/next.png" alt="next1">
 		            <img src="${contextPath}/img/next2.png" alt="next2">
+	        	</div>
+
 	        </div>
+
         </section>
 	    </div>
     
