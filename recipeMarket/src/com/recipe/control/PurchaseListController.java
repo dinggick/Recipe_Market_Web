@@ -31,7 +31,9 @@ public class PurchaseListController implements Controller{
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		String customerEmail = (String)session.getAttribute("loginInfo");
+		//String customerEmail = (String)session.getAttribute("loginInfo");
+		
+		String customerEmail= request.getParameter("customerEmail");
 		
 		String servletPath = "";
 		
