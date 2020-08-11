@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>./jq/searchPost.html</title>
+<style>
+html,body{margin:0px; overflow: hidden;height:100%;border:1px solid red;}
+div.post{ width: 100%; height:100%;}
+div.post>div.list{width: 100%; height:80%; border:2px double green; margin-top:10px;    ;overflow-y: auto;   }
+div.post>div.list>ul{list-style-type: none; padding: 0px;}
+div.post>div.list>ul>li>div.code{width:15%; display: inline-block;}
+div.post>div.list>ul>li>div.baseAddr{display: inline-block;}
+div.post>div.list>ul>li>div.buildingno{display: none;}
+
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(function(){
+   $("div.post>div.search>input[type=search]").keypress((e) => {
+      
+      console.log("test");
+      if(e.which == 13) {
+         $.ajax({
+            url: "./post/search",
+            data: {searchKeyword:e.target.value},
+            success: (data, textStatus, jqXHR) => {
+               $("div.post>div.list>ul").html("");
+               if(data.status == "success") {
+                  for(const postal of data.data) {
+                     var li = "<li><div class='code'>"+postal.zipCode+"</div><div class='baseAddr'>"+postal.city+postal.doro+" "+postal.building+"</div><div class='buildingno'>"+postal.buildingno+"</div></li>";
+                     $("div.post>div.list>ul").html($("div.post>div.list>ul").html() + li);
+                  }
+                  
+                  $("div.post>div.list>ul>li").click(function(e){
+                     var codeValue = $(this).find('div.code').html();
+                     var baseAddrValue = $(this).find('div.baseAddr').html();
+                     var buildingnoValue = $(this).children('div.buildingno').html();
+                     
+                     alert(codeValue);
+
+                     var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
+                     $openerFieldsetObj.find("#customer_zip").val(codeValue);
+                     $openerFieldsetObj.find("#customer_juso").val(baseAddrValue);
+                     $openerFieldsetObj.find("#buildingno").val(buildingnoValue);
+                     self.close();
+                  });
+               } else {
+                  //
+               }
+            }
+         });
+      }
+   });
+});
+</script>
+</head>
+<body>
+<div class="post">
+  <div class="search">
+    <span>도로명주소</span>
+    <input type="search" value="" name="searchKeyword">
+  </div>
+  <div class="list">
+  <ul>
+    
+  </ul>
+  </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="list" value="${requestScope.recommendRecipeList}"/>
+<c:set var="favoriteCheckList" value="${requestScope.favoriteCheckList}"/>
 
 <%-- 한줄에 5개씩 열개를 보여준다 --%>
 <section class="bestRecipeSection">
@@ -12,7 +13,15 @@
 			<div class="cardContainer">
 				<h4><b>${list[i].recipeName}</b></h4>
 				<p>${list[i].recipeSumm}</p>
-				<img src="${contextPath}/img/heart.png" class="favorite"> 
+				<c:choose>
+					<c:when test="${favoriteCheckList[i] == true}">
+						<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+					</c:when>
+					<c:otherwise>
+						<img src="${contextPath}/img/heart.png" class="favorite"> 
+					</c:otherwise>
+				</c:choose>
+				
 				<img src="${contextPath}/img/dislike.png" class="dislike">
 				<img src="${contextPath}/img/like.png" class="like">
 				
@@ -28,7 +37,14 @@
 			<div class="cardContainer">
 				<h4><b>${list[i].recipeName}</b></h4>
 				<p>${list[i].recipeSumm}</p>
-				<img src="${contextPath}/img/heart.png" class="favorite"> 
+				<c:choose>
+					<c:when test="${favoriteCheckList[i] == true}">
+						<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+					</c:when>
+					<c:otherwise>
+						<img src="${contextPath}/img/heart.png" class="favorite"> 
+					</c:otherwise>
+				</c:choose>
 				<img src="${contextPath}/img/dislike.png" class="dislike">
 				<img src="${contextPath}/img/like.png" class="like">
 				

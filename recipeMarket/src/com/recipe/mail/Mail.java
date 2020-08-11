@@ -12,10 +12,10 @@ import javax.mail.internet.MimeMessage;
 
 
 public class Mail {
-	public void sendEmail() {
+	public void sendEmail(String userMail, String pwd) {
 		   String user = "yi.hailey91@gmail.com"; // 네이버일 경우 네이버 계정, gmail경우 gmail 계정
 	       String password = "Hai1eyYi";   // 패스워드
-	       String userMail = "yi.hailey91@gmail.com";
+	      // String userMail = "yi.hailey91@gmail.com";
 	      
 	        Properties props = System.getProperties();
 	        props.put("mail.smtp.host", "smtp.gmail.com"); 
@@ -39,8 +39,8 @@ public class Mail {
 	         MimeMessage message = new MimeMessage(session);  
 	         message.setFrom(new InternetAddress(user));
 	         message.addRecipient(Message.RecipientType.TO,new InternetAddress(userMail));  
-	         message.setSubject("[환영합니다 - RecipeMarket]");  
-	         message.setText("누구누구님 레시피마켓가입을 축하드립니다");  
+	         message.setSubject("[비밀번호찾기 - RecipeMarket]");  
+	         message.setText("비밀번호는: " + pwd + "입니다");  
 	  
 	         // Send message  
 	         Transport.send(message);  

@@ -35,125 +35,119 @@
 <script>
     
 $(function(){
-    $("#datepicker").hide();
-	
-    //날짜 조건검색
-	$('#dt').click(function() {
-			$("#datepicker").show();
-			$("#datepicker").datepicker({
-				onSelect : function(date) {
-					//var date = $("#datepicker").datepicker("getDate");
-					var date1 = $('#datepicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
-					
-					var date = new Date(date1);
-					console.log(date);
-					
-					var d = Date.parse(date1);
-					console.log(d);
-						
-					location.href = "/recipeMarket/purchaseList?date=" + d;
-					$("#datepicker").hide();
-				}
-			});
-		});
-
-		//1주일 날짜검색
-		$('.weeks').click(function() {
-			var date = new Date();
-
-			console.log(date.getDate() - 7);
-			var weeks = date.setDate(date.getDate() - 7);
-			console.log(weeks);
-
-			location.href = "/recipeMarket/purchaseList?date=" + weeks;
-
-		});
-
-		//1달 날짜검색
-		$('.month').click(function() {
-			var date = new Date();
-
-			console.log(date.getDate() - 31);
-			var months = date.setDate(date.getDate() - 31);
-			console.log(months);
-
-			location.href = "/recipeMarket/purchaseList?date=" + months;
-
-		});
-
-		//3개월 날짜검색
-		$('.quarter').click(function() {
-			var date = new Date();
-
-			console.log(date.getDate() - 99);
-			var quarters = date.setDate(date.getDate() - 99);
-			console.log(quarters);
-
-			location.href = "/recipeMarket/purchaseList?date=" + quarters;
-
-		});
-
-		//6개월 날짜검색
-		$('.half').click(function() {
-			var date = new Date();
-
-			console.log(date.getDate() - 186);
-			var halfs = date.setDate(date.getDate() - 186);
-			console.log(date);
-
-			location.href = "/recipeMarket/purchaseList?date=" + halfs;
-
-		});
-		////////////////////////////////////////////
-	  var sectionObj = $('section.rightSection');
-      var purchaseTableObj = $('section.rightSection > div.purchaseInfo > table#pucrhase');
-      
-      //입력 모달창 호출
-       $.ajax ({
-         url : '${contextPath}/reviewAdd.jsp'
-         , method : 'POST'
-         , success : function (data) {
-            console.log(data);
-            sectionObj.append(data);
-            $("#reviewModal").hide();
-         }
-      });
-       
-      purchaseTableObj.on('click', 'tr', function(e){
-         var purchaseCode = $(this).find('input.purchaseCode').val();
-         
-          $("#reviewModal").show();
-
-          
-          var reviewBtnObj = $('button.reviewBtn');
-          reviewBtnObj.on('click', function() {
-             
-             var reviewContent = $("div.reviewContent>input").val();
-             console.log ("리뷰내용 : " + reviewContent); 
-             console.log ("purchaseCode : " + purchaseCode); 
-             
-             $.ajax ({
-               url : '${contextPath}/review/add'
-               , method : 'POST'
-               , data: {"purchaseCode" : purchaseCode 
-                      , "reviewContent" : reviewContent}
-               , success : function (data) {
-                  if (data.status == "success") {
-                     alert ("후기 등록에 성공하였습니다.");
-                     location.reload();
-                  } else {
-                     alert ("후기등록실패 " + data.msg);
-                  }
-               }
-            }); // 리뷰등록 ajax
-            return false;
-         }); // 리뷰등록 버튼 클릭 이벤트
-       }); // 테스트이벤트
+// 	   $("#datepicker").hide();
+	   
+// 	   $('#dt').click(function(){
+// 		   $("#datepicker").show();
+// 		   $("#datepicker").datepicker({
+// 			   dateFormat:'yyyy-mm-dd'
+// 			   var date = $("#datepicker").datepicker("getDate");
+// 	    	   console.log(date);
+		   
+// 	    	});
+		   
+		   
+// 		   $.datepicker.setDefaults({
+// 			   dateFormat: 'yy-mm-dd'
+// 		   })
+// 		   $("#datepicker").datepicker();
+		   
+// 	   });
+	   
+// 	   //1주일 날짜검색
+// 	   $('.weeks').click(function(){
+// 		  var date = new Date();
+		   
+// 		  console.log(date.getDate()-7);
+// 		  var weeks = date.setDate(date.getDate()-7);
+// 		  console.log(date);
+		  
+// 		  location.href="/recipeMarket/purchaseList?date="+weeks;
+			
+// 	   });
+	   
+// 	   //1달 날짜검색
+// 	   $('.month').click(function(){
+// 			  var date = new Date();
+			   
+// 			  console.log(date.getDate()-31);
+// 			  var months = date.setDate(date.getDate()-31);
+// 			  console.log(months);
+			  
+// 			  location.href="/recipeMarket/purchaseList?date="+months;
+				
+// 	   });
+	   
+// 	   //3개월 날짜검색
+// 	   $('.quarter').click(function(){
+// 			  var date = new Date();
+			   
+// 			  console.log(date.getDate()-99);
+// 			  var quarters = date.setDate(date.getDate()-99);
+// 			  console.log(quarters);
+			  
+// 			  location.href="/recipeMarket/purchaseList?date="+quarters;
+				
+// 	   });
+	   
+// 	   //6개월 날짜검색
+// 	   $('.half').click(function(){
+// 			  var date = new Date();
+			   
+// 			  console.log(date.getDate()-186);
+// 			  var halfs = date.setDate(date.getDate()-186);
+// 			  console.log(date);
+			  
+// 			  location.href="/recipeMarket/purchaseList?date="+halfs;
+				
+// 	   });
+		var sectionObj = $('section.rightSection');
+		var purchaseTableObj = $('section.rightSection > div.purchaseInfo > table#pucrhase');
 		
+		//입력 모달창 호출
 		
-		/////////////////////////////////////////////////
-}); //ready이벤트 종료
-</script>
+ 		$.ajax ({
+			url : '${contextPath}/reviewAdd.jsp'
+			, method : 'POST'
+			, success : function (data) {
+				console.log(data);
+				sectionObj.append(data);
+				$("#reviewModal").hide();
+			}
+		});
+ 		
+		purchaseTableObj.on('click', 'tr', function(e){
+			var purchaseCode = $(this).find('input.purchaseCode').val();
+			
+	 		$("#reviewModal").show();
+
+	 		
+	 		var reviewBtnObj = $('button.reviewBtn');
+	 		reviewBtnObj.on('click', function() {
+	 			
+		 		var reviewContent = $("div.reviewContent>input").val();
+		 		console.log ("리뷰내용 : " + reviewContent); 
+		 		console.log ("purchaseCode : " + purchaseCode); 
+		 		
+		 		$.ajax ({
+					url : '${contextPath}/review/add'
+					, method : 'POST'
+					, data: {"purchaseCode" : purchaseCode 
+							 , "reviewContent" : reviewContent}
+					, success : function (data) {
+						if (data.status == "success") {
+							alert ("후기 등록에 성공하였습니다.");
+							location.reload();
+						} else {
+							alert ("후기등록실패 " + data.msg);
+						}
+					}
+				}); // 리뷰등록 ajax
+				return false;
+			}); // 리뷰등록 버튼 클릭 이벤트
+    	}); // 테스트이벤트
+}); // end of load();
+    </script>
 </head>
 <body>
     <header>

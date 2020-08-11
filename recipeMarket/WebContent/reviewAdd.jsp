@@ -26,29 +26,29 @@
 			$('.remainText').html("남은글자수: " + count + "/50자");
 		});
 
-		// 화면으로부터 전달받은 데이터,구매정보 입력받은 후기 내용 등록 ( ajax )
-		var reviewBtnObj = $('button.reviewBtn');
-		reviewBtnObj.click(function() {
+// 		// 화면으로부터 전달받은 데이터,구매정보 입력받은 후기 내용 등록 ( ajax )
+// 		var reviewBtnObj = $('button.reviewBtn');
+// 		reviewBtnObj.click(function() {
 
-			var reviewContent = $reviewContentObj.val();
-			$.ajax({
-				url : '${contextPath}/review/add',
-				method : 'POST',
-				data : {
-					"purchaseCode" : "${param.purchaseCode}",
-					"reviewContent" : reviewContent
-				},
-				success : function(data) {
-					if (data.status == 'success') {
-						alert('후기등록 성공!');
-						location.reload();
-					} else {
-						alert('후기등록 실패!');
-					}
-				}
-			});
-			return false;// 리뷰등록
-		});
+// 			var reviewContent = $reviewContentObj.val();
+// 			$.ajax({
+// 				url : '${contextPath}/review/add',
+// 				method : 'POST',
+// 				data : {
+// 					"purchaseCode" : "${param.purchaseCode}",
+// 					"reviewContent" : reviewContent
+// 				},
+// 				success : function(data) {
+// 					if (data.status == 'success') {
+// 						alert('후기등록 성공!');
+// 						location.reload();
+// 					} else {
+// 						alert('후기등록 실패!');
+// 					}
+// 				}
+// 			});
+// 			return false;// 리뷰등록
+// 		});
 	}); // end of load
 </script>
 </head>
