@@ -54,8 +54,6 @@ public class RecommendRecipeController implements Controller {
 					if(j == favoriteListByEmail.size()) favoriteCheckList.add(false);
 				}
 				
-				System.out.println(recommendRecipeList.size());
-				System.out.println(favoriteCheckList.size());
 				request.setAttribute("favoriteCheckList", favoriteCheckList);
 			}
 			

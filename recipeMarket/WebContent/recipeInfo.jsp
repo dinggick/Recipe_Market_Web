@@ -30,8 +30,6 @@
     <header>
         <!-- 왼쪽 영역 -->
         <div class="headerLeftSection">
-            <!-- 뒤로 가기 버튼 -->
-            <a class="glyphicon glyphicon-chevron-left"></a>
             <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
