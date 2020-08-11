@@ -309,7 +309,7 @@
                 <table id="Cart">
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:set var="total" value="0"></c:set>
-                	 <c:if test="${list.size()==0}">
+                	 <c:if test="${empty list}">
                 	  	장바구니내역이없습니다
          			  </c:if>
                 	  <c:forEach items="${requestScope.list}" var="c">
