@@ -19,13 +19,15 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="./css/review.css">
-    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
    	<link rel="stylesheet" href="./css/purchaseList.css">
+   	<link rel="stylesheet" href="./css/modal.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    
+    <!-- <script src="js/temp.js"></script> -->
     <script src="js/dropdownMenu.js"></script>
     <script src="js/favoriteBtn.js"></script>
     <script src="js/header.js"></script>
@@ -99,33 +101,34 @@ $(function(){
 // 			  location.href="/recipeMarket/purchaseList?date="+halfs;
 				
 // 	   });
-	    
-	   /* 리뷰 등록 이벤트 START  */
-   		var sectionObj = $('section.rightSection');
+		var sectionObj = $('section.rightSection');
 		var purchaseTableObj = $('section.rightSection > div.purchaseInfo > table#pucrhase');
 		
-		//입력 모달창  append
+		//입력 모달창 호출
+		
  		$.ajax ({
 			url : '${contextPath}/reviewAdd.jsp'
 			, method : 'POST'
 			, success : function (data) {
+				console.log(data);
 				sectionObj.append(data);
+				$("#reviewModal").hide();
 			}
 		});
-		
-		// 구매목록 테이블에서 tr 클릭 시, 구매 후기등록
+ 		
 		purchaseTableObj.on('click', 'tr', function(e){
 			var purchaseCode = $(this).find('input.purchaseCode').val();
 			
 	 		$("#reviewModal").show();
 
-	 		// modal, 리뷰등록 버튼 클릭 시  이벤트
+	 		
 	 		var reviewBtnObj = $('button.reviewBtn');
 	 		reviewBtnObj.on('click', function() {
 	 			
-	 			// 리뷰 입력 내용
 		 		var reviewContent = $("div.reviewContent>input").val();
-	 			// 리뷰등록 controller전달
+		 		console.log ("리뷰내용 : " + reviewContent); 
+		 		console.log ("purchaseCode : " + purchaseCode); 
+		 		
 		 		$.ajax ({
 					url : '${contextPath}/review/add'
 					, method : 'POST'
@@ -133,19 +136,16 @@ $(function(){
 							 , "reviewContent" : reviewContent}
 					, success : function (data) {
 						if (data.status == "success") {
-							$("#reviewModal").hide();
 							alert ("후기 등록에 성공하였습니다.");
 							location.reload();
 						} else {
 							alert ("후기등록실패 " + data.msg);
 						}
 					}
-				}); // end of 리뷰등록 ajax
+				}); // 리뷰등록 ajax
 				return false;
-			}); // end of 리뷰등록 버튼 클릭 이벤트
-    	}); // end of 테이블 클릭 이벤트
-	   /* 리뷰 등록 이벤트 END  */
-	   
+			}); // 리뷰등록 버튼 클릭 이벤트
+    	}); // 테스트이벤트
 }); // end of load();
     </script>
 </head>
