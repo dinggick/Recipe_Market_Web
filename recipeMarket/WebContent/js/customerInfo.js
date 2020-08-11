@@ -106,6 +106,7 @@ $(() => {
     		success: function(responseObj) {
     			
     		}
-    	});
+    	})
     }
 });
+    

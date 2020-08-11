@@ -23,10 +23,10 @@
    	<link rel="stylesheet" href="./css/purchaseList.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     
-    <script src="js/temp.js"></script>
+    <!-- <script src="js/temp.js"></script> -->
     <script src="js/dropdownMenu.js"></script>
     <script src="js/favoriteBtn.js"></script>
     <script src="js/header.js"></script>
@@ -43,9 +43,15 @@
 			$("#datepicker").datepicker({
 				onSelect : function(date) {
 					//var date = $("#datepicker").datepicker("getDate");
-					var date = $('#datepicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
+					var date1 = $('#datepicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
+					
+					var date = new Date(date1);
 					console.log(date);
-					//location.href = "/recipeMarket/purchaseList?date=" + date;
+					
+					var d = Date.parse(date1);
+					console.log(d);
+						
+					location.href = "/recipeMarket/purchaseList?date=" + d;
 					$("#datepicker").hide();
 				}
 			});
@@ -59,7 +65,7 @@
 			var weeks = date.setDate(date.getDate() - 7);
 			console.log(weeks);
 
-			//location.href = "/recipeMarket/purchaseList?date=" + weeks;
+			location.href = "/recipeMarket/purchaseList?date=" + weeks;
 
 		});
 
