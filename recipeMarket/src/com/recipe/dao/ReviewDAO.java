@@ -63,22 +63,22 @@ public class ReviewDAO {
 				
 				// PurchaseDetail 
 				Customer customer = new Customer();
-				customer.setCustomerName(rs.getString("C.CUSTOMER_NAME"));
+				customer.setCustomerName(rs.getString("CUSTOMER_NAME"));
 
 				Purchase purchase = new Purchase();
 				purchase.setCustomerEmail(customer);
 				
 				List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
 				RecipeInfo recipeInfo = new RecipeInfo();
-				recipeInfo.setRecipeCode(rs.getInt("PD.RECIPE_CODE"));
+				recipeInfo.setRecipeCode(rs.getInt("RECIPE_CODE"));
 				
 				PurchaseDetail purchaseDetail = new PurchaseDetail();
 				purchaseDetail.setRecipeInfo(recipeInfo);
 				list.add(purchaseDetail);
 				
 				Review r = new Review();
-				r.setReviewDate(rs.getDate("R.REVIEW_DATE"));
-				r.setReviewComment(rs.getString("R.REVIEW_COMMENT"));
+				r.setReviewDate(rs.getDate("REVIEW_DATE"));
+				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
 				r.setPurchase(purchase);
 				
 				reviewList.add(r);
@@ -191,7 +191,7 @@ public class ReviewDAO {
 		String selectSQL = "SELECT R.purchase_code " + 
 				"         , R.review_comment " + 
 				"         , P.purchase_date " + 
-				"         , PD.recipe_code " + 
+				"         , RI.recipe_code " + 
 				"         , RI.recipe_name " + 
 				"FROM review R " + 
 				"   JOIN purchase P ON (R.purchase_code = P.purchase_code) " + 
@@ -199,7 +199,8 @@ public class ReviewDAO {
 				"   JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code) " + 
 				"   JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code) " + 
 				"WHERE " + 
-				"   C.customer_email = ? and RI.recipe_status = 1";
+				"   C.customer_email = ? and RI.recipe_status = '1'";
+			
 		try {
 			pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, customerEmail);
@@ -207,11 +208,10 @@ public class ReviewDAO {
 			reviewList = new ArrayList<>();
 			
 			while ( rs.next() ) {
-				
 				PurchaseDetail purchaseDetail = new PurchaseDetail();
 				RecipeInfo recipeInfo = new RecipeInfo();
-				recipeInfo.setRecipeCode(rs.getInt("PD.recipe_code"));
-				recipeInfo.setRecipeName(rs.getString("RI.recipe_name"));
+				recipeInfo.setRecipeCode(rs.getInt("recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("recipe_name"));
 				
 				purchaseDetail.setRecipeInfo(recipeInfo);
 				
@@ -220,14 +220,13 @@ public class ReviewDAO {
 				
 				
 				Purchase purchase = new Purchase();
-				purchase.setPurchaseCode(rs.getInt("R.purchase_code"));
-				purchase.setPurchaseDate(rs.getDate("P.purchase_date"));
+				purchase.setPurchaseCode(rs.getInt("purchase_code"));
+				purchase.setPurchaseDate(rs.getDate("purchase_date"));
 				purchase.setPurchaseDetails(purchaseDetails);
-				
 				
 				Review r = new Review();
 				r.setPurchase(purchase);
-				r.setReviewComment(rs.getString("R.review_comment"));
+				r.setReviewComment(rs.getString("review_comment"));
 
 				reviewList.add(r);
 			} //end while

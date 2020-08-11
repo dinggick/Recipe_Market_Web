@@ -1,7 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@	page import="com.recipe.model.PageBean"%>
+<%@	page import="com.recipe.vo.Review"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
-<c:set var="myReviewList" value="${requestScope.myReviewList}"></c:set>
+
+<c:set var="pb" value="${requestScope.pb}"/>
+<c:set var="currentPage" value="${pb.currentPage}"/>
+<c:set var="list" value="${pb.list}"/>
+<c:set var="CNT_PER_PAGE" value="${PageBean.CNT_PER_PAGE}"/>
+<c:set var="CNT_PER_PAGEGROUP" value="${PageBean.CNT_PER_PAGEGROUP}"/>
+<c:set var="startRow" value="${pb.startRow}"/>
+<c:set var="totalPage" value="${pb.totalPage}"/>
+<c:set var="startPage" value="${pb.startPage}"/>
+<c:set var="endPage" value="${pb.endPage}"/>
+<c:set var="url" value="${pb.url}"/>
 
 <!DOCTYPE html>
 <html>
@@ -32,50 +45,69 @@ $(function()  {
 	var $rightSectionObj = $("div.divContent>section.rightSection");
 	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
 	var $myReviewListObj = $recipeInfoObj.find("table.myReviewList");
-	// 후기 목록 조회
-
+	// 페이지변동 생길 때 목록 reload
+	
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
-	var recipe_code = $(this).find('td>input[name=recipe_code]').val();
-		console.log(recipe_code);
+	var purchaseCode = $(this).find('input[name=deleteCode]').val();
+		
+		if ( e.target.className == 'delete' ) {
+			$.ajax({
+				url : '${contextPath}/review/remove' 
+				, data : {"purchaseCode" : purchaseCode}
+				, success : function(data) {
+					if ( data.status == 'success') {
+						alert("삭제에 성공했습니다.");
+						location.reload();
+					} else {
+						alert("삭제에 실패했습니다.");
+					}
+					
+				} //end of success
+			}); //end of Ajax
+			return false;
+		} // 삭제 이벤트 발생
+		
+		var recipeCodeForm = $("div.divContent>section.rightSection>form");
+		var recipeCodeObj = $('input[id=recipeCode]');
+		recipeCodeObj.attr("value", recipe_code);
+		
+    	var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipe_code);
+    	form.appendChild(input);
+    	document.body.appendChild(form);
+    	form.submit();
+    	return false;
 	});
-
-	// 후기 삭제
-	
-
 }); // end of load
 </script>
 </head>
 
 <body>
-    <header id="header">
-        <!-- 왼쪽 영역 -->
-        <div class="headerLeftSection">
-            <!-- 로고(홈 버튼) -->
-            <h1 class="home">RECIPE MARKET</h1>
-        </div>
-        <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">SIGN IN</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="login.html">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
-    </header>
+	<header id="header">
+		<!-- 왼쪽 영역 -->
+		<div class="headerLeftSection">
+			<!-- 로고(홈 버튼) -->
+			<h1 class="home">RECIPE MARKET</h1>
+		</div>
+		<!-- 오른쪽 영역 -->
+		<div class="headerRightSection">
+			<jsp:include page="/dropdownMenu.jsp"></jsp:include>
+		</div>
+	</header>
     <div class="divContent">
         <!-- 왼쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="leftSection">
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의후기</h1>
             <hr><br>
-            <p> ${reviewList.size()} 건이 조회 되었습니다.<p>
+            <p> ${requestScope.myReviewList.size()} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
@@ -83,9 +115,10 @@ $(function()  {
 		        <table class="myReviewList">
 		        	<colgroup>
 		        		<col width="3%"></col>
-		        		<col width="15%"></col>
-		        		<col width="15%"></col>
+		        		<col width="20%"></col>
+		        		<col width="10%"></col>
 		        		<col width="*"></col>
+		        		<col width="5%"></col>
 		        	</colgroup>
 		        	<thead>
 		        	<tr>
@@ -96,122 +129,50 @@ $(function()  {
 			        	<td></td>
 		        	</thead>
 		        	<tbody>
-			        	<tr>
-			        		<td>1</td>
-			        		<td>당근찌개</td>
-			        		<td>2020/08/01</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0001"/>
-			        		</td>
-		        		</tr>
-			        	<tr>
-				        	<td>2</td>
-				        	<td>고구마찌개</td>
-				        	<td>2020/07/31</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0002"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>3</td>
-				        	<td>김치찌개</td>
-				        	<td>2020/07/28</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0003"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>4</td>
-				        	<td>어피치찌개</td>
-				        	<td>2020/07/25</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0004"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>5</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0005"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>6</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0006"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>7</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0007"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>8</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0008"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>9</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0009"/>
-			        		</td>
-			        	</tr>
-			        	<tr>
-				        	<td>10</td>
-				        	<td>라이언찌개</td>
-				        	<td>2020/07/20</td>
-			        		<td><span>맛있어요! 굳</span>
-				        		<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
-				        		<input type="hidden" name="recipe_code" value="0010"/>
-			        		</td>
-			        	</tr>
+						<c:if test="${empty requestScope.myReviewList}" > 
+                	   		<tr> 
+                	   			<td colspan='5'> 등록된 후기가 없습니다.</td>
+							</tr>
+						
+						</c:if>
+                	   <c:forEach items="${requestScope.myReviewList}" var="review" varStatus="status">
+                	   		<c:forEach items="${review.purchase.purchaseDetails}" var="purchaseDetail" >
+                	   		<tr> 
+                	   			<td> ${status.index+1} </td>
+                	   			<td> ${purchaseDetail.recipeInfo.recipeName} </td>
+                	   			<td> ${review.purchase.purchaseDate} </td>
+                	   			<td><span> ${review.reviewComment} </span> 
+                	   				<input type="hidden" name="recipe_code" value="${purchaseDetail.recipeInfo.recipeCode}"/>
+                	   			</td>
+                	   			<td class="delete"><a href="#">
+                	   				<img class="delete" src="${contextPath}/img/delete.png" class="remove-button" />
+                	   				<input type="hidden" name="deleteCode" value="${review.purchase.purchaseCode}"/></a>
+			        			</td>
+							</tr>
+                	   		</c:forEach>
+                	   </c:forEach>
 		        	</tbody>
 		        </table>
+		        
        	        <div class="pagingSection">
-		            <img src="${contextPath}/img/pre2.png" alt="prev2">
-		            <img src="${contextPath}/img/pre.png" alt="prev1">
+		            <img src="${contextPath}/img/prev2.png" alt="prev2">
+		            <img src="${contextPath}/img/prev1.png" alt="prev1">
 		            <span><a href="#">1</a></span>
 		            <span><a href="#">2</a></span>
 		            <span><a href="#">3</a></span>
 		            <span><a href="#">4</a></span>
 		            <span><a href="#">5</a></span>
 		            
-		            <img src="${contextPath}/img/next.png" alt="next1">
+		            <img src="${contextPath}/img/next1.png" alt="next1">
 		            <img src="${contextPath}/img/next2.png" alt="next2">
 	        	</div>
 
 	        </div>
-
         </section>
-	    </div>
-    
+    </div>
     <!-- footer 영역 -->
-    <footer>
-        <p>
-            © 2020 RECIPE MARKET All rights reserved.
-        </p>
-        <a class="topBtn">&uarr;TOP</a>
-    </footer>
+	<div class="footer">
+		<jsp:include page="static/footer.html"></jsp:include>
+	</div>
 </body>
 </html>

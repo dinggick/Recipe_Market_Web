@@ -119,8 +119,9 @@
                 <li>
                     <span>CRM</span>
                     <ul>
-                        <li><a href="#">graph1</a></li>
-                        <li><a href="#">graph2</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
                     </ul>
                 </li>
             </ul>                                 
@@ -161,11 +162,11 @@
                     
                     <div class="pagingSection">
 
-						<c:if test="${startPage > 1 }">
+						<c:if test="${startPage > 1}">
                         	<img src="${contextPath}/img/prev2.png" alt="prev2">
 						</c:if>
 						
-                        <c:if test="${currentPage > 1 }">
+                        <c:if test="${currentPage > 1}">
                         	<img src="${contextPath}/img/prev1.png" alt="prev1">
                         </c:if>
 
@@ -184,7 +185,7 @@
                         	</c:choose>
                         </c:forEach>
                         
-                        <c:if test="${totalPage > endPage }">
+                        <c:if test="${totalPage > endPage}">
                         	<img src="${contextPath}/img/next1.png" alt="next1">
                        	</c:if>
                        	

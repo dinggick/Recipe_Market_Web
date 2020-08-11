@@ -90,5 +90,7 @@ div.divContent>section.rightSection>form>label>a {
 
 div.divContent>section.rightSection>form>label>a:hover {
     color: #FE8340;
+    cursor:pointer;
     /* font-size: large; */
 }
+

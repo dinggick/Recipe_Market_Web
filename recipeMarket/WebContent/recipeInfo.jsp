@@ -70,6 +70,7 @@
                         <img src="${contextPath}/img/heart.png" class="favorite">
                         <button class="cartBtn">장바구니 추가</button>
                         <button class="purchaseBtn">구매하기</button>
+                        <input type="number" name="quantity" value="1">
                         <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
                     </div>
                 </div>
@@ -83,53 +84,6 @@
                     	<c:forEach items="${requestScope.process}" var="p">
                         	<li>${p}</li>
                     	</c:forEach>
-                    </ul>
-                </div>
-                <div class="reviewSection">
-                    <h1>후기</h1>
-                    <ul>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
                     </ul>
                 </div>
             </div>

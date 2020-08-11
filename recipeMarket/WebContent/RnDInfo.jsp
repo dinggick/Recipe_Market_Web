@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@	page import="com.recipe.vo.RnD"%>
+<%@	page import="com.recipe.vo.Customer"%>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
@@ -137,8 +137,9 @@
                 <li>
                     <span>CRM</span>
                     <ul>
-                        <li><span>graph1</span></li>
-                        <li><span>graph2</span></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
                     </ul>
                 </li>
             </ul>                            

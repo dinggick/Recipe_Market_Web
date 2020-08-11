@@ -7,10 +7,11 @@
 	<c:choose>
 		<c:when test="${empty sessionScope.loginInfo}">
 			<!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-			<h1 class="account">Sign in</h1>
+			<h1 class="account">로그인</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
 				<a href="${contextPath}/static/login.html">로그인</a>
+				<a>회원가입</a>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -19,11 +20,11 @@
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
 				<a href="#">내 정보 보기</a>
-				<a href="#">구매 내역</a>
-				<a href="#">장바구니</a>
-				<a href="#">즐겨찾기</a>
-				<a href="#">내 후기 목록</a>
-				<a href="${contextPath}/logout">로그아웃</a>
+				<a href="${contextPath}/purchaseList">구매 내역</a>
+				<a href="${contextPath}/recipeCart">장바구니</a>
+				<a href="${contextPath}/favorite/favoriteList">즐겨찾기</a>
+				<a href="${contextPath}/review/myReviewList">내 후기 목록</a>
+				<a href="${contextPath}/logout/customer">로그아웃</a>
 			</div>
 		</c:otherwise>
 	</c:choose>
