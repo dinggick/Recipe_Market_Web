@@ -44,27 +44,17 @@ $(function()  {
 </head>
 
 <body>
-    <header id="header">
-        <!-- 왼쪽 영역 -->
-        <div class="headerLeftSection">
-            <!-- 로고(홈 버튼) -->
-            <h1 class="home">RECIPE MARKET</h1>
-        </div>
-        <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">SIGN IN</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="login.html">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
-    </header>
+	<header id="header">
+		<!-- 왼쪽 영역 -->
+		<div class="headerLeftSection">
+			<!-- 로고(홈 버튼) -->
+			<h1 class="home">RECIPE MARKET</h1>
+		</div>
+		<!-- 오른쪽 영역 -->
+		<div class="headerRightSection">
+			<jsp:include page="/dropdownMenu.jsp"></jsp:include>
+		</div>
+	</header>
     <div class="divContent">
         <!-- 왼쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="leftSection">
@@ -153,6 +143,7 @@ $(function()  {
 			        	</tr>
 		        	</tbody>
 		        </table>
+		        
        	        <div class="pagingSection">
 		            <img src="${contextPath}/img/prev2.png" alt="prev2">
 		            <img src="${contextPath}/img/prev1.png" alt="prev1">
@@ -171,11 +162,8 @@ $(function()  {
     </div>
     
     <!-- footer 영역 -->
-    <footer>
-        <p>
-            © 2020 RECIPE MARKET All rights reserved.
-        </p>
-        <a class="topBtn">&uarr;TOP</a>
-    </footer>
+	<div class="footer">
+		<jsp:include page="static/footer.html"></jsp:include>
+	</div>
 </body>
 </html>

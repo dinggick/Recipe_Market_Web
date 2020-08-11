@@ -13,10 +13,7 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
 import com.recipe.service.ReviewService;
-import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
-import com.recipe.vo.PurchaseDetail;
-import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 
@@ -50,18 +47,16 @@ public class ReviewController implements Controller {
 		String servletPath = "/fail.jsp";
 
  		// 후기 관련 메뉴는 로그인 사용자만 접근가능
-//		Customer loginUser = (Customer)request.getSession().getAttribute("loginInfo");
-//		if( loginUser == null) {
-//			request.setAttribute("msg","로그인 되지 않은 사용자의 접근입니다.");
-//			return servletPath;
-//		}
-		Customer loginUser = new Customer();
-		loginUser.setCustomerEmail("kosj@recipe.com");
+		String customerEmail = (String)request.getSession().getAttribute("loginInfo");
+		if( customerEmail == null) {
+			request.setAttribute("msg","로그인 되지 않은 사용자의 접근입니다.");
+			return servletPath;
+		}
 
 		// 나의 리뷰 목록 보기 
 		String pathInfo = request.getServletPath();
 		if ( "/review/myReviewList".equals(pathInfo) ) {
-			servletPath = myReviewList(request, response, loginUser);
+			servletPath = myReviewList(request, response, customerEmail);
 			
 		// 레시피별 리뷰 목록 보기
 		} else if ( "/review/reviewListByRecipeCode".equals(pathInfo) ) {
@@ -79,23 +74,11 @@ public class ReviewController implements Controller {
 	} // end of execute();
 	
 	
-	private String myReviewList (HttpServletRequest request, HttpServletResponse response, Customer loginUser) {
+	private String myReviewList (HttpServletRequest request, HttpServletResponse response, String customerEmail) {
 		String result = "/fail.jsp";
 		
 		try {
-			List<Review> myReviewList = reviewService.findByEmail(loginUser.getCustomerEmail());
-			//레시피명, 구매일자, 후기내용, 레시피코드
-			for ( int i = 0 ; i < myReviewList.size(); i++ ) {
-				Purchase p = myReviewList.get(i).getPurchase();
-				List<PurchaseDetail> pdList = p.getPurchaseDetails();
-				for ( int j = 0; j < pdList.size(); j++ ) {
-					RecipeInfo ri = pdList.get(j).getRecipeInfo();
-					System.out.println("ri : " + ri.getRecipeName());
-					System.out.println("ri : " + ri.getRecipeCode());
-				}
-				System.out.println(p.getPurchaseDate());
-			}
-			
+			List<Review> myReviewList = reviewService.findByEmail(customerEmail);
 			request.setAttribute("myReviewList", myReviewList);
 			result = "/myReviewList.jsp";
 		
@@ -109,13 +92,13 @@ public class ReviewController implements Controller {
 	
 	private String removeReview (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
-		Purchase purchase = (Purchase) request.getAttribute("purchase");
-		if ( purchase == null ) {
+		int purchaseCode = Integer.parseInt(request.getParameter("purchaseCode"));
+		if (purchaseCode == 0 ) {
 			request.setAttribute("msg","구매정보가 없습니다.");
 		}
 		
 		try {
-			reviewService.remove(purchase.getPurchaseCode());
+			reviewService.remove(purchaseCode);
 			result = "/success.jsp"; 
 			
 		} catch (RemoveException e) {
@@ -129,14 +112,18 @@ public class ReviewController implements Controller {
 	private String addReview (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
 		
-		Purchase purchase = (Purchase)request.getAttribute("purchase");
-		if ( purchase == null ) {
+		int purchaseCode = Integer.parseInt(request.getParameter("purchaseCode"));
+		String reviewContent = (String)request.getParameter("reviewContent");
+		if ( purchaseCode == 0 || "".equals(reviewContent) ) {
 			request.setAttribute("msg","구매정보가 없습니다.");
 		}
 		
+		Purchase p = new Purchase();
+		p.setPurchaseCode(purchaseCode);
+
 		Review r = new Review();
-		r.setPurchase(purchase);
-		r.setReviewComment((String)request.getAttribute("recipeComment"));
+		r.setPurchase(p);
+		r.setReviewComment(reviewContent);
 		
 		try {
 			reviewService.add(r);

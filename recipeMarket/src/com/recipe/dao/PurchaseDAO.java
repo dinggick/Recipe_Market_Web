@@ -113,7 +113,9 @@ public class PurchaseDAO {
 		//purchaseDetail에서 현재 시퀀스로 받아 추가
 		String insertSQL2="INSERT INTO PURCHASE_DETAIL VALUES(PURCHASE_SEQ.CURRVAL,?,?)";
 		
+		String deleteSQL = "DELETE CART WHERE RECIPE_CODE=? AND CUSTOMER_EMAIL=?";
 		try {
+			
 			ps = con.prepareStatement(insertSQL);
 			
 			//현재 사용자ID를 추가
@@ -130,6 +132,15 @@ public class PurchaseDAO {
 				ps.addBatch();
 			}
 			ps.executeBatch();
+			
+			ps = con.prepareStatement(deleteSQL);
+			for(PurchaseDetail pd : p.getPurchaseDetails()) {
+				ps.setInt(1, pd.getRecipeInfo().getRecipeCode());
+				ps.setString(2, p.getCustomerEmail().getCustomerEmail());;
+				ps.addBatch();
+			}
+			ps.executeBatch();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException("구매되지 않았습니다");
