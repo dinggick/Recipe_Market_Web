@@ -19,7 +19,6 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="./css/review.css">
-    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
    	<link rel="stylesheet" href="./css/purchaseList.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -36,76 +35,70 @@
    $(function(){
 	   $("#datepicker").hide();
 	   
-	   $('#dt').click(function(){
-		   $("#datepicker").show();
-		   $("#datepicker").datepicker({
-			   dateFormat:'yyyy-mm-dd'
-			   var date = $("#datepicker").datepicker("getDate");
-	    	   console.log(date);
-		   
-	    	});
-		   
-		   
-		   $.datepicker.setDefaults({
-			   dateFormat: 'yy-mm-dd'
-		   })
-		   $("#datepicker").datepicker();
-		   
-	   });
 	   
-	   //1주일 날짜검색
-	   $('.weeks').click(function(){
-		  var date = new Date();
-		   
-		  console.log(date.getDate()-7);
-		  var weeks = date.setDate(date.getDate()-7);
-		  console.log(date);
-		  
-		  location.href="/recipeMarket/purchaseList?date="+weeks;
-			
-	   });
-	   
-	   //1달 날짜검색
-	   $('.month').click(function(){
-			  var date = new Date();
-			   
-			  console.log(date.getDate()-31);
-			  var months = date.setDate(date.getDate()-31);
-			  console.log(months);
-			  
-			  location.href="/recipeMarket/purchaseList?date="+months;
-				
-		   });
-	   
-	   //3개월 날짜검색
-	   $('.quarter').click(function(){
-			  var date = new Date();
-			   
-			  console.log(date.getDate()-99);
-			  var quarters = date.setDate(date.getDate()-99);
-			  console.log(quarters);
-			  
-			  location.href="/recipeMarket/purchaseList?date="+quarters;
-				
-		   });
-	   
-	   //6개월 날짜검색
-	   $('.half').click(function(){
-			  var date = new Date();
-			   
-			  console.log(date.getDate()-186);
-			  var halfs = date.setDate(date.getDate()-186);
-			  console.log(date);
-			  
-			  location.href="/recipeMarket/purchaseList?date="+halfs;
-				
-	   });
-	    
-	   
-	   
-	  	
-    });
-    </script>
+	$('#dt').click(function() {
+			$("#datepicker").show();
+			$("#datepicker").datepicker({
+				onSelect : function(date) {
+					//var date = $("#datepicker").datepicker("getDate");
+					var date = $('#datepicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
+					console.log(date);
+					location.href = "/recipeMarket/purchaseList?date=" + date;
+					$("#datepicker").hide();
+				}
+			});
+		});
+
+		//1주일 날짜검색
+		$('.weeks').click(function() {
+			var date = new Date();
+
+			console.log(date.getDate() - 7);
+			var weeks = date.setDate(date.getDate() - 7);
+			console.log(date);
+
+			location.href = "/recipeMarket/purchaseList?date=" + weeks;
+
+		});
+
+		//1달 날짜검색
+		$('.month').click(function() {
+			var date = new Date();
+
+			console.log(date.getDate() - 31);
+			var months = date.setDate(date.getDate() - 31);
+			console.log(months);
+
+			location.href = "/recipeMarket/purchaseList?date=" + months;
+
+		});
+
+		//3개월 날짜검색
+		$('.quarter').click(function() {
+			var date = new Date();
+
+			console.log(date.getDate() - 99);
+			var quarters = date.setDate(date.getDate() - 99);
+			console.log(quarters);
+
+			location.href = "/recipeMarket/purchaseList?date=" + quarters;
+
+		});
+
+		//6개월 날짜검색
+		$('.half').click(function() {
+			var date = new Date();
+
+			console.log(date.getDate() - 186);
+			var halfs = date.setDate(date.getDate() - 186);
+			console.log(date);
+
+			location.href = "/recipeMarket/purchaseList?date=" + halfs;
+
+		});
+
+	});
+</script>
 </head>
 <body>
     <header>
