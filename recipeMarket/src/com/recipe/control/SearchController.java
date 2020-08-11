@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
+import com.recipe.mail.Mail;
 import com.recipe.service.RecipeService;
 import com.recipe.vo.RecipeInfo;
 
@@ -30,7 +31,9 @@ public class SearchController implements Controller {
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = "";
 		List<String> ingName = new ArrayList<>();
-		
+//		Mail mail = new Mail();
+//		mail.sendEmail();
+//		
 		String value = request.getParameter("ingName");
 		request.setAttribute("ingName", value.trim());
 		String[] str = value.trim().split(" ");
