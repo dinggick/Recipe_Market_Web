@@ -149,25 +149,26 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Integer>> selectBySeasonG3(String startDate, String endDate, int count) throws FindException {
+	public List<Pair<String, Pair<String, Integer>>> selectBySeasonG3(String startDate, String endDate, int count) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		List<Pair<String, Integer>> list = null;
+		List<Pair<String, Pair<String, Integer>>> list = null;
 
 		String selectByYearMonthSQL = 
-				"SELECT recipe_name, sales_volume\r\n" + 
+				"SELECT recipe_name, rd_email, sales_volume\r\n" + 
 				"FROM (\r\n" + 
 				"        SELECT rownum, a.*\r\n" + 
 				"        FROM (\r\n" + 
 				"            SELECT ri.recipe_name AS recipe_name,\r\n" + 
+				"                ri.rd_email,\r\n" + 
 				"                SUM(pd.purchase_quantity) AS sales_volume\r\n" + 
 				"            FROM recipe_info ri JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
 				"                JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
 				"            WHERE TO_CHAR(p.purchase_date, 'YYYYMM') BETWEEN ? AND ? -- '202012' AND '202102' is 2020's winter\r\n" + 
-				"            GROUP BY ri.recipe_name\r\n" + 
-				"            ORDER BY 2 DESC ) a )\r\n" + 
+				"            GROUP BY ri.recipe_name, ri.rd_email\r\n" + 
+				"            ORDER BY 3 DESC ) a )\r\n" + 
 				"WHERE rownum <= ?";
 
 		try {
@@ -190,8 +191,9 @@ public class GraphDAO {
 			rs.previous();
 
 			while (rs.next()) {				
-				list.add(new Pair<>(rs.getString("recipe_name"), 
-						rs.getInt("sales_volume")));
+				list.add(new Pair<>(rs.getString("rd_email")
+						, new Pair<>(rs.getString("recipe_name"), 
+						rs.getInt("sales_volume"))));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -203,16 +205,24 @@ public class GraphDAO {
 		return list;
 	}
 	
-	public List<Pair<String, Integer>> selectByConditionG4(
-			String rd_email,
-			String startDate, 
-			String endDate,
-			String g1,
-			String g2,
-			int start_age,
-			int end_age,
-			int count
-			) throws FindException {
+	/**
+	 * Function for Graph4
+	 * @param rd_email
+	 * @param startDate
+	 * @param endDate
+	 * @param gender1
+	 * @param gender2
+	 * @param start_age
+	 * @param end_age
+	 * @param count
+	 * @return
+	 * @throws FindException
+	 * @author yonghwan
+	 */
+	public List<Pair<String, Integer>> selectByConditionG4(String rd_email,
+			String startDate, String endDate,
+			String gender1, String gender2,
+			int start_age, int end_age, int count) throws FindException {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -237,7 +247,7 @@ public class GraphDAO {
 				"                            OR\r\n" + 
 				"                        (c.customer_gender = ?)\r\n" + 
 				"                    AND \r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) > ?\r\n" + 
+				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) >= ?\r\n" + 
 				"                            AND\r\n" + 
 				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) <= ?\r\n" + 
 				"                GROUP BY ri.recipe_name\r\n" + 
@@ -253,8 +263,8 @@ public class GraphDAO {
 			pstmt.setString(1, rd_email);
 			pstmt.setString(2, startDate);
 			pstmt.setString(3, endDate);
-			pstmt.setString(4, g1);
-			pstmt.setString(5, g2);
+			pstmt.setString(4, gender1);
+			pstmt.setString(5, gender2);
 			pstmt.setInt(6, start_age);
 			pstmt.setInt(7, end_age);
 			pstmt.setInt(8, count);
@@ -296,8 +306,8 @@ public class GraphDAO {
 			for (Pair<String, Integer> p : dao.selectByYearG2("2020", 10)) {
 				System.out.println(p.getKey() + " " + p.getValue());
 			}
-			for (Pair<String, Integer> p : dao.selectBySeasonG3("202006", "202008", 10)) {
-				System.out.println(p.getKey() + " " + p.getValue());
+			for (Pair<String, Pair<String, Integer>> p : dao.selectBySeasonG3("202006", "202008", 10)) {
+				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
 			List<Pair<String, Integer>> list = dao.selectByConditionG4("rd01@recipe.com", "19900601", "20200801", "M", "F", 10, 99, 10);
 			for (Pair<String, Integer> p : list) {

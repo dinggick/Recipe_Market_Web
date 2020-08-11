@@ -71,24 +71,32 @@ public class StatisticsService {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Integer>> findBySeasonG3(String startDate, String endDate, int count) 
+	public List<Pair<String, Pair<String, Integer>>> findBySeasonG3(String startDate, String endDate, int count) 
 			throws FindException {
 		
 		return dao.selectBySeasonG3(startDate, endDate, count);
 	}
 	
-	public List<Pair<String, Integer>> findByConditionG4(
-			String rd_email,
-			String startDate, 
-			String endDate,
-			String g1,
-			String g2,
-			int start_age,
-			int end_age,
-			int count
-			) throws FindException {
+	/**
+	 * Function for Graph4
+	 * @param rd_email
+	 * @param startDate
+	 * @param endDate
+	 * @param gender1
+	 * @param gender2
+	 * @param start_age
+	 * @param end_age
+	 * @param count
+	 * @return
+	 * @throws FindException
+	 * @author yonghwan
+	 */
+	public List<Pair<String, Integer>> findByConditionG4(String rd_email,
+			String startDate, String endDate,
+			String gender1, String gender2,
+			int start_age, int end_age, int count) throws FindException {
 	
-		return dao.selectByConditionG4(rd_email, startDate, endDate, g1, g2, start_age, end_age, count);
+		return dao.selectByConditionG4(rd_email, startDate, endDate, gender1, gender2, start_age, end_age, count);
 	}
 	
 	/**
@@ -105,7 +113,11 @@ public class StatisticsService {
 			for (Pair<String, Integer> p : service.findByYearG2("2020", 10)) {
 				System.out.println(p.getKey() + " " + p.getValue());
 			}
-			for (Pair<String, Integer> p : service.findBySeasonG3("202006", "202008", 10)) {
+			for (Pair<String, Pair<String, Integer>> p : service.findBySeasonG3("202006", "202008", 10)) {
+				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
+			}
+			List<Pair<String, Integer>> list = service.findByConditionG4("rd01@recipe.com", "19900601", "20200801", "M", "F", 10, 99, 10);
+			for (Pair<String, Integer> p : list) {
 				System.out.println(p.getKey() + " " + p.getValue());
 			}
 		} catch (FindException e) {

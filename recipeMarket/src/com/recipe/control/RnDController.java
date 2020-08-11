@@ -131,30 +131,29 @@ public class RnDController implements Controller {
 				pb.setUrl(servletPath);
 								
 				request.setAttribute("pb", pb);
-				
-				System.out.println(pb);
-				
+								
 				jspFileName = "/RnDList.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/search".equals(pathInfo)) { /* select tag */
+		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */
 			String loginInfo = (String)session.getAttribute("loginInfo");
-
-			if (loginInfo == null || "".equals(loginInfo)) {
+			
+			try {
+				service.findById(loginInfo);
+				jspFileName = "/conditionSearch.jsp";
+			} catch (FindException e) {
 				try {
 					List<RnD> rd_list = service.findAll();
 					request.setAttribute("rd_list", rd_list);
 					
 					jspFileName = "/conditionSearch.jsp";
-				} catch (FindException e) {
-					e.printStackTrace();
+				} catch (FindException e1) {
+					e1.printStackTrace();
 					request.setAttribute("msg", e.getMessage());
 				}
-			} else {
-				jspFileName = "/conditionSearch.jsp";
 			}
 		}
 		

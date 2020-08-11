@@ -57,8 +57,8 @@
 
         var options = {
           chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: '${rd_email}\'s recipe ranking',
+            subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${start_age} 대',
           },
           bars: 'horizontal' // Required for Material Bar Charts.
         };
@@ -68,25 +68,6 @@
         chart.draw(data, google.charts.Bar.convertOptions(options));
       }
     </script>
-    
-    	<script>
-		$(function() {
-			$("option[value=" + ${startDate} + "_" + ${endDate} + "]").attr("selected", "selected");
-			$("option[value=" + ${count} + "]").attr("selected", "selected");
-			
-			$(".selectTerm, .topCount").on("change", function(evt) {
-				$(evt.target).prop("selected", true);
-				var url = "${contextPath}/statistics/graph3?";
-				url += "term=" + $(".selectTerm").val();
-				url += "&count=" + $(".topCount").val();
-				location.href = url;
-			});
-			$("form").on("submit", function(evt) {
-				return false;
-			});
-		});
-	</script>
-	
 </head>
 <body>
 
@@ -151,6 +132,7 @@
                         <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
                         <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
                         <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
+                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
                     </ul>
                 </li>
             </ul>                                 
