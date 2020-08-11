@@ -40,28 +40,25 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-        	<%List<Pair<String, Integer>> list = (List)request.getAttribute("data_list");%>
+        	<%List<Pair<String, Pair<String, Integer>>> list = (List)request.getAttribute("data_list");%>
         		[ "Number of sales"
             	<%for (int i = 0; i < list.size(); ++i) {%>
             		,            		
-            		"<%=list.get(i).getKey()%>"
+            		"<%=list.get(i).getValue().getKey() + "(" + list.get(i).getKey() + ")"%>"
             	<%}%>
             	],
             	[ 0.0
                 <%for (int i = 0; i < list.size(); ++i) {%>
             		,            		
-            		<%=list.get(i).getValue()%>
+            		<%=list.get(i).getValue().getValue()%>
             	<%}%>
             	]
         ]);
         
-        ['Year', 'Sales', 'Expenses', 'Profit'],
-        ['2014', 1000, 400, 200]
-
         var options = {
           chart: {
-            title: 'Company Performance',
-            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            title: '레시피 매출 비중',
+            subtitle: '판매기간: ${startDate}~${endDate}',
           },
           bars: 'horizontal' // Required for Material Bar Charts.
         };
@@ -154,6 +151,7 @@
                         <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
                         <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
                         <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
+                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
                     </ul>
                 </li>
             </ul>                                 

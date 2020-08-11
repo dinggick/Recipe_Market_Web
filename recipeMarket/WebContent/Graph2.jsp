@@ -47,7 +47,7 @@
         ]);
 
         var options = {
-            title: '부서별 총 매출 (단위 만)',
+            title: 'RnD별 총 매출 순위',
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -138,6 +138,7 @@
                         <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
                         <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
                         <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
+                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
                     </ul>
                 </li>
             </ul>                                 

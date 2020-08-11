@@ -44,8 +44,8 @@ public class StatisticsController implements Controller {
 		
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
 		String jspFileName = "/fail.jsp";
-		
-		if("/graph1".equals(pathInfo)) { /* show graph1 */
+				
+		if("/graph1".equals(pathInfo)) { /* Show graph1 */
 			try {
 				List<Pair<Integer, Pair<String, Integer>>> dataList = null;
 				
@@ -61,7 +61,7 @@ public class StatisticsController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if("/graph2".equals(pathInfo)) { /* show graph2 */
+		} else if("/graph2".equals(pathInfo)) { /* Show graph2 */
 			try {
 				List<Pair<String, Integer>> dataList = null;
 				
@@ -81,9 +81,9 @@ public class StatisticsController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if("/graph3".equals(pathInfo)) { /* show graph3 */
+		} else if("/graph3".equals(pathInfo)) { /* Show graph3 */
 			try {
-				List<Pair<String, Integer>> dataList = null;
+				List<Pair<String, Pair<String, Integer>>> dataList = null;
 				
 				String term = request.getParameter("term");
 				int count = Integer.parseInt(request.getParameter("count"));
@@ -93,8 +93,8 @@ public class StatisticsController implements Controller {
 				String[] dt = term.split("_");
 				String startDate = dt[0], endDate = dt[1];
 				
-				session.setAttribute("startDate", startDate);
-				session.setAttribute("endDate", endDate);
+				session.setAttribute("startDate", dt[0].substring(0, 4) + "/" + dt[0].substring(4, 6));
+				session.setAttribute("endDate", dt[1].substring(0, 4) + "/" + dt[1].substring(4, 6));
 				
 				dataList = service.findBySeasonG3(startDate, endDate, count);
 				
@@ -106,38 +106,55 @@ public class StatisticsController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/graph4".equals(pathInfo)) { /* show graph4 */
-			String rd_email = request.getParameter("rd_email");
+		} else if ("/graph4".equals(pathInfo)) { /* Show graph4 */
+			String rd_email = request.getParameter("rd_email");			
 			String start_date = request.getParameter("start_date");
 			String end_date = request.getParameter("end_date");
 			String customer_gender = request.getParameter("customer_gender");
 			String age_group = request.getParameter("age_group");
 			int count = Integer.parseInt(request.getParameter("count"));
-
-			String[] sd = start_date.split("/");
-			String[] ed = end_date.split("/");
 			
-			start_date = sd[0] +  sd[1]  + sd[2];
-			end_date = ed[0] + ed[1] + ed[2];
+			session.setAttribute("rd_email", rd_email);
+			session.setAttribute("start_date", start_date);
+			session.setAttribute("end_date", end_date);
+
+			String[] start_dt = start_date.split("/");
+			String[] end_dt = end_date.split("/");
+			
+			start_date = start_dt[0] +  start_dt[1]  + start_dt[2];
+			end_date = end_dt[0] + end_dt[1] + end_dt[2];
 						
-			String g1 = customer_gender.charAt(0) + "";
-			String g2 = customer_gender.charAt(1) + "";
+			String gender1 = customer_gender.charAt(0) + "";
+			String gender2 = customer_gender.charAt(1) + "";
+			
+			if (!gender1.equals(gender2)) {
+				session.setAttribute("gender", "전체");
+			} else if (gender1.equals("M")) {
+				session.setAttribute("gender", "남성");
+			} else {
+				session.setAttribute("gender", "여성");
+			}
 			
 			String[] age = age_group.split("_");
 			int start_age = Integer.parseInt(age[0]);
 			int end_age = Integer.parseInt(age[1]);
 			
+			session.setAttribute("start_age", start_age);
+			
+			System.out.println(rd_email + " " + start_date + " " + end_date + " " + gender1 + " " + gender2 + " " +
+					start_age + " " + end_age + " " + count);
+			
 			try {
 				List<Pair<String, Integer>> dataList = null;
 				
-				dataList = service.findByConditionG4(rd_email, start_date, end_date, g1, g2, start_age, end_age, count);
-				System.out.println(dataList);
+				dataList = service.findByConditionG4(rd_email, start_date, end_date, gender1, gender2, start_age, end_age, count);
 				request.setAttribute("data_list", dataList);
 
 				jspFileName = "/Graph4.jsp";
-				System.out.println("여기에요");
+				
 			} catch (FindException e) {
 				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage());
 			}
 		}
 		
