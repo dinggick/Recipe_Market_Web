@@ -28,7 +28,7 @@
     <script src="${contextPath}/js/recipeInfo.js"></script>
     <script src="${contextPath}/js/recipeAdd.js"></script>
     
-        <script>
+ 	<script>
     	$(function(){
     		$('.ingAddBtn').click(function(){
     			var tag = ''
@@ -55,22 +55,22 @@
     			}
     		});
     		
-    		$('.summAddBtn').click(function(){
+    		$('.processAddBtn').click(function(){
     			var tag = ''
     			tag +='<tr>';
     			tag +='<td colspan="2">';
-    			tag +='<input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" placeholder="과정을 입력하세요.">';
+    			tag +='<input size="60" class="dataInput" type="text" id="recipeProcess" name="recipeProcess" placeholder="과정을 입력하세요.">';
     			tag +='</td>';
     			tag +='<td align="left">';
-    			tag +='<button class="summDeleteBtn" type="button">';
-    			tag +='summDelete';
+    			tag +='<button class="processDeleteBtn" type="button">';
+    			tag +='processDelete';
     			tag +='</button>';
     			tag +='</td>';
     			tag +='</tr>';
-    			$('.recipeSummWrapper').append(tag);
+    			$('.recipeProcessWrapper').append(tag);
     		});
     		
-    		$('.recipeSummWrapper').on('click','.summDeleteBtn', function(){
+    		$('.recipeProcessWrapper').on('click','.processDeleteBtn', function(){
 				if(confirm("선택하신 과정을 삭제하시겠습니까?")){
 	    			var clickedRow = $(this).parent().parent();
 	    			clickedRow.remove();
@@ -78,73 +78,70 @@
     		});
     		
     		$('.recipeAddBtn').click(function(){
-    			//alert("recipeAdd버튼을 클릭하셨습니다.");
-    			
-    			console.log("레시피명", $("#recipeName").val());
     			var recipeName = $("#recipeName").val();
-    			var ingName = $("input[name=ingredientsName]");
-    			var ingSize = $("input[name=ingredientsSize]");
-    			var summ = $("input[name=recipeSumm]");
-    			var ingData ='';
-    				
-    			console.log($("input[name=ingredientsName]").val());
-    			console.log($("input[name=ingredientsSize]").val());
-    			console.log("가격", $("#recipePrice").val());
-    			console.log("요리과정",$("input[name=recipeSumm]").val());
-    			console.log("이미지경로",$("#imageUpload").val());
+    			var ingNameObj = $("input[name=ingredientsName]");
+    			var ingSizeObj = $("input[name=ingredientsSize]");
+    			var recipeSumm = $("input[name=recipeSumm]").val();
+    			var recipePrice = $("input[name=recipePrice]").val();
+    			var recipeProcessObj = $("input[name=recipeProcess]");
+    			var recipeImage = $("input[name=imageUpload]")[0].files[0];
     			
-    			
-    			$('#multiform').ajaxForm({
-    				cache: false,
-    				dataType:'json',
-    				beforeSubmit: function(data, frm, opt) {
-    					// submit 하기전 유효성 검사하는 곳
-    					console.log("유효성검사", data);
-    					return true;
-    				},
-    				success: function(data, statusText) {
-    					console.log(data);
-    					if (data != null && data.status == "success") {
-    						alert("등록되었습니다.");
-    					} else {
-    						alert("등록이 실패하였습니다.\n잠시 후 다시 시도해주세요.");
-    					}
-    				}
-    			});
-    			
-    			$('#multiform').submit(); 
+    			if (recipeName == '') {
+    				alert("레시피명을 입력해주세요!");
+    				$("#recipeName").focus();
+    				return;
+    			}
 
-    			/* var formData = new FormData();
+    			// formData Setting
+    			var formData = new FormData();
     			formData.append("recipeName", recipeName);
     			var ingName = [];
-    			for (var i=0; i<ingName.length; i++) {
-    				ingName.push(ingName[i].value);
+    			for (var i=0; i<ingNameObj.length; i++) {
+    				ingName.push(ingNameObj[i].value);
     			}
     			formData.append("ingName", ingName);
+    			var ingSize = [];
+    			for (var i=0; i<ingSizeObj.length; i++) {
+    				ingSize.push(ingSizeObj[i].value);
+    			}
+    			formData.append("ingSize", ingSize);
+    			formData.append("recipeSumm", recipeSumm);
+    			formData.append("recipePrice", recipePrice);
+    			var recipeProcess = [];
+    			for (var i=0; i<recipeProcessObj.length; i++) {
+    				recipeProcess.push(recipeProcessObj[i].value);
+    			}
+    			formData.append("recipeProcess", recipeProcess);
+    			formData.append("recipeImage", recipeImage);
+
+    			// formData 데이터 확인하기
+    			/* for (var key of formData.keys()) {
+					console.log(key, formData.get(key));
+				} */
     			
-    			console.log(formData);
+    			// 등록 ajax 호출
     			$.ajax({
     				url: '/recipeMarket/recipeEdit'
     				,method:'post'
     				,enctype:'multipart/form-data'
+    				,cache: false
        				,processData: false
        				,contentType: false
     				,data:formData
-    				,success:function(data){
-    					console.log(data);
+    				,success:function(data) {
     					if (data != null && data.status == "success") {
     						alert("등록되었습니다.");
+    						// 리스트로 이동
     					} else {
-    						alert("등록이 실패하였습니다.\n잠시 후 다시 시도해주세요.");
+    						alert(data.msg);
     					}
-    					
     				}
-    			}); */
+    			});
     			
     		});
     		
     	});
-    </script>
+	</script>
     
 </head>
 
@@ -185,7 +182,7 @@
 
             <div class="infoWrapper">
 
-                <form id="multiform" name="multiform" class="formWrapper" action="/recipeMarket/recipeEdit" method="post" enctype="multipart/form-data">
+                <form id="multiform" name="multiform" class="formWrapper" action="/recipeMarket/recipeEdit" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
 					<table>
 						<thead>
 		                    <tr>
@@ -194,8 +191,8 @@
 						</thead>
 						<tbody class="ingredientsWrapper">
 		                    <tr>
-		                        <td align="center"><input size="28" class="dataInput" type="text" id="ingredientsName" name="ingredientsName" placeholder="재료을 입력하세요."></td>
-		                        <td align="center"><input size="28" class="dataInput" type="text" id="ingredientsSize" name="ingredientsSize" placeholder="용량을 입력하세요."></td>
+		                        <td align="center"><input size="28" class="dataInput" type="text" id="ingredientsName1" name="ingredientsName" placeholder="재료을 입력하세요."></td>
+		                        <td align="center"><input size="28" class="dataInput" type="text" id="ingredientsSize1" name="ingredientsSize" placeholder="용량을 입력하세요."></td>
 		                        <td align="left">
 		                       		<button class="ingAddBtn" type="button">
 		                           		ingAdd
@@ -204,16 +201,19 @@
 		                    </tr>
 						</tbody>
 						<tbody>
+							<tr>
+		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" placeholder="한줄요약을 입력하세요."></td><!-- 숫자만 입력하세요(유효성검사) -->
+		                    </tr>
 		                    <tr>
 		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipePrice" name="recipePrice" placeholder="가격을 입력하세요."></td><!-- 숫자만 입력하세요(유효성검사) -->
 		                    </tr>
 						</tbody>
-						<tbody class="recipeSummWrapper">
+						<tbody class="recipeProcessWrapper">
 		                    <tr>
-		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" placeholder="과정을 입력하세요."></td>
+		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeProcess1" name="recipeProcess" placeholder="과정을 입력하세요."></td>
 		                        <td align="left">
-		                       		<button class="summAddBtn" type="button">
-		                           		summAdd
+		                       		<button class="processAddBtn" type="button">
+		                           		processAdd
 			                        </button>
 			                    </td>
 		                    </tr>

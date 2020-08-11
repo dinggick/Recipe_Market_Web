@@ -43,12 +43,12 @@ $(() => {
     });
     ////////////////////////////////////////////////////////////
        ////////////////////////////////////////////////////////////////////////
-	$('.recipeSummWrapper').on("focus",'.dataInput', function(evt) {
+	$('.recipeProcessWrapper').on("focus",'.dataInput', function(evt) {
         $(this).css("border", "0.5px solid black");
         $(this).css("background-color", "ghostwhite");
     });
    
-    $('.recipeSummWrapper').on('blur change','.dataInput', function(evt) {
+    $('.recipeProcessWrapper').on('blur change','.dataInput', function(evt) {
         if ($(this).val() == "") {
             $(this).css("background-color", "#ddd");
             $(this).css("border", "none");

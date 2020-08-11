@@ -54,22 +54,22 @@
     			}
     		});
     		
-    		$('.summAddBtn').click(function(){
+    		$('.processAddBtn').click(function(){
     			var tag = ''
     			tag +='<tr>';
     			tag +='<td colspan="2">';
-    			tag +='<input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" placeholder="과정을 입력하세요.">';
+    			tag +='<input size="60" class="dataInput" type="text" id="recipeProcess" name="recipeProcess" placeholder="과정을 입력하세요.">';
     			tag +='</td>';
     			tag +='<td align="left">';
-    			tag +='<button class="summDeleteBtn" type="button">';
-    			tag +='summDelete';
+    			tag +='<button class="processDeleteBtn" type="button">';
+    			tag +='processDelete';
     			tag +='</button>';
     			tag +='</td>';
     			tag +='</tr>';
-    			$('.recipeSummWrapper').append(tag);
+    			$('.recipeProcessWrapper').append(tag);
     		});
     		
-    		$('.recipeSummWrapper').on('click','.summDeleteBtn', function(){
+    		$('.recipeProcessWrapper').on('click','.prcoessDeleteBtn', function(){
 				if(confirm("선택하신 과정을 삭제하시겠습니까?")){
 	    			var clickedRow = $(this).parent().parent();
 	    			clickedRow.remove();
@@ -77,7 +77,67 @@
     		});
     		
     		$('.recipeModifyBtn').click(function(){
-    			alert("recipeModify버튼을 클릭하셨습니다.");
+    			var recipeCode = $("#recipeCode").val();
+    			var recipeName = $("#recipeName").val();
+    			var ingNameObj = $("input[name=ingredientsName]");
+    			var ingSizeObj = $("input[name=ingredientsSize]");
+    			var recipeSumm = $("input[name=recipeSumm]").val();
+    			var recipePrice = $("input[name=recipePrice]").val();
+    			var recipeProcessObj = $("input[name=recipeProcess]");
+    			var recipeImage = $("input[name=imageUpload]")[0].files[0];
+
+    			if (recipeName == '') {
+    				alert("레시피명을 입력해주세요!");
+    				$("#recipeName").focus();
+    				return;
+    			}
+
+    			// formData Setting
+    			var formData = new FormData();
+    			formData.append("recipeCode", recipeCode);
+    			formData.append("recipeName", recipeName);
+    			var ingName = [];
+    			for (var i=0; i<ingNameObj.length; i++) {
+    				ingName.push(ingNameObj[i].value);
+    			}
+    			formData.append("ingName", ingName);
+    			var ingSize = [];
+    			for (var i=0; i<ingSizeObj.length; i++) {
+    				ingSize.push(ingSizeObj[i].value);
+    			}
+    			formData.append("ingSize", ingSize);
+    			formData.append("recipeSumm", recipeSumm);
+    			formData.append("recipePrice", recipePrice);
+    			var recipeProcess = [];
+    			for (var i=0; i<recipeProcessObj.length; i++) {
+    				recipeProcess.push(recipeProcessObj[i].value);
+    			}
+    			formData.append("recipeProcess", recipeProcess);
+    			formData.append("recipeImage", recipeImage);
+
+    			// formData 데이터 확인하기
+    			/* for (var key of formData.keys()) {
+					console.log(key, formData.get(key));
+				} */
+
+    			// 수정 ajax 호출
+    			$.ajax({
+    				url: '/recipeMarket/recipeEdit'
+    				,method:'post'
+    				,enctype:'multipart/form-data'
+    				,cache: false
+       				,processData: false
+       				,contentType: false
+    				,data:formData
+    				,success:function(data) {
+    					if (data != null && data.status == "success") {
+    						alert("수정되었습니다.");
+    						// 리스트로 이동
+    					} else {
+    						alert(data.msg);
+    					}
+    				}
+    			});
     		});
     	});
     </script>
@@ -152,16 +212,19 @@
 							</c:if>
 						</tbody>
 						<tbody>
+							<tr>
+		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" value="${requestScope.recipeInfo.recipeSumm}" placeholder="한줄요약을 입력하세요."></td><!-- 숫자만 입력하세요(유효성검사) -->
+		                    </tr>
 		                    <tr>
-		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipePrice" name="recipePrice" placeholder="가격을 입력하세요."></td><!-- 숫자만 입력하세요(유효성검사) -->
+		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipePrice" name="recipePrice" value="${requestScope.recipeInfo.recipePrice}" placeholder="가격을 입력하세요."></td><!-- 숫자만 입력하세요(유효성검사) -->
 		                    </tr>
 						</tbody>
-						<tbody class="recipeSummWrapper">
+						<tbody class="recipeProcessWrapper">
 		                    <tr>
-		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeSumm" name="recipeSumm" placeholder="과정을 입력하세요."></td>
+		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeProcess" name="recipeProcess" placeholder="과정을 입력하세요."></td>
 		                        <td align="left">
-		                       		<button class="summAddBtn" type="button">
-		                           		summAdd
+		                       		<button class="processAddBtn" type="button">
+		                           		processAdd
 			                        </button>
 			                    </td>
 		                    </tr>

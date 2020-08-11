@@ -4,14 +4,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
-import com.recipe.control.Controller;
 import com.recipe.service.RecipeService;
+import com.recipe.vo.Ingredient;
+import com.recipe.vo.Point;
+import com.recipe.vo.RecipeInfo;
 
 public class RecipeEditController implements Controller {
 	private static RecipeEditController instance;
@@ -31,42 +36,67 @@ public class RecipeEditController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		System.out.println("레시피 ajax 등록 or 수정");
-		
 		try {
 			// 업로드 하는법
 			// 한글 깨짐
-			MultipartRequest mRequest = new MultipartRequest(request, "/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img");
-			String originalFileName = mRequest.getOriginalFileName("imageUpload");
+			HttpSession session = request.getSession();
+			String rdEmail = "rd04@recipe.com";//(String)session.getAttribute("loginInfo");
+			String imageUrl = "http://localhost/files/img/";
+			String rootUploadPath = request.getSession().getServletContext().getRealPath("/").replace("wtpwebapps/recipeMarket/", "webapps/ROOT");
+			String imageUploadPath = rootUploadPath + "/files/img/";
+			
+			// 파일 업로드 상태
+			MultipartRequest mRequest = new MultipartRequest(request, imageUploadPath, "utf-8");
+			
+			/* recipeInfo */
 			String recipeCode = mRequest.getParameter("recipeCode");
 			String recipeName = mRequest.getParameter("recipeName");
-			String[] ingName = mRequest.getParameterValues("ingredientsName");
-			System.out.println("--------- recipeCode : " + recipeCode);
-			System.out.println("--------- recipeName : " + recipeName);
-			System.out.println("--------- ingName : " + ingName);
+			String[] ingName = mRequest.getParameter("ingName").split(",");
+			String[] ingSize = mRequest.getParameter("ingSize").split(",");
 			
-			if (ingName != null && ingName.length > 0) {
-				for (int i=0; i<ingName.length; i++) {
-					System.out.println("ingName[" + i + "] : " + ingName[i]);
-				}				
+			String recipeSumm = mRequest.getParameter("recipeSumm");
+			int recipePrice = Integer.parseInt(mRequest.getParameter("recipePrice"));
+			String[] recipeProcess = mRequest.getParameter("recipeProcess").split(",");
+			String originalFileName = mRequest.getOriginalFileName("recipeImage");
+			String process = ""; 
+			Point point = new Point();
+			String ingInfo = "";
+			List<Ingredient> ingList = new ArrayList<Ingredient>();
+			RecipeInfo recipeInfoVo = new RecipeInfo();
+			recipeInfoVo.setRecipeName(recipeName);
+			
+			// 재료 & 수량 Setting
+			for (int cnt = 0 ; cnt < ingName.length ; cnt++) {
+				Ingredient ingredientVo = new Ingredient();
+				ingredientVo.setIngName(ingName[cnt]);
+				
+				ingInfo += ingName[cnt];		//재료명[0]번째 값을 ingInfo문자열에 추가.
+				ingInfo += " " + ingSize[cnt] + " ";	//재료사이즈[0]번째 값을 ingInfo문자열에 추가.
+				
+				ingList.add(ingredientVo);
 			}
 			
-			System.out.println("--------- originalFileName : " + originalFileName);
+			recipeInfoVo.setPoint(point);
+			recipeInfoVo.setRecipeSumm(recipeSumm);
+			recipeInfoVo.setRecipePrice(recipePrice);
 			
+			for ( int cnt = 0 ; cnt < recipeProcess.length ; cnt++ ) {
+				process += "\r\n" + recipeProcess[cnt];
+			}
+
+			recipeInfoVo.setRecipeProcess(process);
+			recipeInfoVo.setImgUrl(imageUrl + originalFileName);
 			
 			if (isNullOrEmpty(recipeCode)) {
-				System.out.println("등록");
-				//service.addRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+				service.addRecipe(rdEmail, recipeInfoVo, ingInfo, ingList, process, rootUploadPath);
 			} else {
-				System.out.println("수정");
-				//service.modifyRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+				recipeInfoVo.setRecipeCode(Integer.parseInt(recipeCode));
+				service.modifyRecipe(rdEmail, recipeInfoVo, ingInfo, ingList, process, rootUploadPath);
 			}
 			
 			// 등록 or 수정 성공시 success 내려
 			return "/success.jsp";
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
 			return "/fail.jsp";
 		}

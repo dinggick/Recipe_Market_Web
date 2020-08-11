@@ -78,7 +78,7 @@ td {
     height: 60px;
     width: 400px;
 }
-.ingAddBtn, .ingDeleteBtn, .summAddBtn, .summDeleteBtn, .imageAddBtn, .recipeAddBtn {
+.ingAddBtn, .ingDeleteBtn, .processAddBtn, .processDeleteBtn, .imageAddBtn, .recipeAddBtn {
     height: 40px;
     width: 100px;
 
@@ -92,7 +92,7 @@ td {
     background-color: #8bd8bd;
     opacity: 0.7;
 }
-.ingAddBtn:hover, .ingDeleteBtn:hover, .summAddBtn:hover, .summDeleteBtn:hover, .imageAddBtn:hover, .recipeAddBtn:hover {
+.ingAddBtn:hover, .ingDeleteBtn:hover, .prcoessAddBtn:hover, .processDeleteBtn:hover, .imageAddBtn:hover, .recipeAddBtn:hover {
     opacity: 1;
 }
 input:-webkit-autofill,

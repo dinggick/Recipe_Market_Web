@@ -204,7 +204,7 @@
 
 			<div class="recipeInfo">
 			<c:choose>
-			<c:when test="${list.size() > 0 }">				
+			<c:when test="${list.size() > 0 }">
 				<c:forEach begin="0" end="${list.size()-1}" var="i">
 					<div class="card">
 						<img src="${list[i].imgUrl}">
@@ -221,7 +221,7 @@
 					</div>
 					</c:forEach>
 				</c:when>
-					<c:otherwise>	
+					<c:otherwise>
 						
 						<div>
 						
@@ -230,7 +230,7 @@
 						<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 						
 						</div>
-					</c:otherwise>	
+					</c:otherwise>
 				</c:choose>
 			</div>
 

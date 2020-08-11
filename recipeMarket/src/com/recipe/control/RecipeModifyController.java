@@ -28,7 +28,7 @@ public class RecipeModifyController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = "";
-		//HttpSession session = request.getSession();
+//		HttpSession session = request.getSession();
 		System.out.println("레시피 수정뷰");
 		String recipeCode = request.getParameter("recipeCode");
 		System.out.println("--------- recipeCode : " + recipeCode);
@@ -36,9 +36,10 @@ public class RecipeModifyController implements Controller {
 		try {
 			if (!isNullOrEmpty(recipeCode)) {
 				System.out.println("수정");
-				//service.addRecipe(rdId, recipeInfo, ingInfo, ingList, process);
+				//findByCode를 이용해서 받아온 recipeCode값으로 recipeInfo값들을 받아서 jsp로 보내준다
 				RecipeInfo recipeInfo = service.findByCode(Integer.parseInt(recipeCode));
-				System.out.println("--------- recipeName : " + recipeInfo.getRecipeName());
+				//받아온 recipeInfo값들 출력해보기
+				System.out.println("--------- recipeInfo : " + recipeInfo.toString());
 				request.setAttribute("recipeInfo", recipeInfo);
 			}
 		} catch (Exception e) {
