@@ -24,7 +24,7 @@
 				<a href="${contextPath}/recipeCart">장바구니</a>
 				<a href="${contextPath}/favorite/favoriteList">즐겨찾기</a>
 				<a href="${contextPath}/review/myReviewList">내 후기 목록</a>
-				<a href="${contextPath}/logout">로그아웃</a>
+				<a href="${contextPath}/logout/customer">로그아웃</a>
 			</div>
 		</c:otherwise>
 	</c:choose>
