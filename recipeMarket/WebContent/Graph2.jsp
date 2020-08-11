@@ -1,6 +1,9 @@
+<%@page import="com.recipe.pair.Pair"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@	page import="com.recipe.vo.RnD"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
 <html>
 <head>
@@ -9,25 +12,23 @@
 
     <title>CRM</title>
 
-    <link rel="icon" href="./images/titlecon.png">
+    <link rel="icon" href="${contextPath}/images/titlecon.png">
 
-    <link rel="stylesheet" href="./css/adminCommonSection.css">
+    <link rel="stylesheet" href="${contextPath}/css/adminCommonSection.css">
 
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
 
-    <link rel="stylesheet" href="./css/CRM.css">
+    <link rel="stylesheet" href="${contextPath}/css/CRM.css">
     
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./js/adminCommonSection.js"></script>
+    <script src="${contextPath}/js/adminCommonSection.js"></script>
 
-    <script src="./js/header.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/dropdownMenu.js"></script>
-
-    <script src="./js/CRM.js"></script>
+    <script src="${contextPath}/js/header.js"></script>
+    <script src="${contextPath}/js/footer.js"></script>
+    <script src="${contextPath}/js/dropdownMenu.js"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -38,14 +39,11 @@
 
         var data = google.visualization.arrayToDataTable([
             ['rd_email', 'total_sales'],
-            ['rd1',    28000],
-            ['rd2',    19000],
-            ['rd3',    39000],
-            ['rd4',    3000],
-            ['rd5',    12000],
-            ['rd6',    13000],
-            ['rd7',    16000],
-            ['rd8',    17000]
+            	<%List<Pair<String, Integer>> list = (List)request.getAttribute("data_list");
+            	for (int i = 0; i < list.size(); ++i) {%>
+            		<%if (i > 0)%>,
+            		["<%=list.get(i).getKey()%>", <%=list.get(i).getValue()%>]
+            	<%}%>
         ]);
 
         var options = {
@@ -56,20 +54,42 @@
 
         chart.draw(data, options);
   }
-</script>
+	</script>
+
+	<script>
+		$(function() {
+			$("option[value=" + ${year} + "]").attr("selected", "selected");
+			$("option[value=" + ${count} + "]").attr("selected", "selected");
+			
+			$(".selectYear, .topCount").on("change", function(evt) {
+				$(evt.target).prop("selected", true);
+				var url = "${contextPath}/statistics/graph2?";
+				url += "year=" + $(".selectYear").val();
+				url += "&count=" + $(".topCount").val();
+				location.href = url;
+			});
+			$("form").on("submit", function(evt) {
+				return false;
+			});
+		});
+	</script>
 
 </head>
 <body>
 
-    <header id="header" style="background-color: #D2302C;">
-        <div class="headerLeftSection" style="background-color: #D2302C;">
-            <!-- <img src="./images/titlecon.png" style="width: 50px; padding-left: 10px; background-color: #D2302C;"> -->
+    <header>
+        <!-- 왼쪽 영역 -->
+        <div class="headerLeftSection">
+            <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
-
-        <div class="headerRightSection" style="background-color: #D2302C;">
+        <!-- 오른쪽 영역 -->
+        <div class="headerRightSection">
+            <!-- 드롭다운 메뉴 -->
             <div class="dropdown">
-                <img src="./images/user.png" class="account">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
+                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
                 <div class="dropdown-content">
                     <a href="#">로그인</a>
                     <a href="#">Menu 2</a>
@@ -77,7 +97,6 @@
                 </div>
             </div>
         </div>
-
     </header>
 
     <div class="bodySection">
@@ -108,17 +127,17 @@
                 <li>
                     <span>RnD management</span>
                     <ul>
-                        <li><a>AddRnD</a></li>
-                        <li><a>RnDList</a></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
                     </ul>
                 </li>
                 
                 <li>
                     <span>CRM</span>
                     <ul>
-                        <li><a>graph1</a></li>
-                        <li><a>graph2</a></li>
-                        <li><a>graph3</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
                     </ul>
                 </li>
             </ul>                                 
@@ -132,21 +151,21 @@
 
             <div class="GraphWrapper">
 
-                <section class="selectSection">
+                <form class="selectSection">
 
                     <select class="selectYear" name="year">
-                        <option value="2020" selected>2020</option>
+                        <option value="2020">2020</option>
                         <option value="2019">2019</option>
                         <option value="2018">2018</option>
                     </select>
 
                     <select class="topCount" name="count">
-                        <option value="10" selected>상위 10</option>
+                        <option value="10">상위 10</option>
                         <option value="20">상위 20</option>
                         <option value="30">상위 30</option>
                     </select>
                     
-                </section>
+                </form>
 
                 <div class="graphApiWrapper">
                     <!-- <div id="barchart_material" style="width: 100%; height: 100%"></div> -->
