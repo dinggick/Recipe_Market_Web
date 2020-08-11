@@ -42,7 +42,7 @@ public class PurchaseListController implements Controller{
 			
 			request.setAttribute("list", list);
 			
-			servletPath = "/purchaseList";
+			servletPath = "/purchaseList.jsp";
 			return servletPath;
 		} catch (FindException e) {
 			e.printStackTrace();
