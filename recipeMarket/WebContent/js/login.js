@@ -44,6 +44,28 @@ addEventListener("load", () => {
             return false;
         }
     });
+    $("#sendEmail").click(function(){
+    	var email = $("#emailVal").val();
+    	console.log(email);
+    	if (!emailCheck(email)){
+    		alert("이메일을 정확하게 입력하세요");
+    		return false;
+    	}
+    	$.ajax({
+    		url : "/recipeMarket/findPwd",
+	 		data : {email : email},
+	 		success : function(data){
+	 			if (data.status == "success") {
+	 				alert("비밀번호가 발송되었습니다");
+	 				location.reload();
+	 			} else {
+	 				alert("발송중 오류가 발생하였습니다");
+	 			}
+	 		}
+    	});
+    	
+    	return false;
+    });
   
     
 });

@@ -19,6 +19,7 @@
     <script src="/recipeMarket/js/header.js"></script>
     <script src="/recipeMarket/js/login.js"></script>
     <script src="/recipeMarket/js/footer.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -48,7 +49,7 @@
                 <label><input type="text" name="id" placeholder="Email..."></label>
                 <label><input type="password" name="pwd" placeholder="Password..."></label>
                 <button type="submit">로그인</button>
-                <label><a href="#">회원가입</a> <a onclick="openModal();">비밀번호 찾기</a></label>
+                <label><a href="#">회원가입</a> <a onclick="openModal();"data-toggle="modal"  data-target="#pwdModal">비밀번호 찾기</a></label>
                 <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark">구글 로그인</div>
 			    <script>
 			        function onSignIn(googleUser) {
@@ -89,6 +90,7 @@
         <!-- <a class="topBtn">&uarr;TOP</a> -->
     </footer>
 </body>
+	<form id="pwdForm">
 <div class="modal fade" id="pwdModal" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal content-->
@@ -99,14 +101,16 @@
 					</div>
 					<div class="modal-body">
 						<div class="reviewContent">
-							<input id="content" type="text" value="" size="50"
+						<br>
+							<input id="emailVal" type="text" size="50"
 								placeholder="이메일을 입력해주세요"><br>							
 						</div>
-						<button type="button" class="reviewBtn" data-dismiss="modal">인증번호 받기</button>
+						<button type="button" class="reviewBtn" id="sendEmail" data-dismiss="modal">인증번호 받기</button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</form>
 
 
 </html>
