@@ -16,16 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
+import com.recipe.service.FavoriteService;
 import com.recipe.service.RecipeService;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.RecipeInfo;
 
 public class RecipeInfoController implements Controller{
 	private static RecipeInfoController instance;
 	private RecipeService recipeService;
+	private FavoriteService favoriteService;
 	private static final long serialVersionUID = 1L;
        
     private RecipeInfoController() {
     	recipeService = RecipeService.getInstance(); //싱글턴 객체 획득
+    	favoriteService = FavoriteService.getInstance();
     }
     
     public static RecipeInfoController getInstance() {
@@ -62,6 +66,18 @@ public class RecipeInfoController implements Controller{
 			request.setAttribute("process", process);
 			request.setAttribute("price", price);
 			
+			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
+			if(customerEmail != null) {
+				List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
+				int i = 0;
+				for(i = 0; i < favoriteListByEmail.size(); i++) {
+					if(ri.equals(favoriteListByEmail.get(i).getRecipeInfo())) {
+						request.setAttribute("favoriteCheck", true);
+						break;
+					}
+				}
+				if(i == favoriteListByEmail.size()) request.setAttribute("favoriteCheck", false);
+			}
 			
 			return "/recipeInfo.jsp";
 		} catch (FindException e) {

@@ -10,14 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
 import com.recipe.mail.Mail;
+import com.recipe.service.FavoriteService;
 import com.recipe.service.RecipeService;
+import com.recipe.vo.Favorite;
 import com.recipe.vo.RecipeInfo;
 
 public class SearchController implements Controller {
 	private static SearchController instance;
 	private RecipeService service;
+	private FavoriteService favoriteService;
+	
 	private SearchController() {
 		service = RecipeService.getInstance();
+		favoriteService = FavoriteService.getInstance();
 	}
 	
 	public static SearchController getInstance() {
@@ -44,6 +49,24 @@ public class SearchController implements Controller {
 		try {
 			List<RecipeInfo> infos = service.findRecipe(ingName);
 			request.setAttribute("recipeList", infos);
+			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
+			if(customerEmail != null) {
+				List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
+				List<Boolean> favoriteCheckList = new ArrayList<Boolean>();
+				
+				for(int i = 0; i < infos.size(); i++) {
+					int j = 0;
+					for(j = 0; j < favoriteListByEmail.size(); j++) {
+						if(infos.get(i).equals(favoriteListByEmail.get(j).getRecipeInfo())) {
+							favoriteCheckList.add(true);
+						}
+					}
+					if(j == favoriteListByEmail.size()) favoriteCheckList.add(false);
+				}
+				request.setAttribute("favoriteCheckList", favoriteCheckList);
+			}
+			
+			
 			servletPath = "/recipeList.jsp";
 		} catch (FindException e) {
 			servletPath = "/recipeList.jsp";
