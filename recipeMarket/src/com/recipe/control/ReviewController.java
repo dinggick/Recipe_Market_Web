@@ -122,7 +122,10 @@ public class ReviewController implements Controller {
 		
 		Review r = new Review();
 		r.setPurchase(purchase);
-		r.setReviewComment((String)request.getAttribute("recipeComment"));
+		r.setReviewComment((String)request.getParameter("recipeComment"));
+		
+		System.out.println("리뷰내용 : " + r.getReviewComment());
+		System.out.println("구매번호 : " + r.getPurchase().getPurchaseCode());
 		
 		try {
 			reviewService.add(r);

@@ -7,18 +7,15 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
     <link rel="icon" href="../img/titlecon.png">
-	<!-- 외부CSS -->
-   <!--  <link rel="stylesheet" href="../css/review.css"> -->
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-     -->
     <script>
     $(function() { 
      	var $reviewContentObj = $("div.reviewContent>input");
     	$reviewContentObj.focus();
+    	
+    	// review content 남은 글자수
 		$reviewContentObj.keydown(function (e){
    	      var content = $(this).val();
    	      var count= 50-content.length;
@@ -27,12 +24,16 @@
    	         	count=0;
    	         } 
    	     	 $('.remainText').html("남은글자수: "+ count +"/50자");
-    	}); // review content 입력 이벤트 
-    	
+    	});
     	
     	// 화면으로부터 전달받은 데이터,구매정보 입력받은 후기 내용 등록 ( ajax )
+    	$reviewAddFormObj = $('form.reviewAddForm');
+		$reviewAddFormObj.on('click', 'button.reviewBtn' , function (e) {
+			var purchaseCode = $(this).val();
+			console.log(purchaseCode);
+			
+		});
     	
-    
     }); // end of load
     
     </script>
