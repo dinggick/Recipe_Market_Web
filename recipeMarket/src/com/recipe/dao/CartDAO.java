@@ -153,31 +153,4 @@ public class CartDAO {
 		}
 	}
 	
-	public List<Cart> deleteAll(Cart c) throws RemoveException{
-		Connection con = null;
-		PreparedStatement ps = null;
-		
-		try {
-			con = MyConnection.getConnection();
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-		
-		String deleteSQL = "delete cart where customer_email=? and recipe_code=?";
-		
-		try {
-			ps = con.prepareStatement(deleteSQL);
-			
-			ps.setString(1, c.getCustomerEmail());
-			ps.setInt(2, c.getRecipeInfo().getRecipeCode());
-			
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RemoveException("삭제되지않았습니다");
-		} finally {
-			MyConnection.close(ps,con);
-		}
-		return null;
-	}
 }

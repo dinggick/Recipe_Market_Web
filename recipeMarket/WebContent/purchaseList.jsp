@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="list" value="${requestScope.list}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-    <link rel="icon" href="./img/titlecon.png">
+    
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="css/divContent.css">
@@ -164,9 +165,7 @@
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
 <script>
-    /* addEventListener("load", () => {
-        $(".rightSection").height(window.innerHeight - (90 + $("footer").outerHeight() + $("header").outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-    }); */
+    
     
    $(function(){
 	   $("#datepicker").hide();
@@ -179,6 +178,8 @@
 	    		}
 	    	});
 	   });
+	   
+	   
 	   
 	  	
     });

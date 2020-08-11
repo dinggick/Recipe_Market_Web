@@ -19,8 +19,8 @@
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
 				<a href="#">내 정보 보기</a>
-				<a href="#">구매 내역</a>
-				<a href="#">장바구니</a>
+				<a href="${contextPath}/purchaseList">구매 내역</a>
+				<a href="${contextPath}/recipeCart">장바구니</a>
 				<a href="#">내 후기 목록</a>
 				<a href="${contextPath}/logout/customer">로그아웃</a>
 			</div>
