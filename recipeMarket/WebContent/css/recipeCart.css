@@ -11,9 +11,10 @@
 }
 
 .rightSection>.cartInfo {
-	width: 98%;
+	width: 100%;
 	/* padding: 30px; */
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	background-color:#F4EFEA;
 }
 
 .rightSection {
@@ -58,16 +59,11 @@
 
 #Cart {
 	width: 100%;
-	border-spacing: 0 20px;
+	border-spacing: 0 15px;
 	font-size: x-large;
 	text-align: center;
-	padding: 20px;
+	padding: 15px;
 	padding-top: 0%;
-}
-
-table>tbody>tr>td {
-	margin: 0;
-	padding: 0;
 }
 
 .conditon {
@@ -75,6 +71,7 @@ table>tbody>tr>td {
 }
 
 .line2 {
+	width:15%;
 	padding: 2.5%;
 	border-bottom: 2px solid #D2302C;
 }
