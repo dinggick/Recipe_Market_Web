@@ -33,7 +33,7 @@ public class RnDService {
 	 * @throws FindException
 	 * @author 최종국
 	 */
-	public void login(String rdId, String rdPwd) throws FindException{
+	public String login(String rdId, String rdPwd) throws FindException{
 		RnD r;
 		try {
 			r = rdDAO.selectById(rdId);
@@ -44,6 +44,7 @@ public class RnDService {
 		if(!r.getRdPwd().equals(rdPwd)) throw new FindException("로그인 실패");
 		
 		//RDShare.addSession(rdId);
+		return r.getRdTeamName();
 	}
 	/**
 	 * R&D 계정 전체 조회 절차를 수행하기 위한 메소드

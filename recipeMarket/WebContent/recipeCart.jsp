@@ -181,19 +181,30 @@
     
    $(function(){
 	   $('#check-All').click(function(){
-		  $('.check').prop('checked',this.checked);
-		  
+		  $('.check').prop('checked',this.checked);	  
 	   });
 	   
 	  //내 레시피 삭제 
 	   $('.delete').click(function(e){
 		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
+		  
+		  var $price = $(this).parent().parent().find('td:nth-child(6)');
+		  var $total = $('.totalQuantity');
+		  var totals = 0;
+		  
 		  $.ajax({
 			   url:'/recipeMarket/cartRemove',
 			   data:{recipeCode:$recipeCode},
 			   success:function(responseObj){
 				   if(responseObj.status=="success"){
 					   $(e.target).parents('tr').remove();
+					   
+					   var priceList = $('.price').find("span");
+						  for(x of priceList){
+							totals += parseInt(x.innerHTML);
+						  }
+						  
+						  $total.html("총 금액 : " + totals.toLocaleString()+"원");
 				   }else{
 					   alert('삭제실패');
 				   }
@@ -204,45 +215,54 @@
 	   
 	  //체크항목 구매
 	   $('.purchaseCart').click(function(){
-		  var $check = $('.check').val();
-		  var recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
-		  var quantity = $('.quantity').val();
-		  	$.ajax({
-				url:'/recipeMarket/purchase',
-				data:{recipeCode : recipeCode , purchaseQuantity : quantity},
-				success:function(responseObj){
-					if(responseObj.status=="success"){
-						alert('구매가 완료되었습니다');
-					}
+		 let picks = '';
+		 let quantities ="";
+		 $("input[id=check]:checked").each(function(){
+			 picks += $(this).val()+",";
+			 quantities += $(this).parent().parent().find('input.quantity').val()+",";
+			 //quantities += $(this).siblings('.quantity').val()+",";
+			 console.log(quantities);
+		 });
+		 picks = picks.slice(0,-1);
+		 quantities = quantities.slice(0,-1);
+		  $.ajax({
+			url:'/recipeMarket/purchase',
+			data:{recipeCode : picks , purchaseQuantity : quantities},
+			success:function(responseObj){
+				if(responseObj.status=="success"){
+					alert('구매가 완료되었습니다');
+				}else{
+					alert('구매실패! 다시시도해주세요');
 				}
-		 	})
-			return false;
-	   })
+			}
+		  })
+		  return false;
+	   });
 	   
 	   //수량 업데이트
 	   $('.rightSection').on('click','.quantity',function(){
-		   console.log('test');
 		  var $recipeCode = $(this).parent().parent().find('input[type=hidden]').val();
-		  console.log($recipeCode);
-		  var quantity = $(this).parent().parent().find('.quantity	').val();
-		  var priceList = $('.price');
+		  var quantity = $(this).parent().parent().find('.quantity').val();
 		  
 		  var recipePrice = parseInt($(this).parent().parent().find('td:nth-child(4)').html());
 		  var $price = $(this).parent().parent().find('td:nth-child(6)');
 		  var $total = $('.totalQuantity');
 		  var totals = 0;
+		 
 		  
 		  $.ajax({
 			  url:'/recipeMarket/cartUpdate',
-			  data:{recipeCode:$recipeCode,quantity:quantity,customerEmail:"pyonjw@recipe.com"},
+			  data:{recipeCode:$recipeCode,quantity:quantity},
 			  success:function(responseObj){
 				  if(responseObj.status=="success"){
-					  $price.html((recipePrice*quantity)+'원');
-					  for(x in priceList){
-						console.log(priceList[x].innerHTML);
-						totals += priceList[x].innerHTML; /*.substring(0,priceList[x].innerHTML.length-1) */ 
+					  $price.html("<span>" + (recipePrice*quantity) +'</span>원');
+					  
+					  var priceList = $('.price').find("span");
+					  for(x of priceList){
+						totals += parseInt(x.innerHTML);
 					  }
-					  $total.html("총 금액 : " + totals+"원");
+					  
+					  $total.html("총 금액 : " + totals.toLocaleString()+"원");
 				  }else{
 					  alert('수량변경실패');
 				  }
@@ -296,12 +316,12 @@
                 	  <c:forEach items="${requestScope.list}" var="c">
                 	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />
 						  <tr class="cartList">
-                	   		<td><input type="checkbox" class="check" ><label></label> </td>
-                	   		<td><a href="./recipeInfo.jsp"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
+                	   		<td><input type="checkbox" id="check" class="check" value="${c.recipeInfo.recipeCode}"><label></label> </td>
+                	   		<td><a href="/recipeMarket/recipeInfo?recipeCode=${c.recipeInfo.recipeCode}"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
                 	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
                 	   		<td>${c.recipeInfo.recipePrice}</td>
                 	   		<td><input type="number" class="quantity" value="${c.cartQuantity}" min=1></td>
-                	  	 	<td class="price">${c.recipeInfo.recipePrice*c.cartQuantity}</td>
+                	  	 	<td class="price"><span>${c.recipeInfo.recipePrice*c.cartQuantity}</span>원</td>
                 	   		<td><button type="submit" class="delete">X</button></td>
                 	   		</tr>                		
                 	  </c:forEach>
