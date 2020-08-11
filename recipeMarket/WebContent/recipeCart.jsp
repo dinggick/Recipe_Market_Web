@@ -42,7 +42,7 @@
         }
         
         .rightSection{
-        	background-color:#F4EFEA;
+/*         	background-color:#F4EFEA; */
           /*overflow:auto;*/
         }
         
@@ -128,7 +128,7 @@
        
        .totalQuantity{
          padding-left:80%;
-         font-size:xx-large;	   
+         font-size:2vw;
        }
        
        .purchaseCart{
@@ -168,6 +168,10 @@
        	 margin-top:3%;
          border:1px solid #D2302C;
        }
+       
+       .cartInfo {
+       	background-color:#F4EFEA;
+       }
     </style>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -176,10 +180,6 @@
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
 <script>
-    /* addEventListener("load", () => {
-        $(".rightSection").height(window.innerHeight - (90 + $("footer").outerHeight() + $("header").outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-    }); */
-    
    $(function(){
 	   $('#check-All').click(function(){
 		  $('.check').prop('checked',this.checked);	  
