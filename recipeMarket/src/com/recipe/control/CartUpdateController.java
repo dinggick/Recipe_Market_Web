@@ -32,8 +32,8 @@ public class CartUpdateController implements Controller {
 		int code = Integer.parseInt(request.getParameter("recipeCode"));
 		HttpSession session = request.getSession();
 		
-		//String customerEmail = (String)session.getAttribute("loginInfo");
-		String customerEmail = request.getParameter("customerEmail");
+		String customerEmail = (String)session.getAttribute("loginInfo");
+		//String customerEmail = request.getParameter("customerEmail");
 		
 		Cart c = new Cart();
 		RecipeInfo info = new RecipeInfo();

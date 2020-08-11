@@ -227,7 +227,7 @@
 		 quantities = quantities.slice(0,-1);
 		  $.ajax({
 			url:'/recipeMarket/purchase',
-			data:{recipeCode : picks , purchaseQuantity : quantities, customerEmail:"pyonjw@recipe.com"},
+			data:{recipeCode : picks , purchaseQuantity : quantities},
 			success:function(responseObj){
 				if(responseObj.status=="success"){
 					alert('구매가 완료되었습니다');
@@ -252,7 +252,7 @@
 		  
 		  $.ajax({
 			  url:'/recipeMarket/cartUpdate',
-			  data:{recipeCode:$recipeCode,quantity:quantity,customerEmail:"pyonjw@recipe.com"},
+			  data:{recipeCode:$recipeCode,quantity:quantity},
 			  success:function(responseObj){
 				  if(responseObj.status=="success"){
 					  $price.html("<span>" + (recipePrice*quantity) +'</span>원');

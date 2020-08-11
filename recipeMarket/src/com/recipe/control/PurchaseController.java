@@ -32,8 +32,8 @@ public class PurchaseController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		//String customerEmail = (String)session.getAttribute("loginInfo");
-		String customerEmail = request.getParameter("customerEmail");
+		String customerEmail = (String)session.getAttribute("loginInfo");
+		//String customerEmail = request.getParameter("customerEmail");
 		String servletPath="";
 		Purchase p = new Purchase();
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
