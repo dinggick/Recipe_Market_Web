@@ -14,6 +14,7 @@ public class PageBean {
 	private List list;
 	private int startPage; // 페이지 그룹의 시작 페이지
 	private int endPage; // 페이지 그룹의 끝 페이지
+	private int rowCnt; // 총 행 갯수
 
 	public PageBean() { }
 
@@ -106,6 +107,15 @@ public class PageBean {
 
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
+	}
+	
+	
+	public int getRowCnt() {
+		return rowCnt;
+	}
+
+	public void setRowCnt(int rowCnt) {
+		this.rowCnt = rowCnt;
 	}
 
 	@Override

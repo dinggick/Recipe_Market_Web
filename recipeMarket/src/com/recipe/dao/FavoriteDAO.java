@@ -156,4 +156,73 @@ public class FavoriteDAO {
 
 	} // end method deleteByIdnCode();
 
+	/**
+	 * 즐겨찾기 목록 전체보기 : selectById()
+	 * @param String customerEmail
+	 */
+	public List<Favorite> selectById(int startRow, int endRow ,String customerEmail) throws FindException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Favorite> favoriteList = null;
+		
+		String selectSQL = "  SELECT * FROM  " + 
+				"  ( SELECT ROWNUM r, a.*  " + 
+				"        FROM (SELECT info.recipe_code     " + 
+				"				     , recipe_name      " + 
+				"				     , recipe_summ      " + 
+				"				     , recipe_price     " + 
+				"				     , img_url     " + 
+				"				     , f.customer_email      " + 
+				"				      FROM RECIPE_INFO info     " + 
+				"				      JOIN FAVORITE f  ON info.recipe_code = f.recipe_code     " + 
+				"				      LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code     " + 
+				"				      WHERE CUSTOMER_EMAIL = ? AND RECIPE_STATUS = '1'     " + 
+				"				      ORDER BY RECIPE_CODE ) a   " + 
+				" )  WHERE  r BETWEEN ? AND ? ";
+		
+		try {
+			con = MyConnection.getConnection();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = con.prepareStatement(selectSQL);
+			pstmt.setString(1, customerEmail);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rs = pstmt.executeQuery();
+			favoriteList = new ArrayList<>();
+			
+			while (rs.next()) {
+				RecipeInfo info = new RecipeInfo();
+				info.setRecipeCode(rs.getInt("recipe_code"));
+				info.setRecipeName(rs.getString("recipe_name"));
+				info.setRecipeSumm(rs.getString("recipe_summ"));
+				info.setRecipePrice(rs.getInt("recipe_price"));
+				info.setImgUrl(rs.getString("img_url"));
+				info.setIngredients(null);
+				
+				Favorite f = new Favorite();
+				f.setRecipeInfo(info);
+				f.setcustomerEmail(customerEmail);
+				
+				favoriteList.add(f);
+			} // end while
+			if ( favoriteList.size() == 0 ) {
+				throw new FindException("등록된 즐겨찾기 목록이 없습니다.");
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException (e.getMessage());
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return favoriteList;
+	} // end method selectById();
 } // end class FavoriteDAO
