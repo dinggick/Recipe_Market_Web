@@ -159,7 +159,7 @@
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:set var="total" value="0"></c:set>
                 	 <c:if test="${empty list}">
-                	  	<tr><td>장바구니내역이없습니다</td></tr>
+                	  	<tr><td colspan='6'>장바구니내역이없습니다</td></tr>
          			  </c:if>
                 	  <c:forEach items="${requestScope.list}" var="c">
                 	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />
@@ -167,7 +167,7 @@
                 	   		<td><input type="checkbox" id="check" class="check" value="${c.recipeInfo.recipeCode}"><label></label> </td>
                 	   		<td><a href="/recipeMarket/recipeInfo?recipeCode=${c.recipeInfo.recipeCode}"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
                 	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
-                	   		<td>${c.recipeInfo.recipePrice}</td>
+                	   		<td>${c.recipeInfo.recipePrice}원</td>
                 	   		<td><input type="number" class="quantity" value="${c.cartQuantity}" min=1></td>
                 	  	 	<td class="price"><span>${c.recipeInfo.recipePrice*c.cartQuantity}</span>원</td>
                 	   		<td><button type="submit" class="delete">X</button></td>

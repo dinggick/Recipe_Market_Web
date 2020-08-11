@@ -51,8 +51,8 @@ public class PurchaseListController implements Controller{
 				
 				System.out.println(date);
 				
-				//list = service.findBydate(customerEmail, date);
-				list = service.findByDatePicker(customerEmail, date);
+				list = service.findBydate(customerEmail, date);
+				//list = service.findByDatePicker(customerEmail, date);
 			}
 			request.setAttribute("list", list);
 			
@@ -60,7 +60,7 @@ public class PurchaseListController implements Controller{
 			return servletPath;
 		} catch (FindException e) {
 			e.printStackTrace();
-			return "/fail.jsp";
+			return "/purchaseList.jsp";
 		}
 		
 		
