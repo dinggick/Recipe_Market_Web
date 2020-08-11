@@ -41,7 +41,7 @@
         }
         
         .rightSection{
-        	background-color:#F4EFEA;
+/*         	background-color:#F4EFEA; */
           /*overflow:auto;*/
         }
         
@@ -166,6 +166,10 @@
        	 margin-left:80.5%;
        	 margin-top:3%;
          border:1px solid #D2302C;
+       }
+       
+       .cartInfo {
+       	background-color:#F4EFEA;
        }
     </style>
     
