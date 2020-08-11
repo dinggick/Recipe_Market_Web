@@ -76,4 +76,7 @@ public class AccountService {
 	public void remove(Customer c) throws RemoveException {
 		customerDAO.update1(c);
 	}
+	public void verify(String email) throws ModifyException{
+		customerDAO.verify(email);
+	}
 }
