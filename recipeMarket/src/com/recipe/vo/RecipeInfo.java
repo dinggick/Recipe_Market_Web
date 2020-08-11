@@ -98,6 +98,25 @@ public class RecipeInfo {
 				+ ", point=" + point + ", ingredients=" + ingredients + "]";
 	}
 
-	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + recipeCode;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecipeInfo other = (RecipeInfo) obj;
+		if (recipeCode != other.recipeCode)
+			return false;
+		return true;
+	}
 }
