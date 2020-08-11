@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="./css/review.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
    	<link rel="stylesheet" href="./css/purchaseList.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
