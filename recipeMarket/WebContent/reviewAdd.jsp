@@ -46,7 +46,8 @@
 						alert('후기등록 실패!');
 					}
 				}
-			}); // 리뷰등록
+			});
+			return false;// 리뷰등록
 		});
 	}); // end of load
 </script>

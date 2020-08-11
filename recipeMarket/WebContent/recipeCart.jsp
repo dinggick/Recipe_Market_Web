@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="list" value="${requestScope.list}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,7 @@
         }
         
         .rightSection{
-        	background-color:#F4EFEA;
+/*         	background-color:#F4EFEA; */
           /*overflow:auto;*/
         }
         
@@ -127,7 +128,7 @@
        
        .totalQuantity{
          padding-left:80%;
-         font-size:xx-large;	   
+         font-size:1.5vw;
        }
        
        .purchaseCart{
@@ -167,6 +168,10 @@
        	 margin-top:3%;
          border:1px solid #D2302C;
        }
+       
+       .cartInfo {
+       	background-color:#F4EFEA;
+       }
     </style>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -175,10 +180,6 @@
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
 <script>
-    /* addEventListener("load", () => {
-        $(".rightSection").height(window.innerHeight - (90 + $("footer").outerHeight() + $("header").outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-    }); */
-    
    $(function(){
 	   $('#check-All').click(function(){
 		  $('.check').prop('checked',this.checked);	  
@@ -217,6 +218,10 @@
 	   $('.purchaseCart').click(function(){
 		 let picks = '';
 		 let quantities ="";
+		 if($("input[id=check]:checked")==false){
+			 alert('상품을 선택해주세요');
+			 return;
+		 }
 		 $("input[id=check]:checked").each(function(){
 			 picks += $(this).val()+",";
 			 quantities += $(this).parent().parent().find('input.quantity').val()+",";
@@ -231,6 +236,7 @@
 			success:function(responseObj){
 				if(responseObj.status=="success"){
 					alert('구매가 완료되었습니다');
+					location.reload();
 				}else{
 					alert('구매실패! 다시시도해주세요');
 				}
@@ -286,18 +292,8 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
+            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+       </div>
     </header>
     <div class="divContent">
         <!-- 왼쪽 영역 (화면에 따라 동적 생성 필요) -->
@@ -313,6 +309,9 @@
                 <table id="Cart">
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:set var="total" value="0"></c:set>
+                	 <c:if test="${empty list}">
+                	  	장바구니내역이없습니다
+         			  </c:if>
                 	  <c:forEach items="${requestScope.list}" var="c">
                 	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />
 						  <tr class="cartList">

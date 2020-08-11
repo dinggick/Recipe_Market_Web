@@ -1,6 +1,7 @@
 package com.recipe.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,13 +38,76 @@ public class PurchaseDAO {
 		//나의 구매내역을 가져오는 query문
 		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
 				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
-				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
-				"where p.customer_email=?";
+ 				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
+				"where p.customer_email=? order by p.purchase_date desc";
 		try {
 			ps = con.prepareStatement(detailSQL);
 			
 			//현재 아이디를 받아온다
 			ps.setString(1,customerId);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Purchase p = new Purchase();
+				RecipeInfo ri = new RecipeInfo();
+				List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
+				PurchaseDetail pd = new PurchaseDetail();
+				Review r = new Review();
+				
+				r.setReviewComment(rs.getString("review_comment"));
+				
+				ri.setRecipeName(rs.getString("recipe_name"));
+				ri.setRecipePrice(rs.getInt("recipe_price"));
+				
+				pd.setRecipeInfo(ri);
+				pd.setPurchaseDetailQuantity(rs.getInt("purchase_quantity"));
+				pdList.add(pd);
+				
+				p.setPurchaseCode(rs.getInt("PURCHASE_CODE"));
+				p.setPurchaseDate(rs.getDate("purchase_date"));
+				p.setPurchaseDetails(pdList);
+				p.setReview(r);
+			
+				//Purchase list에 담는다
+				list.add(p);
+			}
+			//list가 0일때 예외발생(목록이 없습니다)
+			if(list.size()==0) {
+				throw new FindException("구매내역이 없습니다");
+			}
+			
+			//purchase list 반환
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		} finally {
+			MyConnection.close(rs, ps, con);
+		}
+	}
+	
+	public List<Purchase> selectByDateId(String customerEmail, Date date) throws FindException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Purchase> list = new ArrayList<>();
+		
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		//나의 구매내역을 가져오는 query문
+		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
+				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
+				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
+				"where p.customer_email=? and p.purchase_date between ? and sysdate";
+		try {
+			ps = con.prepareStatement(detailSQL);
+			
+			//현재 아이디를 받아온다
+			ps.setString(1,customerEmail);
+			ps.setDate(2, date);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -113,7 +177,9 @@ public class PurchaseDAO {
 		//purchaseDetail에서 현재 시퀀스로 받아 추가
 		String insertSQL2="INSERT INTO PURCHASE_DETAIL VALUES(PURCHASE_SEQ.CURRVAL,?,?)";
 		
+		String deleteSQL = "DELETE CART WHERE RECIPE_CODE=? AND CUSTOMER_EMAIL=?";
 		try {
+			
 			ps = con.prepareStatement(insertSQL);
 			
 			//현재 사용자ID를 추가
@@ -130,6 +196,15 @@ public class PurchaseDAO {
 				ps.addBatch();
 			}
 			ps.executeBatch();
+			
+			ps = con.prepareStatement(deleteSQL);
+			for(PurchaseDetail pd : p.getPurchaseDetails()) {
+				ps.setInt(1, pd.getRecipeInfo().getRecipeCode());
+				ps.setString(2, p.getCustomerEmail().getCustomerEmail());;
+				ps.addBatch();
+			}
+			ps.executeBatch();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new AddException("구매되지 않았습니다");

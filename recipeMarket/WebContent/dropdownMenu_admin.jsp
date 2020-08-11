@@ -10,8 +10,7 @@
 			<h1 class="account">로그인</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
-				<a href="${contextPath}/static/login.html">로그인</a>
-				<a>회원가입</a>
+				<a href="${contextPath}/static/login_admin.html">로그인</a>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -19,12 +18,9 @@
 			<h1 class="account">${sessionScope.userName}님</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
-				<a href="#">내 정보 보기</a>
-				<a href="${contextPath}/purchaseList">구매 내역</a>
-				<a href="${contextPath}/recipeCart">장바구니</a>
-				<a href="${contextPath}/favorite/favoriteList">즐겨찾기</a>
-				<a href="${contextPath}/review/myReviewList">내 후기 목록</a>
-				<a href="${contextPath}/logout">로그아웃</a>
+				<a href="#">R&D 계정 관리</a>
+				<a href="#">통계</a>
+				<a href="${contextPath}/logout/admin">로그아웃</a>
 			</div>
 		</c:otherwise>
 	</c:choose>

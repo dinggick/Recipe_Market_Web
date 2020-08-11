@@ -31,9 +31,9 @@ public class CartListController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		//String customerEmail = (String)session.getAttribute("loginInfo");
+		String customerEmail = (String)session.getAttribute("loginInfo");
 		
-		String customerEmail = request.getParameter("customerEmail");
+		//String customerEmail = request.getParameter("customerEmail");
 		
 		String servletPath = "";
 		
@@ -46,7 +46,7 @@ public class CartListController implements Controller {
 			servletPath = "/recipeCart.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
-			return "/fail.jsp";
+			return "/recipeCart.jsp";
 		}
 		
 		return servletPath;

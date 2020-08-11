@@ -77,6 +77,20 @@ public class StatisticsService {
 		return dao.selectBySeasonG3(startDate, endDate, count);
 	}
 	
+	public List<Pair<String, Integer>> findByConditionG4(
+			String rd_email,
+			String startDate, 
+			String endDate,
+			String g1,
+			String g2,
+			int start_age,
+			int end_age,
+			int count
+			) throws FindException {
+	
+		return dao.selectByConditionG4(rd_email, startDate, endDate, g1, g2, start_age, end_age, count);
+	}
+	
 	/**
 	 * Main function for testing
 	 * 
