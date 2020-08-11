@@ -16,25 +16,4 @@ $(() => {
     $infoWrapper.on("focus", "#r_rd_pwd", function(evt) {
         $(this).css("border", "0.5px solid black");
     });
-    
-    $(".searchBtn").on("click", function(evt) {
-    	alert("hello");
-        $.ajax({
-            url: "recipeMarket/statistics/graph4",
-            data: $("form").serialize(),
-            success: (responseObj) => {
-                if (responseObj.status == "success") {
-                	alert("success");
-                } else {
-                	alert("fail");
-                }
-            }
-        });
-        
-        return false;
-    });
-
-    $(form).on("submit", function() {
-        return false;
-    });
 });

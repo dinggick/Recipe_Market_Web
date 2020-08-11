@@ -91,10 +91,13 @@ public class RnDDAO {
 						rs.getString("rd_team_name"), rs.getString("rd_phone")));
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			MyConnection.close(pstmt, con);
 		}
 		if (result.isEmpty())
 			throw new FindException("RD 계정이 하나도 없습니다");
 		return result;
+		
 	}
 
 	/**
