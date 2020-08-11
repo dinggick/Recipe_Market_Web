@@ -139,6 +139,16 @@ public class CustomerController implements Controller {
 				return "/fail.jsp";
 			}
 
+		}else if(pathInfo.equals("/verify")) {
+			String email = request.getParameter("email");
+			 try {
+				accountService.verify(email);
+				return "/success.jsp";
+			} catch (ModifyException e) {
+				e.printStackTrace();
+				return "/fail.jsp";
+			}
+			
 		}
 		return "/fail.jsp";
 	}
