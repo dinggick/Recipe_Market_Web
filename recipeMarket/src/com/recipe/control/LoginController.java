@@ -89,7 +89,7 @@ public class LoginController implements Controller {
 			adminAccountService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", "관리자");
-			return "/index.jsp";
+			return "/index_admin.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
