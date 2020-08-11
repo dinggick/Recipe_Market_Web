@@ -176,7 +176,7 @@
                             </td>
                             
                             <td style="text-align: center">
-                            	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
+                            	<select id="rd_email" name="rd_email" style="padding: 5px 20px">
                             		<c:choose>
                             			<c:when test="${empty rd_list}">
                             				<option value="${loginInfo}">
@@ -233,7 +233,7 @@
                             </td>
                             
                             <td style="text-align: center">
-                                <select id="age_group" name="age_group" style="padding: 7px 20px">
+                                <select id="age_group" name="age_group" style="padding: 5px 20px">
                             		<option value="10_19">10대</option>
                             		<option value="20_29">20대</option>
                             		<option value="30_39">30대</option>
@@ -246,11 +246,23 @@
                         
                         <tr>
                             <td>
+                            	<label for="order_by">order_by</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                                <select id="order_by" name="order_by" style="padding: 5px 20px">
+                            		<option value="2">매출 순</option>
+                            		<option value="3">판매개수 순</option>
+                            	</select>
+                            </td>
+                        
+                        <tr>
+                            <td>
                             	<label for="count">count</label>
                             </td>
                             
                             <td style="text-align: center">
-                                <select id="count" name="count" style="padding: 7px 20px">
+                                <select id="count" name="count" style="padding: 5px 20px">
                             		<option value="10">상위 10</option>
                             		<option value="20">상위 20</option>
                             		<option value="30">상위 30</option>                         		

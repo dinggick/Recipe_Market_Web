@@ -6,6 +6,8 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
+<%	List<Pair<String, Pair<Integer, Integer>>> list = (List)request.getAttribute("data_list");%>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -36,37 +38,39 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawStuff);
 
-      function drawChart() {
-          var data = google.visualization.arrayToDataTable([
-          		<%List<Pair<String, Integer>> list = (List)request.getAttribute("data_list");%>
-      			[ "Number of sales"
-            	<%for (int i = 0; i < list.size(); ++i) {%>
-            		,            		
-            		"<%=list.get(i).getKey()%>"
-            	<%}%>
-            	],
-            	[ 0.0
-                <%for (int i = 0; i < list.size(); ++i) {%>
-            		,            		
-            		<%=list.get(i).getValue()%>
-            	<%}%>
-            	]
-            ]);
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+          	['Recipe_name', 'Sales', 'Amount'],
+			<% for (int i = 0; i < list.size(); ++i) {%>
+			<%if (i > 0)%>,
+			["<%=list.get(i).getKey()%>", <%=list.get(i).getValue().getKey()%>, <%=list.get(i).getValue().getValue()%>]
+			<%}%>
+        ]);
 
         var options = {
+          width: 1000,
           chart: {
-            title: '${rd_email}\'s recipe ranking',
-            subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${start_age} 대',
+              title: '${rd_email}\'s recipe ranking',
+              subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${start_age} 대',
           },
-          bars: 'horizontal' // Required for Material Bar Charts.
+          bars: 'horizontal', // Required for Material Bar Charts.
+          series: {
+            0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+            1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+          },
+          axes: {
+            x: {
+              distance: {label: 'Sales'}, // Bottom x-axis.
+              brightness: {side: 'top', label: 'Amount'} // Top x-axis.
+            }
+          }
         };
 
-        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-      }
+      var chart = new google.charts.Bar(document.getElementById('dual_x_div'));
+      chart.draw(data, options);
+    };
     </script>
 </head>
 <body>
@@ -165,7 +169,7 @@
                 </form>
 
                 <div class="graphApiWrapper">
-                    <div id="barchart_material" style="width: 100%; height: 100%;"></div>
+    				<div id="dual_x_div" style="width: 100%; height: 100%;"></div>
                  </div>
                  
             </div>

@@ -219,24 +219,26 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Integer>> selectByConditionG4(String rd_email,
+	public List<Pair<String, Pair<Integer, Integer>>> selectByConditionG4(String rd_email,
 			String startDate, String endDate,
 			String gender1, String gender2,
-			int start_age, int end_age, int count) throws FindException {
+			int start_age, int end_age, 
+			int order_by, int count) throws FindException {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		List<Pair<String, Integer>> list = null;
+		List<Pair<String, Pair<Integer, Integer>>> list = null;
 
 		String selectByYearMonthSQL = 
-				"SELECT recipe_name, total_sales\r\n" + 
+				"SELECT recipe_name, total_sales, total_amount\r\n" + 
 				"FROM (\r\n" + 
-				"        SELECT rownum, a.*\r\n" + 
+				"        SELECT rownum r, a.*\r\n" + 
 				"        FROM (\r\n" + 
 				"                SELECT ri.recipe_name AS recipe_name,\r\n" + 
-				"                    SUM(ri.recipe_price * pd.purchase_quantity) AS total_sales\r\n" + 
+				"                    SUM(ri.recipe_price * pd.purchase_quantity) AS total_sales,\r\n" + 
+				"                    SUM(pd.purchase_quantity) AS total_amount\r\n" + 
 				"                FROM rd r JOIN recipe_info ri ON (r.rd_email = ri.rd_email)\r\n" + 
 				"                    JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
 				"                    JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
@@ -251,15 +253,16 @@ public class GraphDAO {
 				"                            AND\r\n" + 
 				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) <= ?\r\n" + 
 				"                GROUP BY ri.recipe_name\r\n" + 
-				"                ORDER BY 2 DESC) a  )\r\n" + 
-				"WHERE rownum <= ?";
+				"                ORDER BY " + order_by + " DESC) a\r\n" + 
+				"        )\r\n" + 
+				"WHERE rownum <= ?";;
 
 		try {
 			con = MyConnection.getConnection();
 
 			pstmt = con.prepareStatement(selectByYearMonthSQL, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-
+			
 			pstmt.setString(1, rd_email);
 			pstmt.setString(2, startDate);
 			pstmt.setString(3, endDate);
@@ -280,7 +283,8 @@ public class GraphDAO {
 
 			while (rs.next()) {				
 				list.add(new Pair<>(rs.getString("recipe_name"), 
-						rs.getInt("total_sales")));
+						new Pair<>(rs.getInt("total_sales"), 
+								rs.getInt("total_amount"))));
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -309,9 +313,10 @@ public class GraphDAO {
 			for (Pair<String, Pair<String, Integer>> p : dao.selectBySeasonG3("202006", "202008", 10)) {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
-			List<Pair<String, Integer>> list = dao.selectByConditionG4("rd01@recipe.com", "19900601", "20200801", "M", "F", 10, 99, 10);
-			for (Pair<String, Integer> p : list) {
-				System.out.println(p.getKey() + " " + p.getValue());
+			List<Pair<String, Pair<Integer, Integer>>> list = dao.selectByConditionG4(
+					"jjj1211@hanmir.com", "19900601", "20200801", "M", "F", 40, 49, 2, 10);
+			for (Pair<String, Pair<Integer, Integer>> p : list) {
+				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
 		} catch (FindException e) {
 			e.printStackTrace();

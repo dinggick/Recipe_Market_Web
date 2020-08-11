@@ -112,6 +112,7 @@ public class StatisticsController implements Controller {
 			String end_date = request.getParameter("end_date");
 			String customer_gender = request.getParameter("customer_gender");
 			String age_group = request.getParameter("age_group");
+			int order_by = Integer.parseInt(request.getParameter("order_by"));
 			int count = Integer.parseInt(request.getParameter("count"));
 			
 			session.setAttribute("rd_email", rd_email);
@@ -142,12 +143,12 @@ public class StatisticsController implements Controller {
 			session.setAttribute("start_age", start_age);
 			
 			System.out.println(rd_email + " " + start_date + " " + end_date + " " + gender1 + " " + gender2 + " " +
-					start_age + " " + end_age + " " + count);
+					start_age + " " + end_age + " " + order_by + " " + count);
 			
 			try {
-				List<Pair<String, Integer>> dataList = null;
+				List<Pair<String, Pair<Integer, Integer>>> dataList = null;
 				
-				dataList = service.findByConditionG4(rd_email, start_date, end_date, gender1, gender2, start_age, end_age, count);
+				dataList = service.findByConditionG4(rd_email, start_date, end_date, gender1, gender2, start_age, end_age, order_by, count);
 				request.setAttribute("data_list", dataList);
 
 				jspFileName = "/Graph4.jsp";
