@@ -16,6 +16,8 @@ addEventListener("load", () => {
     // $(".ad").height($(".recipeInfo").height() - $(".remoteControl").outerHeight());
     $(".ad").height($(".ad").height() * 1.05);
 
+	var recipeCode = $("input[type=hidden]").val();
+
     $(".purchaseBtn").click((e) => {
         var quantity = prompt("수량을 입력하세요");
         if (confirm("총 가격 : " + parseFloat($(".recipePrice").html()) * quantity + "원\n구매하시겠습니까?")) {
@@ -24,7 +26,6 @@ addEventListener("load", () => {
     });
 
 	$(".labelLike").click(function() {
-		var recipeCode = $(this).parent().find("input[type=hidden]").val();
 		$.ajax({
 			url : "/recipeMarket/point/like",
 			data : {recipeCode : recipeCode},
@@ -41,7 +42,6 @@ addEventListener("load", () => {
 	});
 	
 	$(".labelDisLike").click(function() {
-		var recipeCode = $(this).parent().find("input[type=hidden]").val();
 		$.ajax({
 			url : "/recipeMarket/point/dislike",
 			data : {recipeCode : recipeCode},
@@ -58,8 +58,6 @@ addEventListener("load", () => {
 	});
 
     $(".cartBtn").click(function(e) {
-    	console.log("test");
-    	var recipeCode = $(this).parent().find("input[type=hidden]").val();
     	var quantity = $(".buttonSection>input[type=number]").val();
     	
     	$.ajax({
@@ -80,5 +78,14 @@ addEventListener("load", () => {
     			}
     		}
     	});
+    });
+    
+    
+    $.ajax({
+    	url : "/recipeMarket/review/reviewListByRecipeCode",
+    	data : {recipeCode : recipeCode},
+    	success : (data, textStatus, jqXHR) => {
+    		$(".recipeInfo").append(data);
+    	}
     });
 });
