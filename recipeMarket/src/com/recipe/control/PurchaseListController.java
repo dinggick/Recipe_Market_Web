@@ -1,6 +1,7 @@
 package com.recipe.control;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -32,14 +33,26 @@ public class PurchaseListController implements Controller{
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		String customerEmail = (String)session.getAttribute("loginInfo");
-		
-		//String customerEmail= request.getParameter("customerEmail");
+		String value = request.getParameter("date");
 		
 		String servletPath = "";
 		
+		
 		try {
-			List<Purchase> list = service.findById(customerEmail);
-			
+			List<Purchase> list = null;
+			if(value == null) {
+				list = service.findById(customerEmail);
+			}else {
+				Long parseDate = Long.parseLong(request.getParameter("date"));
+				
+				System.out.println(value);
+				
+				Date date = new Date(parseDate);
+				
+				System.out.println(date);
+				
+				list = service.findBydate(customerEmail, date);
+			}
 			request.setAttribute("list", list);
 			
 			servletPath = "/purchaseList.jsp";

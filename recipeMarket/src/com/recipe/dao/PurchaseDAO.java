@@ -85,7 +85,7 @@ public class PurchaseDAO {
 			MyConnection.close(rs, ps, con);
 		}
 	}
-	
+	//날짜 조건검색
 	public List<Purchase> selectByDateId(String customerEmail, Date date) throws FindException{
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -101,7 +101,7 @@ public class PurchaseDAO {
 		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
 				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
 				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
-				"where p.customer_email=? and p.purchase_date between ? and sysdate";
+				"where p.customer_email=? and p.purchase_date between ? and sysdate order by p.purchase_date asc";
 		try {
 			ps = con.prepareStatement(detailSQL);
 			
