@@ -28,16 +28,52 @@
 
 <script>
 $(function()  {
-	var $recipeInfoObj = $("div.divContent>section.rightSection>div.recipeInfo");
-	var $favoriteListObj = $("div.divContent>section.rightSection>div.recipeInfo>table.favoriteList");
 	
-	// 즐겨찾기 목록 조회
+	var $rightSectionObj = $("div.divContent>section.rightSection");
+	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
+	var $faovoriteListObj = $recipeInfoObj.find("table.favoriteList");
+	
+	// 즐겨찾기 페이징 처리
 
 	
-	// 즐겨찾기 목록 중 <td>클릭시 레시피상세정보 보기
-	
-	
-	// 즐겨찾기 삭제 이벤트
+	// 즐겨찾기에서 상세 정보 or삭제이벤트
+	$faovoriteListObj.on('click', 'tr', function(e){
+		var recipeCode = $(this).find('input[name=deleteCode]').val();
+			
+			if ( e.target.className == 'delete' ) {
+				$.ajax({
+					url : '${contextPath}/favorite/remove' 
+					, data : {"recipeCode" : recipeCode}
+					, success : function(data) {
+						if ( data.status == 'success') {
+							alert("삭제에 성공했습니다.");
+							location.reload();
+						} else {
+							alert("삭제에 실패했습니다.");
+						}
+						
+					} //end of success
+				}); //end of Ajax
+				return false;
+			} // 삭제 이벤트 발생
+			
+			var recipeCodeForm = $("div.divContent>section.rightSection>form");
+			var recipeCodeObj = $('input[id=recipeCode]');
+			recipeCodeObj.attr("value", recipeCode);
+			
+	    	var form = document.createElement("form");
+	    	form.setAttribute("method", "POST");
+	    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+	    	
+	    	var input = document.createElement("input");
+	    	input.setAttribute("type", "hidden");
+	    	input.setAttribute("name", "recipeCode");
+	    	input.setAttribute("value", recipeCode);
+	    	form.appendChild(input);
+	    	document.body.appendChild(form);
+	    	form.submit();
+	    	return false;
+		});
 
 }); // end of load
 </script>
@@ -61,17 +97,18 @@ $(function()  {
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의 즐겨찾기</h1>
             <hr><br>
-            <p> 10건이 조회 되었습니다.<p>
+            <p> ${requestScope.favoriteList.size()} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
 	        <div class="recipeInfo">
 		        <table class="favoriteList">
 	        		<colgroup>
-		        		<col width="5%"></col>
+		        		<col width="10%"></col>
 		        		<col width="20%"></col>
 		        		<col width="20%"></col>
 		        		<col width="*"></col>
+		        		<col width="5%"></col>
 		        	</colgroup>
 		        	<thead>
 		        	<tr>
@@ -79,68 +116,29 @@ $(function()  {
 			        	<td>사진</td>
 			        	<td>상품명</td>
 			        	<td>내용</td>
+			        	<td></td>
 		        	</thead>
 		        	<tbody>
-			        	<tr>
-			        		<td>1</td>
-			        		<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-			        		<td>당근찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-		        		</tr>
-			        	<tr>
-				        	<td>2</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>고구마찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>3</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>김치찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>4</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>어피치찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>5</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>6</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>7</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>8</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>9</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
-			        	<tr>
-				        	<td>10</td>
-				        	<td><img class="recipeImg" src="${contextPath}/img/148299577268400131.gif"></td>
-				        	<td>라이언찌개</td>
-			        		<td>맛있어요! 굳<a href="#"><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a></td>
-			        	</tr>
+						<c:if test="${empty requestScope.favoriteList}" > 
+                	   		<tr> 
+                	   			<td colspan='5'> 등록된 즐겨찾기 목록이 없습니다.</td>
+							</tr>
+						
+						</c:if>
+                	   <c:forEach items="${requestScope.favoriteList}" var="favorite" varStatus="status">
+                	   		<tr> 
+                	   			<td> ${status.index+1} </td>
+                	   			<td><img class="recipeImg" src="${favorite.recipeInfo.imgUrl}"></td>
+                	   			<td> ${favorite.recipeInfo.recipeName} </td>
+                	   			<td><span> ${favorite.recipeInfo.recipeSumm} </span> 
+                	   				<input type="hidden" name="recipeCode" value="${favorite.recipeInfo.recipeCode}"/>
+                	   			</td>
+                	   			<td class="delete"><a href="#">
+                	   				<img class="delete" src="${contextPath}/img/delete.png" class="remove-button" />
+                	   				<input type="hidden" name="deleteCode" value="${favorite.recipeInfo.recipeCode}"/></a>
+			        			</td>
+							</tr>
+                	   </c:forEach>
 		        	</tbody>
 		        </table>
 		        
