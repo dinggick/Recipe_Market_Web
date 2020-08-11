@@ -13,7 +13,6 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
 import com.recipe.service.ReviewService;
-import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Review;
 
@@ -53,8 +52,6 @@ public class ReviewController implements Controller {
 			request.setAttribute("msg","로그인 되지 않은 사용자의 접근입니다.");
 			return servletPath;
 		}
-//		Customer loginUser = new Customer();
-//		loginUser.setCustomerEmail("kosj@recipe.com");
 
 		// 나의 리뷰 목록 보기 
 		String pathInfo = request.getServletPath();
@@ -115,17 +112,18 @@ public class ReviewController implements Controller {
 	private String addReview (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
 		
-		Purchase purchase = (Purchase)request.getAttribute("purchase");
-		if ( purchase == null ) {
+		int purchaseCode = Integer.parseInt(request.getParameter("purchaseCode"));
+		String reviewContent = (String)request.getParameter("reviewContent");
+		if ( purchaseCode == 0 || "".equals(reviewContent) ) {
 			request.setAttribute("msg","구매정보가 없습니다.");
 		}
 		
+		Purchase p = new Purchase();
+		p.setPurchaseCode(purchaseCode);
+
 		Review r = new Review();
-		r.setPurchase(purchase);
-		r.setReviewComment((String)request.getParameter("recipeComment"));
-		
-		System.out.println("리뷰내용 : " + r.getReviewComment());
-		System.out.println("구매번호 : " + r.getPurchase().getPurchaseCode());
+		r.setPurchase(p);
+		r.setReviewComment(reviewContent);
 		
 		try {
 			reviewService.add(r);
