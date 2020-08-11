@@ -6,15 +6,15 @@ function checkFavoriteBtn(favoriteBtn) {
 window.addEventListener("load", () => {
     //즐겨찾기 이벤트 처리
 	
-	$(".bottomSection").on("mouseover", ".favorite", function(e){
+	$("body").on("mouseover", ".favorite", function(e){
 		if(checkFavoriteBtn(e.target)) e.target.src = "http://localhost/recipeMarket/img/heart.png";
 		else e.target.src = "http://localhost/recipeMarket/img/filled_heart.png";
 	});
-	$(".bottomSection").on("mouseout", ".favorite", function(e) {
+	$("body").on("mouseout", ".favorite", function(e) {
 		if(checkFavoriteBtn(e.target)) e.target.src = "http://localhost/recipeMarket/img/heart.png";
 		else e.target.src = "http://localhost/recipeMarket/img/filled_heart.png";
 	});
-	$(".bottomSection").on("click", ".favorite", function(e) {
+	$("body").on("click", ".favorite", function(e) {
 		if(checkFavoriteBtn(e.target)) { //즐겨찾기 되어있지 않다면 즐겨찾기 추가
 			var recipeCode = $(this).parent().find("input[type=hidden]").val();
 			

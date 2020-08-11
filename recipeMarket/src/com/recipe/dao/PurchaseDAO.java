@@ -36,7 +36,7 @@ public class PurchaseDAO {
 			e.printStackTrace();
 		}
 		//나의 구매내역을 가져오는 query문
-		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
+		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment, ri.recipe_code \r\n" + 
 				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
  				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
 				"where p.customer_email=? order by p.purchase_date desc";
@@ -56,6 +56,7 @@ public class PurchaseDAO {
 				
 				r.setReviewComment(rs.getString("review_comment"));
 				
+				ri.setRecipeCode(rs.getInt("recipe_code"));
 				ri.setRecipeName(rs.getString("recipe_name"));
 				ri.setRecipePrice(rs.getInt("recipe_price"));
 				
