@@ -42,7 +42,7 @@
         }
         
         .rightSection{
-        	background-color:#F4EFEA;
+/*         	background-color:#F4EFEA; */
           /*overflow:auto;*/
         }
         
@@ -128,7 +128,7 @@
        
        .totalQuantity{
          padding-left:80%;
-         font-size:xx-large;	   
+         font-size:1.5vw;
        }
        
        .purchaseCart{
@@ -168,6 +168,10 @@
        	 margin-top:3%;
          border:1px solid #D2302C;
        }
+       
+       .cartInfo {
+       	background-color:#F4EFEA;
+       }
     </style>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -176,10 +180,6 @@
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
 <script>
-    /* addEventListener("load", () => {
-        $(".rightSection").height(window.innerHeight - (90 + $("footer").outerHeight() + $("header").outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-    }); */
-    
    $(function(){
 	   $('#check-All').click(function(){
 		  $('.check').prop('checked',this.checked);	  
@@ -309,7 +309,7 @@
                 <table id="Cart">
                 	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
                 	<c:set var="total" value="0"></c:set>
-                	 <c:if test="${list.size()==0}">
+                	 <c:if test="${empty list}">
                 	  	장바구니내역이없습니다
          			  </c:if>
                 	  <c:forEach items="${requestScope.list}" var="c">

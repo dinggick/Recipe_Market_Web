@@ -179,6 +179,17 @@
 	    	});
 	   });
 	   
+	   $('.conditon').click(function(){
+		  alert('das');
+		  $.ajax({
+			 url:,
+			 data:,
+			 success:function(){
+				 
+			 }
+		  });
+	   });
+	    
 	   
 	   
 	  	
