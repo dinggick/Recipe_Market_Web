@@ -220,8 +220,11 @@
                 	   		<td>${purchaseDetail.purchaseDetailQuantity*purchaseDetail.recipeInfo.recipePrice}</td>
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
-                	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal" value="${p.purchaseCode}"><img src="./img/list.png" class="toy"></button>
-                	   			</c:if>
+                	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
+                	   				    <jsp:include page="/reviewAdd.jsp">
+									        <jsp:param name="purchaseCode" value="${p.purchaseCode}"/>
+									    </jsp:include>
+	               	   			</c:if>
                 	   		</td></tr>
                 	   		</c:forEach>
                 	   </c:forEach>
@@ -229,7 +232,7 @@
             </div>
         </section>
     </div>
-    <jsp:include page="./static/reviewAdd.html"></jsp:include>
+
     <footer>
         <p>
             © 2020 RECIPE MARKET All rights reserved.
