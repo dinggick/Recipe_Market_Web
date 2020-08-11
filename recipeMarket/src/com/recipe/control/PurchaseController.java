@@ -32,30 +32,41 @@ public class PurchaseController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String customerEmail = (String)session.getAttribute("loginInfo");
+		//String customerEmail = (String)session.getAttribute("loginInfo");
+		String customerEmail = request.getParameter("customerEmail");
 		String servletPath="";
 		Purchase p = new Purchase();
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
-		PurchaseDetail pd = new PurchaseDetail();
-		RecipeInfo ri = new RecipeInfo();
+		
+		
 		Customer c = new Customer();
 		
-		int code = Integer.parseInt(request.getParameter("recipeCode"));
-		int quantity = Integer.parseInt(request.getParameter("purchaseQuantity"));
+		String code = request.getParameter("recipeCode");
+		String[] codeArr = code.split(",");
+		String quantity = request.getParameter("purchaseQuantity");
+		String[] quantityArr = quantity.split(",");
+		
 		
 		try {
-			c.setCustomerEmail(customerEmail);
-			ri.setRecipeCode(code);
 			
-			pd.setRecipeInfo(ri);
-			pd.setPurchaseDetailQuantity(quantity);
-			pdList.add(pd);
+			for (int i = 0; i < codeArr.length; i++) {
+				RecipeInfo ri = new RecipeInfo();
+				PurchaseDetail pd = new PurchaseDetail();
+				ri.setRecipeCode(Integer.parseInt(codeArr[i]));
+				pd.setRecipeInfo(ri);
+				
+				pd.setPurchaseDetailQuantity(Integer.parseInt(quantityArr[i]));
+				pdList.add(pd);
+				
+				p.setPurchaseDetails(pdList);
+				
+			}
+			c.setCustomerEmail(customerEmail);
 			p.setCustomerEmail(c);
-			p.setPurchaseDetails(pdList);
 			
 			service.buy(p);
 			
-			servletPath = "/purchaseList";
+			servletPath = "/success.jsp";
 			return servletPath;
 		} catch (AddException e) {
 			e.printStackTrace();

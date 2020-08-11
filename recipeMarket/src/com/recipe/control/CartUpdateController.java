@@ -35,10 +35,6 @@ public class CartUpdateController implements Controller {
 		//String customerEmail = (String)session.getAttribute("loginInfo");
 		String customerEmail = request.getParameter("customerEmail");
 		
-		System.out.println(customerEmail);
-		System.out.println(code);
-		System.out.println(quantity);
-		
 		Cart c = new Cart();
 		RecipeInfo info = new RecipeInfo();
 		String servletPath ="";

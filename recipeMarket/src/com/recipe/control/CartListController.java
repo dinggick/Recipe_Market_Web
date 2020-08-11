@@ -42,8 +42,6 @@ public class CartListController implements Controller {
 			for(Cart c: list) {
 				System.out.println(c);
 			}
-			
-			
 			request.setAttribute("list", list);
 			servletPath = "/recipeCart.jsp";
 		} catch (FindException e) {
