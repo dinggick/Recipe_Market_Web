@@ -283,6 +283,28 @@ public class CustomerDAO {
 
 		}
 	}
+	
+	public void verify(String email) throws ModifyException{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			throw new ModifyException(e.getMessage());
+		}
+		String updateSQL = "UPDATE customer" + " SET verification='y'" + " WHERE customer_email=?";
+		try {
+			pstmt = con.prepareStatement(updateSQL);
+			pstmt.setString(1, email);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new ModifyException("verifyEmail:" + e.getMessage());
+		} finally {
+			MyConnection.close(pstmt, con);
+
+		}
+	}
 
 	/*
 	 * 회원탈퇴 TEST

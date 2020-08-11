@@ -31,7 +31,7 @@ $(() => {
     $(".infoWrapper").on("blur", "#customer_re_pwd", function(evt) {
         $(this).css("border", "none");
     }); 
-
+    
     $(".buttonSection").on("click", ".reviseBtn", function(evt) {
         $(".dataInput").not(":first").removeAttr("readonly");
         $(this).remove();
@@ -78,4 +78,35 @@ $(() => {
             $(".eqaulPwd").fadeOut();
         }
     });
+    
+    $(".deleteBtn").on("click", function(evt) {
+    	$.ajax({
+    		url: "./customer/delete",
+    		data: $("form").serialize(),
+    		success: function(responseObj) {
+    			
+    		}
+    	});
+    });
+    
+    $(".buttonSection").on("click", ".deleteBtn", function(evt) {
+    	$.ajax({
+    		url: "./customer/delete",
+    		data: $("form").serialize(),
+    		success: function(responseObj) {
+    			
+    		}
+    	});
+    });
+    
+    $(".buttonSection").on("click", ".confirmBtn", function(evt) {
+    	$.ajax({
+    		url: "./customer/update",
+    		data: $("form").serialize(),
+    		success: function(responseObj) {
+    			
+    		}
+    	})
+    }
 });
+    

@@ -35,4 +35,7 @@ public class PurchaseService {
 		return dao.selectByDateId(customerEmail, date);
 	}
 	
+	public List<Purchase> findByDatePicker(String customerEmail,Date date) throws FindException{
+		return dao.selectByDate(customerEmail, date);
+	}
 }
