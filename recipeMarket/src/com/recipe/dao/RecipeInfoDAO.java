@@ -555,61 +555,42 @@ public class RecipeInfoDAO {
 		}
 		return recipeInfoList;
 	}
+	/**
+	 * 나의 레시피리스트 검색
+	 * 
+	 * @param rdEmail
+	 * @return
+	 * @throws FindException
+	 */
 	public List<RecipeInfo> myRecipeList(String rdEmail) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = MyConnection.getConnection();
-
 		} catch (ClassNotFoundException | SQLException e) {
-
 		}
+		
 		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process,"
 				+ "i.img_url, p.like_count, p.dislike_count "
 				+ "FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code "
 				+ "WHERE i.rd_email=? AND i.recipe_status=1";
+		
 		List<RecipeInfo> result = new ArrayList<RecipeInfo>();
-//		int prevCode = 0; //
 		try {
 			pstmt = con.prepareStatement(quary);
 			pstmt.setString(1, rdEmail);
 			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				int rCode = rs.getInt("recipe_code");
-//				int ingCode = rs.getInt("ing_code");
-//				String ingName = rs.getString("ing_name");
-//				String img_url = rs.getString("img_url");
-//				Ingredient ingredient = new Ingredient(ingCode, ingName);
-//				RecipeIngredient recipeIng = new RecipeIngredient(ingredient);
-//				//코드랑 이름 값 (Ingredient) recipeIng 에 넣어주고 리스트에 애드해줌
-//				ingList.add(recipeIng);
-//				//코드값이 바뀔떄 recipeInfo 에 값 넣어주기
-//				if (prevCode != rCode) {
-//					recipeInfo.setRecipeCode(rCode);
-//					recipeInfo.setImgUrl(rs.getString("img_url"));
-//					recipeInfo.setRecipeName(rs.getString("recipe_name"));
-//					recipeInfo.setRecipePrice(rs.getInt("recipe_price"));
-//					recipeInfo.setRecipeSumm(rs.getString("recipe_summ"));
-//					recipeInfo.setRecipeProcess(rs.getString("recipe_process"));
-//					recipeInfo.setImgUrl(rs.getString("img_url"));
-//					recipeInfo.setIngredients(ingList);
-//					Point pt = new Point(rCode, rs.getInt("like_count"), rs.getInt("dislike_count"));
-//					recipeInfo.setPoint(pt);
-//				}
-//			}
 			while(rs.next()) result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
 			if (result.isEmpty()) {
 				throw new FindException("등록된 레시피가 없습니다");
 			}
-
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
-
 		return result;
 	}
 	/**
