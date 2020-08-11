@@ -82,23 +82,24 @@
     </style>
     
     <script>
-    	$(function() {
-    	    $(".searchBtn").on("click", function(evt) {
-    	        $.ajax({
-    	            url: "../statistics/graph4",
-    	            data: $("form").serialize(),
-    	            success: (responseObj) => {
-    	                if (responseObj.status == "success") {
-    	                	alert("success");
-    	                } else {
-    	                	alert("fail");
-    	                }
-    	            }
-    	        });
+//     	$(function() {
+//     	    $(".searchBtn").on("click", function(evt) {
+//     	    	alert($("form").serialize());
+//     	        $.ajax({
+//     	            url: "${contextPath}/statistics/graph4",
+//     	            data: $("form").serialize(),
+//     	            success: (responseObj) => {
+//     	            	console.log(responseObj);
+//      	                $("html").html(responseObj);
+//     	            }
+//     	        });
     	        
-    	        return false;
-    	    });
-    	})
+//     	        return false;
+//     	    });
+//     	    $("form").on("submit", function(evt) {
+//     	    	return false;
+//     	    });
+//     	})
     </script>
     
 </head>
@@ -166,9 +167,8 @@
     <section class="rightSection">                                        
         <div class="contentsWrapper">
             <div class="infoWrapper">
-                <form autocomplete="off" class="formWrapper" action="#" method="post">
+                <form autocomplete="off" class="formWrapper" action="${contextPath}/statistics/graph4" method="post">
                     <table>
-                    
                         <tr>
                             <td>
                             	<label for="rd_email">rd_email</label>
@@ -257,12 +257,11 @@
                             </td>
                         </tr>
                                             
-                    </table>                   
-                    <div class="buttonSection">
-                        <button class="searchBtn" type="button">
-                            searchBtn
-                        </button>
-                    </div>
+                    </table>
+                    <button class="searchBtn" type="submit">
+                    	searchBtn
+                    </button>               
+
                 </form>
             </div>
         </div>                             

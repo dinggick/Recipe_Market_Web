@@ -113,7 +113,7 @@ public class StatisticsController implements Controller {
 			String customer_gender = request.getParameter("customer_gender");
 			String age_group = request.getParameter("age_group");
 			int count = Integer.parseInt(request.getParameter("count"));
-			
+
 			String[] sd = start_date.split("/");
 			String[] ed = end_date.split("/");
 			
@@ -128,8 +128,14 @@ public class StatisticsController implements Controller {
 			int end_age = Integer.parseInt(age[1]);
 			
 			try {
-				service.findByConditionG4(rd_email, start_date, end_date, g1, g2, start_age, end_age, count);
+				List<Pair<String, Integer>> dataList = null;
+				
+				dataList = service.findByConditionG4(rd_email, start_date, end_date, g1, g2, start_age, end_age, count);
+				System.out.println(dataList);
+				request.setAttribute("data_list", dataList);
+
 				jspFileName = "/Graph4.jsp";
+				System.out.println("여기에요");
 			} catch (FindException e) {
 				e.printStackTrace();
 			}
