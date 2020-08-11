@@ -8,7 +8,6 @@
 <%	List<RnD> rd_list = (List)request.getAttribute("rd_list");
 	RnD rd = (RnD)session.getAttribute("loginInfo");
 %>
-
 <html>
 <head>
     <meta charset="UTF-8">
@@ -47,6 +46,25 @@
         width: 500px;
         background-color: darkkhaki"
     }
+    .searchBtn {
+	    height: 40px;
+    	width: 100px;
+
+    	color: white;
+    	font-size: 1em;
+    	/* font-weight: border; */
+    	/* font-family: fantasy; */
+
+    	border: none;
+    	border-radius: 5px;
+
+    	outline: none;
+    	background-color: #8bd8bd;
+    	opacity: 0.7;
+	}
+	.searchBtn:hover {
+    	opacity: 1;
+	}
     </style>
 
     <style>
@@ -65,20 +83,19 @@
     
     <script>
     	$(function() {
-    	    $(".deleteBtn").on("click", function(evt) {
+    	    $(".searchBtn").on("click", function(evt) {
     	        $.ajax({
-    	            url: "./remove",
-    	            data: { rd_email : $("#rd_email").val() },
-    	            success: function(responseObj) {
+    	            url: "../statistics/graph4",
+    	            data: $("form").serialize(),
+    	            success: (responseObj) => {
     	                if (responseObj.status == "success") {
-    	                	alert("Account has been deleted");
-    	                	location.href = "${contextPath}/rnd/list?currentPage=${recentPage}";
+    	                	alert("success");
     	                } else {
-    	                	alert("Account has not been deleted");
+    	                	alert("fail");
     	                }
     	            }
     	        });
-
+    	        
     	        return false;
     	    });
     	})
@@ -203,8 +220,9 @@
                             	<label for="customer_gender">customer_gender</label>
                             </td>
                             <td style="text-align: center">
-                            	<input class="dataInput" type="radio" id="customer_gender" name="customer_gender" value="male"><span style="margin: 0px 30px">male</span>
-                            	<input class="dataInput" type="radio" name="customer_gender" value="female"><span style="margin: 0px 30px">female</span>                        
+                            	<input class="dataInput" type="radio" id="customer_gender" name="customer_gender" value="MM"><span style="margin: 0px 30px">male</span>
+                            	<input class="dataInput" type="radio" name="customer_gender" value="FF"><span style="margin: 0px 30px">female</span>                        
+                            	<input class="dataInput" type="radio" name="customer_gender" value="MF"><span style="margin: 0px 30px">전체</span>                        
                             </td>
                         </tr>
                         
@@ -215,12 +233,26 @@
                             
                             <td style="text-align: center">
                                 <select id="age_group" name="age_group" style="padding: 7px 20px">
-                            		<option value="10">10대</option>
-                            		<option value="20">20대</option>
-                            		<option value="30">30대</option>
-                            		<option value="40">40대</option>
-                            		<option value="50">50대</option>
-                            		<option value="60">60대 이상</option>                            		
+                            		<option value="10_19">10대</option>
+                            		<option value="20_29">20대</option>
+                            		<option value="30_39">30대</option>
+                            		<option value="40_49">40대</option>
+                            		<option value="50_59">50대</option>
+                            		<option value="60_99">60대 이상</option>                            		
+                            	</select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="count">count</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                                <select id="count" name="count" style="padding: 7px 20px">
+                            		<option value="10">상위 10</option>
+                            		<option value="20">상위 20</option>
+                            		<option value="30">상위 30</option>                         		
                             	</select>
                             </td>
                         </tr>
@@ -228,7 +260,7 @@
                     </table>                   
                     <div class="buttonSection">
                         <button class="searchBtn" type="button">
-                            confirmBtn
+                            searchBtn
                         </button>
                     </div>
                 </form>

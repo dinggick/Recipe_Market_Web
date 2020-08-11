@@ -1,6 +1,10 @@
 package com.recipe.control;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -101,6 +105,33 @@ public class StatisticsController implements Controller {
 			} catch (FindException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
+			}
+		} else if ("/graph4".equals(pathInfo)) { /* show graph4 */
+			String rd_email = request.getParameter("rd_email");
+			String start_date = request.getParameter("start_date");
+			String end_date = request.getParameter("end_date");
+			String customer_gender = request.getParameter("customer_gender");
+			String age_group = request.getParameter("age_group");
+			int count = Integer.parseInt(request.getParameter("count"));
+			
+			String[] sd = start_date.split("/");
+			String[] ed = end_date.split("/");
+			
+			start_date = sd[0] +  sd[1]  + sd[2];
+			end_date = ed[0] + ed[1] + ed[2];
+						
+			String g1 = customer_gender.charAt(0) + "";
+			String g2 = customer_gender.charAt(1) + "";
+			
+			String[] age = age_group.split("_");
+			int start_age = Integer.parseInt(age[0]);
+			int end_age = Integer.parseInt(age[1]);
+			
+			try {
+				service.findByConditionG4(rd_email, start_date, end_date, g1, g2, start_age, end_age, count);
+				jspFileName = "/Graph4.jsp";
+			} catch (FindException e) {
+				e.printStackTrace();
 			}
 		}
 		

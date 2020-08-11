@@ -17,9 +17,10 @@ $(() => {
         $(this).css("border", "0.5px solid black");
     });
     
-    $buttonSection.on("click", ".searchBtn", function(evt) {         
+    $(".searchBtn").on("click", function(evt) {
+    	alert("hello");
         $.ajax({
-            url: "./graph4",
+            url: "recipeMarket/statistics/graph4",
             data: $("form").serialize(),
             success: (responseObj) => {
                 if (responseObj.status == "success") {

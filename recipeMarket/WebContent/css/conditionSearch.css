@@ -83,7 +83,7 @@
     background-color: #8bd8bd;
     opacity: 0.7;
 }
-.addBtn:hover, .reviseBtn:hover, .deleteBtn:hover, .confirmBtn:hover {
+.searchBtn:hover {
     opacity: 1;
 }
 input:-webkit-autofill,
