@@ -52,6 +52,7 @@ public class RecipeInfoController implements Controller{
 			while((readVal = br.readLine()) != null) ingNprocess += readVal + "\n";
 			br.close();
 			
+			double price = 0;
 			String[] splitted = ingNprocess.split("\n");
 			String ingredients = splitted[0];
 			String[] process = Arrays.copyOfRange(splitted, 2, splitted.length);
@@ -59,6 +60,8 @@ public class RecipeInfoController implements Controller{
 			request.setAttribute("recipeInfo", ri);
 			request.setAttribute("ingredients", ingredients);
 			request.setAttribute("process", process);
+			request.setAttribute("price", price);
+			
 			
 			return "/recipeInfo.jsp";
 		} catch (FindException e) {
