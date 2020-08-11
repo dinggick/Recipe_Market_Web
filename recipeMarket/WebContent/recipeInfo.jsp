@@ -86,53 +86,6 @@
                     	</c:forEach>
                     </ul>
                 </div>
-                <div class="reviewSection">
-                    <h1>후기</h1>
-                    <ul>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </section>
 
