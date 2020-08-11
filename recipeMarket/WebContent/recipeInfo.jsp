@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="favoriteCheck" value="${requestScope.favoriteCheck}"/>
 <!DOCTYPE html>
 <html>
 
@@ -65,7 +66,14 @@
                     <div class="buttonSection">
                         <label class="labelLike"><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
                         <label class="labelDisLike"><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
+                        <c:choose>
+							<c:when test="${favoriteCheck == true}">
+								<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+							</c:when>
+							<c:otherwise>
+								<img src="${contextPath}/img/heart.png" class="favorite"> 
+							</c:otherwise>
+						</c:choose>
                         <button class="cartBtn">장바구니 추가</button>
                         <button class="purchaseBtn">구매하기</button>
                         <input type="number" name="quantity" value="1">
