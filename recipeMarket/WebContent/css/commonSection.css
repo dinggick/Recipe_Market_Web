@@ -1,0 +1,85 @@
+* { 
+    box-sizing: border-box; 
+}
+.bodySection {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 700px;
+    width: 100%;
+
+    margin: 0px;
+}
+.leftSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    /* border-right: 2px solid gray; */
+
+    height: inherit; 
+    width: 20%;
+}
+.titleWrapper {
+    margin-top: 20px; /* ? */
+
+    height: 100px;
+    line-height: 100px; 
+    width: 100%;
+    text-align: center;
+}
+.titleWrapper > span {
+    color: black;
+    font-size: 2.5em;
+    font-weight: border;
+    /* font-family: fantasy */
+}
+.underLineWrapper {
+    height: 20px;
+    width: 100%;
+}
+.underLineWrapper > hr {
+    color: darkorange;
+    width: 50%;
+    border: 2px solid
+}
+.rightSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: inherit; 
+    width: 80%;
+}
+.menuWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: inherit;
+    width: 80%;
+}
+.menuWrapper ul {
+    list-style: none;
+    padding-left: 0px;
+}
+.menuWrapper li {
+    text-align: center;
+    margin-top: 30px;
+
+    font-size: 1em;
+    font-weight: border;
+    /* font-family: fantasy; */
+
+    cursor: pointer;
+}
+.menuWrapper > ul > li > ul {
+    display: none;
+}
+.menuWrapper > ul > li > ul > li {
+    color:lightslategray;
+}
