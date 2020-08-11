@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="./css/review.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css">
     <style>
     	 .leftSection{
