@@ -39,7 +39,7 @@ public class CustomerController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
 
@@ -53,50 +53,33 @@ public class CustomerController implements Controller {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 			Date dt = null;
 			try {
-				dt=new Date(sdf.parse(customer_birth_date).getTime());
+				dt = new Date(sdf.parse(customer_birth_date).getTime());
 				System.out.println(sdf.parse(customer_birth_date));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			
+
 			String customer_gender = request.getParameter("customer_gender");
 			String customer_phone = request.getParameter("customer_phone");
 			String buildingno = request.getParameter("buildingno");
 			Postal postal = new Postal();
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
-			
-			System.out.println(customer_addr);
-			
-			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender,dt, customer_phone,
-					postal, customer_addr);
-			
-			
 
-<<<<<<< HEAD
-			
-				try {
-					accountService.add(c);
-					return "/success.jsp";
-				} catch (AddException e) {
-					e.printStackTrace();
-					request.setAttribute("msg", e.getMessage().replace("\"", ""));
-					return "/fail.jsp";
-				}
-=======
+			System.out.println(customer_addr);
+
+			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender, dt, customer_phone,
+					postal, customer_addr);
+
 			try {
 				accountService.add(c);
-				Mail mail = new Mail();
-				mail.sendVerification(c.getCustomerEmail());
 				return "/success.jsp";
-			} catch (DuplicatedException e) {
-				e.printStackTrace();
-				return "/fail.jsp";
 			} catch (AddException e) {
 				e.printStackTrace();
+				request.setAttribute("msg", e.getMessage().replace("\"", ""));
 				return "/fail.jsp";
 			}
->>>>>>> 00ac56087f88d94776a8e9db5c1b248c1ada03d1
+
 		} else if (pathInfo.equals("/myInfo")) {
 			String customerEmail = request.getParameter("customer_email");
 			try {
@@ -119,18 +102,18 @@ public class CustomerController implements Controller {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 			Date dt = null;
 			try {
-				dt=new Date(sdf.parse(customer_birth_date).getTime());
+				dt = new Date(sdf.parse(customer_birth_date).getTime());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			
+
 			String customer_gender = request.getParameter("customer_gender");
 			String customer_phone = request.getParameter("customer_phone");
 			String buildingno = request.getParameter("buildingno");
 			Postal postal = new Postal();
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
-			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender,dt, customer_phone,
+			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender, dt, customer_phone,
 					postal, customer_addr);
 
 			try {
@@ -149,19 +132,18 @@ public class CustomerController implements Controller {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 			Date dt = null;
 			try {
-				dt=new Date(sdf.parse(customer_birth_date).getTime());
+				dt = new Date(sdf.parse(customer_birth_date).getTime());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			
-			
+
 			String customer_gender = request.getParameter("customer_gender");
 			String customer_phone = request.getParameter("customer_phone");
 			String buildingno = request.getParameter("buildingno");
 			Postal postal = new Postal();
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
-			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender,dt, customer_phone,
+			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender, dt, customer_phone,
 					postal, customer_addr);
 
 			try {
@@ -172,16 +154,16 @@ public class CustomerController implements Controller {
 				return "/fail.jsp";
 			}
 
-		}else if(pathInfo.equals("/verify")) {
+		} else if (pathInfo.equals("/verify")) {
 			String email = request.getParameter("email");
-			 try {
+			try {
 				accountService.verify(email);
 				return "/success.jsp";
 			} catch (ModifyException e) {
 				e.printStackTrace();
 				return "/fail.jsp";
 			}
-			
+
 		}
 		return "/fail.jsp";
 	}
