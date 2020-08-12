@@ -241,4 +241,87 @@ public class ReviewDAO {
 		return reviewList;
 	} // end method selectByEmail();
 	
+	
+	/**
+	 * customerEmail
+	 * @return review 목록 반환
+	 * @param customerEmail
+	 * @throws FindException
+	 * @author Soojeong
+	 */
+	public List<Review> selectByEmail(int startRow , int endRow, String customerEmail) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Review> reviewList = null;
+		
+		try {
+			con = MyConnection.getConnection();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.getStackTrace();
+		}
+		
+		String selectSQL = "  SELECT * FROM " + 
+				"  (SELECT ROWNUM r, a.* " + 
+				"     FROM ( SELECT R.purchase_code      " + 
+				"                              , R.review_comment      " + 
+				"                              , P.purchase_date      " + 
+				"                              , RI.recipe_code      " + 
+				"                              , RI.recipe_name      " + 
+				"                     FROM review R      " + 
+				"                        JOIN purchase P ON (R.purchase_code = P.purchase_code)      " + 
+				"                        JOIN customer C ON (C.customer_email = P.customer_email)      " + 
+				"                        JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code)      " + 
+				"                        JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code)      " + 
+				"                     WHERE      " + 
+				"                        C.customer_email = ? and RI.recipe_status = '1' ) a  " + 
+				") WHERE  r BETWEEN ? AND ? ";
+		
+		try {
+			pstmt = con.prepareStatement(selectSQL);
+			pstmt.setString(1, customerEmail);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rs = pstmt.executeQuery();
+			reviewList = new ArrayList<>();
+			
+			while ( rs.next() ) {
+				PurchaseDetail purchaseDetail = new PurchaseDetail();
+				RecipeInfo recipeInfo = new RecipeInfo();
+				recipeInfo.setRecipeCode(rs.getInt("recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("recipe_name"));
+				
+				purchaseDetail.setRecipeInfo(recipeInfo);
+				
+				List<PurchaseDetail> purchaseDetails = new ArrayList<PurchaseDetail>();
+				purchaseDetails.add(purchaseDetail);
+				
+				
+				Purchase purchase = new Purchase();
+				purchase.setPurchaseCode(rs.getInt("purchase_code"));
+				purchase.setPurchaseDate(rs.getDate("purchase_date"));
+				purchase.setPurchaseDetails(purchaseDetails);
+				
+				Review r = new Review();
+				r.setPurchase(purchase);
+				r.setReviewComment(rs.getString("review_comment"));
+				
+				reviewList.add(r);
+			} //end while
+			
+			if (reviewList.size() == 0 ) {
+				throw new FindException("등록된 후기 목록이 없습니다.");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException ("Fail : 후기 목록 조회에 실패하였습니다.");
+			
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return reviewList;
+	} // end method selectByEmail();
+	
 } //end class ReviewDAO
