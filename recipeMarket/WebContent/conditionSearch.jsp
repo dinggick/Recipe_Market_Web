@@ -194,6 +194,9 @@
                             				</option>
                             			</c:when>
                             			<c:otherwise>
+                                 			<option value="all">
+                                 				전체
+                                 			</option>                            				
                             				<c:forEach items="${rd_list}" var="rd">
                             				    <option value="${rd.rdEmail}">
                             						${rd.rdEmail}

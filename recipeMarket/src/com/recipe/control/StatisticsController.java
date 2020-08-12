@@ -44,6 +44,11 @@ public class StatisticsController implements Controller {
 		
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
 		String jspFileName = "/fail.jsp";
+		
+		if (session.getAttribute("loginInfo") == null) {
+			request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
+			return jspFileName;
+		}
 				
 		if("/graph1".equals(pathInfo)) { /* Show graph1 */
 			try {

@@ -64,6 +64,11 @@ public class RnDController implements Controller {
 		
 		String jspFileName = "/fail.jsp";
 		
+		if (session.getAttribute("loginInfo") == null) {
+			request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
+			return jspFileName;
+		}
+		
 		if("/add".equals(pathInfo)) { /* Add RnD's account */
 			try {
 				service.add(RnDMethod.getNewInstance(request));

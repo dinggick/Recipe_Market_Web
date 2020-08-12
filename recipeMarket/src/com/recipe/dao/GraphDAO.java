@@ -243,8 +243,8 @@ public class GraphDAO {
 				"                    JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
 				"                    JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
 				"                    JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
-				"                WHERE (r.rd_email = ?)\r\n" + 
-				"                    AND (TO_CHAR(p.purchase_date, 'YYYYMMDD') BETWEEN ? AND ?)\r\n" + 
+				"                WHERE " + (rd_email.equals("all") ? "" : "(r.rd_email = ?) AND ") +				
+				"                    (TO_CHAR(p.purchase_date, 'YYYYMMDD') BETWEEN ? AND ?)\r\n" + 
 				"                    AND (c.customer_gender = ?)\r\n" + 
 				"                            OR\r\n" + 
 				"                        (c.customer_gender = ?)\r\n" + 
@@ -263,14 +263,19 @@ public class GraphDAO {
 			pstmt = con.prepareStatement(selectByYearMonthSQL, ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 			
-			pstmt.setString(1, rd_email);
-			pstmt.setString(2, startDate);
-			pstmt.setString(3, endDate);
-			pstmt.setString(4, gender1);
-			pstmt.setString(5, gender2);
-			pstmt.setInt(6, start_age);
-			pstmt.setInt(7, end_age);
-			pstmt.setInt(8, count);
+			int idx = 1;
+			
+			if (!rd_email.equals("all")) {
+				pstmt.setString(idx++, rd_email);
+			}
+			
+			pstmt.setString(idx++, startDate);
+			pstmt.setString(idx++, endDate);
+			pstmt.setString(idx++, gender1);
+			pstmt.setString(idx++, gender2);
+			pstmt.setInt(idx++, start_age);
+			pstmt.setInt(idx++, end_age);
+			pstmt.setInt(idx, count);
 
 			rs = pstmt.executeQuery();
 

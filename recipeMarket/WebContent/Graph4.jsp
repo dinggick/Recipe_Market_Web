@@ -63,11 +63,16 @@
 			["<%=list.get(i).getKey()%>", <%=list.get(i).getValue().getKey()%>, <%=list.get(i).getValue().getValue()%>]
 			<%}%>
         ]);
+        
+        var name = "${rd_email}";
+        if (name == "all") {
+        	name = "모든 RnD"
+        }
 
         var options = {
           width: 1000,
           chart: {
-              title: '${rd_email} 가 등록한 레시피 목록',
+              title: name + ' 가 등록한 레시피 목록',
               subtitle: '판매기간: ${start_date}~${end_date} 성별: ${gender} 연령대: ${age_aroup}',
           },
           bars: 'horizontal', // Required for Material Bar Charts.
