@@ -45,7 +45,10 @@ public class Mail {
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userMail));
 			message.setSubject("[비밀번호찾기 - RecipeMarket]");
-			message.setText("비밀번호는: " + pwd + "입니다");
+			String txt = "";
+			txt +=  "<br><img style='width: 200px;' src=\"https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FRPxFA%2FbtqGuM2ZBAe%2FUKRpsekkax1dKUJnmM9r4k%2Fimg.png\">";
+			txt +=  "<br>비밀번호는: " + pwd + "입니다";
+			message.setContent(txt, "text/html; charset=utf-8");
 
 			// Send message
 			Transport.send(message);
@@ -63,10 +66,10 @@ public class Mail {
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userMail));
 			message.setSubject("[이메일인증 - RecipeMarket]");
-			
-			
-			String txt = "Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
-			txt += "<a href='http://localhost/recipeMarket/customer/verify?email=" + userMail +"'>www.recipeMarket.com<a>";
+			String txt = "";
+			txt +=  "<br><img style='width: 200px;' src=\"https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FRPxFA%2FbtqGuM2ZBAe%2FUKRpsekkax1dKUJnmM9r4k%2Fimg.png\">";
+			txt += "Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
+			txt += "<br><a href='http://localhost/recipeMarket/customer/verify?email=" + userMail +"'>인증할게요<a>";
 			message.setContent(txt, "text/html; charset=utf-8");
 			// Send message
 			Transport.send(message);

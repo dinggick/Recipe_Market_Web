@@ -73,17 +73,6 @@ public class CustomerController implements Controller {
 			
 			
 
-<<<<<<< HEAD
-			
-				try {
-					accountService.add(c);
-					return "/success.jsp";
-				} catch (AddException e) {
-					e.printStackTrace();
-					request.setAttribute("msg", e.getMessage().replace("\"", ""));
-					return "/fail.jsp";
-				}
-=======
 			try {
 				accountService.add(c);
 				Mail mail = new Mail();
@@ -96,7 +85,7 @@ public class CustomerController implements Controller {
 				e.printStackTrace();
 				return "/fail.jsp";
 			}
->>>>>>> 00ac56087f88d94776a8e9db5c1b248c1ada03d1
+
 		} else if (pathInfo.equals("/myInfo")) {
 			String customerEmail = request.getParameter("customer_email");
 			try {
@@ -176,7 +165,7 @@ public class CustomerController implements Controller {
 			String email = request.getParameter("email");
 			 try {
 				accountService.verify(email);
-				return "/success.jsp";
+				return "/static/login.html";
 			} catch (ModifyException e) {
 				e.printStackTrace();
 				return "/fail.jsp";
