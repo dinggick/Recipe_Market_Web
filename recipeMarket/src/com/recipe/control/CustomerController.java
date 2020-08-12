@@ -12,6 +12,7 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
+import com.recipe.mail.Mail;
 import com.recipe.service.AccountService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Postal;
@@ -62,6 +63,8 @@ public class CustomerController implements Controller {
 
 			try {
 				accountService.add(c);
+				Mail mail = new Mail();
+				mail.sendVerification(c.getCustomerEmail());
 				return "/success.jsp";
 			} catch (DuplicatedException e) {
 				e.printStackTrace();
