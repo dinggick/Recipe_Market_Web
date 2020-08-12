@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <link rel="icon" href="${contextPath}/img/titlecon.png">
-    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
+    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">	
     <link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
