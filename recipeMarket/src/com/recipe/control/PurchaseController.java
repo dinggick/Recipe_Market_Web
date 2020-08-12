@@ -43,8 +43,15 @@ public class PurchaseController implements Controller {
 		
 		String code = request.getParameter("recipeCode");
 		String[] codeArr = code.split(",");
+		
 		String quantity = request.getParameter("purchaseQuantity");
 		String[] quantityArr = quantity.split(",");
+		
+		String recipeName = request.getParameter("recipeName");
+		String[] recipeNamaArr = recipeName.split(",");
+		
+		String recipePrice = request.getParameter("recipePrice");
+		String[] recipePriceArr = recipePrice.split(",");
 		
 		
 		try {
@@ -52,7 +59,10 @@ public class PurchaseController implements Controller {
 			for (int i = 0; i < codeArr.length; i++) {
 				RecipeInfo ri = new RecipeInfo();
 				PurchaseDetail pd = new PurchaseDetail();
+				ri.setRecipeName(recipeNamaArr[i]);
 				ri.setRecipeCode(Integer.parseInt(codeArr[i]));
+				ri.setRecipePrice(Integer.parseInt(recipePriceArr[i]));
+				
 				pd.setRecipeInfo(ri);
 				
 				pd.setPurchaseDetailQuantity(Integer.parseInt(quantityArr[i]));

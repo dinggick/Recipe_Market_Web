@@ -67,6 +67,8 @@
 	   $('.purchaseCart').click(function(){
 		 let picks = '';
 		 let quantities ="";
+		 let recipeName = "";
+		 let recipePrice ="";
 		 if($("input[id=check]:checked")==false){
 			 alert('상품을 선택해주세요');
 			 return;
@@ -74,14 +76,22 @@
 		 $("input[id=check]:checked").each(function(){
 			 picks += $(this).val()+",";
 			 quantities += $(this).parent().parent().find('input.quantity').val()+",";
-			 //quantities += $(this).siblings('.quantity').val()+",";
+			 recipeName += $(this).parent().parent().find('td:nth-child(3)').html()+",";
+			 recipePrice += $(this).parent().parent().find('td:nth-child(4)').html()+",";
+			 
+			 //quantities += $(this).siblings('.quantity').val()+","
 			 console.log(quantities);
+			 console.log(recipeName);
+			 console.log(recipePrice);
 		 });
 		 picks = picks.slice(0,-1);
 		 quantities = quantities.slice(0,-1);
-		  $.ajax({
+		 recipeName = recipeName.slice(0,-1);
+		 recipePrice = recipePrice.slice(0,-1);
+		 
+		 $.ajax({
 			url:'/recipeMarket/purchase',
-			data:{recipeCode : picks , purchaseQuantity : quantities},
+			data:{recipeCode : picks , purchaseQuantity : quantities, recipeName:recipeName, recipePrice:recipePrice},
 			success:function(responseObj){
 				if(responseObj.status=="success"){
 					alert('구매가 완료되었습니다');
@@ -90,7 +100,7 @@
 					alert('구매실패! 다시시도해주세요');
 				}
 			}
-		  })
+		  }) 
 		  return false;
 	   });
 	   
@@ -164,10 +174,10 @@
                 	  <c:forEach items="${requestScope.list}" var="c">
                 	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />
 						  <tr class="cartList">
-                	   		<td><input type="checkbox" id="check" class="check" value="${c.recipeInfo.recipeCode}"><label></label> </td>
+                	   		<td><input type="hidden" value="${c.recipeInfo.recipeCode}"><input type="checkbox" id="check" class="check" value="${c.recipeInfo.recipeCode}"><label></label> </td>
                 	   		<td><a href="/recipeMarket/recipeInfo?recipeCode=${c.recipeInfo.recipeCode}"><img src="${c.recipeInfo.imgUrl}" class="recipePhoto"></a></td>
-                	   		<td>${c.recipeInfo.recipeName}<input type="hidden" value="${c.recipeInfo.recipeCode}"/></td>
-                	   		<td>${c.recipeInfo.recipePrice}원</td>
+                	   		<td>${c.recipeInfo.recipeName}</td>
+                	   		<td>${c.recipeInfo.recipePrice}</td>
                 	   		<td><input type="number" class="quantity" value="${c.cartQuantity}" min=1></td>
                 	  	 	<td class="price"><span>${c.recipeInfo.recipePrice*c.cartQuantity}</span>원</td>
                 	   		<td><button type="submit" class="delete">X</button></td>

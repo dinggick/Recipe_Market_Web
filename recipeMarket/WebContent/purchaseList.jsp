@@ -13,6 +13,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
     
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="css/divContent.css">
@@ -20,14 +22,9 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
    	<link rel="stylesheet" href="./css/purchaseList.css">
-   	
-   	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
-   	
    	<link rel="stylesheet" href="./css/review.css">
    	<link rel="stylesheet" href="./css/modal.css">
-    <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"> -->
-    
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"> --> 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
@@ -61,7 +58,7 @@ $(function(){
 					var d = Date.parse(date1);
 					console.log(d);
 						
-					//location.href = "/recipeMarket/purchaseList?date=" + d;
+					location.href = "/recipeMarket/purchaseList?date=" + d;
 					$("#datepicker").hide();
 				}
 			});
