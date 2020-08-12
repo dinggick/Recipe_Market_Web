@@ -111,6 +111,12 @@ $(function(){
 			location.href = "/recipeMarket/purchaseList?date=" + halfs;
 
 		});
+		
+		//레시크 상세이동시 모달창 이벤트막기
+		$('.recipeName').click(function(event){
+			event.stopPropagation();
+		});
+		
 		////////////////////////////////////////////
 	  var sectionObj = $('section.rightSection');
       var purchaseTableObj = $('section.rightSection > div.purchaseInfo > table#pucrhase');
