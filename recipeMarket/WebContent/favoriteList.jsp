@@ -64,6 +64,7 @@ $(function()  {
 						if ( data.status == 'success') {
 							location.reload();
 						} else {
+							alert("삭제에 실패했습니다.");
 						}
 						
 					} //end of success
@@ -173,7 +174,7 @@ $(function()  {
 		        </table>
 		        
             <!-- 페이징 영역 Start-->
-			<div class="pagingSection">
+<%-- 			<div class="pagingSection">
 				<c:if test="${startPage > 1}">
 					<img src="${contextPath}/img/prev2.png" alt="prev2">
 				</c:if>
@@ -183,6 +184,7 @@ $(function()  {
 				</c:if>
 				
 				<c:forEach begin="${startPage}" end="${endPage}" var="i">
+				
 					<c:choose>
 						<c:when test="${currentPage == i}">
 							<a href="${contextPath}/favorite/favoriteList?currentPage=${i}" style="color: #D2302C; font-weight: border"> ${i}</a>				
@@ -201,9 +203,38 @@ $(function()  {
 					<img src="${contextPath}/img/next2.png" alt="next2">
 				</c:if>
 			</div>
-            <!-- 페이징 영역 End -->
+            <!-- 페이징 영역 End --> --%>
 
 	        </div>
+	        
+	        
+			<div class="pagingSection">
+			<c:if test="${startPage > 1}">
+			<img src="${contextPath}/img/prev2.png" alt="prev2">
+			</c:if>
+			<c:if test="${currentPage > 1}">
+				<img src="${contextPath}/img/prev1.png" alt="prev1">
+			</c:if>
+			<c:forEach begin="${startPage}" end="${endPage}" var="i">
+			<c:choose>
+			<c:when test="${currentPage == i}">
+				<a href="${contextPath}/favorite/favoriteList?currentPage=${i}" style=" color: #D2302C; font-weight: border"> ${i} </a>				
+			</c:when>
+			<c:otherwise>
+				<a href="${contextPath}/favorite/favoriteList?currentPage=${i}">${i}</a>
+			</c:otherwise>
+			</c:choose>
+			</c:forEach>
+			
+			<c:if test="${totalPage > endPage}">
+				<img src="${contextPath}/img/next1.png" alt="next1">
+			</c:if>
+			
+			<c:if test="${endPage < totalPage}">
+				<img src="${contextPath}/img/next2.png" alt="next2">
+			</c:if>
+				
+			</div>
         </section>
     </div>
     

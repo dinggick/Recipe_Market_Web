@@ -71,7 +71,7 @@ public class FavoriteController implements Controller {
 	
 	
 	private String favoriteList (HttpServletRequest request, HttpServletResponse response, String customerEmail) {
-		String result = "/fail.jsp";
+		String result = "/favoriteList.jsp";
 		
 		String strPage = request.getParameter("currentPage");
 		int currentPage = 1;
