@@ -97,7 +97,7 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <span style="font-size: 1.5em">
                 	계정 목록
             </span>
 
@@ -139,11 +139,11 @@
 
                     <table>
 
-                        <thead style="background-color: #F4EFEA">
-                            <tr style="font-size: 1.1em; border-color: #D2302C"><th>번호</th><th>이메일</th><th>부서</th><th>정보보기</th></tr>
+                        <thead>
+                            <tr><th>번호</th><th>이메일</th><th>부서</th><th>정보보기</th></tr>
                         </thead>
 
-                        <tbody style="background-color: #F4EFEA">
+                        <tbody>
                         	<c:forEach items="${list}" var="r" varStatus="status">
                         		<c:set var="cur" value="${status.index}"/>
                             	<tr>

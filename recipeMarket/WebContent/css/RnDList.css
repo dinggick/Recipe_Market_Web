@@ -35,15 +35,16 @@ table td {
 }
 thead {
     /* background-color: rgb(52, 152, 219); */
-    background-color: #D2302C;
+/*     background-color: #D2302C; */
     opacity: 0.9;
 }
 thead > tr {
     height: 50px;
     border-bottom: 3px solid black;
+    border-color: #D2302C;
 }
 tbody {
-    background-color: white;
+/*     background-color: white; */
 }
 tbody > tr img {
     height: 20px;
