@@ -32,7 +32,7 @@ public class FindPwdController implements Controller {
 		try {
 			Customer c = service.findByEmail(value);
 			Mail mail = new Mail();
-			mail.sendEmail(c.getCustomerEmail(),c.getCustomerPwd());
+			mail.sendPwd(c.getCustomerEmail(),c.getCustomerPwd());
 			servletPath = "/success.jsp";
 		} catch (FindException e) {
 			servletPath = "/fail.jsp";

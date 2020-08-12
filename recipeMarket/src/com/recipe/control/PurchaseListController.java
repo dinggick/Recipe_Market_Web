@@ -34,6 +34,7 @@ public class PurchaseListController implements Controller{
 		HttpSession session = request.getSession();
 		String customerEmail = (String)session.getAttribute("loginInfo");
 		String value = request.getParameter("date");
+		String path = request.getServletPath();
 		
 		String servletPath = "";
 		
@@ -51,8 +52,13 @@ public class PurchaseListController implements Controller{
 				
 				System.out.println(date);
 				
-				list = service.findBydate(customerEmail, date);
-				//list = service.findByDatePicker(customerEmail, date);
+				if("/purchaseListByDatePick".equals(path)) {
+					list = service.findByDatePicker(customerEmail, date);
+				}else {
+					list = service.findBydate(customerEmail, date);
+					
+				}
+				
 			}
 			request.setAttribute("list", list);
 			

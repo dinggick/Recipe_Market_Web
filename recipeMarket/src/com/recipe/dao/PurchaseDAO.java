@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.recipe.exception.AddException;
@@ -166,14 +168,22 @@ public class PurchaseDAO {
 		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n"
 				+ "from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n"
 				+ "join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n"
-				+ "where p.customer_email=? and p.purchase_date=?";
+				+ "where p.customer_email=? and p.purchase_date between ? and ?";
 		try {
 			ps = con.prepareStatement(detailSQL);
-
+			Calendar cl = Calendar.getInstance();
+			cl.setTime(date);
+			cl.add(Calendar.HOUR_OF_DAY, 23);
+			cl.add(Calendar.MINUTE, 59);
+			cl.add(Calendar.SECOND, 59);
+			Timestamp cDate = new Timestamp(cl.getTimeInMillis());
+			System.out.println(cl.getTimeInMillis());
 			// 현재 아이디를 받아온다
 			ps.setString(1, customerEmail);
 			ps.setDate(2, date);
-
+			//ps.setDate(3, (cDate);
+			
+			ps.setTimestamp(3, cDate);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Purchase p = new Purchase();

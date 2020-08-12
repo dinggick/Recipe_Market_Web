@@ -15,6 +15,7 @@
 <c:set var="startPage" value="${pb.startPage}"/>
 <c:set var="endPage" value="${pb.endPage}"/>
 <c:set var="url" value="${pb.url}"/>
+<c:set var="rowCnt" value="${pb.rowCnt}"/>
 
 <!DOCTYPE html>
 <html>
@@ -107,7 +108,7 @@ $(function()  {
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의후기</h1>
             <hr><br>
-            <p> ${requestScope.myReviewList.size()} 건이 조회 되었습니다.<p>
+            <p> ${rowCnt} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
@@ -129,13 +130,13 @@ $(function()  {
 			        	<td></td>
 		        	</thead>
 		        	<tbody>
-						<c:if test="${empty requestScope.myReviewList}" > 
+						<c:if test="${empty list}" > 
                 	   		<tr> 
                 	   			<td colspan='5'> 등록된 후기가 없습니다.</td>
 							</tr>
 						
 						</c:if>
-                	   <c:forEach items="${requestScope.myReviewList}" var="review" varStatus="status">
+                	   <c:forEach items="${list}" var="review" varStatus="status">
                 	   		<c:forEach items="${review.purchase.purchaseDetails}" var="purchaseDetail" >
                 	   		<tr> 
                 	   			<td> ${status.index+1} </td>
@@ -154,18 +155,36 @@ $(function()  {
 		        	</tbody>
 		        </table>
 		        
-       	        <div class="pagingSection">
-		            <img src="${contextPath}/img/prev2.png" alt="prev2">
-		            <img src="${contextPath}/img/prev1.png" alt="prev1">
-		            <span><a href="#">1</a></span>
-		            <span><a href="#">2</a></span>
-		            <span><a href="#">3</a></span>
-		            <span><a href="#">4</a></span>
-		            <span><a href="#">5</a></span>
-		            
-		            <img src="${contextPath}/img/next1.png" alt="next1">
-		            <img src="${contextPath}/img/next2.png" alt="next2">
-	        	</div>
+            <!-- 페이징 영역 Start-->
+			<div class="pagingSection">
+				<c:if test="${startPage > 1}">
+					<img src="${contextPath}/img/prev2.png" alt="prev2">
+				</c:if>
+				
+				<c:if test="${currentPage > 1}">
+					<img src="${contextPath}/img/prev1.png" alt="prev1">
+				</c:if>
+				
+				<c:forEach begin="${startPage}" end="${endPage}" var="i">
+					<c:choose>
+						<c:when test="${currentPage == i}">
+							<a href="${contextPath}/reivew/myReviewList?currentPage=${i}" style="color: #D2302C; font-weight: border"> ${i}</a>				
+						</c:when>
+						<c:otherwise>
+							<a href="${contextPath}/reivew/myReviewList?currentPage=${i}">${i}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				
+				<c:if test="${totalPage > endPage}">
+					<img src="${contextPath}/img/next1.png" alt="next1">
+				</c:if>
+				
+				<c:if test="${endPage < totalPage}">
+					<img src="${contextPath}/img/next2.png" alt="next2">
+				</c:if>
+			</div>
+            <!-- 페이징 영역 End -->
 
 	        </div>
         </section>

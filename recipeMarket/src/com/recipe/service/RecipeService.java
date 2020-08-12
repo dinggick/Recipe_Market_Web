@@ -11,6 +11,7 @@ import com.recipe.exception.ModifyException;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.RecipePage;
 
 public class RecipeService {
 	private static RecipeService instance;
@@ -58,6 +59,12 @@ public class RecipeService {
 	}
 	public List<RecipeInfo> myRecipeList(String rdEmail) throws FindException {
 		return recipeInfoDAO.myRecipeList(rdEmail);
+	}
+	public List<RecipePage> myRecipeListPage(String rdEmail, int pageNo, int pageSize, String orderType) throws FindException {
+		return recipeInfoDAO.myRecipeListPage(rdEmail, pageNo, pageSize, orderType);
+	}
+	public int myRecipeCount(String rdEmail) throws FindException {
+		return recipeInfoDAO.myRecipeCount(rdEmail);
 	}
 	public List<RecipeInfo> findAll() throws FindException {
 		return recipeInfoDAO.selectAll();

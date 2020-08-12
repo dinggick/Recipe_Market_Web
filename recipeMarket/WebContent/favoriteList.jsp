@@ -1,6 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%@	page import="com.recipe.model.PageBean"%>
+<%@	page import="com.recipe.vo.Favorite"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+
+<c:set var="pb" value="${requestScope.pb}"/>
+<c:set var="currentPage" value="${pb.currentPage}"/>
+<c:set var="list" value="${pb.list}"/>
+<c:set var="CNT_PER_PAGE" value="${PageBean.CNT_PER_PAGE}"/>
+<c:set var="CNT_PER_PAGEGROUP" value="${PageBean.CNT_PER_PAGEGROUP}"/>
+<c:set var="startRow" value="${pb.startRow}"/>
+<c:set var="totalPage" value="${pb.totalPage}"/>
+<c:set var="startPage" value="${pb.startPage}"/>
+<c:set var="endPage" value="${pb.endPage}"/>
+<c:set var="rowCnt" value="${pb.rowCnt}"/>
+<c:set var="url" value="${pb.url}"/>
 
 <!DOCTYPE html>
 <html>
@@ -97,7 +113,7 @@ $(function()  {
             <!-- 화면 제목(또는 레시피 이름) -->
             <h1>나의 즐겨찾기</h1>
             <hr><br>
-            <p> ${requestScope.favoriteList.size()} 건이 조회 되었습니다.<p>
+            <p> ${rowCnt} 건이 조회 되었습니다.<p>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">
@@ -119,13 +135,13 @@ $(function()  {
 			        	<td></td>
 		        	</thead>
 		        	<tbody>
-						<c:if test="${empty requestScope.favoriteList}" > 
+						<c:if test="${empty list}" > 
                 	   		<tr> 
                 	   			<td colspan='5'> 등록된 즐겨찾기 목록이 없습니다.</td>
 							</tr>
 						
 						</c:if>
-                	   <c:forEach items="${requestScope.favoriteList}" var="favorite" varStatus="status">
+                	   <c:forEach items="${list}" var="favorite" varStatus="status">
                 	   		<tr> 
                 	   			<td> ${status.index+1} </td>
                 	   			<td><img class="recipeImg" src="${favorite.recipeInfo.imgUrl}"></td>
@@ -142,18 +158,36 @@ $(function()  {
 		        	</tbody>
 		        </table>
 		        
-       	        <div class="pagingSection">
-		            <img src="${contextPath}/img/prev2.png" alt="prev2">
-		            <img src="${contextPath}/img/prev1.png" alt="prev1">
-		            <span><a href="#">1</a></span>
-		            <span><a href="#">2</a></span>
-		            <span><a href="#">3</a></span>
-		            <span><a href="#">4</a></span>
-		            <span><a href="#">5</a></span>
-		            
-		            <img src="${contextPath}/img/next1.png" alt="next1">
-		            <img src="${contextPath}/img/next2.png" alt="next2">
-	        	</div>
+            <!-- 페이징 영역 Start-->
+			<div class="pagingSection">
+				<c:if test="${startPage > 1}">
+					<img src="${contextPath}/img/prev2.png" alt="prev2">
+				</c:if>
+				
+				<c:if test="${currentPage > 1}">
+					<img src="${contextPath}/img/prev1.png" alt="prev1">
+				</c:if>
+				
+				<c:forEach begin="${startPage}" end="${endPage}" var="i">
+					<c:choose>
+						<c:when test="${currentPage == i}">
+							<a href="${contextPath}/favorite/favoriteList?currentPage=${i}" style="color: #D2302C; font-weight: border"> ${i}</a>				
+						</c:when>
+						<c:otherwise>
+							<a href="${contextPath}/favorite/favoriteList?currentPage=${i}">${i}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				
+				<c:if test="${totalPage > endPage}">
+					<img src="${contextPath}/img/next1.png" alt="next1">
+				</c:if>
+				
+				<c:if test="${endPage < totalPage}">
+					<img src="${contextPath}/img/next2.png" alt="next2">
+				</c:if>
+			</div>
+            <!-- 페이징 영역 End -->
 
 	        </div>
         </section>

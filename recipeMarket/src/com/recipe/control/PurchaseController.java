@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
+import com.recipe.mail.Mail;
 import com.recipe.service.PurchaseService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
@@ -43,8 +44,15 @@ public class PurchaseController implements Controller {
 		
 		String code = request.getParameter("recipeCode");
 		String[] codeArr = code.split(",");
+		
 		String quantity = request.getParameter("purchaseQuantity");
 		String[] quantityArr = quantity.split(",");
+		
+		String recipeName = request.getParameter("recipeName");
+		String[] recipeNamaArr = recipeName.split(",");
+		
+		String recipePrice = request.getParameter("recipePrice");
+		String[] recipePriceArr = recipePrice.split(",");
 		
 		
 		try {
@@ -52,7 +60,10 @@ public class PurchaseController implements Controller {
 			for (int i = 0; i < codeArr.length; i++) {
 				RecipeInfo ri = new RecipeInfo();
 				PurchaseDetail pd = new PurchaseDetail();
+				ri.setRecipeName(recipeNamaArr[i]);
 				ri.setRecipeCode(Integer.parseInt(codeArr[i]));
+				ri.setRecipePrice(Integer.parseInt(recipePriceArr[i]));
+				
 				pd.setRecipeInfo(ri);
 				
 				pd.setPurchaseDetailQuantity(Integer.parseInt(quantityArr[i]));
@@ -65,7 +76,8 @@ public class PurchaseController implements Controller {
 			p.setCustomerEmail(c);
 			
 			service.buy(p);
-			
+			Mail mail = new Mail();
+			mail.sendPurchaseInfo(c.getCustomerEmail(), p);
 			servletPath = "/success.jsp";
 			return servletPath;
 		} catch (AddException e) {

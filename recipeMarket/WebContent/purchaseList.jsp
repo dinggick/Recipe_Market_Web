@@ -13,6 +13,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
     
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/customScrollBar.css">
     <link rel="stylesheet" href="css/divContent.css">
@@ -22,12 +24,12 @@
    	<link rel="stylesheet" href="./css/purchaseList.css">
    	<link rel="stylesheet" href="./css/review.css">
    	<link rel="stylesheet" href="./css/modal.css">
-   <!--  <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"> -->
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"> --> 
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
     
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     
@@ -56,7 +58,7 @@ $(function(){
 					var d = Date.parse(date1);
 					console.log(d);
 						
-					//location.href = "/recipeMarket/purchaseList?date=" + d;
+					location.href = "/recipeMarket/purchaseListByDatePick?date=" + d;
 					$("#datepicker").hide();
 				}
 			});
@@ -188,7 +190,7 @@ $(function(){
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
                 	   <c:if test="${empty list}">
-                	  	<tr><td colspan="5">구매내역이없습니다</td></tr>
+                	  	<tr><td colspan="5">구매내역이 없습니다</td></tr>
          			  </c:if>
                 	   <c:forEach items="${requestScope.list}" var="p">
                 	   		<c:forEach items="${p.purchaseDetails}" var="purchaseDetail">

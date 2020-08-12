@@ -7,6 +7,7 @@ import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
+import com.recipe.model.PageBean;
 import com.recipe.vo.Review;
 
 /**
@@ -65,6 +66,30 @@ public class ReviewService {
 	 */
 	public List<Review> findByEmail(String customerEmail) throws FindException {
 		return dao.selectByEmail(customerEmail);
+	}
+	
+	
+	
+	/**
+	 * 페이징 처리
+	 * @return PageBean
+	 * @param customerEmail, customerEmail
+	 * @throws FindException
+	 * @author Soojeong
+	 */
+	public PageBean findByEmailAll(int page, String customerEmail) throws FindException {
+		if (page < 1)
+			throw new FindException("페이지가 존재하지 않습니다.");
+		List<Review> reviewList = dao.selectByEmail(customerEmail);
+		int rowCnt = reviewList.size();
+		
+		PageBean pb = new PageBean(page, rowCnt);
+		pb.setRowCnt(rowCnt);
+		
+		List<Review> rList = dao.selectByEmail(pb.getStartRow(), pb.getEndRow(), customerEmail);
+		pb.setList(rList);
+		
+		return pb;
 	}
 
 } // end class ReviewService

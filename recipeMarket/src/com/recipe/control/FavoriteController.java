@@ -1,17 +1,18 @@
 package com.recipe.control;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
+import com.recipe.model.PageBean;
 import com.recipe.service.FavoriteService;
 import com.recipe.vo.Favorite;
 import com.recipe.vo.RecipeInfo;
@@ -42,7 +43,7 @@ public class FavoriteController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String servletPath = "/favoriteResult.jsp";
+		String servletPath = "/fail.jsp";
 
  		// 즐겨찾기 메뉴는 로그인한 사용자만 사용가능
 		String customerEmail = (String)request.getSession().getAttribute("loginInfo");
@@ -72,17 +73,41 @@ public class FavoriteController implements Controller {
 	private String favoriteList (HttpServletRequest request, HttpServletResponse response, String customerEmail) {
 		String result = "/fail.jsp";
 		
-		try {
-			List<Favorite> favoriteList = favoriteService.findById(customerEmail);
-			request.setAttribute("favoriteList", favoriteList);
-			result = "/favoriteList.jsp";
+		String strPage = request.getParameter("currentPage");
+		int currentPage = 1;
+		if(!"".equals(strPage))
+			currentPage = Integer.parseInt(strPage);
+
+		HttpSession session = request.getSession();
+		session.setAttribute("recentPage", currentPage);
 		
+		PageBean pb;
+		try {
+			pb = favoriteService.findById(currentPage, customerEmail);
+			result = "/favoriteList.jsp";
+			pb.setUrl(result);
+			request.setAttribute("pb", pb);
+			
 		} catch (FindException e) {
 			e.printStackTrace();
-			request.setAttribute("msg",e.getMessage());
-			request.setAttribute("status", "fail");
+			request.setAttribute("msg", e.getMessage());
+			
 		}
 		return result;
+		
+		
+		
+//		try {
+//			List<Favorite> favoriteList = favoriteService.findById(customerEmail);
+//			request.setAttribute("favoriteList", favoriteList);
+//			result = "/favoriteList.jsp";
+//		
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//			request.setAttribute("msg",e.getMessage());
+//			request.setAttribute("status", "fail");
+//		}
+//		return result;
 	}
 	
 	private String removeFavorite (HttpServletRequest request, HttpServletResponse response, String customerEmail) {

@@ -7,11 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.RemoveException;
+import com.recipe.model.PageBean;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Purchase;
 import com.recipe.vo.Review;
@@ -77,17 +79,42 @@ public class ReviewController implements Controller {
 	private String myReviewList (HttpServletRequest request, HttpServletResponse response, String customerEmail) {
 		String result = "/fail.jsp";
 		
-		try {
-			List<Review> myReviewList = reviewService.findByEmail(customerEmail);
-			request.setAttribute("myReviewList", myReviewList);
-			result = "/myReviewList.jsp";
+		String strPage = request.getParameter("currentPage");
+		int currentPage = 1;
+		if(!"".equals(strPage))
+			currentPage = Integer.parseInt(strPage);
+
+		HttpSession session = request.getSession();
+		session.setAttribute("recentPage", currentPage);
 		
+		PageBean pb;
+		try {
+			
+			pb = reviewService.findByEmailAll(currentPage, customerEmail);
+			result = "/myReviewList.jsp";
+			pb.setUrl(result);
+			request.setAttribute("pb", pb);
+			
 		} catch (FindException e) {
 			e.printStackTrace();
-			request.setAttribute("msg",e.getMessage());
+			request.setAttribute("msg", e.getMessage());
+			
 		}
-		
 		return result;
+
+		
+		
+//		try {
+//			List<Review> myReviewList = reviewService.findByEmail(customerEmail);
+//			request.setAttribute("myReviewList", myReviewList);
+//			result = "/myReviewList.jsp";
+//		
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//			request.setAttribute("msg",e.getMessage());
+//		}
+//		
+//		return result;
 	}
 	
 	private String removeReview (HttpServletRequest request, HttpServletResponse response) {
