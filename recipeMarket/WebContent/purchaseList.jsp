@@ -15,15 +15,15 @@
     
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/customScrollBar.css">
-    <link rel="stylesheet" href="css/divContent.css">
-    <link rel="stylesheet" href="css/contents.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/customScrollBar.css">
-   	<link rel="stylesheet" href="./css/purchaseList.css">
-   	<link rel="stylesheet" href="./css/review.css">
-   	<link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
+    <link rel="stylesheet" href="${contextPath}/css/divContent.css">
+    <link rel="stylesheet" href="${contextPath}/css/contents.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
+    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
+   	<link rel="stylesheet" href="${contextPath}/css/purchaseList.css">
+   	<link rel="stylesheet" href="${contextPath}/css/review.css">
+   	<link rel="stylesheet" href="${contextPath}/css/modal.css">
     <!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css"> --> 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -35,10 +35,10 @@
     
     
     
-    <script src="js/dropdownMenu.js"></script>
-    <script src="js/favoriteBtn.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/footer.js"></script>
+    <script src="${contextPath}/js/dropdownMenu.js"></script>
+    <script src="${contextPath}/js/favoriteBtn.js"></script>
+    <script src="${contextPath}/js/header.js"></script>
+    <script src="${contextPath}/js/footer.js"></script>
 <script>
     
 $(function(){
