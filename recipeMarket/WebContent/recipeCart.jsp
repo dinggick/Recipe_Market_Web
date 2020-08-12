@@ -69,10 +69,10 @@
 		 let quantities ="";
 		 let recipeName = "";
 		 let recipePrice ="";
-		 if($("input[id=check]:checked")==false){
-			 alert('상품을 선택해주세요');
-			 return;
+		 if($("input:checkbox[id=check]").is(":checked") == false){
+			 alert('상품을 선택해주세요');	 
 		 }
+		 
 		 $("input[id=check]:checked").each(function(){
 			 picks += $(this).val()+",";
 			 quantities += $(this).parent().parent().find('input.quantity').val()+",";
@@ -166,10 +166,10 @@
         <section class="rightSection">
             <div class="cartInfo">
                 <table id="Cart">
-                	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명/한줄요약</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총금액</td><td class="line2"></td></tr>
+                	<tr><td class="line2"><input type="checkbox" class="check" id="check-All"></td><td class="line2">사진</td><td class="line2">상품명</td><td class="line2">가격</td><td class="line2">수량</td><td class="line2">총 금액</td><td class="line2"></td></tr>
                 	<c:set var="total" value="0"></c:set>
                 	 <c:if test="${empty list}">
-                	  	<tr><td colspan='6'>장바구니내역이없습니다</td></tr>
+                	  	<tr><td colspan='6'>장바구니내역이 없습니다</td></tr>
          			  </c:if>
                 	  <c:forEach items="${requestScope.list}" var="c">
                 	  	  <c:set var="total" value="${total + c.recipeInfo.recipePrice*c.cartQuantity}" />

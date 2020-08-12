@@ -11,7 +11,7 @@
 }
 
 .rightSection>.purchaseInfo {
-	width: 100%;
+	width: 98%;
 	/* padding: 30px; */
 	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 	background-color: #F4EFEA;
@@ -57,9 +57,10 @@
 }
 
 #pucrhase {
-	width: 100%;
+	width: 75%;
+	margin-left:13%;
 	border-spacing: 0 15px;
-	font-size: x-large;
+	font-size: large;
 	text-align: center;
 	padding: 15px;
 	padding-top: 0%;
@@ -93,8 +94,13 @@
 	outline: 0;
 	color: white;
 	font-size: 1vw;
-	opacity: 0.7;
 	cursor: pointer;
+	opacity:0.7; 
+}
+
+.conditon:hover{
+	background: #8bd8bd;
+	opacity:1.0; 
 }
 
 .line2 {
@@ -121,7 +127,7 @@ hr {
 }
 
 h1 {
-	font-size: xx-large;
+	font-size: x-large;
 }
 
 .recipeName {

@@ -58,7 +58,7 @@ $(function(){
 					var d = Date.parse(date1);
 					console.log(d);
 						
-					location.href = "/recipeMarket/purchaseList?date=" + d;
+					location.href = "/recipeMarket/purchaseListByDatePick?date=" + d;
 					$("#datepicker").hide();
 				}
 			});
@@ -190,7 +190,7 @@ $(function(){
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
                 	   <c:if test="${empty list}">
-                	  	<tr><td colspan="5">구매내역이없습니다</td></tr>
+                	  	<tr><td colspan="5">구매내역이 없습니다</td></tr>
          			  </c:if>
                 	   <c:forEach items="${requestScope.list}" var="p">
                 	   		<c:forEach items="${p.purchaseDetails}" var="purchaseDetail">
