@@ -25,7 +25,7 @@
 	<script src="${contextPath}/js/card.js"></script>
 	
 	<c:choose>
-		<c:when test="${empty rndAccount}">
+		<c:when test="${userType == 'A'}">
 			<script src="${contextPath}/js/header_admin.js"></script>
 	    </c:when>
 	    <c:otherwise>

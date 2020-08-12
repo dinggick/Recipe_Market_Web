@@ -98,8 +98,10 @@ public class StatisticsController implements Controller {
 				String[] dt = term.split("_");
 				String startDate = dt[0], endDate = dt[1];
 				
-				session.setAttribute("startDate", dt[0].substring(0, 4) + "/" + dt[0].substring(4, 6));
-				session.setAttribute("endDate", dt[1].substring(0, 4) + "/" + dt[1].substring(4, 6));
+				session.setAttribute("startMonth", dt[0].substring(0, 4));
+				session.setAttribute("startDate", dt[0].substring(4, 6));
+				session.setAttribute("endMonth", dt[1].substring(0, 4));
+				session.setAttribute("endDate", dt[1].substring(4, 6));
 				
 				dataList = service.findBySeasonG3(startDate, endDate, count);
 				

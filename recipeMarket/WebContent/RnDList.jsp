@@ -37,7 +37,7 @@
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
 	<c:choose>
-		<c:when test="${empty rndAccount}">
+		<c:when test="${userType == 'A'}">
 			<script src="${contextPath}/js/header_admin.js"></script>
 	    </c:when>
 	    <c:otherwise>
@@ -86,7 +86,7 @@
         <!-- 오른쪽 영역 -->
 		<div class="headerRightSection">
 			<c:choose>
-				<c:when test="${empty rndAccount}">
+				<c:when test="${userType == 'A'}">
 					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
 				</c:when>
 				<c:otherwise>
@@ -114,7 +114,7 @@
 
         <div class="menuWrapper">
             <ul>
-            	<c:if test="${empty rndAccount}">
+            	<c:if test="${userType == 'A'}">
 					<jsp:include page="adminMenu.jsp"/>
 				</c:if>
         	</ul>                                  

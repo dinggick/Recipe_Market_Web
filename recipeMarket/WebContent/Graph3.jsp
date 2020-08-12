@@ -26,7 +26,7 @@
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
 	<c:choose>
-		<c:when test="${empty rndAccount}">
+		<c:when test="${userType == 'A'}">
 			<script src="${contextPath}/js/header_admin.js"></script>
 	    </c:when>
 	    <c:otherwise>
@@ -64,7 +64,7 @@
         var options = {
           chart: {
             title: '레시피 매출 순위',
-            subtitle: '판매기간: ${startDate}~${endDate}',
+            subtitle: '판매기간: ${startMonth}/${startDate}~${endMonth}/${endDate}',
           },
           bars: 'horizontal' // Required for Material Bar Charts.
         };
@@ -76,12 +76,11 @@
     </script>
     
     	<script>
-		$(function() {
-			$("option[value=" + ${start_date} + "_" + ${end_date} + "]").attr("selected", "selected");
-			$("option[value=" + ${count} + "]").attr("selected", "selected");
+		$(function() {			
+  			$("option[value=${startMonth}${startDate}_${endMonth}${endDate}]").attr("selected", "selected");
+ 			$("option[value=" + "${count}" + "]").attr("selected", "selected");
 						
 			$(".selectTerm, .topCount").on("change", function(evt) {
-				alert("change");
 				$(evt.target).prop("selected", true);
 				var url = "${contextPath}/statistics/graph3?";
 				url += "term=" + $(".selectTerm").val();
@@ -107,7 +106,7 @@
         <!-- 오른쪽 영역 -->
 		<div class="headerRightSection">
 			<c:choose>
-				<c:when test="${empty rndAccount}">
+				<c:when test="${userType == 'A'}">
 					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
 				</c:when>
 				<c:otherwise>
@@ -135,7 +134,7 @@
 
         <div class="menuWrapper">
             <ul>
-            	<c:if test="${empty rndAccount}">
+            	<c:if test="${userType == 'A'}">
 					<jsp:include page="adminMenu.jsp"/>
 				</c:if>
         	</ul>                                  
@@ -152,11 +151,11 @@
                 <form class="selectSection">
 
                     <select class="selectTerm" name="term">
-                        <option value="202006_202008">2020 Summer</option>
-                        <option value="202003_202005">2020 Spring</option>
-                        <option value="201912_202002">2019 Winter</option>
-                        <option value="201909_201911">2019 Fall</option>
-                        <option value="201906_201908">2019 Summer</option>
+                        <option value="202006_202008">2020 여름</option>
+                        <option value="202003_202005">2020 봄</option>
+                        <option value="201912_202002">2019 겨울</option>
+                        <option value="201909_201911">2019 가을</option>
+                        <option value="201906_201908">2019 여름</option>
                     </select>
 
                     <select class="topCount" name="count">

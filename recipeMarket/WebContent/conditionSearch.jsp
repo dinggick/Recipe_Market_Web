@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RnDInfo</title>
+    <title>조건별 통계</title>
 
     <link rel="icon" href="../images/titlecon.png">
 
@@ -27,7 +27,7 @@
     <script src="${contextPath}/js/conditionSearch.js"></script>
 
 	<c:choose>
-		<c:when test="${empty rndAccount}">
+		<c:when test="${userType == 'A'}">
 			<script src="${contextPath}/js/header_admin.js"></script>
 	    </c:when>
 	    <c:otherwise>
@@ -139,7 +139,7 @@
         <!-- 오른쪽 영역 -->
 		<div class="headerRightSection">
 			<c:choose>
-				<c:when test="${empty rndAccount}">
+				<c:when test="${userType == 'A'}">
 					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
 				</c:when>
 				<c:otherwise>
@@ -167,7 +167,7 @@
 
         <div class="menuWrapper">
             <ul>
-            	<c:if test="${empty rndAccount}">
+            	<c:if test="${userType == 'A'}">
 					<jsp:include page="adminMenu.jsp"/>
 				</c:if>
         	</ul>                              
@@ -188,7 +188,7 @@
                             <td style="text-align: center">
                             	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
                             		<c:choose>
-                            			<c:when test="${empty rd_list}">
+                            			<c:when test="${userType == 'R'}">
                             				<option value="${rndAccount}">
                             					${rndAccount}
                             				</option>

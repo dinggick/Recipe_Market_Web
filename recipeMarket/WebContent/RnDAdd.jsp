@@ -29,7 +29,7 @@
     <script src="/recipeMarket/js/RnDAdd.js"></script>
 
 	<c:choose>
-		<c:when test="${empty rndAccount}">
+		<c:when test="${userType == 'A'}">
 			<script src="${contextPath}/js/header_admin.js"></script>
 	    </c:when>
 	    <c:otherwise>
@@ -50,7 +50,7 @@
         <!-- 오른쪽 영역 -->
 		<div class="headerRightSection">
 			<c:choose>
-				<c:when test="${empty rndAccount}">
+				<c:when test="${userType == 'A'}">
 					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
 				</c:when>
 				<c:otherwise>
@@ -109,7 +109,7 @@
                         <td><span class="invalidId">메일 형식이 올바르지 않습니다.</span></td>
                     </tr>
                     <tr>
-                        <td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" placeholder="비밀번호를 입력하세요. (8자 이상, 영문 및 특수문자 포함)" required></td>
+                        <td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" placeholder="비밀번호를 입력하세요. (8자 이상, 숫자, 영문 및 특수문자 포함)" required></td>
                         <td><span class="invalidPwd">비밀번호 형식이 올바르지 않습니다.</span></td>
                     </tr>
                     <tr>
