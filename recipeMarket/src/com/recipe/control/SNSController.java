@@ -32,6 +32,7 @@ public class SNSController implements Controller {
 			Customer c = service.findByEmail(snsEmail);
 			request.getSession().setAttribute("loginInfo", snsEmail);
 			request.getSession().setAttribute("userName", c.getCustomerName());
+			request.getSession().setAttribute("userType", "C");
 			return "/success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
