@@ -23,7 +23,7 @@ window.addEventListener("load", () => {
 				data : {recipeCode : recipeCode},
 				success : (data, textStatus, jqXHR) => {
 					if(data.status == "success") {
-						alert("즐겨찾기에 추가되었습니다");
+//						alert("즐겨찾기에 추가되었습니다");
 						location.reload();
 					} else {
 						alert(data.msg);
@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
 				data : {recipeCode : recipeCode},
 				success : (data, textStatus, jqXHR) => {
 					if(data.status == "success") {
-						alert("즐겨찾기 해제되었습니다");
+//						alert("즐겨찾기 해제되었습니다");
 						location.reload();
 					} else {
 						alert(data.msg);
