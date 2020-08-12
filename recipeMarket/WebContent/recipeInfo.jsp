@@ -66,17 +66,28 @@
                     <div class="buttonSection">
                         <label class="labelLike"><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
                         <label class="labelDisLike"><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
-                        <c:choose>
-							<c:when test="${favoriteCheck == true}">
-								<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
-							</c:when>
-							<c:otherwise>
-								<img src="${contextPath}/img/heart.png" class="favorite"> 
-							</c:otherwise>
-						</c:choose>
-                        <button class="cartBtn">장바구니 추가</button>
-                        <button class="purchaseBtn">구매하기</button>
-                        <input type="number" name="quantity" value="1">
+                        <c:if test="${sessionScope.userType != 'A'}">
+							<c:choose>
+								<c:when test="${sessionScope.userType == 'C'}">
+									<c:choose>
+										<c:when test="${favoriteCheck == true}">
+											<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+										</c:when>
+										<c:otherwise>
+											<img src="${contextPath}/img/heart.png" class="favorite"> 
+										</c:otherwise>
+									</c:choose>
+									<button class="cartBtn">장바구니 추가</button>
+			                        <button class="purchaseBtn">구매하기</button>
+			                        <input type="number" name="quantity" value="1">
+								</c:when>
+								<c:otherwise>
+									<button class="modifyBtn">수정</button>
+			                        <button class="removeBtn">삭제</button>
+								</c:otherwise>
+							</c:choose>
+                        </c:if>
+                        
                         <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
                     </div>
                 </div>
