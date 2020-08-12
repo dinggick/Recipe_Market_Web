@@ -13,17 +13,18 @@
 			<div class="cardContainer">
 				<h4><b>${list[i].recipeName}</b></h4>
 				<p>${list[i].recipeSumm}</p>
-				<c:choose>
-					<c:when test="${favoriteCheckList[i] == true}">
-						<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
-					</c:when>
-					<c:otherwise>
-						<img src="${contextPath}/img/heart.png" class="favorite"> 
-					</c:otherwise>
-				</c:choose>
-				
-				<img src="${contextPath}/img/dislike.png" class="dislike">
-				<img src="${contextPath}/img/like.png" class="like">
+				<c:if test="${sessionScope.userType != 'R' && sessionScope.userType != 'A'}">
+					<c:choose>
+						<c:when test="${favoriteCheckList[i] == true}">
+							<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+						</c:when>
+						<c:otherwise>
+							<img src="${contextPath}/img/heart.png" class="favorite"> 
+						</c:otherwise>
+					</c:choose>
+					<img src="${contextPath}/img/dislike.png" class="dislike">
+				 	<img src="${contextPath}/img/like.png" class="like">
+				</c:if>
 				
 				<input type="hidden" value="${list[i].recipeCode}">
 			</div>
@@ -37,16 +38,18 @@
 			<div class="cardContainer">
 				<h4><b>${list[i].recipeName}</b></h4>
 				<p>${list[i].recipeSumm}</p>
-				<c:choose>
-					<c:when test="${favoriteCheckList[i] == true}">
-						<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
-					</c:when>
-					<c:otherwise>
-						<img src="${contextPath}/img/heart.png" class="favorite"> 
-					</c:otherwise>
-				</c:choose>
-				<img src="${contextPath}/img/dislike.png" class="dislike">
-				<img src="${contextPath}/img/like.png" class="like">
+				<c:if test="${sessionScope.userType != 'R' && sessionScope.userType != 'A'}">
+					<c:choose>
+						<c:when test="${favoriteCheckList[i] == true}">
+							<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+						</c:when>
+						<c:otherwise>
+							<img src="${contextPath}/img/heart.png" class="favorite"> 
+						</c:otherwise>
+					</c:choose>
+					<img src="${contextPath}/img/dislike.png" class="dislike">
+				 	<img src="${contextPath}/img/like.png" class="like">
+				</c:if>
 				
 				<input type="hidden" value="${list[i].recipeCode}">
 			</div>
