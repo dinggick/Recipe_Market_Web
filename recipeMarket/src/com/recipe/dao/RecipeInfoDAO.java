@@ -1,5 +1,6 @@
 package com.recipe.dao;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -266,6 +267,30 @@ public class RecipeInfoDAO {
 			while (rs.next()) {
 				recipe_InfoVo.setRecipeCode(rs.getInt(1));//setRecipe_code메소드를 이용해서 recipe_InfoVo의 Recipe_code에 넣어준다
 			}
+			
+			//DB에 들어갈 이미지파일명 바꾸기
+			String imageUrl = "http://localhost/files/img/";
+			String savePath = rootUploadPath + "/files/img/";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
+			String fullPath = recipe_InfoVo.getImgUrl();	//"http://localhost/files/img/어피치찜.png"	
+			int recipeCode = recipe_InfoVo.getRecipeCode();	//레시피코드값 넣기
+
+			int index = fullPath.lastIndexOf("/");
+			String fileName = fullPath.substring(index + 1);	//"어피치찜.png"으로 자름
+			
+			int i = -1;
+			i = fileName.lastIndexOf(".");	//파일확장자 위치
+			
+			String realFileName = recipeCode + fileName.substring(i,fileName.length());	//"레시피명.png"로 확장자명 살리기 
+			recipe_InfoVo.setImgUrl(imageUrl + realFileName);	//"http://localhost/files/img/" + "레시피명.png"로 변경해서 넣음
+			
+//			String imageUploadPath = rootUploadPath + "/files/img/";	//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/"
+			//String imageUploadPath = recipe_InfoVo.getImgUrl();	
+
+			File oldFile = new File(savePath + fileName);
+			File newFile = new File(savePath + realFileName);
+			
+			oldFile.renameTo(newFile);
+			
 			// recipe Process 컬럼의 존재이유를 모르겠다.
 			// img_url 별도의 다른 도메인을 사용하거나,아니면 등록 자체에 외부 url 을 등록하는게 아니라면 예) 네이버
 			// 도메인까지 DB 에 넣는건 이후에 도메인 확장성을 생각하면 불필요하다고 생각한다.
@@ -298,7 +323,7 @@ public class RecipeInfoDAO {
 			pstmt.close();
 
 			fileOutput(recipe_InfoVo.getRecipeProcess().replace("http://localhost", rootUploadPath), ingInfo + "\n" + process);
-
+			
 			quary = "INSERT INTO POINT VALUES(?, 0, 0)";		//좋아요싫어요 초기값설정해주는 쿼리문
 			pstmt = con.prepareStatement(quary);
 			pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
@@ -409,6 +434,30 @@ public class RecipeInfoDAO {
 				pstmt.executeUpdate();
 				pstmt.close();
 			}
+			
+			//DB에 들어갈 이미지파일명 바꾸기
+			String imageUrl = "http://localhost/files/img/";
+			String savePath = rootUploadPath + "/files/img/";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
+			String fullPath = recipe_InfoVo.getImgUrl();	//"http://localhost/files/img/어피치찜.png"	
+			int recipeCode = recipe_InfoVo.getRecipeCode();	//레시피코드값 넣기
+
+			int index = fullPath.lastIndexOf("/");
+			String fileName = fullPath.substring(index + 1);	//"어피치찜.png"으로 자름
+			
+			int i = -1;
+			i = fileName.lastIndexOf(".");	//파일확장자 위치
+			
+			String realFileName = recipeCode + fileName.substring(i,fileName.length());	//"레시피명.png"로 확장자명 살리기 
+			recipe_InfoVo.setImgUrl(imageUrl + realFileName);	//"http://localhost/files/img/" + "레시피명.png"로 변경해서 넣음
+			
+//			String imageUploadPath = rootUploadPath + "/files/img/";	//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/"
+			//String imageUploadPath = recipe_InfoVo.getImgUrl();	
+
+			File oldFile = new File(savePath + fileName);
+			File newFile = new File(savePath + realFileName);
+			
+			oldFile.renameTo(newFile);
+			
 
 			List<Ingredient> ing_codeList = new ArrayList<Ingredient>();
 			Ingredient ingredientVo = new Ingredient();

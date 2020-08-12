@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
     <link rel="stylesheet" href="${contextPath}/css/recipeInfo.css">
-    <link rel="stylesheet" href="./css/recipeModify.css">
+    <link rel="stylesheet" href="${contextPath}/css/recipeModify.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
@@ -40,7 +40,7 @@
     			tag +='</td>';
     			tag +='<td align="left">';
     			tag +='<button class="ingDeleteBtn" type="button">';
-    			tag +='ingDelete';
+    			tag +='재료삭제';
     			tag +='</button>';
     			tag +='</td>';
     			tag +='</tr>';
@@ -62,7 +62,7 @@
     			tag +='</td>';
     			tag +='<td align="left">';
     			tag +='<button class="processDeleteBtn" type="button">';
-    			tag +='processDelete';
+    			tag +='과정삭제';
     			tag +='</button>';
     			tag +='</td>';
     			tag +='</tr>';
@@ -198,12 +198,12 @@
 			                        <td align="left">
 			                        	<c:if test="${status.first}">
 			                       		<button class="ingAddBtn" type="button">
-			                       			ingAdd
+			                       			재료추가
 				                        </button>
 				                        </c:if>
 				                        <c:if test="${!status.first}">
 			                       		<button class="ingDeleteBtn" type="button">
-			                       			ingDelete
+			                       			재료삭제
 				                        </button>
 				                        </c:if>
 				                    </td>
@@ -224,7 +224,7 @@
 		                        <td colspan="2"><input size="60" class="dataInput" type="text" id="recipeProcess" name="recipeProcess" placeholder="과정을 입력하세요."></td>
 		                        <td align="left">
 		                       		<button class="processAddBtn" type="button">
-		                           		processAdd
+		                           		과정추가
 			                        </button>
 			                    </td>
 		                    </tr>
@@ -237,7 +237,7 @@
                    </table>
                    <div class="buttonSection">
                        <button class="recipeModifyBtn" type="submit">
-                           recipeModify
+                           레시피수정
                        </button>
                    </div>
                 </form>

@@ -49,11 +49,11 @@ $(function()  {
 		console.log(recipe_code);
 	});
 
-	// 처음으로
+	// 처음으로(1페이지로)
 	$("img[alt=prev2]").click(function() {
 		goPage(1);
 	});
-	// 이전그룹
+	// 이전그룹(이전그룹의 마지막번호 or 이전그룹이 없다면 )
 	$("img[alt=prev1]").click(function() {
 		goPage("${prevGroupLastNo}");
 	});
