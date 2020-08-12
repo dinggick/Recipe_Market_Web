@@ -72,18 +72,6 @@ public class CustomerController implements Controller {
 					postal, customer_addr);
 			
 			
-
-<<<<<<< HEAD
-			
-				try {
-					accountService.add(c);
-					return "/success.jsp";
-				} catch (AddException e) {
-					e.printStackTrace();
-					request.setAttribute("msg", e.getMessage().replace("\"", ""));
-					return "/fail.jsp";
-				}
-=======
 			try {
 				accountService.add(c);
 				Mail mail = new Mail();
@@ -96,9 +84,9 @@ public class CustomerController implements Controller {
 				e.printStackTrace();
 				return "/fail.jsp";
 			}
->>>>>>> 00ac56087f88d94776a8e9db5c1b248c1ada03d1
 		} else if (pathInfo.equals("/myInfo")) {
-			String customerEmail = request.getParameter("customer_email");
+//			String customerEmail = request.getParameter("customer_email");
+			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
 			try {
 				Customer customer = accountService.findByEmail(customerEmail);
 				request.setAttribute("info", customer);
@@ -110,8 +98,8 @@ public class CustomerController implements Controller {
 			}
 
 		} else if (pathInfo.equals("/update")) {
-			String customer_email = request.getParameter("customer_email");
-			System.out.println("cu:" + customer_email);
+//			String customerEmail = request.getParameter("customer_email");
+			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
 			String customer_pwd = request.getParameter("customer_pwd");
 			String customer_name = request.getParameter("customer_name");
 
@@ -130,7 +118,7 @@ public class CustomerController implements Controller {
 			Postal postal = new Postal();
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
-			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender,dt, customer_phone,
+			Customer c = new Customer(customerEmail, customer_pwd, customer_name, customer_gender,dt, customer_phone,
 					postal, customer_addr);
 
 			try {
@@ -141,7 +129,8 @@ public class CustomerController implements Controller {
 				return "/fail.jsp";
 			}
 		} else if (pathInfo.equals("/delete")) {
-			String customer_email = request.getParameter("customer_email");
+//			String customerEmail = request.getParameter("customer_email");
+			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
 			String customer_pwd = request.getParameter("customer_pwd");
 			String customer_name = request.getParameter("customer_name");
 
@@ -161,7 +150,7 @@ public class CustomerController implements Controller {
 			Postal postal = new Postal();
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
-			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender,dt, customer_phone,
+			Customer c = new Customer(customerEmail, customer_pwd, customer_name, customer_gender,dt, customer_phone,
 					postal, customer_addr);
 
 			try {

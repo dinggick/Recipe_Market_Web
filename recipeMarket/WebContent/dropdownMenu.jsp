@@ -11,7 +11,7 @@
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
 				<a href="${contextPath}/static/login.html">로그인</a>
-				<a>회원가입</a>
+				<a href="${contextPath}/customerAdd.jsp">회원가입</a>
 			</div>
 		</c:when>
 		<c:otherwise>
@@ -19,7 +19,7 @@
 			<h1 class="account">${sessionScope.userName}님</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
-				<a href="#">내 정보 보기</a>
+				<a href="${contextPath}/customer/myInfo">내 정보 보기</a>
 				<a href="${contextPath}/purchaseList">구매 내역</a>
 				<a href="${contextPath}/recipeCart">장바구니</a>
 				<a href="${contextPath}/favorite/favoriteList?currentPage=1">나의 즐겨찾기</a>
