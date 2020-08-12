@@ -102,9 +102,9 @@
 
         <div class="titleWrapper">
 
-            <span style="font-size: 1.5em">
+            <h3>
                 	계정 목록
-            </span>
+            </h3>
 
         </div>
 

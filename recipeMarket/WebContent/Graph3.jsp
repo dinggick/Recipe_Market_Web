@@ -122,9 +122,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h3>
                 	통계
-            </span>
+            </h3>
 
         </div>
 

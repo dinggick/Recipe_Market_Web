@@ -41,12 +41,12 @@ body {
     width: 100%;
     text-align: center;
 }
-.titleWrapper > span {
-    color: black;
-    font-size: 1.3em;
-    font-weight: border;
-    /* font-family: fantasy */
-}
+/* .titleWrapper > span { */
+/*     color: black; */
+/*     font-size: 1.3em; */
+/*     font-weight: border; */
+/*     font-family: fantasy */
+/* } */
 .titleWrapper > h1 {
 	
 }

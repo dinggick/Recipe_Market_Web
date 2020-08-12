@@ -63,9 +63,9 @@
     <div class="bodySection">
     <section class="leftSection">
         <div class="titleWrapper">
-            <span>
+            <h3>
                 	계정 추가
-            </span>
+            </h3>
         </div>
 
         <div class="underLineWrapper">
