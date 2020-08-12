@@ -54,6 +54,8 @@ public class StatisticsController implements Controller {
 				
 				dataList = service.findByYearG1(year);				
 				request.setAttribute("data_list", dataList);
+				
+				System.out.println(dataList);
 								
 				jspFileName = "/Graph1.jsp";
 				

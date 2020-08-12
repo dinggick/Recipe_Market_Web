@@ -276,7 +276,7 @@
                         </tr>
                                             
                     </table>
-                    <button class="searchBtn" type="submit">
+                    <button class="searchBtn" type="submit" style="cursor: pointer">
                     	검색
                     </button>               
 
