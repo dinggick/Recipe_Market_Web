@@ -63,8 +63,11 @@ public class Mail {
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userMail));
 			message.setSubject("[이메일인증 - RecipeMarket]");
-			message.setText("비밀번호는:입니다");
-
+			
+			
+			String txt = "Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
+			txt += "<a href='http://localhost/recipeMarket/customer/verify?email=" + userMail +"'>www.recipeMarket.com<a>";
+			message.setContent(txt, "text/html; charset=utf-8");
 			// Send message
 			Transport.send(message);
 			System.out.println("message sent successfully....");
@@ -82,13 +85,16 @@ public class Mail {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(userMail));
 			message.setSubject("[구매완료 - RecipeMarket]");
 			String txt ="";
-			txt+="<h1>구매 감사합니다!</h1><p>저희 Recipe Market을 이용해 주셔서 감사드립니다.<br> 고객님의 구매내역은 아래와 같습니다.</p> "					
+			int total = 0;
+			txt+="<h1>구매완료 :)! </h1><p>저희 Recipe Market을 이용해 주셔서 감사드립니다.<br> 고객님의 구매내역은 아래와 같습니다.</p> "					
 					+ "<table><tr><td>레시피이름</td><td>수량</td><td>가격</td></tr>";
 			for (PurchaseDetail d : p.getPurchaseDetails()) {
 				txt+="<tr><td>"+ d.getRecipeInfo().getRecipeName() + "</td><td>"
 						+ d.getPurchaseDetailQuantity() + "</td><td>"
 						+ (d.getRecipeInfo().getRecipePrice())*(d.getPurchaseDetailQuantity())+ "</td></tr>";
+			total += (d.getRecipeInfo().getRecipePrice())*(d.getPurchaseDetailQuantity());
 			}
+			txt += "<br><p>총가격 :" + total + "</p>";
 			txt += "</table>";		
 			
 			message.setContent(txt, "text/html; charset=utf-8");
