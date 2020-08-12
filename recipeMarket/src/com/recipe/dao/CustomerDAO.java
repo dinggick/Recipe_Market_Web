@@ -89,7 +89,7 @@ public class CustomerDAO {
 				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
 				+ "      ,p.building      \r\n"
 				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n"
-				+ "WHERE customer_email=? and customer_status='1'";
+				+ "WHERE customer_email=? and customer_status='1' and verification='y'";
 		try {
 			pstmt = con.prepareStatement(selectByEmailSQL);
 			pstmt.setString(1, email);

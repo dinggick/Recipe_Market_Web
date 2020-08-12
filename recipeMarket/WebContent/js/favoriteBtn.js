@@ -26,7 +26,8 @@ window.addEventListener("load", () => {
 						alert("즐겨찾기에 추가되었습니다");
 						location.reload();
 					} else {
-						alert("즐겨찾기 실패 : " + data.msg);
+						alert(data.msg);
+						location.href = "/recipeMarket/static/login.html";
 					}
 				}
 			});
@@ -41,7 +42,8 @@ window.addEventListener("load", () => {
 						alert("즐겨찾기 해제되었습니다");
 						location.reload();
 					} else {
-						alert("즐겨찾기 해제 실패 : " + data.msg);
+						alert(data.msg);
+						location.href = "/recipeMarket/static/login.html";
 					}
 				}
 			});
