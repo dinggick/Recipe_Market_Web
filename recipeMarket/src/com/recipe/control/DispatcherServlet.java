@@ -27,8 +27,7 @@ public class DispatcherServlet extends HttpServlet {
 		ServletContext sc = this.getServletContext();
 		env.load(new FileInputStream(sc.getRealPath("controller.properties")));
 		String forwardPath = "/fail.jsp";
-				
-		System.out.println("경로:" + request.getServletPath());
+		
 		try {
 			Class clazz = Class.forName(env.getProperty(request.getServletPath())); //요청에 해당하는 컨트롤러 클래스를 로드한다
 			controller = (Controller) clazz.getMethod("getInstance", null).invoke(null, null); //컨트롤러는 싱글톤 패턴으로 구현하기 때문에, getInstance 메소드를 이용해 컨트롤러 객체를 가져온다.
