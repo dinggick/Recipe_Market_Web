@@ -59,7 +59,7 @@ public class LoginController implements Controller {
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/fail.jsp";
+			return "/fail.jsp";	
 		}
 	}
 
