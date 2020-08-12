@@ -39,6 +39,9 @@ $(() => {
 
         $(".buttonSection").append("<button class=\"confirmBtn\" type=\"button\">확인</button>");
         $("input[type=password").parent().parent().after("<tr><td><label for=\"customer_re_pwd\">비밀번호 확인</label></td><td><input class=\"dataInput\" type=\"password\" id=\"customer_re_pwd\" name=\"customer_re_pwd\" size=\"40\"></td></tr>");
+    
+        $("#customer_zip").css({"width" : "70%"});
+        $("#customer_zip").after("<button class=\"searchBtn\" type=\"button\">검색</button>")
     });
 
     $(".buttonSection").on("click", ".confirmBtn", function(evt) {
@@ -48,7 +51,10 @@ $(() => {
         $("#customer_re_pwd").parent().parent().remove();
 
         $(".buttonSection").append("<button class=\"reviseBtn\" type=\"button\">수정</button>");
-        $(".buttonSection").append("<button class=\"deleteBtn\" type=\"button\">삭제</button>");
+        $(".buttonSection").append("<button class=\"deleteBtn\" type=\"button\">탈퇴</button>");
+        
+        $("#customer_zip").css({"width" : "377.6px"});
+        $("#customer_zip + button[type=button]").remove();
     });
 
     $(".infoWrapper").on("blur", "#customer_pwd, #customer_re_pwd", function(evt) {
@@ -78,35 +84,47 @@ $(() => {
             $(".eqaulPwd").fadeOut();
         }
     });
-    
-    $(".deleteBtn").on("click", function(evt) {
-    	$.ajax({
-    		url: "./customer/delete",
-    		data: $("form").serialize(),
-    		success: function(responseObj) {
-    			
-    		}
-    	});
+    $(".formWrapper").on("click", ".searchBtn", function(){
+    	var searchPostURL = '/recipeMarket/searchPost.html';
+    	var name = 'postal';
+    	var option = 'width=500,height=200, top=200, left=250';
+    	window.open(searchPostURL, name, option);
     });
-    
+
     $(".buttonSection").on("click", ".deleteBtn", function(evt) {
+    	if(!confirm("삭제하시겠습니까?")) return false;
     	$.ajax({
-    		url: "./customer/delete",
+    		url: "../customer/delete",
     		data: $("form").serialize(),
     		success: function(responseObj) {
-    			
+    			if (responseObj.status == "success") {
+    				alert("삭제되었습니다.");
+    				location.href="/recipeMarket";
+    			} else {
+    				alert("error");
+    			}
     		}
     	});
     });
     
     $(".buttonSection").on("click", ".confirmBtn", function(evt) {
     	$.ajax({
-    		url: "./customer/update",
+    		url: "../customer/update",
     		data: $("form").serialize(),
     		success: function(responseObj) {
-    			
+    			if (responseObj.status == "success") {
+    				alert("수정되었습니다.");
+    				
+    			} else {
+    				alert("error");
+    			}
     		}
+<<<<<<< HEAD
+    	});
+    });
+=======
     	})
     }
+>>>>>>> 00ac56087f88d94776a8e9db5c1b248c1ada03d1
 });
     

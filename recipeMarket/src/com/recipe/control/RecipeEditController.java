@@ -58,6 +58,14 @@ public class RecipeEditController implements Controller {
 			int recipePrice = Integer.parseInt(mRequest.getParameter("recipePrice"));
 			String[] recipeProcess = mRequest.getParameter("recipeProcess").split(",");
 			String originalFileName = mRequest.getOriginalFileName("recipeImage");
+			System.out.println("originalFileName : " + originalFileName);
+			
+//			int i = -1;
+//			String fileName = imageUploadPath + originalFileName;
+//			String realFileName = recipeCode + fileName.substring(i, fileName.length());
+//			System.out.println("realFileName : " + realFileName);
+			
+			
 			String process = ""; 
 			Point point = new Point();
 			String ingInfo = "";

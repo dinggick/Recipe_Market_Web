@@ -86,7 +86,8 @@ public class Mail {
 			message.setSubject("[구매완료 - RecipeMarket]");
 			String txt ="";
 			int total = 0;
-			txt+="<h1>구매완료 :)! </h1><p>저희 Recipe Market을 이용해 주셔서 감사드립니다.<br> 고객님의 구매내역은 아래와 같습니다.</p> "					
+			txt += "<br><img style='width: 200px;' src=\"https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FRPxFA%2FbtqGuM2ZBAe%2FUKRpsekkax1dKUJnmM9r4k%2Fimg.png\">";
+			txt+="<h2>구매완료 :)! </h2><p>저희 Recipe Market을 이용해 주셔서 감사드립니다.<br> 고객님의 구매내역은 아래와 같습니다.</p> "					
 					+ "<table><tr><td>레시피이름</td><td>수량</td><td>가격</td></tr>";
 			for (PurchaseDetail d : p.getPurchaseDetails()) {
 				txt+="<tr><td>"+ d.getRecipeInfo().getRecipeName() + "</td><td>"
@@ -94,8 +95,10 @@ public class Mail {
 						+ (d.getRecipeInfo().getRecipePrice())*(d.getPurchaseDetailQuantity())+ "</td></tr>";
 			total += (d.getRecipeInfo().getRecipePrice())*(d.getPurchaseDetailQuantity());
 			}
-			txt += "<br><p>총가격 :" + total + "</p>";
+			txt += "<br><p>총가격 :" + total + "원" + "</p>";
 			txt += "</table>";		
+			
+			
 			
 			message.setContent(txt, "text/html; charset=utf-8");
 			// Send message
