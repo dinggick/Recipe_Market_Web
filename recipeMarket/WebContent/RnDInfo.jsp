@@ -22,8 +22,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/RnDInfo.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
     <script src="${contextPath}/js/RnDInfo.js"></script>
@@ -67,6 +65,8 @@
     <script>
     	$(function() {
     	    $(".deleteBtn").on("click", function(evt) {
+    	    	if (!confirm("삭제하시겠습니까?")) return false;
+    	    	
     	        $.ajax({
     	            url: "./remove",
     	            data: { rd_email : $("#rd_email").val() },

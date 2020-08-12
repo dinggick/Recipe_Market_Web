@@ -24,8 +24,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/conditionSearch.css">
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
     <script src="${contextPath}/js/conditionSearch.js"></script>
@@ -87,24 +85,36 @@
     </style>
     
     <script>
-//     	$(function() {
-//     	    $(".searchBtn").on("click", function(evt) {
-//     	    	alert($("form").serialize());
-//     	        $.ajax({
-//     	            url: "${contextPath}/statistics/graph4",
-//     	            data: $("form").serialize(),
-//     	            success: (responseObj) => {
-//     	            	console.log(responseObj);
-//      	                $("html").html(responseObj);
-//     	            }
-//     	        });
-    	        
-//     	        return false;
-//     	    });
-//     	    $("form").on("submit", function(evt) {
-//     	    	return false;
-//     	    });
-//     	})
+    	$(function() {
+        	var date_pattern = /^(19|20)\d{2}/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[0-1])$/;
+        	var start_date_flg = false;
+        	var end_date_flg = false;
+
+        	$("#start_date").on("blur", function() {
+        		var startDate = $("#start_date").val();
+        		if (date_pattern.test(form.name.startDate)) {
+        			start_date_flg = true;
+        		} else {
+        			start_date_flg = false;
+        		}
+        	});
+    	
+        	$("#end_date").on("blur", function() {
+        		var endDate = $("#end_date").val();
+        		if (date_pattern.test(form.name.endDate)) {
+        			end_date_flg = true;
+        		} else {
+        			end_date_flg = false;
+        		}      		
+        	});
+        	
+        	$(".searchBtn").on("click", function(evt) {
+        		if (!start_date_flg || !end_date_flg) {
+        			alert("날짜형식이 잘못되었습니다.")
+        			return false;
+        		}
+        	});
+    	});
     </script>
     
 </head>
@@ -178,7 +188,7 @@
                     <table>
                         <tr>
                             <td>
-                            	<label for="rd_email">rd_email</label>
+                            	<label for="rd_email">이메일</label>
                             </td>
                             
                             <td style="text-align: center">
@@ -204,7 +214,7 @@
                         
                         <tr>
                             <td>
-                            	<label for="start_date">start_date</label>
+                            	<label for="start_date">시작일</label>
                             </td>
                             
                             <td>
@@ -214,7 +224,7 @@
                         
                         <tr>
                             <td>
-                            	<label for="end_date">end_date</label>
+                            	<label for="end_date">마지막일</label>
                             </td>
                             
                             <td>
@@ -224,18 +234,18 @@
                         
                         <tr>
                             <td>
-                            	<label for="customer_gender">customer_gender</label>
+                            	<label for="customer_gender">성별</label>
                             </td>
                             <td style="text-align: center">
                             	<input class="dataInput" type="radio" id="customer_gender" name="customer_gender" value="MM"><span style="margin: 0px 30px">male</span>
                             	<input class="dataInput" type="radio" name="customer_gender" value="FF"><span style="margin: 0px 30px">female</span>                        
-                            	<input class="dataInput" type="radio" name="customer_gender" value="MF"><span style="margin: 0px 30px">전체</span>                        
+                            	<input class="dataInput" type="radio" name="customer_gender" value="MF" checked><span style="margin: 0px 30px">전체</span>                        
                             </td>
                         </tr>
                         
                         <tr>
                             <td>
-                            	<label for="age_group">age_group</label>
+                            	<label for="age_group">연령대</label>
                             </td>
                             
                             <td style="text-align: center">
@@ -253,7 +263,7 @@
                         
                         <tr>
                             <td>
-                            	<label for="order_by">order_by</label>
+                            	<label for="order_by">정렬</label>
                             </td>
                             
                             <td style="text-align: center">
@@ -265,7 +275,7 @@
                         
                         <tr>
                             <td>
-                            	<label for="count">count</label>
+                            	<label for="count">나타낼 개수</label>
                             </td>
                             
                             <td style="text-align: center">

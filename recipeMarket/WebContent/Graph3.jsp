@@ -22,8 +22,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/CRM.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 

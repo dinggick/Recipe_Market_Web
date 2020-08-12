@@ -33,8 +33,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/RnDList.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
@@ -141,8 +139,8 @@
 
                     <table>
 
-                        <thead>
-                            <tr><th>번호</th><th>이메일</th><th>부서</th><th>정보보기</th></tr>
+                        <thead style="background-color: white">
+                            <tr style="border-color: #D2302C; font-size: 1.1em"><th>번호</th><th>이메일</th><th>부서</th><th>정보보기</th></tr>
                         </thead>
 
                         <tbody>
