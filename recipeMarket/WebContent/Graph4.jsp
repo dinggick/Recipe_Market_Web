@@ -34,6 +34,15 @@
     <script src="${contextPath}/js/dropdownMenu.js"></script>
 
 <%--     <script src="${contextPath}/js/CRM.js"></script> --%>
+
+	<c:choose>
+		<c:when test="${start_age == 0}">
+			<c:set var="age_aroup" value="전체"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="age_aroup" value="${start_age}대"/>
+		</c:otherwise>
+	</c:choose>
     
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -42,7 +51,7 @@
 
       function drawStuff() {
         var data = new google.visualization.arrayToDataTable([
-          	['Recipe_name', 'Sales', 'Amount'],
+          	['레시피 명', '매출', '판매량'],
 			<% for (int i = 0; i < list.size(); ++i) {%>
 			<%if (i > 0)%>,
 			["<%=list.get(i).getKey()%>", <%=list.get(i).getValue().getKey()%>, <%=list.get(i).getValue().getValue()%>]
@@ -53,7 +62,7 @@
           width: 1000,
           chart: {
               title: '${rd_email}\'s recipe ranking',
-              subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${start_age} 대',
+              subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${age_aroup}',
           },
           bars: 'horizontal', // Required for Material Bar Charts.
           series: {
@@ -68,7 +77,7 @@
           }
         };
 
-      var chart = new google.charts.Bar(document.getElementById('dual_x_div'));
+      	var chart = new google.charts.Bar(document.getElementById('dual_x_div'));
       chart.draw(data, options);
     };
     </script>
@@ -104,7 +113,7 @@
         <div class="titleWrapper">
 
             <span>
-                CRM
+                	통계
             </span>
 
         </div>
@@ -123,20 +132,20 @@
                 </li> -->
 
                 <li>
-                    <span>RnD management</span>
+                    <span>RnD 관리</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
                 </li>
                 
                 <li>
-                    <span>CRM</span>
+                    <span>통계</span>
                     <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
-                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
+                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
                     </ul>
                 </li>
             </ul>                                 

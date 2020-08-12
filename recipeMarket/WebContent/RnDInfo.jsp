@@ -116,7 +116,7 @@
         <div class="titleWrapper">
 
             <span>
-                RnDInfo
+                RnD 정보
             </span>
 
         </div>
@@ -128,19 +128,20 @@
         <div class="menuWrapper">
             <ul>
                 <li>
-                    <span>RnD management</span>
+                    <span>RnD 관리</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
-                </li>                
+                </li>
+                
                 <li>
-                    <span>CRM</span>
+                    <span>통계</span>
                     <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
-                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
+                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
                     </ul>
                 </li>
             </ul>                            
@@ -171,10 +172,10 @@
                     </table>                   
                     <div class="buttonSection">
                         <button class="reviseBtn" type="button">
-                            reviseBtn
+                            	수정
                         </button>
                         <button class="deleteBtn" type="submit">
-                            deleteBtn
+                            	삭제
                         </button>
                     </div>
                 </form>

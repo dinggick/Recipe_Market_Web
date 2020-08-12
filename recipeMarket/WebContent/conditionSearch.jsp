@@ -65,6 +65,11 @@
 	.searchBtn:hover {
     	opacity: 1;
 	}
+	select {
+		border-radius: 5px;
+		font-size: 0.9em;
+		color: black;
+	}
     </style>
 
     <style>
@@ -133,7 +138,7 @@
         <div class="titleWrapper">
 
             <span>
-                RnDInfo
+                	통계
             </span>
 
         </div>
@@ -145,19 +150,20 @@
         <div class="menuWrapper">
             <ul>
                 <li>
-                    <span>RnD management</span>
+                    <span>RnD 관리</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
-                </li>                
+                </li>
+                
                 <li>
-                    <span>CRM</span>
+                    <span>통계</span>
                     <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">graph1</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">graph2</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">graph3</a></li>
-                        <li><a href="${contextPath}/rnd/search">graph4</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
+                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
                     </ul>
                 </li>
             </ul>                            
@@ -176,7 +182,7 @@
                             </td>
                             
                             <td style="text-align: center">
-                            	<select id="rd_email" name="rd_email" style="padding: 5px 20px">
+                            	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
                             		<c:choose>
                             			<c:when test="${empty rd_list}">
                             				<option value="${loginInfo}">
@@ -233,7 +239,8 @@
                             </td>
                             
                             <td style="text-align: center">
-                                <select id="age_group" name="age_group" style="padding: 5px 20px">
+                                <select id="age_group" name="age_group" style="padding: 7px 20px">
+                                    <option value="0_99">전체</option>                   
                             		<option value="10_19">10대</option>
                             		<option value="20_29">20대</option>
                             		<option value="30_39">30대</option>
@@ -250,7 +257,7 @@
                             </td>
                             
                             <td style="text-align: center">
-                                <select id="order_by" name="order_by" style="padding: 5px 20px">
+                                <select id="order_by" name="order_by" style="padding: 7px 20px">
                             		<option value="2">매출 순</option>
                             		<option value="3">판매개수 순</option>
                             	</select>
@@ -262,7 +269,7 @@
                             </td>
                             
                             <td style="text-align: center">
-                                <select id="count" name="count" style="padding: 5px 20px">
+                                <select id="count" name="count" style="padding: 7px 20px">
                             		<option value="10">상위 10</option>
                             		<option value="20">상위 20</option>
                             		<option value="30">상위 30</option>                         		
@@ -272,7 +279,7 @@
                                             
                     </table>
                     <button class="searchBtn" type="submit">
-                    	searchBtn
+                    	검색
                     </button>               
 
                 </form>
