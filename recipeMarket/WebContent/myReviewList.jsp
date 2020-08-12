@@ -51,11 +51,13 @@ $(function()  {
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
 	var purchaseCode = $(this).find('input[name=deleteCode]').val();
+	var recipeCode = $(this).find('input[name=recipeCode]').val();
 		
 		if ( e.target.className == 'delete' ) {
 			$.ajax({
 				url : '${contextPath}/review/remove' 
-				, data : {"purchaseCode" : purchaseCode}
+				, data : {"purchaseCode" : purchaseCode
+						, "recipeCode" : recipeCode}
 				, success : function(data) {
 					if ( data.status == 'success') {
 						alert("삭제에 성공했습니다.");
@@ -71,7 +73,7 @@ $(function()  {
 		
 		var recipeCodeForm = $("div.divContent>section.rightSection>form");
 		var recipeCodeObj = $('input[id=recipeCode]');
-		recipeCodeObj.attr("value", recipe_code);
+		recipeCodeObj.attr("value", recipeCode);
 		
     	var form = document.createElement("form");
     	form.setAttribute("method", "POST");
@@ -80,7 +82,7 @@ $(function()  {
     	var input = document.createElement("input");
     	input.setAttribute("type", "hidden");
     	input.setAttribute("name", "recipeCode");
-    	input.setAttribute("value", recipe_code);
+    	input.setAttribute("value", recipeCode);
     	form.appendChild(input);
     	document.body.appendChild(form);
     	form.submit();
@@ -130,27 +132,25 @@ $(function()  {
 			        	<td></td>
 		        	</thead>
 		        	<tbody>
-						<c:if test="${empty list}" > 
+						<c:if test="${rowCnt == 0}" > 
                 	   		<tr> 
                 	   			<td colspan='5'> 등록된 후기가 없습니다.</td>
 							</tr>
 						
 						</c:if>
                 	   <c:forEach items="${list}" var="review" varStatus="status">
-                	   		<c:forEach items="${review.purchase.purchaseDetails}" var="purchaseDetail" >
                 	   		<tr> 
                 	   			<td> ${status.index+1} </td>
-                	   			<td> ${purchaseDetail.recipeInfo.recipeName} </td>
+                	   			<td> ${review.recipeInfo.recipeName} </td>
                 	   			<td> ${review.purchase.purchaseDate} </td>
                 	   			<td><span> ${review.reviewComment} </span> 
-                	   				<input type="hidden" name="recipe_code" value="${purchaseDetail.recipeInfo.recipeCode}"/>
+                	   				<input type="hidden" name="recipeCode" value="${review.recipeInfo.recipeCode}"/>
                 	   			</td>
                 	   			<td class="delete"><a href="#">
                 	   				<img class="delete" src="${contextPath}/img/delete.png" class="remove-button" />
                 	   				<input type="hidden" name="deleteCode" value="${review.purchase.purchaseCode}"/></a>
 			        			</td>
 							</tr>
-                	   		</c:forEach>
                 	   </c:forEach>
 		        	</tbody>
 		        </table>

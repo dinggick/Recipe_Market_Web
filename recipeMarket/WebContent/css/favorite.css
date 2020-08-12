@@ -68,6 +68,10 @@ img.delete {
 	width: 100%;
 	margin-bottom: 10px;
 }
+img.cartAdd {
+	width: 100%;
+	margin-bottom: 10px;
+}
 
 table.favoriteList>tbody>tr:hover {
 	background: #8bd8bd;

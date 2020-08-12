@@ -53,22 +53,9 @@ public class ReviewService {
 	 * @throws RemoveException
 	 * @author Soojeong
 	 */
-	public void remove(int purchaseCode) throws RemoveException {
-		dao.deleteByPurchaseCode(purchaseCode);
+	public void remove(int purchaseCode, int recipeCode) throws RemoveException {
+		dao.deleteByPurchaseCode(purchaseCode , recipeCode);
 	}
-	
-	/**
-	 * customerEmail
-	 * @return review 목록 반환
-	 * @param customerEmail
-	 * @throws FindException
-	 * @author Soojeong
-	 */
-	public List<Review> findByEmail(String customerEmail) throws FindException {
-		return dao.selectByEmail(customerEmail);
-	}
-	
-	
 	
 	/**
 	 * 페이징 처리
@@ -80,12 +67,9 @@ public class ReviewService {
 	public PageBean findByEmailAll(int page, String customerEmail) throws FindException {
 		if (page < 1)
 			throw new FindException("페이지가 존재하지 않습니다.");
-		List<Review> reviewList = dao.selectByEmail(customerEmail);
-		int rowCnt = reviewList.size();
-		
-		PageBean pb = new PageBean(page, rowCnt);
-		pb.setRowCnt(rowCnt);
-		
+		int reviewCNT = dao.selectByEmail(customerEmail);
+		PageBean pb = new PageBean(page, reviewCNT);
+		pb.setRowCnt(reviewCNT);
 		List<Review> rList = dao.selectByEmail(pb.getStartRow(), pb.getEndRow(), customerEmail);
 		pb.setList(rList);
 		

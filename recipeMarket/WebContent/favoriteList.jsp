@@ -54,7 +54,7 @@ $(function()  {
 	
 	// 즐겨찾기에서 상세 정보 or삭제이벤트
 	$faovoriteListObj.on('click', 'tr', function(e){
-		var recipeCode = $(this).find('input[name=deleteCode]').val();
+		var recipeCode = $(this).find('input[name=recipeCode]').val();
 			
 			if ( e.target.className == 'delete' ) {
 				$.ajax({
@@ -71,7 +71,22 @@ $(function()  {
 					} //end of success
 				}); //end of Ajax
 				return false;
-			} // 삭제 이벤트 발생
+			} else if ( e.target.className == 'cartAdd' ) {
+		    	$.ajax({
+		    		url : "/recipeMarket/cartAdd",
+		    		data : { recipeCode : recipeCode, quantity : 1 },
+		    		success : (data, textStatus, jqXHR) => {
+		    			if(data.status == "success") {
+		    				alert("장바구니에 추가되었습니다.");
+		    			} else {
+		    				alert("장바구니 추가 실패 : " + msg);
+		    			}
+		    		}
+		    	});// end of ajax
+		    	return false;
+			};
+			
+			
 			
 			var recipeCodeForm = $("div.divContent>section.rightSection>form");
 			var recipeCodeObj = $('input[id=recipeCode]');
@@ -90,7 +105,8 @@ $(function()  {
 	    	form.submit();
 	    	return false;
 		});
-
+	
+	
 }); // end of load
 </script>
 </head>
@@ -125,6 +141,7 @@ $(function()  {
 		        		<col width="20%"></col>
 		        		<col width="*"></col>
 		        		<col width="5%"></col>
+		        		<col width="5%"></col>
 		        	</colgroup>
 		        	<thead>
 		        	<tr>
@@ -146,12 +163,11 @@ $(function()  {
                 	   			<td> ${status.index+1} </td>
                 	   			<td><img class="recipeImg" src="${favorite.recipeInfo.imgUrl}"></td>
                 	   			<td> ${favorite.recipeInfo.recipeName} </td>
-                	   			<td><span> ${favorite.recipeInfo.recipeSumm} </span> 
+                	   			<td><span> ${favorite.recipeInfo.recipeSumm}</span> 
                 	   				<input type="hidden" name="recipeCode" value="${favorite.recipeInfo.recipeCode}"/>
                 	   			</td>
-                	   			<td class="delete"><a href="#">
-                	   				<img class="delete" src="${contextPath}/img/delete.png" class="remove-button" />
-                	   				<input type="hidden" name="deleteCode" value="${favorite.recipeInfo.recipeCode}"/></a>
+			        			<td><a><img src="${contextPath}/img/shopping-cart.png" class="cartAdd"/></a></td>
+                	   			<td class="delete"><a><img class="delete" src="${contextPath}/img/delete.png" class="remove-button" /></a>
 			        			</td>
 							</tr>
                 	   </c:forEach>
