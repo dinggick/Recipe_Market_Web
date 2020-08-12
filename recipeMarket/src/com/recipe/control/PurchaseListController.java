@@ -46,11 +46,11 @@ public class PurchaseListController implements Controller{
 			}else {
 				Long parseDate = Long.parseLong(request.getParameter("date"));
 				
-				System.out.println(value);
+				//System.out.println(value);
 				
 				Date date = new Date(parseDate);
 				
-				System.out.println(date);
+				//System.out.println(date);
 				
 				if("/purchaseListByDatePick".equals(path)) {
 					list = service.findByDatePicker(customerEmail, date);
