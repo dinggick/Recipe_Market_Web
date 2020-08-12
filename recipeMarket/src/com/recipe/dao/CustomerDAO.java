@@ -229,16 +229,14 @@ public class CustomerDAO {
 		}
 
 		if (isModified == true) {
-			updateSQL += "WHERE customer_id=?";
+			updateSQL += "WHERE customer_email=?";
 		}
 		if (isModified == true) {
 
 			try {
 				pstmt = con.prepareStatement(updateSQL);
 				pstmt.setString(1, c.getCustomerEmail());
-				// System.out.println(c.getCustomerId());
-				//int rowcnt = pstmt.executeUpdate();
-				// System.out.println("처리건수:" + rowcnt);
+				pstmt.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new ModifyException(e.getMessage());
@@ -246,24 +244,8 @@ public class CustomerDAO {
 			}
 
 		}
-		System.out.println(updateSQL);
+
 	}
-	/*
-	 * update 관련 테스트
-	 */
-//	public static void main(String[] args) {
-//		CustomerDAO dao = new CustomerDAO();
-//		Customer c = new Customer();
-//		c.setCustomerId("id1");
-//		c.setCustomerPwd("ppp");
-//		c.setCustomerName("nnn");
-//		try {
-//			dao.update(c);
-//		} catch (ModifyException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
 
 	/*
 	 * 회원탈퇴
@@ -319,17 +301,4 @@ public class CustomerDAO {
 		}
 	}
 
-	/*
-	 * 회원탈퇴 TEST
-	 */
-//	public static void main(String[] args) {
-//		CustomerDAO dao = new CustomerDAO();
-//		Customer c = new Customer();
-//		c.setCustomerId("id1");
-//		try {
-//			dao.update1(c);
-//		} catch (RemoveException e) {
-//			e.printStackTrace();
-//		}
-//	}
 }
