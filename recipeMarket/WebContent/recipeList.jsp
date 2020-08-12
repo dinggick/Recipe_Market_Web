@@ -160,7 +160,11 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+            <c:choose>
+        		<c:when test="${sessionScope.userType == 'A'}"> <jsp:include page="dropdownMenu_admin.jsp"></jsp:include> </c:when>
+        		<c:when test="${sessionScope.userType == 'R'}"> <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include> </c:when>
+        		<c:otherwise> <jsp:include page="dropdownMenu.jsp"></jsp:include> </c:otherwise>
+        	</c:choose>
         </div>
     </header>
     <div class="divContent">
@@ -197,16 +201,18 @@
 								<b>${list[i].recipeName}</b>
 							</h4>
 							<p>${list[i].recipeSumm}</p>
-							<c:choose>
-								<c:when test="${favoriteCheckList[i] == true}">
-									<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
-								</c:when>
-								<c:otherwise>
-									<img src="${contextPath}/img/heart.png" class="favorite"> 
-								</c:otherwise>
-							</c:choose>
-				 			<img src="${contextPath}/img/dislike.png" class="dislike">
-				 			<img src="${contextPath}/img/like.png" class="like">
+							<c:if test="${sessionScope.userType != 'R' && sessionScope.userType != 'A'}">
+								<c:choose>
+									<c:when test="${favoriteCheckList[i] == true}">
+										<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+									</c:when>
+									<c:otherwise>
+										<img src="${contextPath}/img/heart.png" class="favorite"> 
+									</c:otherwise>
+								</c:choose>
+								<img src="${contextPath}/img/dislike.png" class="dislike">
+				 				<img src="${contextPath}/img/like.png" class="like">
+							</c:if>
 				 			<input type="hidden" value="${list[i].recipeCode}">
 						</div>
 					</div>

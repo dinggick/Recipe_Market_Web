@@ -25,6 +25,8 @@ public class LogoutController implements Controller {
 		
 		if(!"".equals(session.getAttribute("loginInfo"))) {
 			session.removeAttribute("loginInfo");
+			session.removeAttribute("userName");
+			session.removeAttribute("userType");
 			
 			if("/logout/customer".equals(requestURL)) return "/index.jsp";
 			else if("/logout/rnd".equals(requestURL)) return "/index_rnd.jsp";

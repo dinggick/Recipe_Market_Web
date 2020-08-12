@@ -36,7 +36,11 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+        	<c:choose>
+        		<c:when test="${sessionScope.userType == 'A'}"> <jsp:include page="dropdownMenu_admin.jsp"></jsp:include> </c:when>
+        		<c:when test="${sessionScope.userType == 'R'}"> <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include> </c:when>
+        		<c:otherwise> <jsp:include page="dropdownMenu.jsp"></jsp:include> </c:otherwise>
+        	</c:choose>
         </div>
     </header>
     <div class="divContent">
@@ -68,7 +72,7 @@
                         <label class="labelDisLike"><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
                         <c:if test="${sessionScope.userType != 'A'}">
 							<c:choose>
-								<c:when test="${sessionScope.userType == 'C'}">
+								<c:when test="${sessionScope.userType != 'R'}">
 									<c:choose>
 										<c:when test="${favoriteCheck == true}">
 											<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
