@@ -56,7 +56,7 @@ div.divContent>section.rightSection>form>label>input:focus {
 }
 
 div.divContent>section.rightSection>form>button[type=submit] {
-    background-color: rgb(52, 152, 219);
+    background-color: #8bd8bd;
     border: none;
     color: white;
     padding: 10px 5px;

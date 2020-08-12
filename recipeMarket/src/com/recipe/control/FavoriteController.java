@@ -42,7 +42,7 @@ public class FavoriteController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String servletPath = "/favoriteResult.jsp";
+		String servletPath = "/fail.jsp";
 
  		// 즐겨찾기 메뉴는 로그인한 사용자만 사용가능
 		String customerEmail = (String)request.getSession().getAttribute("loginInfo");
