@@ -64,19 +64,14 @@ public class FavoriteDAO {
 	 * 즐겨찾기 목록 전체보기 : selectById()
 	 * @param String customerEmail
 	 */
-	public List<Favorite> selectById(String customerEmail) throws FindException {
+	public int selectById(String customerEmail) throws FindException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Favorite> favoriteList = null;
+		int rowCNT = 0;
 
-		String selectSQL = "SELECT info.recipe_code" 
-				+ ", recipe_name " 
-				+ ", recipe_summ " 
-				+ ", recipe_price "
-				+ ", img_url "
-				+ ", f.customer_email " 
+		String selectSQL = "SELECT COUNT(*) rowCNT " 
 				+ " FROM RECIPE_INFO info "
 				+ " JOIN FAVORITE f  ON info.recipe_code = f.recipe_code "
 				+ " LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code "
@@ -94,22 +89,9 @@ public class FavoriteDAO {
 			pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, customerEmail);
 			rs = pstmt.executeQuery();
-			favoriteList = new ArrayList<>();
 
 			while (rs.next()) {
-				RecipeInfo info = new RecipeInfo();
-				info.setRecipeCode(rs.getInt("recipe_code"));
-				info.setRecipeName(rs.getString("recipe_name"));
-				info.setRecipeSumm(rs.getString("recipe_summ"));
-				info.setRecipePrice(rs.getInt("recipe_price"));
-				info.setImgUrl(rs.getString("img_url"));
-				info.setIngredients(null);
-
-				Favorite f = new Favorite();
-				f.setRecipeInfo(info);
-				f.setcustomerEmail(customerEmail);
-
-				favoriteList.add(f);
+				rowCNT = rs.getInt("rowCNT");
 			} // end while
 
 		} catch (SQLException e) {
@@ -118,7 +100,7 @@ public class FavoriteDAO {
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
-		return favoriteList;
+		return rowCNT;
 	} // end method selectById();
 
 	/**

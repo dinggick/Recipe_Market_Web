@@ -16,6 +16,7 @@ import com.recipe.exception.RemoveException;
 import com.recipe.model.PageBean;
 import com.recipe.service.ReviewService;
 import com.recipe.vo.Purchase;
+import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.Review;
 
 
@@ -101,31 +102,18 @@ public class ReviewController implements Controller {
 			
 		}
 		return result;
-
-		
-		
-//		try {
-//			List<Review> myReviewList = reviewService.findByEmail(customerEmail);
-//			request.setAttribute("myReviewList", myReviewList);
-//			result = "/myReviewList.jsp";
-//		
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//			request.setAttribute("msg",e.getMessage());
-//		}
-//		
-//		return result;
 	}
 	
 	private String removeReview (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
 		int purchaseCode = Integer.parseInt(request.getParameter("purchaseCode"));
-		if (purchaseCode == 0 ) {
+		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+		if (purchaseCode == 0  || recipeCode == 0) {
 			request.setAttribute("msg","구매정보가 없습니다.");
 		}
 		
 		try {
-			reviewService.remove(purchaseCode);
+			reviewService.remove(purchaseCode, recipeCode);
 			result = "/success.jsp"; 
 			
 		} catch (RemoveException e) {
@@ -140,18 +128,25 @@ public class ReviewController implements Controller {
 		String result = "/fail.jsp";
 		
 		int purchaseCode = Integer.parseInt(request.getParameter("purchaseCode"));
+		int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
 		String reviewContent = (String)request.getParameter("reviewContent");
-		if ( purchaseCode == 0 || "".equals(reviewContent) ) {
+		
+		if ( purchaseCode == 0 || "".equals(reviewContent) || recipeCode == 0 ) {
 			request.setAttribute("msg","구매정보가 없습니다.");
 		}
 		
 		Purchase p = new Purchase();
 		p.setPurchaseCode(purchaseCode);
+		
+		RecipeInfo recipeInfo = new RecipeInfo();
+		recipeInfo.setRecipeCode(recipeCode);
 
 		Review r = new Review();
 		r.setPurchase(p);
+		r.setRecipeInfo(recipeInfo);
 		r.setReviewComment(reviewContent);
 		
+
 		try {
 			reviewService.add(r);
 			result = "/success.jsp"; 

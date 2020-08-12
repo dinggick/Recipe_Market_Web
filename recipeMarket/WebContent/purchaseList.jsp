@@ -131,25 +131,25 @@ $(function(){
        
       purchaseTableObj.on('click', 'tr', function(e){
          var purchaseCode = $(this).find('input.purchaseCode').val();
+         var recipeCode = $(this).find('input.recipeCode').val();
          
           $("#reviewModal").show();
 
-          
           var reviewBtnObj = $('button.reviewBtn');
           reviewBtnObj.on('click', function() {
-             
              var reviewContent = $("div.reviewContent>input").val();
              console.log ("리뷰내용 : " + reviewContent); 
              console.log ("purchaseCode : " + purchaseCode); 
+             console.log ("recipeCode : " + recipeCode); 
              
              $.ajax ({
                url : '${contextPath}/review/add'
                , method : 'POST'
                , data: {"purchaseCode" : purchaseCode 
-                      , "reviewContent" : reviewContent}
+                      , "reviewContent" : reviewContent
+                      , "recipeCode" : recipeCode }
                , success : function (data) {
                   if (data.status == "success") {
-                     alert ("후기 등록에 성공하였습니다.");
                      location.reload();
                   } else {
                      alert ("후기등록실패 " + data.msg);
@@ -204,7 +204,8 @@ $(function(){
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
                 	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
-	               	   				<input type="hidden" class="purchaseCode" value="${p.purchaseCode}" />
+	               	   				<input type="text" class="purchaseCode" value="${p.purchaseCode}" />
+	               	   				<input type="text" class="recipeCode" value="${purchaseDetail.recipeInfo.recipeCode}" />
 	               	   			</c:if>
                 	   		</td></tr>
                 	   		</c:forEach>
