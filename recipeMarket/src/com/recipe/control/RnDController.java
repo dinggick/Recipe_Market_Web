@@ -143,29 +143,21 @@ public class RnDController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */
-			String loginInfo = (String)session.getAttribute("loginInfo");
-			System.out.println(loginInfo);
+		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */			
+			String isRnD = (String)session.getAttribute("rndAccount");
 			
-			try {
-				service.findById(loginInfo);
-				System.out.println("RnD 아이디");
-				session.setAttribute("rndAccount", loginInfo);
-				jspFileName = "/conditionSearch.jsp";
-			} catch (FindException e) {
+			if (isRnD == null) {
 				try {
-					List<RnD> rd_list = service.findAll();
-					System.out.println(rd_list);
-					request.setAttribute("rd_list", rd_list);
-					
+					List<RnD> rd_list = null;
+					rd_list = service.findAll();
+					request.setAttribute("rd_list", rd_list);	
 					jspFileName = "/conditionSearch.jsp";
-				} catch (FindException e1) {
-					e1.printStackTrace();
-					request.setAttribute("msg", e.getMessage());
+				} catch (FindException e) {
+					e.printStackTrace();
 				}
+			} else {
+				jspFileName = "/conditionSearch.jsp";
 			}
-		} else if ("/requestRnDAdd".equals(pathInfo)) { /* ㅎㅎ ㅈㅅ */
-
 		}
 		
 		return jspFileName;
