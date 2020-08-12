@@ -140,9 +140,11 @@ public class RnDController implements Controller {
 			}
 		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */
 			String loginInfo = (String)session.getAttribute("loginInfo");
+			System.out.println(loginInfo);
 			
 			try {
 				service.findById(loginInfo);
+				System.out.println("RnD 아이디");
 				session.setAttribute("rndAccount", loginInfo);
 				jspFileName = "/conditionSearch.jsp";
 			} catch (FindException e) {
@@ -157,6 +159,8 @@ public class RnDController implements Controller {
 					request.setAttribute("msg", e.getMessage());
 				}
 			}
+		} else if ("/requestRnDAdd".equals(pathInfo)) { /* ㅎㅎ ㅈㅅ */
+
 		}
 		
 		return jspFileName;

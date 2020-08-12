@@ -68,10 +68,11 @@ public class LoginController implements Controller {
 			throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
-		
+						
 		try {
 			String rndName = rndService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
+			request.getSession().setAttribute("rndAccount", id);
 			request.getSession().setAttribute("userName", rndName);
 			request.getSession().setAttribute("userType", "R");
 			return "/index_rnd.jsp";

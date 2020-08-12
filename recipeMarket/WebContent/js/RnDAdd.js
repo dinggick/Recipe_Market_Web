@@ -61,7 +61,7 @@ $(() => {
         if (chkEmail($rdEmailInput.val())) {
             $invalidIdSpan.fadeOut();
             $.ajax({
-            	url: "../rnd/find",
+            	url: "/recipeMarket/rnd/find",
             	data: { "rd_email" : $rdEmailInput.val() },
             	success: (responseObj) => {
             		if (responseObj.status == "success") {
@@ -141,13 +141,14 @@ $(() => {
     });
     
     $(".addBtn").on("click", function(evt) {
+//    	alert(rdEmail + " " + rdPwd + " " + rdPhone + " " + flg + " ");
     	if (!rdEmail || !rdPwd || !rRdPwd || !rdPhone || !flg) {
     		alert($("form").serialize());
     		return false;
     	}
 		
     	$.ajax({
-    		url: "../rnd/add",
+    		url: "/recipeMarket/rnd/add",
     		method: "POST",
     		data: $("form").serialize(),
     		success: (responseObj) => {

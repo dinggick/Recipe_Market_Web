@@ -6,7 +6,7 @@
                 <li>
                     <span>RnD 관리</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/RnDAdd.jsp">계정 추가</a></li>
                         <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
                 </li>

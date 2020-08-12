@@ -40,9 +40,12 @@
 }
 .titleWrapper > span {
     color: black;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: border;
     /* font-family: fantasy */
+}
+.titleWrapper > h1 {
+	
 }
 .underLineWrapper {
     height: 20px;

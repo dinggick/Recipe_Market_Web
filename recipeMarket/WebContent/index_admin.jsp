@@ -23,6 +23,16 @@
     <script src="${contextPath}/js/index_admin.js"></script>
     <script src="${contextPath}/js/favoriteBtn.js"></script>
 	<script src="${contextPath}/js/card.js"></script>
+	
+	<c:choose>
+		<c:when test="${empty rndAccount}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
     <script>
     </script>
 </head>
