@@ -71,7 +71,7 @@ public class FavoriteDAO {
 		ResultSet rs = null;
 		List<Favorite> favoriteList = new ArrayList<>();
 
-		String selectSQL = "SELECT * " 
+		String selectSQL = "SELECT info.recipe_code , recipe_name , customer_email "
 				+ " FROM RECIPE_INFO info "
 				+ " JOIN FAVORITE f  ON info.recipe_code = f.recipe_code "
 				+ " LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code "

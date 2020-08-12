@@ -175,7 +175,9 @@ public class ReviewController implements Controller {
 		 
 		try {
 			List<Review> list = reviewService.findByCode(recipeCode);
+			System.out.println(" reviewList :: " + list.size()  );
 			request.setAttribute("reviewListByRecipeCode", list);
+			
 			result = "/reviewListByRecipeCode.jsp";
 		
 		} catch (FindException e) {
