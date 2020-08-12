@@ -19,10 +19,7 @@ addEventListener("load", () => {
 	var recipeCode = $("input[type=hidden]").val();
 
     $(".purchaseBtn").click((e) => {
-        var quantity = prompt("수량을 입력하세요");
-        if (confirm("총 가격 : " + parseFloat($(".recipePrice").html()) * quantity + "원\n구매하시겠습니까?")) {
-            console.log("구매 처리");
-        }
+    	
     });
 
 	$(".labelLike").click(function() {
@@ -74,7 +71,7 @@ addEventListener("load", () => {
 				    	form.submit();
     				}
     			} else {
-    				alert("장바구니 추가 실패 : " + msg);
+    				location.href = "/recipeMarket/static/login.html";
     			}
     		}
     	});

@@ -94,3 +94,20 @@ div.divContent>section.rightSection>form>label>a:hover {
     /* font-size: large; */
 }
 
+.g-signin2,
+.fb-login-button,
+#kakao-login-btn {
+	display: inline;
+}
+
+.g-signin2 > div:first-child {
+	width: 200px !important;
+}
+
+#kakao-login-btn {
+	width: 15%;
+}
+
+#kakao-login-btn:hover {
+	cursor: pointer;
+}
