@@ -6,13 +6,16 @@
     
     /* font-family: 'Roboto Slab', serif; */
 }
+body {
+	height: 700px;
+}
 .bodySection {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
 
-    height: 700px;
+    height: 100%;
     width: 100%;
 
     margin: 0px;
