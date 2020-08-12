@@ -44,8 +44,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/CRM.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
@@ -145,13 +143,6 @@
 
         <div class="menuWrapper">
             <ul>
-                <!-- <li>
-                    <span>Customer management</span>
-                    <ul>
-                        <li><span>CustomerList</span></li>
-                    </ul>
-                </li> -->
-
                 <li>
                     <span>RnD 관리</span>
                     <ul>
@@ -169,7 +160,7 @@
                         <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
                     </ul>
                 </li>
-            </ul>                                 
+        	</ul>                                 
         </div>
 
     </section>

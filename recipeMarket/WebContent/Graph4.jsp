@@ -24,8 +24,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/CRM.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
@@ -61,8 +59,8 @@
         var options = {
           width: 1000,
           chart: {
-              title: '${rd_email}\'s recipe ranking',
-              subtitle: '판매기간: ${start_date}~${end_date}, 성별: ${gender}, 연령대: ${age_aroup}',
+              title: '${rd_email} 가 등록한 레시피 목록',
+              subtitle: '판매기간: ${start_date}~${end_date} 성별: ${gender} 연령대: ${age_aroup}',
           },
           bars: 'horizontal', // Required for Material Bar Charts.
           series: {
@@ -71,8 +69,8 @@
           },
           axes: {
             x: {
-              distance: {label: 'Sales'}, // Bottom x-axis.
-              brightness: {side: 'top', label: 'Amount'} // Top x-axis.
+              distance: {label: '매출'}, // Bottom x-axis.
+              brightness: {side: 'top', label: '판매량'} // Top x-axis.
             }
           }
         };
