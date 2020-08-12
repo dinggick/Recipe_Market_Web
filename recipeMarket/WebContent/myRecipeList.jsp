@@ -118,8 +118,8 @@ $(function()  {
 			        	<td>NO</td>
 			        	<td>레시피명</td>
 			        	<td>가격</td>
-			        	<td>판매량 <a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P">V</a></td>
-			        	<td>총매출액 <a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T">V</a></td>
+			        	<td>판매량 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort1"></a></td>
+			        	<td>총매출액 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort2"></a></td>
 		        	</thead>
 		        	<tbody>
 		        		<c:if test="${empty myRecipeListPage}">

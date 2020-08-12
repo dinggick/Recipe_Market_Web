@@ -127,23 +127,7 @@
 
         <div class="menuWrapper">
             <ul>
-                <li>
-                    <span>RnD 관리</span>
-                    <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
-                    </ul>
-                </li>
-                
-                <li>
-                    <span>통계</span>
-                    <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
-                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
-                    </ul>
-                </li>
+				<jsp:include page="adminMenu.jsp"/>
             </ul>                            
         </div>
 
@@ -155,26 +139,26 @@
                 <form autocomplete="off" class="formWrapper" action="#" method="post">
                     <table>
                         <tr>
-                            <td><label for="rd_id">rd_email</label></td><td><input class="dataInput" type="text" id="rd_email" name="rd_email" readonly value="${rnd.rdEmail}"></td>
+                            <td><label for="rd_id">이메일</label></td><td><input class="dataInput" type="text" id="rd_email" name="rd_email" readonly value="${rnd.rdEmail}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_pwd">rd_pwd</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="${rnd.rdPwd}"></td>
+                            <td><label for="rd_pwd">비밀번호</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="${rnd.rdPwd}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_manager_name">rd_manager_name</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="${rnd.rdManagerName}"></td>
+                            <td><label for="rd_manager_name">이름</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="${rnd.rdManagerName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_team_name">rd_team_name</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="${rnd.rdTeamName}"></td>
+                            <td><label for="rd_team_name">부서</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="${rnd.rdTeamName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_phone">rd_phone</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
+                            <td><label for="rd_phone">연락처</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
                         </tr>                    
                     </table>                   
                     <div class="buttonSection">
-                        <button class="reviseBtn" type="button">
+                        <button class="reviseBtn" type="button" style="cursor: pointer">
                             	수정
                         </button>
-                        <button class="deleteBtn" type="submit">
+                        <button class="deleteBtn" type="submit" style="cursor: pointer">
                             	삭제
                         </button>
                     </div>
