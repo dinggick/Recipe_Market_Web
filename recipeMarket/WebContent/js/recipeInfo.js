@@ -18,8 +18,31 @@ addEventListener("load", () => {
 
 	var recipeCode = $("input[type=hidden]").val();
 
-    $(".purchaseBtn").click((e) => {
+    $(".purchaseBtn").click(function(e){
+    	var quantity = $(".buttonSection>input[type=number]").val();
+    	var recipeName = $(this).parent().parent().find("h1").html();
+    	var recipePrice = $(this).parent().parent().find("span").html();
     	
+    	$.ajax({
+    		url : "/recipeMarket/purchase",
+    		data : { recipeCode : recipeCode, 
+    				purchaseQuantity : quantity, 
+    				recipeName : recipeName, 
+    				recipePrice : recipePrice },
+    		success : (data, textStatus, jqXHR) => {
+    			if(data.status == "success") {
+    				if(confirm("구매가 완료되었습니다. 구매 내역을 확인하시겠습니까?")) {
+    					var form = document.createElement("form");
+				    	form.setAttribute("method", "POST");
+				    	form.setAttribute("action", "/recipeMarket/purchaseList");
+				    	document.body.appendChild(form);
+				    	form.submit();
+    				}
+    			} else {
+    				location.href = "/recipeMarket/static/login.html";
+    			}
+    		}
+    	});
     });
 
 	$(".labelLike").click(function() {
