@@ -64,14 +64,14 @@ public class FavoriteDAO {
 	 * 즐겨찾기 목록 전체보기 : selectById()
 	 * @param String customerEmail
 	 */
-	public int selectById(String customerEmail) throws FindException {
+	public List<Favorite> selectById(String customerEmail) throws FindException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		int rowCNT = 0;
+		List<Favorite> favoriteList = new ArrayList<>();
 
-		String selectSQL = "SELECT COUNT(*) rowCNT " 
+		String selectSQL = "SELECT * " 
 				+ " FROM RECIPE_INFO info "
 				+ " JOIN FAVORITE f  ON info.recipe_code = f.recipe_code "
 				+ " LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code "
@@ -91,7 +91,15 @@ public class FavoriteDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				rowCNT = rs.getInt("rowCNT");
+				RecipeInfo recipeInfo = new RecipeInfo();
+				recipeInfo.setRecipeCode(rs.getInt("recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("recipe_name"));
+
+				Favorite f = new Favorite();
+				f.setcustomerEmail(rs.getString("customer_email"));
+				f.setRecipeInfo(recipeInfo);
+				
+				favoriteList.add(f);
 			} // end while
 
 		} catch (SQLException e) {
@@ -100,7 +108,7 @@ public class FavoriteDAO {
 		} finally {
 			MyConnection.close(rs, pstmt, con);
 		}
-		return rowCNT;
+		return favoriteList;
 	} // end method selectById();
 
 	/**
