@@ -40,7 +40,7 @@ public class PurchaseDAO {
 		//나의 구매내역을 가져오는 query문
 		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment, ri.recipe_code \r\n" + 
 				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
- 				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
+ 				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code and ri.recipe_code = r.recipe_code) \r\n" + 
 				"where p.customer_email=? order by p.purchase_date desc";
 		try {
 			ps = con.prepareStatement(detailSQL);
@@ -177,7 +177,7 @@ public class PurchaseDAO {
 			cl.add(Calendar.MINUTE, 59);
 			cl.add(Calendar.SECOND, 59);
 			Timestamp cDate = new Timestamp(cl.getTimeInMillis());
-			System.out.println(cl.getTimeInMillis());
+			//System.out.println(cl.getTimeInMillis());
 			// 현재 아이디를 받아온다
 			ps.setString(1, customerEmail);
 			ps.setDate(2, date);

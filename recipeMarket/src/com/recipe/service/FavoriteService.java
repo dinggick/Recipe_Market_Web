@@ -1,6 +1,5 @@
 package com.recipe.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.recipe.dao.FavoriteDAO;
@@ -31,15 +30,12 @@ public class FavoriteService {
 	public void add(Favorite f)	throws AddException, DuplicatedException {
 		dao.insert(f);
 	}
-	
-	public List<Favorite> findById(String customerId) throws FindException {
-		List<Favorite> favoriteList = new ArrayList<>();
-		favoriteList = dao.selectById(customerId);
-		return favoriteList;
-	}
-	
+	 
 	public void remove(Favorite f) throws RemoveException {
 		dao.deleteByIdnCode(f);
+	}
+	public List<Favorite> findById (String customerEmail) throws FindException {
+		return dao.selectById(customerEmail);
 	}
 	
 	
@@ -54,10 +50,9 @@ public class FavoriteService {
 	public PageBean findById(int page, String customerEmail) throws FindException {
 		if (page < 1)
 			throw new FindException("페이지가 존재하지 않습니다.");
-		List<Favorite> favoriteList = dao.selectById(customerEmail);
-		int rowCnt = favoriteList.size();
-		PageBean pb = new PageBean(page, rowCnt);
-		pb.setRowCnt(rowCnt);
+		List<Favorite> list = dao.selectById(customerEmail);
+		PageBean pb = new PageBean(page, list.size());
+		pb.setRowCnt(list.size());
 		
 		List<Favorite> fList = dao.selectById(pb.getStartRow(), pb.getEndRow(), customerEmail);
 		pb.setList(fList);

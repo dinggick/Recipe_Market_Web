@@ -69,14 +69,9 @@ public class FavoriteDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Favorite> favoriteList = null;
+		List<Favorite> favoriteList = new ArrayList<>();
 
-		String selectSQL = "SELECT info.recipe_code" 
-				+ ", recipe_name " 
-				+ ", recipe_summ " 
-				+ ", recipe_price "
-				+ ", img_url "
-				+ ", f.customer_email " 
+		String selectSQL = "SELECT info.recipe_code , recipe_name , customer_email "
 				+ " FROM RECIPE_INFO info "
 				+ " JOIN FAVORITE f  ON info.recipe_code = f.recipe_code "
 				+ " LEFT JOIN POINT p  ON info.recipe_code = p.recipe_code "
@@ -94,21 +89,16 @@ public class FavoriteDAO {
 			pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, customerEmail);
 			rs = pstmt.executeQuery();
-			favoriteList = new ArrayList<>();
 
 			while (rs.next()) {
-				RecipeInfo info = new RecipeInfo();
-				info.setRecipeCode(rs.getInt("recipe_code"));
-				info.setRecipeName(rs.getString("recipe_name"));
-				info.setRecipeSumm(rs.getString("recipe_summ"));
-				info.setRecipePrice(rs.getInt("recipe_price"));
-				info.setImgUrl(rs.getString("img_url"));
-				info.setIngredients(null);
+				RecipeInfo recipeInfo = new RecipeInfo();
+				recipeInfo.setRecipeCode(rs.getInt("recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("recipe_name"));
 
 				Favorite f = new Favorite();
-				f.setRecipeInfo(info);
-				f.setcustomerEmail(customerEmail);
-
+				f.setcustomerEmail(rs.getString("customer_email"));
+				f.setRecipeInfo(recipeInfo);
+				
 				favoriteList.add(f);
 			} // end while
 

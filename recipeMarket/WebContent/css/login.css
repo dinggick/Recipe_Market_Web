@@ -100,12 +100,16 @@ div.divContent>section.rightSection>form>label>a:hover {
 	display: inline;
 }
 
+.fb-login-button {
+	margin-bottom: 10px;
+}
+
 .g-signin2 > div:first-child {
-	width: 200px !important;
+	width: 171px !important;
 }
 
 #kakao-login-btn {
-	width: 15%;
+	width: 171px;
 }
 
 #kakao-login-btn:hover {

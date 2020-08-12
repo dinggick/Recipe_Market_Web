@@ -94,20 +94,6 @@ public class FavoriteController implements Controller {
 			
 		}
 		return result;
-		
-		
-		
-//		try {
-//			List<Favorite> favoriteList = favoriteService.findById(customerEmail);
-//			request.setAttribute("favoriteList", favoriteList);
-//			result = "/favoriteList.jsp";
-//		
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//			request.setAttribute("msg",e.getMessage());
-//			request.setAttribute("status", "fail");
-//		}
-//		return result;
 	}
 	
 	private String removeFavorite (HttpServletRequest request, HttpServletResponse response, String customerEmail) {

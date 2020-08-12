@@ -62,8 +62,7 @@ addEventListener("load", () => {
     		data : { recipeCode : recipeCode, quantity : quantity },
     		success : (data, textStatus, jqXHR) => {
     			if(data.status == "success") {
-    				alert("장바구니에 추가되었습니다.");
-    				if(confirm("장바구니를 확인하시겠습니까?")) {
+    				if(confirm("장바구니에 추가되었습니다. 장바구니를 확인하시겠습니까?")) {
     					var form = document.createElement("form");
 				    	form.setAttribute("method", "POST");
 				    	form.setAttribute("action", "/recipeMarket/recipeCart");
