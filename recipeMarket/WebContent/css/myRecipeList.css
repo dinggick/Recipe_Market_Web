@@ -1,0 +1,177 @@
+/*------------review styles------------*/
+.leftSection {
+	text-align: center;
+	padding-top: 45px;
+	background-color: white;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.rightSection {
+	margin-bottom: 0;
+	
+}
+
+.rightSection>.recipeInfo {
+	justify-content: center;
+	display: flex;
+	flex-wrap: wrap;
+	width: 98%;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	background-color: #F4EFEA;
+}
+
+.rightSection>.recipeInfo>img {
+	width: 100%;
+}
+
+.rightSection>.recipeInfo>.reviewSection {
+/* 	padding-bottom: 20px; */
+}
+
+.leftSection>hr {
+	width: 55%;
+	border: 2px solid #D2302C;
+}
+
+/* table Css*/ 
+table.myReviewList {
+	text-align: center;
+	margin: 50px auto 0;
+	width: 93%;
+	border-spacing: 0 20px;
+}
+
+table.myReviewList > thead td {
+	font-weight: bold;
+	border-bottom: 2px solid #D2302C;
+	font-size: large;
+}
+
+
+table.myReviewList>tbody>tr>td {
+	padding: 10px;
+	font-size: large;
+	vertical-align: middle;
+}
+
+table.myReviewList>tbody>tr>td>a {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    float: right;
+    margin-right: 3%;
+}
+
+
+
+ img.delete {
+	width: 100%;
+	margin-bottom: 10px;
+} 
+
+table.myReviewList>tbody>tr:hover {
+	background: #8bd8bd;
+	color: black;
+}
+
+/* <!-- 페이징 처리 부분 --> */
+/* div.pagingSection {
+	padding: 15px;
+	text-align:center;
+	width:100%;
+}
+div.pagingSection>img {
+	display: inline-block;
+	border: none;
+	width: 20px;
+	height: 20px;
+}
+
+div.pagingSection>span>a:link {
+	color: black;
+	text-decoration: none;
+}
+
+
+div.pagingSection>span>a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+div.pagingSection>span {
+	font-size: x-large;
+}
+ */
+
+/* modal */
+
+div.title {
+	font-size: x-large;
+	text-align: center;
+	padding: 20px;
+	width: 100%;
+	height: 20%;
+}
+
+div.reviewContent>input {
+	font-size: large;
+	padding: 20px;
+	width: 100%;
+	height: 100px;
+	border-radius: 5px;
+	border: 1px solid;
+	border-color: rgb(239, 239, 239);
+	outline: none;
+	background-color: rgb(239, 239, 239);
+	transition: 0.3s;
+}
+
+div.reviewContent>.reviewContent:hover, div.reviewContent>.reviewContent:focus {
+	box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
+}
+.remainText {
+	padding: 10px;
+	font-size: medium;
+}
+
+div.buttonArea {
+	text-align: center;
+	display: inline-block;
+}
+
+.pagingSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    
+    border-top: 1px solid;
+
+    margin-top: 30px;
+    padding-top: 10px;
+
+    width: 200px;
+}
+
+.pagingSection img {
+    height: 15px;
+    cursor: pointer;
+}
+.pagingSection a:hover {
+    color: grey;
+}
+
+.pagingSection a {
+	text-decoration: none;
+    color:lightslategray;
+    font-size: x-large;
+}
+
+.pagingSection a.on {
+	color: #D2302C; 
+    font-weight: border
+}
+/* 
+
+ */
+	

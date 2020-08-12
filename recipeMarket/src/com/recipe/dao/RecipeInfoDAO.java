@@ -18,6 +18,7 @@ import com.recipe.vo.Ingredient;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.RecipeIngredient;
+import com.recipe.vo.RecipePage;
 
 public class RecipeInfoDAO {
 	private static final String recipeProessPath = "/files/recipeProcess/";
@@ -555,6 +556,7 @@ public class RecipeInfoDAO {
 		}
 		return recipeInfoList;
 	}
+	
 	/**
 	 * 나의 레시피리스트 검색
 	 * 
@@ -574,14 +576,16 @@ public class RecipeInfoDAO {
 		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process,"
 				+ "i.img_url, p.like_count, p.dislike_count "
 				+ "FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code "
-				+ "WHERE i.rd_email=? AND i.recipe_status=1";
+				+ "WHERE i.rd_email = ? AND i.recipe_status = 1";
 		
 		List<RecipeInfo> result = new ArrayList<RecipeInfo>();
 		try {
 			pstmt = con.prepareStatement(quary);
 			pstmt.setString(1, rdEmail);
 			rs = pstmt.executeQuery();
-			while(rs.next()) result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
+			while (rs.next()) { 
+				result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
+			}
 			if (result.isEmpty()) {
 				throw new FindException("등록된 레시피가 없습니다");
 			}
@@ -592,6 +596,113 @@ public class RecipeInfoDAO {
 			MyConnection.close(rs, pstmt, con);
 		}
 		return result;
+	}
+
+	/**
+	 * 나의 레시피리스트 페이징
+	 * 
+	 * @param rdEmail
+	 * @param pageNo
+	 * @param pageSize
+	 * @param orderType (판매량 : P, 총 매출액 : T)
+	 * @return
+	 * @throws FindException
+	 */
+	public List<RecipePage> myRecipeListPage(String rdEmail, int pageNo, int pageSize, String orderType) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+		}
+		
+		// 정렬 타입에 따라 정렬 쿼리 변경
+		String orderQuery = "ORDER BY A.PURCHASE_QUANTITY DESC, A.TOTAL_AMOUNT DESC, A.LIKE_COUNT DESC";
+		if (orderType.equals("T")) {
+			orderQuery = "ORDER BY A.TOTAL_AMOUNT DESC, A.PURCHASE_QUANTITY DESC, A.LIKE_COUNT DESC";
+		}
+		
+		String quary = "SELECT B.* FROM ( "
+				+ "	SELECT ROW_NUMBER() OVER (" + orderQuery +  ") NUM, A.* FROM ( "
+				+ "		SELECT i.RECIPE_CODE, i.RECIPE_NAME, i.RECIPE_PRICE, p.LIKE_COUNT, NVL(SUM(d.PURCHASE_QUANTITY), 0) AS PURCHASE_QUANTITY, NVL(i.RECIPE_PRICE * SUM(d.PURCHASE_QUANTITY), 0) AS TOTAL_AMOUNT "
+				+ "		FROM RECIPE_INFO i "
+				+ "		LEFT JOIN POINT p ON i.recipe_code = p.recipe_code "
+				+ "		LEFT JOIN PURCHASE_DETAIL d ON i.RECIPE_CODE = d.RECIPE_CODE "
+				+ "		WHERE i.RD_EMAIL = ? AND i.RECIPE_STATUS = 1 "
+				+ "		GROUP BY i.RECIPE_CODE, i.RECIPE_NAME, i.RECIPE_PRICE, p.LIKE_COUNT "
+				+ "	) A "
+				+ ") B WHERE NUM BETWEEN ? AND ? ";
+		
+		List<RecipePage> result = new ArrayList<RecipePage>();
+		try {
+			pstmt = con.prepareStatement(quary);
+			pstmt.setString(1, rdEmail);
+			pstmt.setInt(2, ((pageNo - 1) * pageSize + 1));
+			pstmt.setInt(3, pageNo * pageSize);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				RecipePage recipePageData = new RecipePage();
+				recipePageData.setNum(rs.getInt("NUM"));
+				recipePageData.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				recipePageData.setRecipeName(rs.getString("RECIPE_NAME"));
+				recipePageData.setRecipePrice(rs.getInt("RECIPE_PRICE"));
+				recipePageData.setLikeCount(rs.getInt("LIKE_COUNT"));
+				recipePageData.setPurchaseQuantity(rs.getInt("PURCHASE_QUANTITY"));
+				recipePageData.setTotalAmount(rs.getInt("TOTAL_AMOUNT"));
+				result.add(recipePageData);
+			}
+			if (result.isEmpty()) {
+				throw new FindException("등록된 레시피가 없습니다");
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	/**
+	 * 나의 레시피리스트 수
+	 * 
+	 * @param rdEmail
+	 * @return
+	 * @throws FindException
+	 */
+	public int myRecipeCount(String rdEmail) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+		}
+		
+		String quary = "SELECT COUNT(1) "
+				+ "FROM RECIPE_INFO "  
+				+ "WHERE RD_EMAIL = ? AND RECIPE_STATUS = 1 ";
+
+		int count = 0;
+		try {
+			pstmt = con.prepareStatement(quary);
+			pstmt.setString(1, rdEmail);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
+				count = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
+			}
+//			if (count < 1) {
+//				throw new FindException("등록된 레시피가 없습니다");
+//			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return count;
 	}
 	/**
 	 * 좋아요 개수(내림차순), 싫어요 개수(오름차순), 작성된 후기 개수(내림차순)를 기준으로 추천 레시피를 선정하여 반환한다 
