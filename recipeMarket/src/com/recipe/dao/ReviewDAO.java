@@ -35,16 +35,20 @@ public class ReviewDAO {
 		ResultSet rs = null;
 		List<Review> reviewList = null;
 
-		String selectSQL = "SELECT R.REVIEW_DATE   " + 
-				"				   , R.REVIEW_COMMENT   " + 
-				"				   , PD.RECIPE_CODE   " + 
-				"				   , C.CUSTOMER_NAME   " + 
-				"			FROM purchase_detail PD   " + 
-				"				JOIN review R  on  r.recipe_code = pd.recipe_code  " + 
-				"				JOIN purchase P on P.purchase_code = PD.purchase_code   " + 
-				"				JOIN customer C on P.customer_email = C.customer_email   " + 
-				"			WHERE R.recipe_code = ?   " + 
-				"			ORDER BY REVIEW_DATE DESC";
+		String selectSQL = "SELECT\r\n" + 
+				"    r.review_date,\r\n" + 
+				"    r.review_comment,\r\n" + 
+				"    pd.recipe_code,\r\n" + 
+				"    c.customer_name\r\n" + 
+				"FROM\r\n" + 
+				"    review r\r\n" + 
+				"    JOIN purchase p ON ( p.purchase_code = r.purchase_code )\r\n" + 
+				"    JOIN purchase_detail pd ON ( r.recipe_code = pd.recipe_code\r\n" + 
+				"                                 AND p.purchase_code = pd.purchase_code )\r\n" + 
+				"    JOIN customer c ON ( c.customer_email = p.customer_email )\r\n" + 
+				"WHERE\r\n" + 
+				"    r.recipe_code = ?\r\n" + 
+				"ORDER BY REVIEW_DATE DESC";
 		
 		try {
 			con = MyConnection.getConnection();		

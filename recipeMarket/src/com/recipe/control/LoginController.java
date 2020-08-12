@@ -60,7 +60,7 @@ public class LoginController implements Controller {
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/fail.jsp";	
+			return "/static/login.html";	
 		}
 	}
 
@@ -79,7 +79,7 @@ public class LoginController implements Controller {
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/fail.jsp";
+			return "/static/login_rnd.html";
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class LoginController implements Controller {
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/fail.jsp";
+			return "/static/login_admin.html";
 		}
 	}
 }
