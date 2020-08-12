@@ -40,7 +40,7 @@ public class ReviewDAO {
 				"				   , PD.RECIPE_CODE   " + 
 				"				   , C.CUSTOMER_NAME   " + 
 				"			FROM purchase_detail PD   " + 
-				"				JOIN review R  on (PD.purchase_code = R.purchase_code) AND ( r.recipe_code = pd.recipe_code )  " + 
+				"				JOIN review R  on  r.recipe_code = pd.recipe_code  " + 
 				"				JOIN purchase P on P.purchase_code = PD.purchase_code   " + 
 				"				JOIN customer C on P.customer_email = C.customer_email   " + 
 				"			WHERE R.recipe_code = ?   " + 
