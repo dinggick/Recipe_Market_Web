@@ -201,8 +201,8 @@ $(function(){
                 	   		<td>
                 	   			<c:if test="${p.review.reviewComment eq null}">
                 	   				<button type="submit" class="addReview" data-toggle="modal"  data-target="#reviewModal"><img src="./img/list.png" class="toy"></button>
-	               	   				<input type="text" class="purchaseCode" value="${p.purchaseCode}" />
-	               	   				<input type="text" class="recipeCode" value="${purchaseDetail.recipeInfo.recipeCode}" />
+	               	   				<input type="hidden" class="purchaseCode" value="${p.purchaseCode}" />
+	               	   				<input type="hidden" class="recipeCode" value="${purchaseDetail.recipeInfo.recipeCode}" />
 	               	   			</c:if>
                 	   		</td></tr>
                 	   		</c:forEach>
