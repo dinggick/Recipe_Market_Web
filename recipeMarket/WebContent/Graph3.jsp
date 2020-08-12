@@ -69,16 +69,18 @@
     
     	<script>
 		$(function() {
-			$("option[value=" + ${startDate} + "_" + ${endDate} + "]").attr("selected", "selected");
+			$("option[value=" + ${start_date} + "_" + ${end_date} + "]").attr("selected", "selected");
 			$("option[value=" + ${count} + "]").attr("selected", "selected");
-			
+						
 			$(".selectTerm, .topCount").on("change", function(evt) {
+				alert("change");
 				$(evt.target).prop("selected", true);
 				var url = "${contextPath}/statistics/graph3?";
 				url += "term=" + $(".selectTerm").val();
 				url += "&count=" + $(".topCount").val();
 				location.href = url;
 			});
+			
 			$("form").on("submit", function(evt) {
 				return false;
 			});
