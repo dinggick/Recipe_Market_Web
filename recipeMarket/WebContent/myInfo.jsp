@@ -50,31 +50,21 @@
         background-color: darkkhaki"
     }
     </style>
+    
 
 </head>
 <body>
     <header id="header">
-        <!-- 왼쪽 영역 -->
-        <div class="headerLeftSection">
-            <img src="./images/titlecon.png" style="width: 50px; padding-left: 10px;">
-            <!-- 로고(홈 버튼) -->
-            <h1 class="home">RECIPE MARKET</h1>
-        </div>
-        <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-                <img src="./images/user.png" class="account">
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
-    </header>
+	<!-- 왼쪽 영역 -->
+	<div class="headerLeftSection">
+		<!-- 로고(홈 버튼) -->
+		<h1 class="home">RECIPE MARKET</h1>
+	</div>
+	<!-- 오른쪽 영역 -->
+	<div class="headerRightSection">
+		<jsp:include page="/dropdownMenu.jsp"></jsp:include>
+	</div>
+</header>
 
     <div class="bodySection">
     
@@ -104,17 +94,17 @@
 
                 <form class="formWrapper" action="#" method="post">
 
-                    <table>
-
-                        <tr ><td ><label for="customer_email">${c.customer_email}</label></td><td><input class="dataInput" type="text" id="customer_email" name="customer_email" size="40" readonly ></td></tr>
-                        <tr ><td ><label for="customer_name">${c.customer_name}</label></td><td><input class="dataInput" type="text" id="customer_name" name="customer_name" size="40" readonly ></td></tr>
-                        <tr ><td ><label for="customer_pwd">${c.customer_pwd}</label></td><td><input class="dataInput" type="password" id="customer_pwd" name="customer_pwd" size="40" readonly placeholder="비밀번호를 입력하세요.(8자 이상,영문 및 특수문자 포함)"></td></tr>
-                        <tr ><td ><label for="customer_birth_date">${c.customer_birth_date}</label></td><td><input class="dataInput" type="text" id="customer_birth_date" name="customer_birth_date" size="40" readonly ></td></tr>
-                        <tr ><td ><label for="customer_gender">${c.customer_gender}</label></td><td><input class="dataInput" type="text" id="customer_gender" name="customer_gender" size="40" readonly ></td></tr>
-                        <tr ><td ><label for="customer_phone">${c.customer_phone}</label></td><td><input class="dataInput" type="tel" id="customer_phone" name="customer_phone" size="40" readonly ></td></tr>
-                        <tr ><td ><label for="customer_zip">${c.customer_zip}</label></td><td><input class="dataInput" type="text" id="customer_zip" name="customer_zip" size="40" readonly></td></tr>
-                        <tr ><td ><label for="customer_juso">${c.customer_juso}</label></td><td><input class="dataInput" type="text" id="customer_juso" name="customer_juso" size="40" readonly></td></tr>
-                        <tr ><td ><label for="customer_addr">${c.customer_addr}</label></td><td><input class="dataInput" type="text" id="customer_addr" name="customer_addr" size="40" readonly></td></tr>
+                    <table> 
+                        <tr ><td ><label for="customer_email">이메일</label></td><td><input class="dataInput" type="text" id="customer_email" name="customer_email" size="40" readonly value="${c.customerEmail}"></td></tr>
+                        <tr ><td ><label for="customer_name">이름</label></td><td><input class="dataInput" type="text" id="customer_name" name="customer_name" size="40" readonly value="${c.customerName}"></td></tr>
+                        <tr ><td ><label for="customer_pwd">비밀번호</label></td><td><input class="dataInput" type="password" id="customer_pwd" name="customer_pwd" size="40" readonly value="${c.customerPwd}" placeholder="비밀번호를 입력하세요.(8자 이상,영문 및 특수문자 포함)"></td></tr>
+                        <tr ><td ><label for="customer_birth_date">생년월일</label></td><td><input class="dataInput" type="text" id="customer_birth_date" name="customer_birth_date" value="${c.customerBirthDate}" size="40" readonly placeholder="6자리를 입력하세요.(ex>860724)"></td></tr>
+                        <tr ><td ><label for="customer_gender">성별</label></td><td><input class="dataInput" type="text" id="customer_gender" name="customer_gender" size="40" value="${c.customerGender}" readonly placeholder="남자는'M' 여자는 'F'를 입력하세요." ></td></tr>
+                        <tr ><td ><label for="customer_phone">연락처</label></td><td><input class="dataInput" type="tel" id="customer_phone" name="customer_phone" size="40" value="${c.customerPhone}" readonly placeholder="'-'없이 번호만 입력하세요." ></td></tr>
+                        <tr ><td ><label for="customer_zip">우편번호</label></td><td><input class="dataInput" type="text" id="customer_zip" name="customer_zip" size="40" value="${c.postal.zipcode}" readonly></td></tr>
+                        <tr ><td ><label for="customer_juso">주소</label></td><td><input class="dataInput" type="text" id="customer_juso" name="customer_juso" size="40" value="${c.postal.city} ${c.postal.doro}"readonly></td></tr>
+                        <tr ><td ><label for="customer_addr">상세주소</label></td><td><input class="dataInput" type="text" id="customer_addr" name="customer_addr" size="40" value="${c.customerAddr}"readonly></td></tr>
+                        <tr ><td ><input id="buildingno" style="display:none" name="buildingno"></td>
                      </table>
                     
                     <div class="buttonSection">
@@ -124,7 +114,7 @@
                         </button>
 
                         <button class="deleteBtn" type="submit">
-                                                               삭제
+                                                               탈퇴
                         </button>
                     </div>
                 </form>
