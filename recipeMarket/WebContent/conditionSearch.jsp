@@ -6,7 +6,11 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
 <%	List<RnD> rd_list = (List)request.getAttribute("rd_list");
-	RnD rd = (RnD)session.getAttribute("loginInfo");
+	Object obj = session.getAttribute("rndAccount");
+	RnD rd = null;
+	if (obj != null) {
+		rd = (RnD)obj;
+	}
 %>
 <html>
 <head>
@@ -159,23 +163,7 @@
 
         <div class="menuWrapper">
             <ul>
-                <li>
-                    <span>RnD 관리</span>
-                    <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
-                    </ul>
-                </li>
-                
-                <li>
-                    <span>통계</span>
-                    <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
-                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
-                    </ul>
-                </li>
+				<jsp:include page="adminMenu.jsp"/>
             </ul>                            
         </div>
 
@@ -195,8 +183,8 @@
                             	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
                             		<c:choose>
                             			<c:when test="${empty rd_list}">
-                            				<option value="${loginInfo}">
-                            					${loginInfo}
+                            				<option value="${rndAccount}">
+                            					${rndAccount}
                             				</option>
                             			</c:when>
                             			<c:otherwise>
@@ -288,7 +276,7 @@
                         </tr>
                                             
                     </table>
-                    <button class="searchBtn" type="submit">
+                    <button class="searchBtn" type="submit" style="cursor: pointer">
                     	검색
                     </button>               
 
