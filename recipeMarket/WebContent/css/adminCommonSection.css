@@ -1,5 +1,9 @@
+@font-face { font-family: 'IBMPlexSansKR-Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff'); font-weight: normal; font-style: normal; }
+
 * { 
-    box-sizing: border-box; 
+    box-sizing: border-box;
+    font-family: 'IBMPlexSansKR-Regular', sans-serif;
+    
     /* font-family: 'Roboto Slab', serif; */
 }
 .bodySection {
@@ -29,14 +33,14 @@
 .titleWrapper {
     margin-top: 20px; /* ? */
 
-    height: 100px;
-    line-height: 100px; 
+    height: 70px;
+    line-height: 70px; 
     width: 100%;
     text-align: center;
 }
 .titleWrapper > span {
     color: black;
-    font-size: 2.5em;
+    font-size: 1.5em;
     font-weight: border;
     /* font-family: fantasy */
 }
@@ -55,8 +59,9 @@
     justify-content: center;
     align-items: center;
 
-    height: inherit; 
-    width: 80%;
+	margin-top: 9px;
+    height: 98%; 
+    width: 79.5%;
 }
 .menuWrapper {
     display: flex;

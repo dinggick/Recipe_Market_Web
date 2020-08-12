@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="favoriteCheck" value="${requestScope.favoriteCheck}"/>
 <!DOCTYPE html>
 <html>
 
@@ -30,14 +31,16 @@
     <header>
         <!-- 왼쪽 영역 -->
         <div class="headerLeftSection">
-            <!-- 뒤로 가기 버튼 -->
-            <a class="glyphicon glyphicon-chevron-left"></a>
             <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+        	<c:choose>
+        		<c:when test="${sessionScope.userType == 'A'}"> <jsp:include page="dropdownMenu_admin.jsp"></jsp:include> </c:when>
+        		<c:when test="${sessionScope.userType == 'R'}"> <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include> </c:when>
+        		<c:otherwise> <jsp:include page="dropdownMenu.jsp"></jsp:include> </c:otherwise>
+        	</c:choose>
         </div>
     </header>
     <div class="divContent">
@@ -67,9 +70,28 @@
                     <div class="buttonSection">
                         <label class="labelLike"><img src="${contextPath}/img/like.png" class="like"> ${requestScope.recipeInfo.point.likeCount}</label>
                         <label class="labelDisLike"><img src="${contextPath}/img/dislike.png" class="dislike"> ${requestScope.recipeInfo.point.disLikeCount}</label>
-                        <img src="${contextPath}/img/heart.png" class="favorite">
-                        <button class="cartBtn">장바구니 추가</button>
-                        <button class="purchaseBtn">구매하기</button>
+                        <c:if test="${sessionScope.userType != 'A'}">
+							<c:choose>
+								<c:when test="${sessionScope.userType != 'R'}">
+									<c:choose>
+										<c:when test="${favoriteCheck == true}">
+											<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+										</c:when>
+										<c:otherwise>
+											<img src="${contextPath}/img/heart.png" class="favorite"> 
+										</c:otherwise>
+									</c:choose>
+									<button class="cartBtn">장바구니 추가</button>
+			                        <button class="purchaseBtn">구매하기</button>
+			                        <input type="number" name="quantity" value="1">
+								</c:when>
+								<c:otherwise>
+									<button class="modifyBtn">수정</button>
+			                        <button class="removeBtn">삭제</button>
+								</c:otherwise>
+							</c:choose>
+                        </c:if>
+                        
                         <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
                     </div>
                 </div>
@@ -83,53 +105,6 @@
                     	<c:forEach items="${requestScope.process}" var="p">
                         	<li>${p}</li>
                     	</c:forEach>
-                    </ul>
-                </div>
-                <div class="reviewSection">
-                    <h1>후기</h1>
-                    <ul>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
-                        <li>
-                            <fieldset>
-                                <legend>최종국</legend>
-                                <span class="reviewContent">맛있어요</span>
-                            </fieldset>
-                        </li>
                     </ul>
                 </div>
             </div>

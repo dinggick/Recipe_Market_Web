@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <c:set var="list" value="${requestScope.recipeList}"/>
+<c:set var="favoriteCheckList" value="${requestScope.favoriteCheckList}"/>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +22,7 @@
     <link rel="stylesheet" href="./css/main.css">
        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="${contextPath}/js/recipeList.js"></script>
+      <script src="${contextPath}/js/header.js"></script>
 
     <style>
     .searchIcon {
@@ -99,7 +101,7 @@
 }
         
          .rightSection>.recipeInfo { 
-         	justify-content:flex-start; 
+         	justify-content:center; 
          	display: flex; 
          	flex-wrap: wrap; 
          	padding: 25px 0px; 
@@ -136,7 +138,7 @@
         .searchText{
         	border: none;
         	width: 80%;
-        	height: 32px;
+        	height: 85%;
         }
        
          
@@ -147,36 +149,22 @@
     <script src="js/favoriteBtn.js"></script>
     <script src="js/header.js"></script>
     <script src="js/footer.js"></script>
-    <script>
-//     addEventListener("load", () => {
-//         $(".rightSection").height(window.innerHeight - (90 + $('footer').outerHeight() + $('header').outerHeight())); //rightSection의 높이를 window의 높이에 따라 동적 설정
-//     });
-    </script>
 </head>
 
 <body>
     <header>
         <!-- 왼쪽 영역 -->
         <div class="headerLeftSection">
-            <!-- 뒤로 가기 버튼 -->
-            <a class="glyphicon glyphicon-chevron-left"></a>
             <!-- 로고(홈 버튼) -->
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 사람 모양 아이콘(누르면 드롭다운 메뉴 보이도록) -->
-<!--                 <img src="./images/whisk.png" class="account"> -->
-               <label class="mainButton">LOGIN</label>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
+            <c:choose>
+        		<c:when test="${sessionScope.userType == 'A'}"> <jsp:include page="dropdownMenu_admin.jsp"></jsp:include> </c:when>
+        		<c:when test="${sessionScope.userType == 'R'}"> <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include> </c:when>
+        		<c:otherwise> <jsp:include page="dropdownMenu.jsp"></jsp:include> </c:otherwise>
+        	</c:choose>
         </div>
     </header>
     <div class="divContent">
@@ -204,7 +192,7 @@
 
 			<div class="recipeInfo">
 			<c:choose>
-			<c:when test="${list.size() > 0 }">				
+			<c:when test="${list.size() > 0 }">
 				<c:forEach begin="0" end="${list.size()-1}" var="i">
 					<div class="card">
 						<img src="${list[i].imgUrl}">
@@ -213,24 +201,33 @@
 								<b>${list[i].recipeName}</b>
 							</h4>
 							<p>${list[i].recipeSumm}</p>
-							<img src="${contextPath}/img/heart.png" class="favorite"> <img
-								src="${contextPath}/img/dislike.png" class="dislike"> <img
-								src="${contextPath}/img/like.png" class="like"> <input
-								type="hidden" value="${list[i].recipeCode}">
+							<c:if test="${sessionScope.userType != 'R' && sessionScope.userType != 'A'}">
+								<c:choose>
+									<c:when test="${favoriteCheckList[i] == true}">
+										<img src="${contextPath}/img/filled_heart.png" class="favorite"> 
+									</c:when>
+									<c:otherwise>
+										<img src="${contextPath}/img/heart.png" class="favorite"> 
+									</c:otherwise>
+								</c:choose>
+								<img src="${contextPath}/img/dislike.png" class="dislike">
+				 				<img src="${contextPath}/img/like.png" class="like">
+							</c:if>
+				 			<input type="hidden" value="${list[i].recipeCode}">
 						</div>
 					</div>
 					</c:forEach>
 				</c:when>
-					<c:otherwise>	
+					<c:otherwise>
 						
 						<div>
 						
 						<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-						<h1>검색결과가 없습니다.</h1>
+						<h1 style="text-align: center;">검색결과가 없습니다.</h1>
 						<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 						
 						</div>
-					</c:otherwise>	
+					</c:otherwise>
 				</c:choose>
 			</div>
 

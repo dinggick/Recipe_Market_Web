@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PageBean {
 	public static final int CNT_PER_PAGE = 10; // 페이지당 보여줄 목록수, service 단에 있었다.
-	public static final int CNT_PER_PAGEGROUP = 5; // 페이지 그룹 수
+	public static final int CNT_PER_PAGEGROUP = 3; // 페이지 그룹 수
 
 	private String url = ""; // 링크 클릭시 이동할 URL
 	private int currentPage; // 현재 페이지
@@ -14,6 +14,7 @@ public class PageBean {
 	private List list;
 	private int startPage; // 페이지 그룹의 시작 페이지
 	private int endPage; // 페이지 그룹의 끝 페이지
+	private int rowCnt; // 총 행 갯수
 
 	public PageBean() { }
 
@@ -106,6 +107,15 @@ public class PageBean {
 
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
+	}
+	
+	
+	public int getRowCnt() {
+		return rowCnt;
+	}
+
+	public void setRowCnt(int rowCnt) {
+		this.rowCnt = rowCnt;
 	}
 
 	@Override

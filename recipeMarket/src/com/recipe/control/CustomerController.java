@@ -14,6 +14,7 @@ import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
+import com.recipe.mail.Mail;
 import com.recipe.service.AccountService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Postal;
@@ -72,6 +73,7 @@ public class CustomerController implements Controller {
 			
 			
 
+<<<<<<< HEAD
 			
 				try {
 					accountService.add(c);
@@ -81,6 +83,20 @@ public class CustomerController implements Controller {
 					request.setAttribute("msg", e.getMessage().replace("\"", ""));
 					return "/fail.jsp";
 				}
+=======
+			try {
+				accountService.add(c);
+				Mail mail = new Mail();
+				mail.sendVerification(c.getCustomerEmail());
+				return "/success.jsp";
+			} catch (DuplicatedException e) {
+				e.printStackTrace();
+				return "/fail.jsp";
+			} catch (AddException e) {
+				e.printStackTrace();
+				return "/fail.jsp";
+			}
+>>>>>>> 00ac56087f88d94776a8e9db5c1b248c1ada03d1
 		} else if (pathInfo.equals("/myInfo")) {
 			String customerEmail = request.getParameter("customer_email");
 			try {

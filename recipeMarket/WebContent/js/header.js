@@ -2,9 +2,8 @@ addEventListener("load", () => {
     $("header>.headerLeftSection>.home").click((e) => {
         location.href = "/recipeMarket";
     });
-
-    // 뒤로가기 버튼 클릭 이벤트 처리
-    // $("header>.headerLeftSection>.prev").click((e) => {
-    //     history.back();
-    // });
+    
+    //rightSection의 높이를 window의 높이에 따라 동적 설정
+    var innerHeight = window.innerHeight - (50 + $("footer").outerHeight() + $("header").outerHeight());
+    if($(".rightSection").height() < innerHeight) $(".rightSection").height(innerHeight);
 });

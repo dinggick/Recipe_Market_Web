@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
+import com.recipe.mail.Mail;
 import com.recipe.service.PurchaseService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
@@ -33,29 +34,51 @@ public class PurchaseController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String customerEmail = (String)session.getAttribute("loginInfo");
+		//String customerEmail = request.getParameter("customerEmail");
 		String servletPath="";
 		Purchase p = new Purchase();
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
-		PurchaseDetail pd = new PurchaseDetail();
-		RecipeInfo ri = new RecipeInfo();
+		
+		
 		Customer c = new Customer();
 		
-		int code = Integer.parseInt(request.getParameter("recipeCode"));
-		int quantity = Integer.parseInt(request.getParameter("purchaseQuantity"));
+		String code = request.getParameter("recipeCode");
+		String[] codeArr = code.split(",");
+		
+		String quantity = request.getParameter("purchaseQuantity");
+		String[] quantityArr = quantity.split(",");
+		
+		String recipeName = request.getParameter("recipeName");
+		String[] recipeNamaArr = recipeName.split(",");
+		
+		String recipePrice = request.getParameter("recipePrice");
+		String[] recipePriceArr = recipePrice.split(",");
+		
 		
 		try {
-			c.setCustomerEmail(customerEmail);
-			ri.setRecipeCode(code);
 			
-			pd.setRecipeInfo(ri);
-			pd.setPurchaseDetailQuantity(quantity);
-			pdList.add(pd);
+			for (int i = 0; i < codeArr.length; i++) {
+				RecipeInfo ri = new RecipeInfo();
+				PurchaseDetail pd = new PurchaseDetail();
+				ri.setRecipeName(recipeNamaArr[i]);
+				ri.setRecipeCode(Integer.parseInt(codeArr[i]));
+				ri.setRecipePrice(Integer.parseInt(recipePriceArr[i]));
+				
+				pd.setRecipeInfo(ri);
+				
+				pd.setPurchaseDetailQuantity(Integer.parseInt(quantityArr[i]));
+				pdList.add(pd);
+				
+				p.setPurchaseDetails(pdList);
+				
+			}
+			c.setCustomerEmail(customerEmail);
 			p.setCustomerEmail(c);
-			p.setPurchaseDetails(pdList);
 			
 			service.buy(p);
-			
-			servletPath = "/purchaseList";
+			Mail mail = new Mail();
+			mail.sendPurchaseInfo(c.getCustomerEmail(), p);
+			servletPath = "/success.jsp";
 			return servletPath;
 		} catch (AddException e) {
 			e.printStackTrace();

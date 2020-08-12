@@ -11,6 +11,7 @@ import com.recipe.exception.ModifyException;
 import com.recipe.vo.Ingredient;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
+import com.recipe.vo.RecipePage;
 
 public class RecipeService {
 	private static RecipeService instance;
@@ -47,19 +48,27 @@ public class RecipeService {
 	public List<RecipeInfo> findRecommended() throws FindException {
 		return recipeInfoDAO.selectByRank();
 	}
-	public void addRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws DuplicatedException {
-		recipeInfoDAO.insert(rdId, recipeInfo, ingInfo, ingList, process);
+	public void addRecipe(String rdEmail, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process, String rootUploadPath) throws DuplicatedException {
+		recipeInfoDAO.insert(rdEmail, recipeInfo, ingInfo, ingList, process, rootUploadPath);
 	}
-	public void modifyRecipe(String rdId, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process) throws ModifyException {
-		recipeInfoDAO.update(rdId, recipeInfo, ingInfo, ingList, process);
+	public void modifyRecipe(String rdEmail, RecipeInfo recipeInfo, String ingInfo, List<Ingredient> ingList, String process, String rootUploadPath) throws ModifyException {
+		recipeInfoDAO.update(rdEmail, recipeInfo, ingInfo, ingList, process, rootUploadPath);
 	}
-	public void removeRecipe(String rdId, RecipeInfo recipeInfo) throws ModifyException {
-		recipeInfoDAO.remove(rdId, recipeInfo);
+	public void removeRecipe(String rdEmail, RecipeInfo recipeInfo) throws ModifyException {
+		recipeInfoDAO.remove(rdEmail, recipeInfo);
+	}
+	public List<RecipeInfo> myRecipeList(String rdEmail) throws FindException {
+		return recipeInfoDAO.myRecipeList(rdEmail);
+	}
+	public List<RecipePage> myRecipeListPage(String rdEmail, int pageNo, int pageSize, String orderType) throws FindException {
+		return recipeInfoDAO.myRecipeListPage(rdEmail, pageNo, pageSize, orderType);
+	}
+	public int myRecipeCount(String rdEmail) throws FindException {
+		return recipeInfoDAO.myRecipeCount(rdEmail);
 	}
 	public List<RecipeInfo> findAll() throws FindException {
 		return recipeInfoDAO.selectAll();
 	}
-	
 	/**
 	 * 포인트 수정 절차(좋아요)를 위한 메소드
 	 * @param 포인트 수정 절차(좋아요)를 진행할 레시피 코드

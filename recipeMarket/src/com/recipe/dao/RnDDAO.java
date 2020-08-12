@@ -81,20 +81,23 @@ public class RnDDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		String selectAllSQL = "SELECT rd_id, rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_status = '1'";
+		String selectAllSQL = "SELECT rd_email, rd_pwd, rd_manager_name, rd_team_name, rd_phone FROM rd WHERE rd_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectAllSQL);
 			rs = pstmt.executeQuery();
 
 			while (rs.next())
-				result.add(new RnD(rs.getString("rd_id"), rs.getString("rd_pwd"), rs.getString("rd_manager_name"),
+				result.add(new RnD(rs.getString("rd_email"), rs.getString("rd_pwd"), rs.getString("rd_manager_name"),
 						rs.getString("rd_team_name"), rs.getString("rd_phone")));
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			MyConnection.close(pstmt, con);
 		}
 		if (result.isEmpty())
 			throw new FindException("RD 계정이 하나도 없습니다");
 		return result;
+		
 	}
 
 	/**

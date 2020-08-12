@@ -1,0 +1,310 @@
+<%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@	page import="com.recipe.vo.RnD"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+
+<%	List<RnD> rd_list = (List)request.getAttribute("rd_list");
+	RnD rd = (RnD)session.getAttribute("loginInfo");
+%>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RnDInfo</title>
+
+    <link rel="icon" href="../images/titlecon.png">
+
+    <link rel="stylesheet" href="${contextPath}/css/adminCommonSection.css">
+
+    <link rel="stylesheet" href="${contextPath}/css/header.css">
+    <link rel="stylesheet" href="${contextPath}/css/footer.css">
+
+    <link rel="stylesheet" href="${contextPath}/css/conditionSearch.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="${contextPath}/js/adminCommonSection.js"></script>
+    <script src="${contextPath}/js/conditionSearch.js"></script>
+
+    <script src="${contextPath}/js/header.js"></script>
+    <script src="${contextPath}/js/footer.js"></script>
+    <script src="${contextPath}/js/dropdownMenu.js"></script>
+
+    <style>
+    .formWrapper label {
+        font-size: 1em;
+        font-weight: border;
+
+        padding-right: 20px;
+    }
+    table {
+        height: 400px;
+        width: 500px;
+        background-color: darkkhaki"
+    }
+    .searchBtn {
+	    height: 40px;
+    	width: 100px;
+
+    	color: white;
+    	font-size: 1em;
+    	/* font-weight: border; */
+    	/* font-family: fantasy; */
+
+    	border: none;
+    	border-radius: 5px;
+
+    	outline: none;
+    	background-color: #8bd8bd;
+    	opacity: 0.7;
+	}
+	.searchBtn:hover {
+    	opacity: 1;
+	}
+	select {
+		border-radius: 5px;
+		font-size: 0.9em;
+		color: black;
+	}
+    </style>
+
+    <style>
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    </style>
+    
+    <script>
+    	$(function() {
+        	var date_pattern = /^(19|20)\d{2}/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[0-1])$/;
+        	var start_date_flg = false;
+        	var end_date_flg = false;
+
+        	$("#start_date").on("blur", function() {
+        		var startDate = $("#start_date").val();
+        		if (date_pattern.test(form.name.startDate)) {
+        			start_date_flg = true;
+        		} else {
+        			start_date_flg = false;
+        		}
+        	});
+    	
+        	$("#end_date").on("blur", function() {
+        		var endDate = $("#end_date").val();
+        		if (date_pattern.test(form.name.endDate)) {
+        			end_date_flg = true;
+        		} else {
+        			end_date_flg = false;
+        		}      		
+        	});
+        	
+        	$(".searchBtn").on("click", function(evt) {
+        		if (!start_date_flg || !end_date_flg) {
+        			alert("날짜형식이 잘못되었습니다.")
+        			return false;
+        		}
+        	});
+    	});
+    </script>
+    
+</head>
+<body>
+    <header>
+        <!-- 왼쪽 영역 -->
+        <div class="headerLeftSection">
+            <!-- 로고(홈 버튼) -->
+            <h1 class="home">RECIPE MARKET</h1>
+        </div>
+        <!-- 오른쪽 영역 -->
+        <div class="headerRightSection">
+            <!-- 드롭다운 메뉴 -->
+            <div class="dropdown">
+                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+                <h1 class="account">Sign in</h1>
+                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
+                <div class="dropdown-content">
+                    <a href="#">로그인</a>
+                    <a href="#">Menu 2</a>
+                    <a href="#">Menu 3</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="bodySection">
+    
+    <section class="leftSection">
+
+        <div class="titleWrapper">
+
+            <span>
+                	통계
+            </span>
+
+        </div>
+
+        <div class="underLineWrapper">
+            <hr> 
+        </div>
+
+        <div class="menuWrapper">
+            <ul>
+                <li>
+                    <span>RnD 관리</span>
+                    <ul>
+                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <span>통계</span>
+                    <ul>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
+                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
+                    </ul>
+                </li>
+            </ul>                            
+        </div>
+
+    </section>
+
+    <section class="rightSection">                                        
+        <div class="contentsWrapper">
+            <div class="infoWrapper">
+                <form autocomplete="off" class="formWrapper" action="${contextPath}/statistics/graph4" method="post">
+                    <table>
+                        <tr>
+                            <td>
+                            	<label for="rd_email">이메일</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                            	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
+                            		<c:choose>
+                            			<c:when test="${empty rd_list}">
+                            				<option value="${loginInfo}">
+                            					${loginInfo}
+                            				</option>
+                            			</c:when>
+                            			<c:otherwise>
+                            				<c:forEach items="${rd_list}" var="rd">
+                            				    <option value="${rd.rdEmail}">
+                            						${rd.rdEmail}
+                            					</option>
+                            				</c:forEach>
+                            			</c:otherwise>
+                            		</c:choose>
+                            	</select>
+<!--                             	<input class="dataInput" type="text" id="rd_email" name="rd_email" value=""> -->
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="start_date">시작일</label>
+                            </td>
+                            
+                            <td>
+                            	<input class="dataInput" type="text" id="start_date" name="start_date" placeholder="ex) 2020/06/27">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="end_date">마지막일</label>
+                            </td>
+                            
+                            <td>
+                            	<input class="dataInput" type="text" id="end_date" name="end_date" placeholder="ex) 2020/09/27">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="customer_gender">성별</label>
+                            </td>
+                            <td style="text-align: center">
+                            	<input class="dataInput" type="radio" id="customer_gender" name="customer_gender" value="MM"><span style="margin: 0px 30px">male</span>
+                            	<input class="dataInput" type="radio" name="customer_gender" value="FF"><span style="margin: 0px 30px">female</span>                        
+                            	<input class="dataInput" type="radio" name="customer_gender" value="MF" checked><span style="margin: 0px 30px">전체</span>                        
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="age_group">연령대</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                                <select id="age_group" name="age_group" style="padding: 7px 20px">
+                                    <option value="0_99">전체</option>                   
+                            		<option value="10_19">10대</option>
+                            		<option value="20_29">20대</option>
+                            		<option value="30_39">30대</option>
+                            		<option value="40_49">40대</option>
+                            		<option value="50_59">50대</option>
+                            		<option value="60_99">60대 이상</option>                            		
+                            	</select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                            	<label for="order_by">정렬</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                                <select id="order_by" name="order_by" style="padding: 7px 20px">
+                            		<option value="2">매출 순</option>
+                            		<option value="3">판매개수 순</option>
+                            	</select>
+                            </td>
+                        
+                        <tr>
+                            <td>
+                            	<label for="count">나타낼 개수</label>
+                            </td>
+                            
+                            <td style="text-align: center">
+                                <select id="count" name="count" style="padding: 7px 20px">
+                            		<option value="10">상위 10</option>
+                            		<option value="20">상위 20</option>
+                            		<option value="30">상위 30</option>                         		
+                            	</select>
+                            </td>
+                        </tr>
+                                            
+                    </table>
+                    <button class="searchBtn" type="submit">
+                    	검색
+                    </button>               
+
+                </form>
+            </div>
+        </div>                             
+    </section>
+
+    </div>
+
+    <footer>
+        <p>
+            © 2020 RECIPE MARKET All rights reserved.
+        </p>
+        <a class="topBtn">&uarr;TOP</a>
+    </footer>
+
+</body>
+</html>>

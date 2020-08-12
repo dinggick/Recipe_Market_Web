@@ -1,6 +1,7 @@
 package com.recipe.control;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -31,22 +32,41 @@ public class PurchaseListController implements Controller{
 	public String execute(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		//String customerEmail = (String)session.getAttribute("loginInfo");
-		
-		String customerEmail= request.getParameter("customerEmail");
+		String customerEmail = (String)session.getAttribute("loginInfo");
+		String value = request.getParameter("date");
+		String path = request.getServletPath();
 		
 		String servletPath = "";
 		
+		
 		try {
-			List<Purchase> list = service.findById(customerEmail);
-			
+			List<Purchase> list = null;
+			if(value == null) {
+				list = service.findById(customerEmail);
+			}else {
+				Long parseDate = Long.parseLong(request.getParameter("date"));
+				
+				//System.out.println(value);
+				
+				Date date = new Date(parseDate);
+				
+				//System.out.println(date);
+				
+				if("/purchaseListByDatePick".equals(path)) {
+					list = service.findByDatePicker(customerEmail, date);
+				}else {
+					list = service.findBydate(customerEmail, date);
+					
+				}
+				
+			}
 			request.setAttribute("list", list);
 			
 			servletPath = "/purchaseList.jsp";
 			return servletPath;
 		} catch (FindException e) {
 			e.printStackTrace();
-			return "/fail.jsp";
+			return "/purchaseList.jsp";
 		}
 		
 		

@@ -33,8 +33,6 @@
 
     <link rel="stylesheet" href="${contextPath}/css/RnDList.css">
     
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
@@ -45,18 +43,21 @@
     <script src="${contextPath}/js/RnDList.js"></script>
     <script>
     	$(function() {
+    		function targetPageURL(page) {
+    			return "${contextPath}/rnd/list?currentPage=" + page;
+    		}
     		$("table > tbody img").attr({ "src": "${contextPath}/img/register.png", "alt": "showInfo" });
  			$("img[alt=prev1]").click(function() {
- 				location.href = "${contextPath}/rnd/list?currentPage=${currentPage - 1}";
+ 				location.href = targetPageURL(${currentPage - 1});
  			});
     		$("img[alt=next1]").click(function() {
- 				location.href = "${contextPath}/rnd/list?currentPage=${currentPage + 1}";
+ 				location.href = targetPageURL(${currentPage + 1});
  			});
  			$("img[alt=prev2]").click(function() {
- 				location.href = "${contextPath}/rnd/list?currentPage=${startPage - CNT_PER_PAGEGROUP}";
+ 				location.href = targetPageURL(${startPage - CNT_PER_PAGEGROUP});
  			});
     		$("img[alt=next2]").click(function() {
- 				location.href = "${contextPath}/rnd/list?currentPage=${endPage + 1}";
+ 				location.href = targetPageURL(${endPage + 1});
  			});
     		$("img[alt=showInfo]").click(function(evt) {
     			var url = "${contextPath}/rnd/info?rd_email=";
@@ -96,8 +97,8 @@
 
         <div class="titleWrapper">
 
-            <span>
-                RnDList
+            <span style="font-size: 1.5em">
+                	계정 목록
             </span>
 
         </div>
@@ -109,18 +110,20 @@
         <div class="menuWrapper">
             <ul>
                 <li>
-                    <span>RnD management</span>
+                    <span>RnD 관리</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">AddRnD</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">RnDList</a></li>
+                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
                 </li>
                 
                 <li>
-                    <span>CRM</span>
+                    <span>통계</span>
                     <ul>
-                        <li><a href="#">graph1</a></li>
-                        <li><a href="#">graph2</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
+                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
                     </ul>
                 </li>
             </ul>                                 
@@ -137,7 +140,7 @@
                     <table>
 
                         <thead>
-                            <tr><th>number</th><th>id</th><th>team_name</th><th>show_info</th></tr>
+                            <tr><th>번호</th><th>이메일</th><th>부서</th><th>정보보기</th></tr>
                         </thead>
 
                         <tbody>
@@ -161,11 +164,11 @@
                     
                     <div class="pagingSection">
 
-						<c:if test="${startPage > 1 }">
+						<c:if test="${startPage > 1}">
                         	<img src="${contextPath}/img/prev2.png" alt="prev2">
 						</c:if>
 						
-                        <c:if test="${currentPage > 1 }">
+                        <c:if test="${currentPage > 1}">
                         	<img src="${contextPath}/img/prev1.png" alt="prev1">
                         </c:if>
 
@@ -184,7 +187,7 @@
                         	</c:choose>
                         </c:forEach>
                         
-                        <c:if test="${totalPage > endPage }">
+                        <c:if test="${totalPage > endPage}">
                         	<img src="${contextPath}/img/next1.png" alt="next1">
                        	</c:if>
                        	

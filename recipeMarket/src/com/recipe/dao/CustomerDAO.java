@@ -83,13 +83,26 @@ public class CustomerDAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new FindException("selectByEmail:" + e.getMessage());
 		}
-		String selectByEmailSQL = "SELECT c.customer_email, c.customer_pwd, c.customer_name, c.customer_birth_date, c.customer_gender,c.customer_phone, c.customer_addr"
-				+ " , p.zipcode\r\n" + "      , p.buildingno\r\n"
-				+ "      ,sido ||' ' || NVL(p.sigungu, ' ') ||' ' || NVL(p.eupmyun, ' ')  city    \r\n"
-				+ "      ,doro || ' ' || DECODE(p.building2, '0' , p.building1, p.building1 ||'-' || p.building2) doro\r\n"
-				+ "      ,p.building      \r\n"
-				+ "FROM customer c LEFT JOIN postal p ON (c.buildingno = p.buildingno)\r\n"
-				+ "WHERE customer_email=? and customer_status='1'";
+		String selectByEmailSQL = "SELECT\r\n" + 
+				"    c.customer_email,\r\n" + 
+				"    c.customer_pwd,\r\n" + 
+				"    c.customer_name,\r\n" + 
+				"    c.customer_birth_date,\r\n" + 
+				"    c.customer_gender,\r\n" + 
+				"    c.customer_phone,\r\n" + 
+				"    c.customer_addr,\r\n" + 
+				"    p.zipcode,\r\n" + 
+				"    p.buildingno,\r\n" + 
+				"    sido || ' ' || nvl(p.sigungu, ' ') || ' ' || nvl(p.eupmyun, ' ') city,\r\n" + 
+				"    doro || ' ' || decode(p.building2, '0', p.building1, p.building1 || '-' || p.building2) doro,\r\n" + 
+				"    p.building\r\n" + 
+				"FROM\r\n" + 
+				"    customer c\r\n" + 
+				"    LEFT JOIN postal p ON ( c.buildingno = p.buildingno )\r\n" + 
+				"WHERE\r\n" + 
+				"    c.customer_email = ?\r\n" + 
+				"    AND c.customer_status = '1'\r\n" + 
+				"    AND c.verification = 'y'";
 		try {
 			pstmt = con.prepareStatement(selectByEmailSQL);
 			pstmt.setString(1, email);

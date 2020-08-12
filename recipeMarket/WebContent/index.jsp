@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Market - 오늘 뭐 먹지?</title>
     <link rel="icon" href="${contextPath}/img/titlecon.png">
-    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">
+    <link rel="stylesheet" href="${contextPath}/css/customScrollBar.css">	
     <link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
     <link rel="stylesheet" href="${contextPath}/css/contents.css">
@@ -47,13 +47,13 @@
             <h2>A space where you can experience the joy of various recipes</h2>
             <!-- 검색 -->
             <div class="searchBlock">
-                <form method="POST" action="#">
+              
                     <label>
                         <!-- 검색어 입력창 -->
                         <input type="text" class="searchText" size="40">
                       <a class="fa fa-search searchIcon"></a>
                     </label>
-                </form>
+                
             </div>
         </div>
         <!-- 추천 레시피 영역 -->

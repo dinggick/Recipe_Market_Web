@@ -1,5 +1,6 @@
 package com.recipe.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.recipe.dao.PurchaseDAO;
@@ -29,5 +30,12 @@ public class PurchaseService {
 	public List<Purchase> findById(String customerId) throws FindException{
 		return dao.selectById(customerId);
 	}
-
+	
+	public List<Purchase> findBydate(String customerEmail,Date date) throws FindException{
+		return dao.selectByDateId(customerEmail, date);
+	}
+	
+	public List<Purchase> findByDatePicker(String customerEmail,Date date) throws FindException{
+		return dao.selectByDate(customerEmail, date);
+	}
 }

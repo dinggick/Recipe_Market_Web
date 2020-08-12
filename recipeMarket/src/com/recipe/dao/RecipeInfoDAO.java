@@ -18,6 +18,7 @@ import com.recipe.vo.Ingredient;
 import com.recipe.vo.Point;
 import com.recipe.vo.RecipeInfo;
 import com.recipe.vo.RecipeIngredient;
+import com.recipe.vo.RecipePage;
 
 public class RecipeInfoDAO {
 	private static final String recipeProessPath = "/files/recipeProcess/";
@@ -188,17 +189,22 @@ public class RecipeInfoDAO {
 	 * @param process
 	 * @throws DuplicatedException
 	 */
-	public void insert(String rdEmail, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws DuplicatedException{
+	public void insert(String rdEmail, RecipeInfo recipe_InfoVo, String ingInfo, List<Ingredient> ingList, String process, String rootUploadPath) throws DuplicatedException{
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
-		String ing_name = "";
-		System.out.println("ing_name test : " + ingList.stream().map(i -> i.getIngName()).collect(Collectors.joining(", ")));
-		for (Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
-			ing_name +=", '" + ingredientVO.getIngName() + "'";			//", '재료1', '재료2', '재료3', ....식으로 문자넣음. // 사과1개
-		}
+		// 람다식을 사용하면 가독성있는 소스를 사용할 수 있다!
+		// 단점 : 람다식을 모르면 이해하기 어렵다
+		String ing_name = ingList.stream()
+									.map(i -> "'" + i.getIngName() + "'")
+									.collect(Collectors.joining(", "));
+//		System.out.println("ing_name test : " + ingList.stream().map(i -> "'" + i.getIngName() + "'").collect(Collectors.joining(", ")));
+//		for (Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
+//			ing_name +=", '" + ingredientVO.getIngName() + "'";			//", '재료1', '재료2', '재료3', ....식으로 문자넣음. // 사과1개
+//		}
+		
 		String quary = "SELECT COUNT(1) AS CNT FROM RECIPE_INFO WHERE RECIPE_NAME = ?";		//레시피명이 존재하는것이라면 1이나옴. 없다면 0.
 		try {
 			con = MyConnection.getConnection();
@@ -208,16 +214,16 @@ public class RecipeInfoDAO {
 			rs = pstmt.executeQuery();
 
 			// 첫번째 데이터 전인지? = 데이터가 있는지? 
-			if (rs.isBeforeFirst()) {
-				throw new DuplicatedException("이미 존재하는 레시피입니다.");
-			}
-//			int countFlag = 0;
-//			while(rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
-//				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
-//			}
-//			if(0 < countFlag) {
+//			if (rs.isBeforeFirst()) {
 //				throw new DuplicatedException("이미 존재하는 레시피입니다.");
 //			}
+			int countFlag = 0;
+			while (rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
+				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
+			}
+			if (0 < countFlag) {
+				throw new DuplicatedException("이미 존재하는 레시피입니다.");
+			}
 			rs.close();
 
 			for (Ingredient ingredientVO : ingList) {		//ingList에 입력받아놨던 재료명(ing_name)을 하나씩 검사하면서 테이블에 재료명이 있으면 무시하고 없으면 생성하는 부분
@@ -239,7 +245,7 @@ public class RecipeInfoDAO {
 
 			//,빼고 ING_CODE와 ING_NAME값을 셀렉트 해오는 쿼리
 			quary = "SELECT ING_CODE, ING_NAME FROM INGREDIENT WHERE ING_NAME IN ( "
-					+ ing_name.substring(1, ing_name.length()) + ")";	//", '재료1', '재료2', '재료3' "식으로 문자넣음.
+					+ ing_name + ")";	//", '재료1', '재료2', '재료3' "식으로 문자넣음.
 
 			pstmt = con.prepareStatement(quary);
 			rs = pstmt.executeQuery();		//쿼리 실행시 재료코드값과 재료이름을 받아옴
@@ -291,7 +297,7 @@ public class RecipeInfoDAO {
 			pstmt.executeUpdate();
 			pstmt.close();
 
-			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
+			fileOutput(recipe_InfoVo.getRecipeProcess().replace("http://localhost", rootUploadPath), ingInfo + "\n" + process);
 
 			quary = "INSERT INTO POINT VALUES(?, 0, 0)";		//좋아요싫어요 초기값설정해주는 쿼리문
 			pstmt = con.prepareStatement(quary);
@@ -331,17 +337,22 @@ public class RecipeInfoDAO {
 	 * @param process
 	 * @throws ModifyException
 	 */
-	public void update(String rdEmail, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process) throws ModifyException {
+	public void update(String rdEmail, RecipeInfo recipe_InfoVo,String ingInfo ,List<Ingredient> ingList, String process, String rootUploadPath) throws ModifyException {
 		//입력받아온 recipe_InfoVo,ingList
 		Connection con = null; // DB연결된 상태(세션)을 담은 객체
 		PreparedStatement pstmt = null;  // SQL 문을 나타내는 객체
 		ResultSet rs = null;  // 쿼리문을 날린것에 대한 반환값을 담을 객체
 
+		// 람다식을 사용하면 가독성있는 소스를 사용할 수 있다!
+		// 단점 : 람다식을 모르면 이해하기 어렵다
+		String ing_name = ingList.stream()
+									.map(i -> "'" + i.getIngName() + "'")
+									.collect(Collectors.joining(", "));
 		//-----------------------ingList에서 IngName,IngCpcty를 나눠줘야 함.
-		String ing_name = "";
-		for (Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
-			ing_name +=", '" + ingredientVO.getIngName() + "'";			//", '재료1', '재료2', '재료3', ....식으로 문자넣음. // 사과1개
-		}
+//		String ing_name = "";
+//		for (Ingredient ingredientVO : ingList) {		//ingList에 있는 객체들을 ingredientVO에 넣으면서 반복문 실행
+//			ing_name +=", '" + ingredientVO.getIngName() + "'";			//", '재료1', '재료2', '재료3', ....식으로 문자넣음. // 사과1개
+//		}
 		//-----------------------
 		String quary = "SELECT COUNT(1) AS CNT FROM RECIPE_INFO WHERE RECIPE_NAME = ?";		//레시피명이 존재하는것이라면 1이나옴. 없다면 0.
 		try {
@@ -351,17 +362,16 @@ public class RecipeInfoDAO {
 
 			rs = pstmt.executeQuery();
 
-			if (rs.isBeforeFirst()) {
-				throw new ModifyException("해당 레시피 이름이 이미 존재합니다");
-			}
-//			int countFlag = 0;
-//			while(rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
-//				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
-//			}
-//			System.out.println(countFlag);
-//			if(0 < countFlag) {
+//			if (rs.isBeforeFirst()) {
 //				throw new ModifyException("해당 레시피 이름이 이미 존재합니다");
 //			}
+			int countFlag = 0;
+			while (rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
+				countFlag = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
+			}
+			if (0 < countFlag) {
+				throw new ModifyException("해당 레시피 이름이 이미 존재합니다");
+			}
 			rs.close();
 			pstmt.close();
 
@@ -371,7 +381,6 @@ public class RecipeInfoDAO {
 
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-//				String selectedRdId = rs.getString("rd_Id");
 				String selectedRdEmail = rs.getString(1);
 				if (!selectedRdEmail.equals(rdEmail)) {
 					throw new ModifyException("이 레시피의 작성자가 아닙니다"); 
@@ -406,7 +415,7 @@ public class RecipeInfoDAO {
 
 			//,빼고 ING_CODE와 ING_NAME값을 셀렉트 해오는 쿼리
 			quary = "SELECT ING_CODE, ING_NAME FROM INGREDIENT WHERE ING_NAME IN ( "
-					+ ing_name.substring(1, ing_name.length()) + ")";	//", '재료1', '재료2', '재료3' "식으로 문자넣음.
+					+ ing_name + ")";	//", '재료1', '재료2', '재료3' "식으로 문자넣음.
 
 			pstmt = con.prepareStatement(quary);
 			rs = pstmt.executeQuery();		//쿼리 실행시 재료코드값과 재료이름을 받아옴
@@ -432,8 +441,14 @@ public class RecipeInfoDAO {
 			pstmt.executeUpdate();
 			pstmt.close();
 
-			//recipe_InfoVo.setRecipeProcess("http://localhost" + recipeProessPath + recipe_InfoVo.getRecipeCode() + ".txt");		//recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
-			fileOutput(recipe_InfoVo.getRecipeProcess(), ingInfo + "\n" + process);
+			// 파일 업로드
+			// insert 할때는 localhost 도메인 set 하고 replace 로 rootUploadPath 설정했는데,
+//			recipe_InfoVo.setRecipeProcess("http://localhost" + recipeProessPath + recipe_InfoVo.getRecipeCode() + ".txt");	
+//			fileOutput(recipe_InfoVo.getRecipeProcess().replace("http://localhost", rootUploadPath), ingInfo + "\n" + process);
+			
+			// update 할때는 localhost 도메인 set 할 필요가 없어서 rootUploadPath 로 바로 설정함
+			fileOutput(rootUploadPath + recipeProessPath + recipe_InfoVo.getRecipeCode() + ".txt", ingInfo + "\n" + process);
+			
 //-------------------------------------------------------------------------------------------------------------------------------------			
 //이미지수정시 파일경로 재추가 어떻게할지?---------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------------------
@@ -504,7 +519,7 @@ public class RecipeInfoDAO {
 
 		List<RecipeInfo> recipeInfoList = new ArrayList<>();
 
-		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, i.imgUrl, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code where i.recipe_status=1";
+		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process, i.img_url, p.like_count, p.dislike_count FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code where i.recipe_status=1";
 
 		try {
 			con = MyConnection.getConnection();
@@ -541,7 +556,154 @@ public class RecipeInfoDAO {
 		}
 		return recipeInfoList;
 	}
+	
+	/**
+	 * 나의 레시피리스트 검색
+	 * 
+	 * @param rdEmail
+	 * @return
+	 * @throws FindException
+	 */
+	public List<RecipeInfo> myRecipeList(String rdEmail) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+		}
+		
+		String quary = "SELECT i.recipe_code, i.recipe_name, i.recipe_summ, i.recipe_price, i.recipe_process,"
+				+ "i.img_url, p.like_count, p.dislike_count "
+				+ "FROM recipe_info i JOIN POINT p ON i.recipe_code = p.recipe_code "
+				+ "WHERE i.rd_email = ? AND i.recipe_status = 1";
+		
+		List<RecipeInfo> result = new ArrayList<RecipeInfo>();
+		try {
+			pstmt = con.prepareStatement(quary);
+			pstmt.setString(1, rdEmail);
+			rs = pstmt.executeQuery();
+			while (rs.next()) { 
+				result.add(new RecipeInfo(rs.getInt("recipe_code"), rs.getString("recipe_name"), rs.getString("recipe_summ"), rs.getInt("recipe_price"), rs.getString("recipe_process"), rs.getString("img_url"), new Point(rs.getInt("recipe_code"), rs.getInt("like_count"), rs.getInt("dislike_count")), null));
+			}
+			if (result.isEmpty()) {
+				throw new FindException("등록된 레시피가 없습니다");
+			}
+		} catch (SQLException e) {
 
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	/**
+	 * 나의 레시피리스트 페이징
+	 * 
+	 * @param rdEmail
+	 * @param pageNo
+	 * @param pageSize
+	 * @param orderType (판매량 : P, 총 매출액 : T)
+	 * @return
+	 * @throws FindException
+	 */
+	public List<RecipePage> myRecipeListPage(String rdEmail, int pageNo, int pageSize, String orderType) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+		}
+		
+		// 정렬 타입에 따라 정렬 쿼리 변경
+		String orderQuery = "ORDER BY A.PURCHASE_QUANTITY DESC, A.TOTAL_AMOUNT DESC, A.LIKE_COUNT DESC";
+		if (orderType.equals("T")) {
+			orderQuery = "ORDER BY A.TOTAL_AMOUNT DESC, A.PURCHASE_QUANTITY DESC, A.LIKE_COUNT DESC";
+		}
+		
+		String quary = "SELECT B.* FROM ( "
+				+ "	SELECT ROW_NUMBER() OVER (" + orderQuery +  ") NUM, A.* FROM ( "
+				+ "		SELECT i.RECIPE_CODE, i.RECIPE_NAME, i.RECIPE_PRICE, p.LIKE_COUNT, NVL(SUM(d.PURCHASE_QUANTITY), 0) AS PURCHASE_QUANTITY, NVL(i.RECIPE_PRICE * SUM(d.PURCHASE_QUANTITY), 0) AS TOTAL_AMOUNT "
+				+ "		FROM RECIPE_INFO i "
+				+ "		LEFT JOIN POINT p ON i.recipe_code = p.recipe_code "
+				+ "		LEFT JOIN PURCHASE_DETAIL d ON i.RECIPE_CODE = d.RECIPE_CODE "
+				+ "		WHERE i.RD_EMAIL = ? AND i.RECIPE_STATUS = 1 "
+				+ "		GROUP BY i.RECIPE_CODE, i.RECIPE_NAME, i.RECIPE_PRICE, p.LIKE_COUNT "
+				+ "	) A "
+				+ ") B WHERE NUM BETWEEN ? AND ? ";
+		
+		List<RecipePage> result = new ArrayList<RecipePage>();
+		try {
+			pstmt = con.prepareStatement(quary);
+			pstmt.setString(1, rdEmail);
+			pstmt.setInt(2, ((pageNo - 1) * pageSize + 1));
+			pstmt.setInt(3, pageNo * pageSize);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				RecipePage recipePageData = new RecipePage();
+				recipePageData.setNum(rs.getInt("NUM"));
+				recipePageData.setRecipeCode(rs.getInt("RECIPE_CODE"));
+				recipePageData.setRecipeName(rs.getString("RECIPE_NAME"));
+				recipePageData.setRecipePrice(rs.getInt("RECIPE_PRICE"));
+				recipePageData.setLikeCount(rs.getInt("LIKE_COUNT"));
+				recipePageData.setPurchaseQuantity(rs.getInt("PURCHASE_QUANTITY"));
+				recipePageData.setTotalAmount(rs.getInt("TOTAL_AMOUNT"));
+				result.add(recipePageData);
+			}
+			if (result.isEmpty()) {
+				throw new FindException("등록된 레시피가 없습니다");
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return result;
+	}
+
+	/**
+	 * 나의 레시피리스트 수
+	 * 
+	 * @param rdEmail
+	 * @return
+	 * @throws FindException
+	 */
+	public int myRecipeCount(String rdEmail) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+		}
+		
+		String quary = "SELECT COUNT(1) "
+				+ "FROM RECIPE_INFO "  
+				+ "WHERE RD_EMAIL = ? AND RECIPE_STATUS = 1 ";
+
+		int count = 0;
+		try {
+			pstmt = con.prepareStatement(quary);
+			pstmt.setString(1, rdEmail);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {		//쿼리문을 돌렸을때 받아온 컬럼의 값이 있을때 true
+				count = rs.getInt(1);		//있다면 1을 countFlag에 넣는다.
+			}
+//			if (count < 1) {
+//				throw new FindException("등록된 레시피가 없습니다");
+//			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return count;
+	}
 	/**
 	 * 좋아요 개수(내림차순), 싫어요 개수(오름차순), 작성된 후기 개수(내림차순)를 기준으로 추천 레시피를 선정하여 반환한다 
 	 * @return 추천 레시피 정보를 포함한 RecipeInfo 객체
@@ -611,7 +773,7 @@ public class RecipeInfoDAO {
 	
 	private boolean fileOutput(String fileFullPath, String message) {
 		try {
-
+			System.out.println("fileOutput > fileFullPath : " + fileFullPath);
 			@SuppressWarnings("resource")
 			OutputStream output = new FileOutputStream(fileFullPath);		//파일경로명을  output에 넣는다.
 			String str = message;

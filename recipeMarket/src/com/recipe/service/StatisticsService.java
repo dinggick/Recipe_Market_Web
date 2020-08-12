@@ -54,10 +54,10 @@ public class StatisticsService {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Integer>> findByYearG2(String year) 
+	public List<Pair<String, Integer>> findByYearG2(String year, int count) 
 			throws FindException {
 		
-		return dao.selectByYearG2(year);
+		return dao.selectByYearG2(year, count);
 	}
 	
 	/**
@@ -71,10 +71,33 @@ public class StatisticsService {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Integer>> findBySeasonG3(String startDate, String endDate) 
+	public List<Pair<String, Pair<String, Integer>>> findBySeasonG3(String startDate, String endDate, int count) 
 			throws FindException {
 		
-		return dao.selectBySeasonG3(startDate, endDate);
+		return dao.selectBySeasonG3(startDate, endDate, count);
+	}
+	
+	/**
+	 * Function for Graph4
+	 * @param rd_email
+	 * @param startDate
+	 * @param endDate
+	 * @param gender1
+	 * @param gender2
+	 * @param start_age
+	 * @param end_age
+	 * @param count
+	 * @return
+	 * @throws FindException
+	 * @author yonghwan
+	 */
+	public List<Pair<String, Pair<Integer, Integer>>> findByConditionG4(String rd_email,
+			String startDate, String endDate,
+			String gender1, String gender2,
+			int start_age, int end_age, 
+			int order_by, int count) throws FindException {
+	
+		return dao.selectByConditionG4(rd_email, startDate, endDate, gender1, gender2, start_age, end_age, order_by, count);
 	}
 	
 	/**
@@ -88,11 +111,15 @@ public class StatisticsService {
 			for (Pair<Integer, Pair<String, Integer>> p : service.findByYearG1("2020")) {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
-			for (Pair<String, Integer> p : service.findByYearG2("2020")) {
+			for (Pair<String, Integer> p : service.findByYearG2("2020", 10)) {
 				System.out.println(p.getKey() + " " + p.getValue());
 			}
-			for (Pair<String, Integer> p : service.findBySeasonG3("202006", "202008")) {
-				System.out.println(p.getKey() + " " + p.getValue());
+			for (Pair<String, Pair<String, Integer>> p : service.findBySeasonG3("202006", "202008", 10)) {
+				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
+			}
+			List<Pair<String, Pair<Integer, Integer>>> list = service.findByConditionG4("rd01@recipe.com", "19900601", "20200801", "M", "F", 10, 99, 2, 10);
+			for (Pair<String, Pair<Integer, Integer>> p : list) {
+				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
 		} catch (FindException e) {
 			e.printStackTrace();

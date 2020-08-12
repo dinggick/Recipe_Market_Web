@@ -1,6 +1,7 @@
 package com.recipe.control;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +58,9 @@ public class RnDController implements Controller {
 		
 		String servletPath = request.getServletPath();
 		String pathInfo = servletPath.substring(servletPath.lastIndexOf("/"));
+		
+		HttpSession session = null;
+		session = request.getSession();
 		
 		String jspFileName = "/fail.jsp";
 		
@@ -120,9 +124,6 @@ public class RnDController implements Controller {
 			if(!"".equals(strPage))
 				currentPage = Integer.parseInt(strPage);
 			
-			HttpSession session = null;
-			session = request.getSession();
-			
 			session.setAttribute("recentPage", currentPage);
 			
 			try {				
@@ -130,16 +131,31 @@ public class RnDController implements Controller {
 				pb.setUrl(servletPath);
 								
 				request.setAttribute("pb", pb);
-				
-				System.out.println(pb);
-				
+								
 				jspFileName = "/RnDList.jsp";
 				
 			} catch (FindException e) {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		}	
+		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */
+			String loginInfo = (String)session.getAttribute("loginInfo");
+			
+			try {
+				service.findById(loginInfo);
+				jspFileName = "/conditionSearch.jsp";
+			} catch (FindException e) {
+				try {
+					List<RnD> rd_list = service.findAll();
+					request.setAttribute("rd_list", rd_list);
+					
+					jspFileName = "/conditionSearch.jsp";
+				} catch (FindException e1) {
+					e1.printStackTrace();
+					request.setAttribute("msg", e.getMessage());
+				}
+			}
+		}
 		
 		return jspFileName;
 	}

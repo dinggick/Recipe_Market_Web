@@ -35,16 +35,16 @@ public class ReviewDAO {
 		ResultSet rs = null;
 		List<Review> reviewList = null;
 
-		String selectSQL = "SELECT R.REVIEW_DATE " + 
-				"        , R.REVIEW_COMMENT " + 
-				"        , PD.RECIPE_CODE " + 
-				"        , C.CUSTOMER_NAME " + 
-				"FROM purchase_detail PD " + 
-				"JOIN review R  on PD.purchase_code = R.purchase_code " + 
-				"JOIN purchase P on P.purchase_code = PD.purchase_code " + 
-				"JOIN customer C on P.customer_email = C.customer_email " + 
-				"WHERE recipe_code = ?  " + 
-				"ORDER BY REVIEW_DATE DESC";
+		String selectSQL = "SELECT R.REVIEW_DATE   " + 
+				"				   , R.REVIEW_COMMENT   " + 
+				"				   , PD.RECIPE_CODE   " + 
+				"				   , C.CUSTOMER_NAME   " + 
+				"			FROM purchase_detail PD   " + 
+				"				JOIN review R  on  r.recipe_code = pd.recipe_code  " + 
+				"				JOIN purchase P on P.purchase_code = PD.purchase_code   " + 
+				"				JOIN customer C on P.customer_email = C.customer_email   " + 
+				"			WHERE R.recipe_code = ?   " + 
+				"			ORDER BY REVIEW_DATE DESC";
 		
 		try {
 			con = MyConnection.getConnection();		
@@ -63,22 +63,23 @@ public class ReviewDAO {
 				
 				// PurchaseDetail 
 				Customer customer = new Customer();
-				customer.setCustomerName(rs.getString("C.CUSTOMER_NAME"));
+				customer.setCustomerName(rs.getString("CUSTOMER_NAME"));
 
 				Purchase purchase = new Purchase();
 				purchase.setCustomerEmail(customer);
 				
 				List<PurchaseDetail> list = new ArrayList<PurchaseDetail>();
 				RecipeInfo recipeInfo = new RecipeInfo();
-				recipeInfo.setRecipeCode(rs.getInt("PD.RECIPE_CODE"));
+				recipeInfo.setRecipeCode(rs.getInt("RECIPE_CODE"));
 				
 				PurchaseDetail purchaseDetail = new PurchaseDetail();
 				purchaseDetail.setRecipeInfo(recipeInfo);
 				list.add(purchaseDetail);
 				
 				Review r = new Review();
-				r.setReviewDate(rs.getDate("R.REVIEW_DATE"));
-				r.setReviewComment(rs.getString("R.REVIEW_COMMENT"));
+				r.setRecipeInfo(recipeInfo);
+				r.setReviewDate(rs.getDate("REVIEW_DATE"));
+				r.setReviewComment(rs.getString("REVIEW_COMMENT"));
 				r.setPurchase(purchase);
 				
 				reviewList.add(r);
@@ -86,7 +87,6 @@ public class ReviewDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new FindException ("Fail : 레시피에 등록된 후기가 없습니다.");
 		
 		} finally {
 			MyConnection.close(rs, pstmt, con);
@@ -106,7 +106,7 @@ public class ReviewDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		String insertSQL = "INSERT INTO REVIEW (purchase_code ,review_comment, review_date) VALUES ( ? , ? , SYSDATE)"; 
+		String insertSQL = "INSERT INTO REVIEW (purchase_code, recipe_code, review_comment, review_date) VALUES ( ? , ?,  ? , SYSDATE)"; 
 
 		try {
 			con = MyConnection.getConnection();
@@ -118,7 +118,8 @@ public class ReviewDAO {
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setInt(1, r.getPurchase().getPurchaseCode());
-			pstmt.setString(2, r.getReviewComment());
+			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
+			pstmt.setString(3, r.getReviewComment());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -141,11 +142,11 @@ public class ReviewDAO {
 	 * @throws RemoveException
 	 * @author Soojeong
 	 */
-	public void deleteByPurchaseCode(int purchaseCode ) throws RemoveException {
+	public void deleteByPurchaseCode(int purchaseCode, int recipeCode) throws RemoveException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		String deleteSQL = "DELETE FROM REVIEW WHERE purchase_code = ?"; 
+		String deleteSQL = "DELETE FROM REVIEW WHERE purchase_code = ? AND recipe_Code = ?"; 
 
 		try {
 			con = MyConnection.getConnection();
@@ -157,6 +158,7 @@ public class ReviewDAO {
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
 			pstmt.setInt(1, purchaseCode);
+			pstmt.setInt(2, recipeCode);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -175,7 +177,54 @@ public class ReviewDAO {
 	 * @throws FindException
 	 * @author Soojeong
 	 */
-	public List<Review> selectByEmail(String customerEmail) throws FindException {
+	public int selectByEmail(String customerEmail) throws FindException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int reviewCNT = 0;
+		
+		try {
+			con = MyConnection.getConnection();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			e.getStackTrace();
+		}
+		
+		String selectSQL = "SELECT COUNT(*) reviewCNT " + 
+				"FROM review R " + 
+				"   JOIN purchase P ON (R.purchase_code = P.purchase_code) " + 
+				"   JOIN customer C ON (C.customer_email = P.customer_email) " + 
+				"   JOIN recipe_info RI ON (R.recipe_code = RI.recipe_code) " + 
+				"WHERE " + 
+				"   C.customer_email = ? and RI.recipe_status = '1'";
+			
+		try {
+			pstmt = con.prepareStatement(selectSQL);
+			pstmt.setString(1, customerEmail);
+			rs = pstmt.executeQuery();
+			while ( rs.next() ) {
+				reviewCNT = rs.getInt("reviewCNT");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FindException ("Fail : 후기 목록 조회에 실패하였습니다.");
+			
+		} finally {
+			MyConnection.close(rs, pstmt, con);
+		}
+		return reviewCNT;
+	} // end method selectByEmail();
+	
+	
+	/**
+	 * customerEmail
+	 * @return review 목록 반환
+	 * @param customerEmail
+	 * @throws FindException
+	 * @author Soojeong
+	 */
+	public List<Review> selectByEmail(int startRow , int endRow, String customerEmail) throws FindException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -188,47 +237,42 @@ public class ReviewDAO {
 			e.getStackTrace();
 		}
 		
-		String selectSQL = "SELECT R.purchase_code " + 
-				"         , R.review_comment " + 
-				"         , P.purchase_date " + 
-				"         , PD.recipe_code " + 
-				"         , RI.recipe_name " + 
-				"FROM review R " + 
-				"   JOIN purchase P ON (R.purchase_code = P.purchase_code) " + 
-				"   JOIN customer C ON (C.customer_email = P.customer_email) " + 
-				"   JOIN purchase_detail PD ON (PD.purchase_code = P.purchase_code) " + 
-				"   JOIN recipe_info RI ON (PD.recipe_code = RI.recipe_code) " + 
-				"WHERE " + 
-				"   C.customer_email = ? and RI.recipe_status = 1";
+		String selectSQL = " SELECT * FROM  " + 
+				"				   (SELECT ROWNUM r, a.* " + 
+				"				      FROM ( SELECT R.purchase_code " + 
+				"				    , R.review_comment " + 
+				"				    , P.purchase_date " + 
+				"				    , R.recipe_code  " + 
+				"				    , RI.recipe_name " + 
+				"				         FROM review R " + 
+				"				         JOIN purchase P ON (R.purchase_code = P.purchase_code) " + 
+				"				         JOIN customer C ON (C.customer_email = P.customer_email) " + 
+				"				         JOIN recipe_info RI ON ( R.recipe_code = RI.recipe_code) " + 
+				"				       WHERE C.customer_email = ? and RI.recipe_status = '1' ) a " + 
+				"			) WHERE  r BETWEEN ? AND ? ";
+		
 		try {
 			pstmt = con.prepareStatement(selectSQL);
 			pstmt.setString(1, customerEmail);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rs = pstmt.executeQuery();
 			reviewList = new ArrayList<>();
 			
 			while ( rs.next() ) {
-				
-				PurchaseDetail purchaseDetail = new PurchaseDetail();
 				RecipeInfo recipeInfo = new RecipeInfo();
-				recipeInfo.setRecipeCode(rs.getInt("PD.recipe_code"));
-				recipeInfo.setRecipeName(rs.getString("RI.recipe_name"));
-				
-				purchaseDetail.setRecipeInfo(recipeInfo);
-				
-				List<PurchaseDetail> purchaseDetails = new ArrayList<PurchaseDetail>();
-				purchaseDetails.add(purchaseDetail);
-				
+				recipeInfo.setRecipeCode(rs.getInt("recipe_code"));
+				recipeInfo.setRecipeName(rs.getString("recipe_name"));
 				
 				Purchase purchase = new Purchase();
-				purchase.setPurchaseCode(rs.getInt("R.purchase_code"));
-				purchase.setPurchaseDate(rs.getDate("P.purchase_date"));
-				purchase.setPurchaseDetails(purchaseDetails);
-				
+				purchase.setPurchaseCode(rs.getInt("purchase_code"));
+				purchase.setPurchaseDate(rs.getDate("purchase_date"));
 				
 				Review r = new Review();
+				r.setRecipeInfo(recipeInfo);
 				r.setPurchase(purchase);
-				r.setReviewComment(rs.getString("R.review_comment"));
-
+				r.setReviewComment(rs.getString("review_comment"));
+				
 				reviewList.add(r);
 			} //end while
 			
