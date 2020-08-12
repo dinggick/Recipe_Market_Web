@@ -62,10 +62,8 @@ $(function()  {
 					, data : {"recipeCode" : recipeCode}
 					, success : function(data) {
 						if ( data.status == 'success') {
-							alert("삭제에 성공했습니다.");
 							location.reload();
 						} else {
-							alert("삭제에 실패했습니다.");
 						}
 						
 					} //end of success
