@@ -143,10 +143,12 @@ public class RnDController implements Controller {
 			
 			try {
 				service.findById(loginInfo);
+				session.setAttribute("rndAccount", loginInfo);
 				jspFileName = "/conditionSearch.jsp";
 			} catch (FindException e) {
 				try {
 					List<RnD> rd_list = service.findAll();
+					System.out.println(rd_list);
 					request.setAttribute("rd_list", rd_list);
 					
 					jspFileName = "/conditionSearch.jsp";
