@@ -25,7 +25,7 @@
 
 <script src="./js/commonSection.js"></script>
 
-<!-- <script src="./js/header.js"></script> -->
+<script src="./js/header.js"></script>
 <script src="./js/footer.js"></script>
 <script src="./js/dropdownMenu.js"></script>
 <script src="./js/customerAdd.js"></script>
