@@ -48,7 +48,14 @@ public class ReviewController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String servletPath = "/fail.jsp";
-
+		String pathInfo = request.getServletPath();
+		
+		// 레시피별 리뷰 목록 보기
+		if( "/review/reviewListByRecipeCode".equals(pathInfo) ) {
+			servletPath = reviewListByRecipeCode(request, response);
+			return servletPath;
+		}
+		
  		// 후기 관련 메뉴는 로그인 사용자만 접근가능
 		String customerEmail = (String)request.getSession().getAttribute("loginInfo");
 		if( customerEmail == null) {
@@ -57,13 +64,8 @@ public class ReviewController implements Controller {
 		}
 
 		// 나의 리뷰 목록 보기 
-		String pathInfo = request.getServletPath();
 		if ( "/review/myReviewList".equals(pathInfo) ) {
 			servletPath = myReviewList(request, response, customerEmail);
-			
-		// 레시피별 리뷰 목록 보기
-		} else if ( "/review/reviewListByRecipeCode".equals(pathInfo) ) {
-			servletPath = reviewListByRecipeCode(request, response);
 			
 		// 리뷰등록 
 		} else if ( "/review/add".equals(pathInfo) ) { 
@@ -167,8 +169,8 @@ public class ReviewController implements Controller {
 	private String reviewListByRecipeCode (HttpServletRequest request, HttpServletResponse response) {
 		String result = "/fail.jsp";
 		
-		
 	  	int recipeCode = Integer.parseInt(request.getParameter("recipeCode"));
+	  	System.out.println(recipeCode);
 	  	if ( recipeCode ==  0 ) { 
 	  		request.setAttribute("msg","레시피코드값이 전달되지않았습니다."); 
 	  	}
