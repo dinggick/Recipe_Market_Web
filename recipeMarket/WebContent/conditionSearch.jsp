@@ -188,8 +188,8 @@
                             	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
                             		<c:choose>
                             			<c:when test="${userType == 'R'}">
-                            				<option value="${rndAccount}">
-                            					${rndAccount}
+                            				<option value="${loginInfo}">
+                            					${loginInfo}
                             				</option>
                             			</c:when>
                             			<c:otherwise>

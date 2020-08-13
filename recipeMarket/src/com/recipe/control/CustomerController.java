@@ -56,7 +56,7 @@ public class CustomerController implements Controller {
 		         dateFormat.parse(checkDate);
 		         return  true;
 
-		       }catch (ParseException  e){
+		       } catch (ParseException  e){
 		         return  false;
 		       }
 		}
@@ -84,17 +84,17 @@ public class CustomerController implements Controller {
 				e1.printStackTrace();
 			}
 			
+			if (!validationDate(customer_birth_date)) {
+				request.setAttribute("msg", "날짜 형식이 올바르지 않습니다.");
+				return "/fail.jsp";
+			}
+			
 			String[] d = customer_birth_date.split("-");
 			
 			if (getAge(Integer.parseInt(d[0]), Integer.parseInt(d[1]), Integer.parseInt(d[2])) < 14) {
 				request.setAttribute("msg", "만 14세 이상만 가입할 수 있습니다.");
 				return "/fail.jsp";
 			}
-			
-//			if (!validationDate(customer_birth_date)) {
-//				request.setAttribute("msg", "날짜 형식이 올바르지 않습니다.");
-//				return "/fail.jsp";
-//			}
 
 			String customer_gender = request.getParameter("customer_gender");
 			String customer_phone = request.getParameter("customer_phone");
