@@ -59,7 +59,6 @@ public class PurchaseDAO {
 				r.setReviewComment(rs.getString("review_comment"));
 				
 				int test = rs.getInt("recipe_code");
-				System.out.println(test);
 				ri.setRecipeCode(test);
 				ri.setRecipeName(rs.getString("recipe_name"));
 				ri.setRecipePrice(rs.getInt("recipe_price"));

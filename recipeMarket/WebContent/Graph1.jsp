@@ -21,10 +21,15 @@
 	String age_group = Integer.toString(list.get(i).getKey());
 	String group_gender = list.get(i).getValue().getKey();
 	Integer purchase_amount = list.get(i).getValue().getValue();
+	
+	System.out.println(age_group + " " + group_gender + " " + purchase_amount);
         		
 	String group = age_group + group_gender;
+	
+	System.out.println(map.get(group));
+	
 	Integer pre_amount = map.get(group);
-        		        		        		
+	        		        		        		
 	map.put(group, pre_amount + purchase_amount);     		
 }%>
 
