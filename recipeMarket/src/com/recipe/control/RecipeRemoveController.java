@@ -29,7 +29,13 @@ public class RecipeRemoveController implements Controller {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
+		String rdEmail_param = request.getParameter("rdEmail");
 		String rdEmail = (String)session.getAttribute("loginInfo");
+		if(!rdEmail_param.equals(rdEmail)) {
+			request.setAttribute("msg", "이 레시피의 작성자가 아닙니다");
+			return "/fail.jsp";
+		}
+		
 		String recipeCode = request.getParameter("recipeCode");
 		try {
 			if (!isNullOrEmpty(recipeCode)) {	//레시피코드값이 있다면 아래 수행
@@ -37,7 +43,7 @@ public class RecipeRemoveController implements Controller {
 				recipeInfo.setRecipeCode(Integer.parseInt(recipeCode));
 				service.removeRecipe(rdEmail, recipeInfo);
 				
-				return "/myRecipeList";
+				return "/success.jsp";
 			} else {
 				request.setAttribute("msg", "레시피 코드가 없습니다.");
 				return "/fail.jsp";

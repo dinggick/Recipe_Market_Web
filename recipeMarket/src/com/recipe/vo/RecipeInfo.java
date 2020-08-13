@@ -11,6 +11,7 @@ public class RecipeInfo {
 	private String imgUrl; //이미지경로
 	private Point point; //좋아요
 	private List<RecipeIngredient> ingredients; //레시피재료
+	private RnD rd; //이 레시피를 작성한 R&D
 	
 	public RecipeInfo() {}
 
@@ -25,6 +26,20 @@ public class RecipeInfo {
 		this.imgUrl = imgUrl;
 		this.point = point;
 		this.ingredients = ingredients;
+	}
+	
+	public RecipeInfo(int recipeCode, String recipeName, String recipeSumm, int recipePrice, String recipeProcess,
+			String imgUrl, Point point, List<RecipeIngredient> ingredients, RnD rd) {
+		super();
+		this.recipeCode = recipeCode;
+		this.recipeName = recipeName;
+		this.recipeSumm = recipeSumm;
+		this.recipePrice = recipePrice;
+		this.recipeProcess = recipeProcess;
+		this.imgUrl = imgUrl;
+		this.point = point;
+		this.ingredients = ingredients;
+		this.setRd(rd);
 	}
 
 	public int getRecipeCode() {
@@ -89,6 +104,14 @@ public class RecipeInfo {
 
 	public void setIngredients(List<RecipeIngredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+	
+	public RnD getRd() {
+		return rd;
+	}
+
+	public void setRd(RnD rd) {
+		this.rd = rd;
 	}
 
 	@Override
