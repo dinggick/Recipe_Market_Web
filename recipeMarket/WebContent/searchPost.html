@@ -18,6 +18,9 @@ div.post>div.list>ul>li:hover{cursor:pointer; }
 
 <script>
 $(function(){
+	$("form").submit(function(){
+		return false;
+	});
    $("#searchPost").keypress((e) => {
       if(e.which == 13) {
          $.ajax({
@@ -37,7 +40,7 @@ $(function(){
                      var baseAddrValue = $(this).find('div.baseAddr').html();
                      var buildingnoValue = $(this).children('div.buildingno').html();
                      
-                     alert(codeValue);
+                   	
 
                      var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
                      $openerFieldsetObj.find("#customer_zip").val(codeValue);
@@ -51,7 +54,6 @@ $(function(){
             }
          });
       }
-      return false;
    });
    
    $("#postsearchBtn").click(function() {
@@ -72,8 +74,7 @@ $(function(){
                     var baseAddrValue = $(this).find('div.baseAddr').html();
                     var buildingnoValue = $(this).children('div.buildingno').html();
                     
-                    alert(codeValue);
-
+            
                     var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
                     $openerFieldsetObj.find("#customer_zip").val(codeValue);
                     $openerFieldsetObj.find("#customer_juso").val(baseAddrValue);
@@ -85,7 +86,6 @@ $(function(){
               }
            }
         });
-	   return false;
    });
 });
 </script>
