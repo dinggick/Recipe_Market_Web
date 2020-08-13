@@ -25,6 +25,7 @@ public class LogoutController implements Controller {
 		
 		if(!"".equals(session.getAttribute("loginInfo"))) {
 			session.removeAttribute("loginInfo");
+			session.removeAttribute("rndAccount");
 			session.removeAttribute("userName");
 			session.removeAttribute("userType");
 			

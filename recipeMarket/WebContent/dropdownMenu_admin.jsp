@@ -18,8 +18,8 @@
 			<h1 class="account">${sessionScope.userName}님</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
-				<a href="#">R&D 계정 관리</a>
-				<a href="#">통계</a>
+				<a href="${contextPath}/rnd/list?currentPage=">R&D 계정 관리</a>
+				<a href="${contextPath}/rnd/search">통계</a>
 				<a href="${contextPath}/logout/admin">로그아웃</a>
 			</div>
 		</c:otherwise>

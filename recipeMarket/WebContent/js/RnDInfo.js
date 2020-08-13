@@ -26,8 +26,8 @@ $(() => {
         $(this).remove();
         $(".deleteBtn").remove();
 
-        $buttonSection.append("<button class=\"confirmBtn\" type=\"submit\">confirmBtn</button>");
-        $("input[type=password").parent().parent().after("<tr><td><label for=\"r_rd_pwd\">r_rd_pwd</label></td><td><input class=\"dataInput\" type=\"password\" id=\"r_rd_pwd\" name=\"r_rd_pwd\" size=\"40\"></td></tr>");
+        $buttonSection.append("<button class=\"confirmBtn\" type=\"submit\" style=\"cursor: pointer\">확인</button>");
+        $("input[type=password").parent().parent().after("<tr><td><label for=\"r_rd_pwd\">비밀번호 확인</label></td><td><input class=\"dataInput\" type=\"password\" id=\"r_rd_pwd\" name=\"r_rd_pwd\" size=\"40\"></td></tr>");
     });
 
     var rdPwd = false;
@@ -62,8 +62,8 @@ $(() => {
 
         $("#r_rd_pwd").parent().parent().remove();
 
-        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">reviseBtn</button>");
-        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">deleteBtn</button>");
+        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">수정</button>");
+        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">삭제</button>");
         
         $.ajax({
             url: "./modify",

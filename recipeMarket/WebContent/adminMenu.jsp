@@ -1,19 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+
                 <li>
-                    <span>RnD ∞¸∏Æ</span>
+                    <span>RnD Í¥ÄÎ¶¨</span>
                     <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">∞Ë¡§ √ﬂ∞°</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">∞Ë¡§ ∏Ò∑œ</a></li>
+                        <li><a href="${contextPath}/RnDAdd.jsp">Í≥ÑÏ†ï Ï∂îÍ∞Ä</a></li>
+                        <li><a href="${contextPath}/rnd/list?currentPage=">Í≥ÑÏ†ï Î™©Î°ù</a></li>
                     </ul>
                 </li>
                 
                 <li>
-                    <span>≈Î∞Ë</span>
+                    <span>ÌÜµÍ≥Ñ</span>
                     <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">º∫∫∞ & ø¨∑…∫∞ ±∏∏≈∑Æ</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD ∏≈√‚ ∫Ò¡ﬂ</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">∑πΩ√«« ∆«∏≈ º¯¿ß</a></li>
-                        <li><a href="${contextPath}/rnd/search">¡∂∞«∫∞ ≈Î∞Ë ªÍ√‚</a></li>
+                        <li><a href="${contextPath}/statistics/graph1?year=2020">ÏÑ±Î≥Ñ & Ïó∞Î†πÎ≥Ñ Íµ¨Îß§Îüâ</a></li>
+                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD Îß§Ï∂ú ÎπÑÏ§ë</a></li>
+                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">Î†àÏãúÌîº ÌåêÎß§ ÏàúÏúÑ</a></li>
+                        <li><a href="${contextPath}/rnd/search">Ï°∞Í±¥Î≥Ñ ÌÜµÍ≥Ñ ÏÇ∞Ï∂ú</a></li>
                     </ul>
                 </li>

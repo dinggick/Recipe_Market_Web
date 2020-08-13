@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,7 +163,7 @@ $(() => {
 							<tr>
 								<td><input class="dataInput" type="text"
 									id="customer_birth_date" size="70" name="customer_birth_date"
-									placeholder="생년월일을 입력하세요."></td>
+									placeholder="생년월일을 입력하세요.(ex>860724)"></td>
 							</tr>
 						</div>
 

@@ -42,6 +42,15 @@ public class CartDAO {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			if(e.getErrorCode() == 1) {
+				try {
+					update(c);
+					return;
+				} catch (ModifyException e1) {
+					e1.printStackTrace();
+					throw new AddException(e.getMessage());
+				}
+			}
 			throw new AddException("장바구니에 추가되지않았습니다");
 		}finally {
 			MyConnection.close(ps, con);

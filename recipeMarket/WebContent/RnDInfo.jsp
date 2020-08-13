@@ -26,7 +26,15 @@
     <script src="${contextPath}/js/adminCommonSection.js"></script>
     <script src="${contextPath}/js/RnDInfo.js"></script>
 
-    <script src="${contextPath}/js/header.js"></script>
+	<c:choose>
+		<c:when test="${userType == 'A'}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
 
@@ -94,19 +102,16 @@
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
+		<div class="headerRightSection">
+			<c:choose>
+				<c:when test="${userType == 'A'}">
+					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
+				</c:when>
+				<c:otherwise>
+					<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
+				</c:otherwise>
+			</c:choose>
+		</div>
     </header>
 
     <div class="bodySection">
@@ -115,9 +120,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h3>
                 RnD 정보
-            </span>
+            </h3>
 
         </div>
 
@@ -127,24 +132,10 @@
 
         <div class="menuWrapper">
             <ul>
-                <li>
-                    <span>RnD 관리</span>
-                    <ul>
-                        <li><a href="${contextPath}/static/RnDAdd.html">계정 추가</a></li>
-                        <li><a href="${contextPath}/rnd/list?currentPage=">계정 목록</a></li>
-                    </ul>
-                </li>
-                
-                <li>
-                    <span>통계</span>
-                    <ul>
-                        <li><a href="${contextPath}/statistics/graph1?year=2020">성별 & 연령별 구매량</a></li>
-                        <li><a href="${contextPath}/statistics/graph2?year=2020&count=10">RnD 매출 비중</a></li>
-                        <li><a href="${contextPath}/statistics/graph3?term=202006_202008&count=10">레시피 판매 순위</a></li>
-                        <li><a href="${contextPath}/rnd/search">조건별 통계 산출</a></li>
-                    </ul>
-                </li>
-            </ul>                            
+             	<c:if test="${userType == 'A'}">
+					<jsp:include page="adminMenu.jsp"/>
+				</c:if>
+        	</ul>                             
         </div>
 
     </section>
@@ -155,28 +146,30 @@
                 <form autocomplete="off" class="formWrapper" action="#" method="post">
                     <table>
                         <tr>
-                            <td><label for="rd_id">rd_email</label></td><td><input class="dataInput" type="text" id="rd_email" name="rd_email" readonly value="${rnd.rdEmail}"></td>
+                            <td><label for="rd_id">이메일</label></td><td><input class="dataInput" type="text" id="rd_email" name="rd_email" readonly value="${rnd.rdEmail}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_pwd">rd_pwd</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="${rnd.rdPwd}"></td>
+                            <td><label for="rd_pwd">비밀번호</label></td><td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" readonly value="${rnd.rdPwd}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_manager_name">rd_manager_name</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="${rnd.rdManagerName}"></td>
+                            <td><label for="rd_manager_name">이름</label></td><td><input class="dataInput" type="text" id="rd_manager_name" name="rd_manager_name" readonly value="${rnd.rdManagerName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_team_name">rd_team_name</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="${rnd.rdTeamName}"></td>
+                            <td><label for="rd_team_name">부서</label></td><td><input class="dataInput" type="text" id="rd_team_name" name="rd_team_name" readonly value="${rnd.rdTeamName}"></td>
                         </tr>
                         <tr>
-                            <td><label for="rd_phone">rd_phone</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
+                            <td><label for="rd_phone">연락처</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
                         </tr>                    
                     </table>                   
                     <div class="buttonSection">
-                        <button class="reviseBtn" type="button">
+                        <button class="reviseBtn" type="button" style="cursor: pointer">
                             	수정
                         </button>
-                        <button class="deleteBtn" type="submit">
+                        <c:if test="${userType == 'A'}">
+                        	<button class="deleteBtn" type="submit" style="cursor: pointer">
                             	삭제
-                        </button>
+                        	</button>
+                        </c:if>
                     </div>
                 </form>
             </div>
