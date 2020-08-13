@@ -146,7 +146,7 @@
                             </c:forEach>
                             <c:forEach begin="${cur + 1}" end="${CNT_PER_PAGE - 1}">
                             	<tr>
-                            		<td colspan="4" style="color: white">#</td>
+                            		<td colspan="4" style="color: #F4EFEA">#</td>
                             	</tr>
                             </c:forEach>
                         </tbody>
