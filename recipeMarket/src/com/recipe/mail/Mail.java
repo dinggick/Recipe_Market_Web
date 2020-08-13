@@ -39,7 +39,6 @@ public class Mail {
 	}
 
 	public void sendPwd(String userMail, String pwd) {
-
 		try {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(user));
