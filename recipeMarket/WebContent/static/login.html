@@ -29,7 +29,17 @@
 			    	if(data.status == "success") {
 			        	location.href = "/recipeMarket";
 			        } else {
-			            location.href = "/recipeMarket/customerAdd.jsp";
+			            var form = document.createElement("form");
+			        	form.setAttribute("method", "POST");
+			        	form.setAttribute("action", "/recipeMarket/customerAdd.jsp");
+			        	
+			        	var input = document.createElement("input");
+			        	input.setAttribute("type", "hidden");
+			        	input.setAttribute("name", "email");
+			        	input.setAttribute("value", email);
+			        	form.appendChild(input);
+			        	document.body.appendChild(form);
+			        	form.submit();
 			        }
 			    }
 			});
