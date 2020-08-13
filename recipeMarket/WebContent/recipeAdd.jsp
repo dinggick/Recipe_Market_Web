@@ -25,7 +25,6 @@
     <script src="${contextPath}/js/favoriteBtn.js"></script>
     <script src="${contextPath}/js/header.js"></script>
     <script src="${contextPath}/js/footer.js"></script>
-    <script src="${contextPath}/js/recipeInfo.js"></script>
     <script src="${contextPath}/js/recipeAdd.js"></script>
     
  	<script>
@@ -129,9 +128,11 @@
        				,contentType: false
     				,data:formData
     				,success:function(data) {
+    					
     					if (data != null && data.status == "success") {
     						alert("등록되었습니다.");
     						// 리스트로 이동
+    						location.href="/recipeMarket/index_rnd.jsp";
     					} else {
     						alert(data.msg);
     					}

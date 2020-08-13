@@ -269,27 +269,27 @@ public class RecipeInfoDAO {
 			}
 			
 			//DB에 들어갈 이미지파일명 바꾸기
-			String imageUrl = "http://localhost/files/img/";
-			String savePath = rootUploadPath + "/files/img/";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
-			String fullPath = recipe_InfoVo.getImgUrl();	//"http://localhost/files/img/어피치찜.png"	
-			int recipeCode = recipe_InfoVo.getRecipeCode();	//레시피코드값 넣기
-
-			int index = fullPath.lastIndexOf("/");
-			String fileName = fullPath.substring(index + 1);	//"어피치찜.png"으로 자름
-			
-			int i = -1;
-			i = fileName.lastIndexOf(".");	//파일확장자 위치
-			
-			String realFileName = recipeCode + fileName.substring(i,fileName.length());	//"레시피명.png"로 확장자명 살리기 
-			recipe_InfoVo.setImgUrl(imageUrl + realFileName);	//"http://localhost/files/img/" + "레시피명.png"로 변경해서 넣음
-			
-//			String imageUploadPath = rootUploadPath + "/files/img/";	//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/"
-			//String imageUploadPath = recipe_InfoVo.getImgUrl();	
-
-			File oldFile = new File(savePath + fileName);
-			File newFile = new File(savePath + realFileName);
-			
-			oldFile.renameTo(newFile);
+//			String imageUrl = "http://localhost/files/img/";
+//			String savePath = rootUploadPath + "\\files\\img\\";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
+//			String fullPath = recipe_InfoVo.getImgUrl();	//"http://localhost/files/img/어피치찜.png"	
+//			int recipeCode = recipe_InfoVo.getRecipeCode();	//레시피코드값 넣기
+//
+//			int index = fullPath.lastIndexOf("/");
+//			String fileName = fullPath.substring(index + 1);	//"어피치찜.png"으로 자름
+//			
+//			int i = -1;
+//			i = fileName.lastIndexOf(".");	//파일확장자 위치
+//			
+//			String realFileName = recipeCode + fileName.substring(i,fileName.length());	//"레시피명.png"로 확장자명 살리기 
+//			recipe_InfoVo.setImgUrl(imageUrl + realFileName);	//"http://localhost/files/img/" + "레시피명.png"로 변경해서 넣음
+//			
+////			String imageUploadPath = rootUploadPath + "/files/img/";	//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/"
+//			//String imageUploadPath = recipe_InfoVo.getImgUrl();	
+//
+//			File oldFile = new File(savePath + fileName);
+//			File newFile = new File(savePath + realFileName);
+//			
+//			oldFile.renameTo(newFile);
 			
 			// recipe Process 컬럼의 존재이유를 모르겠다.
 			// img_url 별도의 다른 도메인을 사용하거나,아니면 등록 자체에 외부 url 을 등록하는게 아니라면 예) 네이버
@@ -434,10 +434,10 @@ public class RecipeInfoDAO {
 				pstmt.executeUpdate();
 				pstmt.close();
 			}
-			
+			/*
 			//DB에 들어갈 이미지파일명 바꾸기
 			String imageUrl = "http://localhost/files/img/";
-			String savePath = rootUploadPath + "/files/img/";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
+			String savePath = rootUploadPath + "\\files\\img\\";//"/usr/local/apache-tomcat-9.0.36/webapps/ROOT/files/img/";
 			String fullPath = recipe_InfoVo.getImgUrl();	//"http://localhost/files/img/어피치찜.png"	
 			int recipeCode = recipe_InfoVo.getRecipeCode();	//레시피코드값 넣기
 
@@ -457,7 +457,7 @@ public class RecipeInfoDAO {
 			File newFile = new File(savePath + realFileName);
 			
 			oldFile.renameTo(newFile);
-			
+			*/
 
 			List<Ingredient> ing_codeList = new ArrayList<Ingredient>();
 			Ingredient ingredientVo = new Ingredient();

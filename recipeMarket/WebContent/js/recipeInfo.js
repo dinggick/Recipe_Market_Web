@@ -44,6 +44,21 @@ addEventListener("load", () => {
     		}
     	});
     });
+    
+    $(".modifyBtn").click(function(e) {    	
+    	var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeModify");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipeCode);
+    	form.appendChild(input);
+    	
+    	document.body.appendChild(form);
+    	form.submit();
+    });
 
 	$(".labelLike").click(function() {
 		$.ajax({
