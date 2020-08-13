@@ -43,8 +43,19 @@ $(function()  {
 	
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
-		var recipe_code = $(this).attr('data-recipe-code');
-		console.log(recipe_code);
+		var recipeCode = $(this).attr('data-recipe-code');
+		
+		var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipeCode);
+    	form.appendChild(input);
+    	document.body.appendChild(form);
+    	form.submit();
 	});
 
 	// 처음으로(1페이지로)
@@ -63,7 +74,6 @@ $(function()  {
 	$("img[alt=next2]").click(function() {
 		goPage("${totalPage}");
 	});
-	
 }); // end of load
 
 

@@ -44,7 +44,28 @@
 
 <script>
 $(function()  {
+	function targetPageURL(page) {
+		return "${contextPath}/favorite/favoriteList?currentPage=" + page;
+	}
 	
+		$("img[alt=prev1]").click(function() {
+			location.href = targetPageURL(${currentPage - 1});
+		});
+	$("img[alt=next1]").click(function() {
+			location.href = targetPageURL(${currentPage + 1});
+		});
+		$("img[alt=prev2]").click(function() {
+			location.href = targetPageURL(${startPage - CNT_PER_PAGEGROUP});
+		});
+	$("img[alt=next2]").click(function() {
+			location.href = targetPageURL(${endPage + 1});
+		});
+	$("img[alt=showInfo]").click(function(evt) {
+		var url = "${contextPath}/rnd/info?rd_email=";
+		var rd_email = $(this).parent().parent().children("td:nth-child(2)").text();
+		location.href = url + rd_email;
+	});
+
 	var $rightSectionObj = $("div.divContent>section.rightSection");
 	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
 	var $faovoriteListObj = $recipeInfoObj.find("table.favoriteList");
@@ -204,10 +225,7 @@ $(function()  {
 				</c:if>
 			</div>
             <!-- 페이징 영역 End --> --%>
-
-	        </div>
-	        
-	        
+			 
 			<div class="pagingSection">
 			<c:if test="${startPage > 1}">
 			<img src="${contextPath}/img/prev2.png" alt="prev2">
@@ -235,6 +253,9 @@ $(function()  {
 			</c:if>
 				
 			</div>
+	        </div>
+	        
+	       
         </section>
     </div>
     
