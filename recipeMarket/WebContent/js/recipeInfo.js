@@ -16,7 +16,7 @@ addEventListener("load", () => {
     // $(".ad").height($(".recipeInfo").height() - $(".remoteControl").outerHeight());
     $(".ad").height($(".ad").height() * 1.05);
 
-	var recipeCode = $("input[type=hidden]").val();
+	var recipeCode = $(".recipeCode").val();
 
     $(".purchaseBtn").click(function(e){
     	var quantity = $(".buttonSection>input[type=number]").val();
@@ -48,36 +48,49 @@ addEventListener("load", () => {
     	});
     });
     
-    $(".modifyBtn").click(function(e) {    	
-    	var form = document.createElement("form");
-    	form.setAttribute("method", "POST");
-    	form.setAttribute("action", "/recipeMarket/recipeModify");
-    	
-    	var input = document.createElement("input");
-    	input.setAttribute("type", "hidden");
-    	input.setAttribute("name", "recipeCode");
-    	input.setAttribute("value", recipeCode);
-    	form.appendChild(input);
-    	
-    	document.body.appendChild(form);
-    	form.submit();
+    $(".modifyBtn").click(function(e) {
+    	var rdEmail = $(".rdEmail").val();
+
+		$.ajax({
+			url : "/recipeMarket/recipeModify",
+			data : {recipeCode : recipeCode, rdEmail : rdEmail},
+			success : (data, textStatus, jqXHR) => {
+				if(data.status == "success") {
+					var form = document.createElement("form");
+					form.setAttribute("method", "POST");
+			    	form.setAttribute("action", "/recipeMarket/recipeModify.jsp");
+			    	
+			    	var inputRecipeCode = document.createElement("input");
+			    	inputRecipeCode.setAttribute("type", "hidden");
+			    	inputRecipeCode.setAttribute("name", "recipeCode");
+			    	inputRecipeCode.setAttribute("value", recipeCode);
+			    	
+			    	document.body.appendChild(form);
+			    	form.submit();
+				} else {
+					alert("레시피 수정 실패 : " + data.msg);
+				}
+			}
+		});
     });
     
     
     $(".removeBtn").click(function(e) {
     	if(confirm("정말 삭제하시겠습니까?")) {
-    		var form = document.createElement("form");
-        	form.setAttribute("method", "POST");
-        	form.setAttribute("action", "/recipeMarket/recipeRemove");
-        	
-        	var input = document.createElement("input");
-        	input.setAttribute("type", "hidden");
-        	input.setAttribute("name", "recipeCode");
-        	input.setAttribute("value", recipeCode);
-        	form.appendChild(input);
-        	
-        	document.body.appendChild(form);
-        	form.submit();
+    		var rdEmail = $(".rdEmail").val();
+
+			$.ajax({
+				url : "/recipeMarket/recipeRemove",
+				data : {recipeCode : recipeCode, rdEmail : rdEmail},
+				success : (data, textStatus, jqXHR) => {
+					if(data.status == "success") {
+						alert("레시피가 삭제되었습니다.");
+						location.href = "/recipeMarket/myRecipeList";
+					} else {
+						alert("레시피 수정 실패 : " + data.msg);
+					}
+				}
+			});
     	}
     });
 
