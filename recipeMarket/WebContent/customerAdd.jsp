@@ -13,7 +13,6 @@
 
 <link rel="stylesheet" href="./css/header.css">
 <link rel="stylesheet" href="./css/footer.css">
-<link rel="stylesheet" href="./css/divContent.css">
 
 <link rel="stylesheet" href="./css/customerAdd.css">
 
