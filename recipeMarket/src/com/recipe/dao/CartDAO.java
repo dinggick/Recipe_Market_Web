@@ -44,7 +44,7 @@ public class CartDAO {
 			e.printStackTrace();
 			if(e.getErrorCode() == 1) {
 				try {
-					update(c);
+					update2(c);
 					return;
 				} catch (ModifyException e1) {
 					e1.printStackTrace();
@@ -133,6 +133,36 @@ public class CartDAO {
 		} finally {
 			MyConnection.close(ps, con);
 		}
+	}
+	
+	public void update2(Cart c) throws ModifyException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		
+		String updateSQL = "update cart set cart_quantity=(select cart_quantity from cart where customer_email=? and recipe_code=?)+1 where customer_email=? and recipe_code=?";
+	
+		try {
+			ps = con.prepareStatement(updateSQL);
+			
+			ps.setString(1, c.getCustomerEmail());
+			ps.setInt(2, c.getRecipeInfo().getRecipeCode());
+			ps.setString(3, c.getCustomerEmail());
+			ps.setInt(4, c.getRecipeInfo().getRecipeCode());
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(ps, con);
+		}
+		
 		
 	}
 	

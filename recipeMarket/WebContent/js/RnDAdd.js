@@ -152,7 +152,7 @@ $(() => {
     		method: "POST",
     		data: $("form").serialize(),
     		success: (responseObj) => {
-    			alert(responseObj.status);
+    			
 				location.reload();
     		}
     	});

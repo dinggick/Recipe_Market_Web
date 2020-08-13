@@ -35,6 +35,12 @@ public class PurchaseController implements Controller {
 		HttpSession session = request.getSession();
 		String customerEmail = (String)session.getAttribute("loginInfo");
 		//String customerEmail = request.getParameter("customerEmail");
+		
+		if(customerEmail == null) {
+			request.setAttribute("msg", "loginIssue");
+			return "/fail.jsp";
+		}
+		
 		String servletPath="";
 		Purchase p = new Purchase();
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();

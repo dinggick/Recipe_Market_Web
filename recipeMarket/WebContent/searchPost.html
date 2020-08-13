@@ -6,7 +6,7 @@
 <style>
 html,body{margin:0px; overflow: hidden;height:100%;border:1px solid black; background-color:ghostwhite;}
 div.post{ width: 100%; height:100%;}
-div.post>div.list{width: 100%; height:80%; border:2px double black ; margin-top:10px; overflow-y: auto;   }
+div.post>div.list{width: 100%; height:100%; border:2px double black ; margin-top:10px; overflow-y: auto;   }
 div.post>div.list>ul{list-style-type: none; padding: 0px;}
 div.post>div.list>ul>li>div.code{width:15%; display: inline-block; text-align:center;}
 div.post>div.list>ul>li>div.baseAddr{display: inline-block;}
@@ -18,6 +18,9 @@ div.post>div.list>ul>li:hover{cursor:pointer; }
 
 <script>
 $(function(){
+	$("form").submit(function(){
+		return false;
+	});
    $("#searchPost").keypress((e) => {
       if(e.which == 13) {
          $.ajax({
@@ -37,7 +40,7 @@ $(function(){
                      var baseAddrValue = $(this).find('div.baseAddr').html();
                      var buildingnoValue = $(this).children('div.buildingno').html();
                      
-                     alert(codeValue);
+                   	
 
                      var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
                      $openerFieldsetObj.find("#customer_zip").val(codeValue);
@@ -51,7 +54,6 @@ $(function(){
             }
          });
       }
-      return false;
    });
    
    $("#postsearchBtn").click(function() {
@@ -72,8 +74,7 @@ $(function(){
                     var baseAddrValue = $(this).find('div.baseAddr').html();
                     var buildingnoValue = $(this).children('div.buildingno').html();
                     
-                    alert(codeValue);
-
+            
                     var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
                     $openerFieldsetObj.find("#customer_zip").val(codeValue);
                     $openerFieldsetObj.find("#customer_juso").val(baseAddrValue);
@@ -85,7 +86,6 @@ $(function(){
               }
            }
         });
-	   return false;
    });
 });
 </script>

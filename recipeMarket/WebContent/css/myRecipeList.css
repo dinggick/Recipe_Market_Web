@@ -72,6 +72,7 @@ table.myReviewList>tbody>tr>td>a {
 table.myReviewList>tbody>tr:hover {
 	background: #8bd8bd;
 	color: black;
+	cursor: pointer;
 }
 
 /* <!-- 페이징 처리 부분 --> */

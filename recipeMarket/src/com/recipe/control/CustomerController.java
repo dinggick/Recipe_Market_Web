@@ -99,6 +99,11 @@ public class CustomerController implements Controller {
 			String customer_name = request.getParameter("customer_name");
 
 			String customer_birth_date = request.getParameter("customer_birth_date");
+			if(customer_birth_date.length() > 6) {
+				customer_birth_date = customer_birth_date.replace("-", "");
+				customer_birth_date = customer_birth_date.substring(2, customer_birth_date.length());
+			}
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 			Date dt = null;
 			try {

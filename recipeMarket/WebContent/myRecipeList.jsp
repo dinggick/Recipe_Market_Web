@@ -41,10 +41,25 @@ $(function()  {
 	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
 	var $myReviewListObj = $recipeInfoObj.find("table.myReviewList");
 	
+	$('table> thead').click(function(event){
+		event.stopPropagation();
+	})
+	
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
-		var recipe_code = $(this).attr('data-recipe-code');
-		console.log(recipe_code);
+		var recipeCode = $(this).attr('data-recipe-code');
+		
+		var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipeCode);
+    	form.appendChild(input);
+    	document.body.appendChild(form);
+    	form.submit();
 	});
 
 	// 처음으로(1페이지로)
@@ -63,7 +78,6 @@ $(function()  {
 	$("img[alt=next2]").click(function() {
 		goPage("${totalPage}");
 	});
-	
 }); // end of load
 
 
@@ -106,8 +120,8 @@ $(function()  {
 			        	<td>NO</td>
 			        	<td>레시피명</td>
 			        	<td>가격</td>
-			        	<td>판매량 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort1"></a></td>
-			        	<td>총매출액 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort2"></a></td>
+			        	<td>판매량 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="20px" alt="sort1" class="nn"></a></td>
+			        	<td>총매출액 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="20px" alt="sort2" class="nn"></a></td>
 		        	</thead>
 		        	<tbody>
 		        		<c:if test="${empty myRecipeListPage}">

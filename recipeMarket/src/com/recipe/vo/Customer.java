@@ -11,6 +11,7 @@ public class Customer {
 	private String customerPhone; //고객전화번호
 	private Postal postal; //우편번호
 	private String customerAddr; //고객상세주소
+	private String verification; //인증 여부
 	
 	public Customer() {}
 
@@ -25,6 +26,20 @@ public class Customer {
 		this.customerPhone = customerPhone;
 		this.postal = postal;
 		this.customerAddr = customerAddr;
+	}
+	
+	public Customer(String customerEmail, String customerPwd, String customerName, String customerGender,
+			Date customerBirthDate, String customerPhone, Postal postal, String customerAddr, String verification) {
+		super();
+		this.customerEmail = customerEmail;
+		this.customerPwd = customerPwd;
+		this.customerName = customerName;
+		this.customerGender = customerGender;
+		this.customerBirthDate = customerBirthDate;
+		this.customerPhone = customerPhone;
+		this.postal = postal;
+		this.customerAddr = customerAddr;
+		this.setVerification(verification);
 	}
 
 	public String getCustomerEmail() {
@@ -91,12 +106,18 @@ public class Customer {
 		this.customerAddr = customerAddr;
 	}
 
+	public String getVerification() {
+		return verification;
+	}
+
+	public void setVerification(String verification) {
+		this.verification = verification;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [customerEmail=" + customerEmail + ", customerPwd=" + customerPwd + ", customerName="
 				+ customerName + ", customerGender=" + customerGender + ", customerBirthDate=" + customerBirthDate
 				+ ", customerPhone=" + customerPhone + ", postal=" + postal + ", customerAddr=" + customerAddr + "]";
 	}
-	
-	
 }

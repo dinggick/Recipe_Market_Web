@@ -33,6 +33,7 @@ public class AccountService {
 		Customer c;
 		try {
 			c = customerDAO.selectByEmail(customerId);
+			if(c.getVerification().equals("n")) throw new FindException("이메일 인증이 필요합니다.");
 		} catch (FindException e) {
 			throw new FindException("로그인 실패");
 		}

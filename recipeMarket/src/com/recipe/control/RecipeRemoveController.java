@@ -37,7 +37,7 @@ public class RecipeRemoveController implements Controller {
 				recipeInfo.setRecipeCode(Integer.parseInt(recipeCode));
 				service.removeRecipe(rdEmail, recipeInfo);
 				
-				return "/success.jsp";
+				return "/myRecipeList";
 			} else {
 				request.setAttribute("msg", "레시피 코드가 없습니다.");
 				return "/fail.jsp";
