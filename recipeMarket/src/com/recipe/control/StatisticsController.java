@@ -155,6 +155,7 @@ public class StatisticsController implements Controller {
 			try {
 				List<Pair<String, Pair<Integer, Integer>>> dataList = null;
 				
+				
 				dataList = service.findByConditionG4(rd_email, start_date, end_date, gender1, gender2, start_age, end_age, order_by, count);
 				request.setAttribute("data_list", dataList);
 

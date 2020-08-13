@@ -144,8 +144,9 @@ public class RnDController implements Controller {
 			}
 		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */			
 			String user = (String)session.getAttribute("userType");
-			
-			if (user == "A") { // Admin 의 경우 전체 RnD 의 통계 자료를 확인할 수 있다.
+			System.out.println(user);
+
+			if (user.equals("A")) { // Admin 의 경우 전체 RnD 의 통계 자료를 확인할 수 있다.
 				try {
 					List<RnD> rd_list = null;
 					rd_list = service.findAll();
@@ -154,7 +155,7 @@ public class RnDController implements Controller {
 				} catch (FindException e) {
 					e.printStackTrace();
 				}
-			} else if (user == "R") { // RnD 의 경우 자신에 대한 통계만을 볼 수 있다.
+			} else if (user.equals("R")) { // RnD 의 경우 자신에 대한 통계만을 볼 수 있다.
 				jspFileName = "/conditionSearch.jsp";
 			}
 		}
