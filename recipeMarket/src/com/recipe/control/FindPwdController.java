@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
-import com.recipe.mail.Mail;
+import com.recipe.mail.PwdMail;
 import com.recipe.service.AccountService;
 import com.recipe.vo.Customer;
 
@@ -31,8 +31,8 @@ public class FindPwdController implements Controller {
 		
 		try {
 			Customer c = service.findByEmail(value);
-			Mail mail = new Mail();
-			mail.sendPwd(c.getCustomerEmail(),c.getCustomerPwd());
+			Thread thread = new Thread(new PwdMail(value,c.getCustomerPwd()));
+			thread.start();
 			servletPath = "/success.jsp";
 		} catch (FindException e) {
 			servletPath = "/fail.jsp";

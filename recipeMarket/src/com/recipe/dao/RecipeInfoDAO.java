@@ -85,7 +85,8 @@ public class RecipeInfoDAO {
       return recipeInfo;
    }
    public List<RecipeInfo> selectByNameAndIngredient(List<String> ingName) throws FindException{
-      Connection con = null;
+     
+	  Connection con = null;
       PreparedStatement pstmt = null;
       ResultSet rs = null;
       List<RecipeInfo> recipeInfo = new ArrayList<>();

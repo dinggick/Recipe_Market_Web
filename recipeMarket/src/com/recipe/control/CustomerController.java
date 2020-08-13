@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.AddException;
-import com.recipe.exception.DuplicatedException;
 import com.recipe.exception.FindException;
 import com.recipe.exception.ModifyException;
 import com.recipe.exception.RemoveException;
-import com.recipe.mail.Mail;
+import com.recipe.mail.VerificationMail;
 import com.recipe.service.AccountService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Postal;
@@ -72,6 +71,8 @@ public class CustomerController implements Controller {
 					postal, customer_addr);
 			try {
 				accountService.add(c);
+				Thread thread = new Thread(new VerificationMail(c.getCustomerEmail()));
+				thread.start();
 				return "/success.jsp";
 			} catch (AddException e) {
 				e.printStackTrace();
