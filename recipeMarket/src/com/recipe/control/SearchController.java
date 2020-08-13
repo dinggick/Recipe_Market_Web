@@ -43,7 +43,19 @@ public class SearchController implements Controller {
 				RecipeInfo recipe = service.findByCode(d);
 				System.out.println(recipe);
 				request.setAttribute("recipeInfo", recipe);
-				servletPath = "/recipeInfo.jsp";
+				String customerEmail = (String) request.getSession().getAttribute("loginInfo");
+				if(customerEmail != null) {
+					List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
+					int i = 0;
+					for(i = 0; i < favoriteListByEmail.size(); i++) {
+						if(recipe.equals(favoriteListByEmail.get(i).getRecipeInfo())) {
+							request.setAttribute("favoriteCheck", true);
+							break;
+						}
+					}
+					if(i == favoriteListByEmail.size()) request.setAttribute("favoriteCheck", false);
+				}
+				servletPath = "/recipeInfo?recipeCode=" + d;
 			} catch (FindException e) {
 				servletPath = "/recipeList.jsp";
 			}
@@ -75,8 +87,7 @@ public class SearchController implements Controller {
 				}				
 				servletPath = "/recipeList.jsp";
 			} catch (FindException e) {
-				servletPath = "/recipeList.jsp";
-				
+				servletPath = "/recipeList.jsp";				
 			}
 			
 		}	
