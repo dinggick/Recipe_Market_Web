@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RnDInfo</title>
+    <title>내 정보</title>
 
     <link rel="icon" href="${contextPath}/images/titlecon.png">
 
