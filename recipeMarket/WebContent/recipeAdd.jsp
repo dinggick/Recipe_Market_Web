@@ -157,7 +157,7 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+            <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include>
         </div>
     </header>
     <div class="divContent">
