@@ -39,7 +39,10 @@ addEventListener("load", () => {
 				    	form.submit();
     				}
     			} else {
-    				location.href = "/recipeMarket/static/login.html";
+    				if(data.msg == "loginIssue") {
+    					alert("로그인이 필요합니다.");
+    					location.href = "/recipeMarket/static/login.html";
+    				}
     			}
     		}
     	});
@@ -108,6 +111,7 @@ addEventListener("load", () => {
 				    	form.submit();
     				}
     			} else {
+    				alert("로그인이 필요합니다.");
     				location.href = "/recipeMarket/static/login.html";
     			}
     		}
