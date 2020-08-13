@@ -24,7 +24,6 @@
 <!-- javaScript -->
 <script src="${contextPath}/js/dropdownMenu.js"></script>
 <script src="${contextPath}/js/favoriteBtn.js"></script>
-<%-- <script src="${contextPath}/js/header.js"></script> --%>
 <script src="${contextPath}/js/header_rnd.js"></script>
 <script src="${contextPath}/js/footer.js"></script>
 <script>

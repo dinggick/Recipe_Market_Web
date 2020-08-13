@@ -23,7 +23,16 @@
     <script src="${contextPath}/js/jquery.form.min.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
     <script src="${contextPath}/js/favoriteBtn.js"></script>
-    <script src="${contextPath}/js/header.js"></script>
+    
+	<c:choose>
+		<c:when test="${userType == 'A'}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/recipeAdd.js"></script>
     
@@ -157,24 +166,14 @@
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <jsp:include page="dropdownMenu.jsp"></jsp:include>
+            <jsp:include page="dropdownMenu_rnd.jsp"></jsp:include>
         </div>
     </header>
     <div class="divContent">
         <section class="leftSection">
-            <div class="remoteControl">
-                <ul>
-                    <li id="remoteBtnTop">TOP</li>
-                    <li id="remoteBtnIng">재료</li>
-                    <li id="remoteBtnProcess">과정</li>
-                    <li id="remoteBtnReview">후기</li>
-                </ul>
-            </div>
-            <%-- <div class="ad">
-                <img src="${contextPath}/img/ad1.jpg" class="adImg">
-                <img src="${contextPath}/img/ad2.jpg" class="adImg">
-                <img src="${contextPath}/img/ad3.jpg" class="adImg">
-            </div>--%>
+            <!-- 화면 제목(또는 레시피 이름) -->
+            <h1>레시피 등록</h1>
+            <hr><br>
         </section>
         <!-- 오른쪽 영역 (화면에 따라 동적 생성 필요) -->
         <section class="rightSection">

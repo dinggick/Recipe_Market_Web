@@ -4,6 +4,16 @@
 td {
 	padding-top: 5px;
 }
+.leftSection {
+	text-align: center;
+	padding-top: 45px;
+	background-color: white;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.leftSection>hr {
+	width: 55%;
+	border: 2px solid #D2302C;
+}
 .contentsWrapper {
     display: flex;
     flex-direction: column;
