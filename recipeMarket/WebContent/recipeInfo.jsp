@@ -26,7 +26,7 @@
     <script src="${contextPath}/js/recipeInfo.js"></script>
     <c:choose>
     	<c:when test="${sessionScop.userType == 'A'}"><script src="${contextPath}/js/header_admin.js"></script></c:when>
-    	<c:when test="${sessionScop.userType == 'R}"><script src="${contextPath}/js/header_rnd.js"></script></c:when>
+    	<c:when test="${sessionScop.userType == 'R'}"><script src="${contextPath}/js/header_rnd.js"></script></c:when>
     	<c:otherwise> <script src="${contextPath}/js/header.js"></script> </c:otherwise>
     </c:choose>
 </head>
