@@ -41,7 +41,7 @@ public class RecipeEditController implements Controller {
          // 업로드 하는법
          // 한글 깨짐
          HttpSession session = request.getSession();
-         String rdEmail = "rd04@recipe.com";//(String)session.getAttribute("loginInfo");
+         String rdEmail = (String)session.getAttribute("loginInfo");
          String imageUrl = "http://localhost/files/img/";
          String rootUploadPath = request.getSession().getServletContext().getRealPath("/").replace("wtpwebapps" + File.separator + "recipeMarket" + File.separator, "webapps" + File.separator + "ROOT");
          String imageUploadPath = rootUploadPath + File.separator + "files" + File.separator + "img" + File.separator;
