@@ -34,7 +34,7 @@ public class PostalDAO {
 				"      ,buildingno\r\n" + 
 				"      ,sido ||' ' || NVL(sigungu, ' ') ||' ' || NVL(eupmyun, ' ')  city    \r\n" + 
 				"      ,doro || ' ' || DECODE(building2, '0' , building1, building1 ||'-' || building2) doro\r\n" + 
-				"      ,building      \r\n" + 
+				"      ,NVL(building, ' ')  building\r\n" + 
 				"FROM postal\r\n" + 
 				"WHERE building LIKE ? \r\n" + 
 				"OR DORO ||' '|| building1 || building2 LIKE ?";
@@ -49,6 +49,9 @@ public class PostalDAO {
 				String city = rs.getString("city");
 				String doro1 = rs.getString("doro");
 				String building = rs.getString("building");
+				
+				System.out.println(doro1);
+				System.out.println(building);
 				Postal p = new Postal(buildingno, zipcode, city, doro1, building);
 				list.add(p);
 			}

@@ -82,6 +82,7 @@ public class CustomerController implements Controller {
 
 		} else if (pathInfo.equals("/myInfo")) {
 			String customerEmail = request.getParameter("customer_email");
+			System.out.println(customerEmail);
 			try {
 				Customer customer = accountService.findByEmail(customerEmail);
 				request.setAttribute("info", customer);
