@@ -55,6 +55,16 @@
 <script>
 $(() => {
 	$("form").submit(function(evt) {
+// 		var inputVal = $("#customer_birth_date").val();
+// 		var birth = Date.parse(dt + "00:00:00");		
+// 		var now = new Date();
+		
+// 		var age = (now.getMonth() - birth.getMonth()) / 12;
+// 		if (age < 14) {
+// 			alert("만 14세 이상만 가입할 수 있습니다.");
+// 			return false;
+// 		}
+
 		$.ajax({
 			url: "./customer/register",
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
@@ -163,7 +173,7 @@ $(() => {
 							<tr>
 								<td><input class="dataInput" type="text"
 									id="customer_birth_date" size="70" name="customer_birth_date"
-									placeholder="생년월일을 입력하세요.(ex>860724)"></td>
+									placeholder="생년월일을 입력하세요.(ex>1986-07-24)"></td>
 							</tr>
 						</div>
 

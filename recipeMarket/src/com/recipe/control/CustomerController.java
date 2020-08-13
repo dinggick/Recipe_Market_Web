@@ -49,7 +49,7 @@ public class CustomerController implements Controller {
 			System.out.println(customer_name);
 			String customer_birth_date = request.getParameter("customer_birth_date");
 			System.out.println(customer_birth_date);
-			SimpleDateFormat sdf = new SimpleDateFormat("yy-MMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date dt = null;
 			try {
 				dt = new Date(sdf.parse(customer_birth_date).getTime());
@@ -57,6 +57,8 @@ public class CustomerController implements Controller {
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
+			
+			Date now = new Date(System.currentTimeMillis());
 
 			String customer_gender = request.getParameter("customer_gender");
 			String customer_phone = request.getParameter("customer_phone");
@@ -88,7 +90,6 @@ public class CustomerController implements Controller {
 				return "/myInfo.jsp";
 			} catch (FindException e) {
 				e.printStackTrace();
-				request.setAttribute("msg", e.getMessage().replace("\"", ""));
 				return "/fail.jsp";
 			}
 
@@ -99,12 +100,12 @@ public class CustomerController implements Controller {
 			String customer_name = request.getParameter("customer_name");
 
 			String customer_birth_date = request.getParameter("customer_birth_date");
-			if(customer_birth_date.length() > 6) {
-				customer_birth_date = customer_birth_date.replace("-", "");
-				customer_birth_date = customer_birth_date.substring(2, customer_birth_date.length());
-			}
+//			if(customer_birth_date.length() > 6) {
+//				customer_birth_date = customer_birth_date.replace("-", "");
+//				customer_birth_date = customer_birth_date.substring(2, customer_birth_date.length());
+//			}
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date dt = null;
 			try {
 				dt = new Date(sdf.parse(customer_birth_date).getTime());
@@ -136,7 +137,8 @@ public class CustomerController implements Controller {
 			String customer_name = request.getParameter("customer_name");
 
 			String customer_birth_date = request.getParameter("customer_birth_date");
-			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
 			Date dt = null;
 			try {
 				dt = new Date(sdf.parse(customer_birth_date).getTime());
