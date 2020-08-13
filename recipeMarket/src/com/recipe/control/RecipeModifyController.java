@@ -51,7 +51,7 @@ public class RecipeModifyController implements Controller {
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
 		}
 
-		servletPath = "/success.jsp";
+		servletPath = "/recipeModify.jsp";
 		return servletPath;
 	}
 

@@ -33,7 +33,7 @@
     </c:choose>
     
     <script src="${contextPath}/js/footer.js"></script>
-    <script src="${contextPath}/js/recipeInfo.js"></script>
+<%--     <script src="${contextPath}/js/recipeInfo.js"></script> --%>
     <script src="${contextPath}/js/recipeModify.js"></script>
     
     <script>

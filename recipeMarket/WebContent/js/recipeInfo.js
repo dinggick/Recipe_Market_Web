@@ -64,7 +64,7 @@ addEventListener("load", () => {
 			    	inputRecipeCode.setAttribute("type", "hidden");
 			    	inputRecipeCode.setAttribute("name", "recipeCode");
 			    	inputRecipeCode.setAttribute("value", recipeCode);
-			    	
+			    	form.append(inputRecipeCode);
 			    	document.body.appendChild(form);
 			    	form.submit();
 				} else {
