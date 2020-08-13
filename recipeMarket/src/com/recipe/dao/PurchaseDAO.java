@@ -58,7 +58,9 @@ public class PurchaseDAO {
 				
 				r.setReviewComment(rs.getString("review_comment"));
 				
-				ri.setRecipeCode(rs.getInt("recipe_code"));
+				int test = rs.getInt("recipe_code");
+				System.out.println(test);
+				ri.setRecipeCode(test);
 				ri.setRecipeName(rs.getString("recipe_name"));
 				ri.setRecipePrice(rs.getInt("recipe_price"));
 				
@@ -104,7 +106,7 @@ public class PurchaseDAO {
 		String detailSQL = "select p.PURCHASE_CODE, p.purchase_date, ri.recipe_name, pd.purchase_quantity, ri.recipe_price, r.review_comment \r\n" + 
 				"from purchase p join purchase_detail pd on(p.purchase_code=pd.purchase_code) \r\n" + 
 				"join recipe_info ri on(pd.recipe_code = ri.recipe_code) left join review r on(p.purchase_code = r.purchase_code) \r\n" + 
-				"where p.customer_email=? and p.purchase_date between ? and sysdate order by p.purchase_date asc";
+				"where p.customer_email=? and p.purchase_date between ? and sysdate order by p.purchase_date desc";
 		try {
 			ps = con.prepareStatement(detailSQL);
 			
