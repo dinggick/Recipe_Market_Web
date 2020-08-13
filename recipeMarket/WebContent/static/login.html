@@ -9,6 +9,8 @@
     <meta name="google-signin-client_id" content="152161735609-pa6qec9tnnfbut4jbk88u0lksv7i9eu3.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/client:platform.js?onload=init" async defer></script>
     <title>Recipe Market</title>
+    <link rel="icon" href="/recipeMarket/img/titlecon.png">
+    
     <link rel="stylesheet" href="/recipeMarket/css/header.css">
     <link rel="stylesheet" href="/recipeMarket/css/divContent.css">
     <link rel="stylesheet" href="/recipeMarket/css/footer.css">
@@ -150,6 +152,22 @@
 				fail: function(err) { 
 					alert(JSON.stringify(err)); 
 				} 
+			});
+			
+			$("form").submit(function() {
+				$.ajax({
+					url : "/recipeMarket/login/customer",
+					data : $(this).serialize(),
+					success : (data, textStatus, jqXHR) => {
+						if(data.status == "success") {
+							location.href = "/recipeMarket";
+						} else {
+							alert(data.msg);
+						}
+					}
+				});
+				
+				return false;
 			});
 		});
 		Kakao.init('b932178c1427f085336fdc6c27e2bb5c');

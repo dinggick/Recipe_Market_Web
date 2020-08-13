@@ -52,19 +52,19 @@ addEventListener("load", () => {
     	var rdEmail = $(".rdEmail").val();
 
 		$.ajax({
-			url : "/recipeMarket/recipeModify",
-			data : {recipeCode : recipeCode, rdEmail : rdEmail},
+			url : "/recipeMarket/editerCheck",
+			data : {rdEmail : rdEmail},
 			success : (data, textStatus, jqXHR) => {
-				if(data.status == "success") {
-					var form = document.createElement("form");
-					form.setAttribute("method", "POST");
-			    	form.setAttribute("action", "/recipeMarket/recipeModify.jsp");
+				if(data.status == "success") {			    	
+			    	var form = document.createElement("form");
+			    	form.setAttribute("method", "POST");
+			    	form.setAttribute("action", "/recipeMarket/recipeModify");
 			    	
-			    	var inputRecipeCode = document.createElement("input");
-			    	inputRecipeCode.setAttribute("type", "hidden");
-			    	inputRecipeCode.setAttribute("name", "recipeCode");
-			    	inputRecipeCode.setAttribute("value", recipeCode);
-			    	
+			    	var input = document.createElement("input");
+			    	input.setAttribute("type", "hidden");
+			    	input.setAttribute("name", "recipeCode");
+			    	input.setAttribute("value", recipeCode);
+			    	form.appendChild(input);
 			    	document.body.appendChild(form);
 			    	form.submit();
 				} else {

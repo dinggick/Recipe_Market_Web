@@ -31,6 +31,8 @@ public class LoginController implements Controller {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
 		String requestURL = request.getServletPath();
 		System.out.println(requestURL);
 		
@@ -54,11 +56,11 @@ public class LoginController implements Controller {
 			String customerName = accountService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", customerName);
-			return "/index.jsp";
+			return "/success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/static/login.html";
+			return "/fail.jsp";
 		}
 	}
 
@@ -71,11 +73,11 @@ public class LoginController implements Controller {
 			String rndName = rndService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", rndName);
-			return "/index_rnd.jsp";
+			return "/success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/static/login_rnd.html";
+			return "/fail.jsp";
 		}
 	}
 	
@@ -88,11 +90,11 @@ public class LoginController implements Controller {
 			adminAccountService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", "관리자");
-			return "/index_admin.jsp";
+			return "/success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
-			return "/static/login_admin.html";
+			return "/fail.jsp";
 		}
 	}
 }
