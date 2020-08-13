@@ -100,9 +100,10 @@
 			$(".selectYear").on("change", function(evt) {
 				$(evt.target).prop("selected", true);
 				var url = "${contextPath}/statistics/graph1?";
-				url += "year=" + $(".selectTerm").val();
+				url += "year=" + $("option:selected").val();
 				location.href = url;
 			});
+			
 			$("form").on("submit", function(evt) {
 				return false;
 			});
