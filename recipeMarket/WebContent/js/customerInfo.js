@@ -116,7 +116,7 @@ $(() => {
     				alert("수정되었습니다.");
     				
     			} else {
-    				alert("error");
+    				alert("수정 실패 : " + data.msg);
     			}
     		}
     	});
