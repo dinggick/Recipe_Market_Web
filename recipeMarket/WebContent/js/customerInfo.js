@@ -57,25 +57,25 @@ $(() => {
         $("#customer_zip + button[type=button]").remove();
     });
 
+    var flg = false;
     $(".infoWrapper").on("blur", "#customer_pwd, #customer_re_pwd", function(evt) {
         if ($("#customer_pwd").val() == undefined || $("#customer_re_pwd").val() == undefined)
             return;
         
-        if ($("#customer_pwd").val() != $("#customer_re_pwd").val())
-            $("#customer_re_pwd").css("border", "0.5px solid red");
-
-        else
-            $("#customer_re_pwd").css("border", "none");
+//        if ($("#customer_pwd").val() != $("#customer_re_pwd").val())
+//            $("#customer_re_pwd").css("border", "0.5px solid red");
+//
+//        else
+//            $("#customer_re_pwd").css("border", "none");
+//            
+//        if (chkPwd($("#customer_pwd").val())) {
+//            $(".invalidPwd").fadeOut();
+//        }
+//        else {
+//            $("#customer_pwd").css("border", "0.5px solid red");
+//            $(".invalidPwd").fadeIn();
+//        }
             
-        if (chkPwd($("#customer_pwd").val())) {
-            $(".invalidPwd").fadeOut();
-        }
-        else {
-            $("#customer_pwd").css("border", "0.5px solid red");
-            $(".invalidPwd").fadeIn();
-        }
-            
-        var flg = false;
         if ($("#customer_pwd").val() != $("#customer_re_pwd").val()) {
             $("#customer_re_pwd").css("border", "0.5px solid red");
             $(".eqaulPwd").fadeIn();
