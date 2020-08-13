@@ -54,7 +54,7 @@
     border: 2px solid
 }
 .rightSection {
-    display: flex;
+    display: block;
     flex-direction: column;
     justify-content: center;
     align-items: center;
