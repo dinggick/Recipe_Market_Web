@@ -25,6 +25,7 @@
 
 <script src="./js/commonSection.js"></script>
 
+
 <script src="./js/header.js"></script>
 <script src="./js/footer.js"></script>
 <script src="./js/dropdownMenu.js"></script>
@@ -111,7 +112,7 @@ $(() => {
 
 			<div class="titleWrapper">
 
-				<span> 회원가입 </span>
+				<h1> 회원가입 </h1>
 
 			</div>
 

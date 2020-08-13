@@ -96,7 +96,8 @@
 							</c:choose>
                         </c:if>
                         
-                        <input type="hidden" value="${requestScope.recipeInfo.recipeCode}">
+                        <input type="hidden" class="recipeCode" value="${requestScope.recipeInfo.recipeCode}">
+                        <input type="hidden" class="rdEmail" value="${requestScope.recipeInfo.rd.rdEmail}">
                     </div>
                 </div>
                 <div class="ingredientSection">

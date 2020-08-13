@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
-
+   
     <link rel="stylesheet" href="${contextPath}/css/customerInfo.css">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700,900" rel="stylesheet">
@@ -72,9 +72,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h1>
                                내 정보
-            </span>
+            </h1>
 
         </div>
 

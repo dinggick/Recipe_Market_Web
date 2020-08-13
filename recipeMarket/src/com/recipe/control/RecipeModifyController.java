@@ -29,6 +29,11 @@ public class RecipeModifyController implements Controller {
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = "";
 //		HttpSession session = request.getSession();
+		String rdEmail = request.getParameter("rdEmail");
+		if(!rdEmail.equals(request.getSession().getAttribute("loginInfo"))) {
+			request.setAttribute("msg", "이 레시피의 작성자가 아닙니다");
+			return "/fail.jsp";
+		}
 		System.out.println("레시피 수정뷰");
 		String recipeCode = request.getParameter("recipeCode");
 		System.out.println("--------- recipeCode : " + recipeCode);
@@ -46,7 +51,7 @@ public class RecipeModifyController implements Controller {
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
 		}
 
-		servletPath = "/recipeModify.jsp";
+		servletPath = "/success.jsp";
 		return servletPath;
 	}
 
