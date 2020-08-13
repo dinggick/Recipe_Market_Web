@@ -75,13 +75,16 @@ $(() => {
             $(".invalidPwd").fadeIn();
         }
             
+        var flg = false;
         if ($("#customer_pwd").val() != $("#customer_re_pwd").val()) {
             $("#customer_re_pwd").css("border", "0.5px solid red");
             $(".eqaulPwd").fadeIn();
+            flg = false;
         }
         else {
             $("#customer_re_pwd").css("border", "none");
             $(".eqaulPwd").fadeOut();
+            flg = true;
         }
     });
     $(".formWrapper").on("click", ".searchBtn", function(){
@@ -108,6 +111,10 @@ $(() => {
     });
     
     $(".buttonSection").on("click", ".confirmBtn", function(evt) {
+    	if (flg == false) {
+    		alert("비밀번호가 일치하지 않습니다.");
+    		return false;
+    	}
     	$.ajax({
     		url: "../customer/update",
     		data: $("form").serialize(),
