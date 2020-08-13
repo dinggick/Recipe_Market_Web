@@ -55,8 +55,6 @@
                     <li id="remoteBtnIng">재료</li>
                     <li id="remoteBtnProcess">과정</li>
                     <li id="remoteBtnReview">후기</li>
-                    <li>
-    ${sessionScope.userType}</li>
                 </ul>
             </div>
             <%-- <div class="ad">
