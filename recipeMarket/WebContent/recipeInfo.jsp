@@ -22,9 +22,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
     <script src="${contextPath}/js/favoriteBtn.js"></script>
-    <script src="${contextPath}/js/header.js"></script>
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/recipeInfo.js"></script>
+    <c:choose>
+    	<c:when test="${sessionScop.userType == 'A'}"><script src="${contextPath}/js/header_admin.js"></script></c:when>
+    	<c:when test="${sessionScop.userType == 'R}"><script src="${contextPath}/js/header_rnd.js"></script></c:when>
+    	<c:otherwise> <script src="${contextPath}/js/header.js"></script> </c:otherwise>
+    </c:choose>
 </head>
 
 <body>
