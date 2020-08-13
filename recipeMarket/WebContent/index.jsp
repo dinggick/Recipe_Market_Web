@@ -53,7 +53,7 @@
                         <input type="text" class="searchText" size="40">
                       <a class="fa fa-search searchIcon"></a>
                     </label>
-                
+          
             </div>
         </div>
         <!-- 추천 레시피 영역 -->
