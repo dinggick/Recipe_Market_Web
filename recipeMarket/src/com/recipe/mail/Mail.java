@@ -14,7 +14,8 @@ import com.recipe.vo.Purchase;
 import com.recipe.vo.PurchaseDetail;
 
 
-public class Mail {
+
+public class Mail {	
 	public final String user = "RecipeMarketTeam@gmail.com"; // 네이버일 경우 네이버 계정, gmail경우 gmail 계정
     public final String password = "Recipe1234";   // 패스워드
     private Session session;
@@ -67,7 +68,7 @@ public class Mail {
 			message.setSubject("[이메일인증 - RecipeMarket]");
 			String txt = "";
 			txt +=  "<br><img style='width: 200px;' src=\"https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FRPxFA%2FbtqGuM2ZBAe%2FUKRpsekkax1dKUJnmM9r4k%2Fimg.png\">";
-			txt += "Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
+			txt += "<br>Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
 			txt += "<br><a href='http://localhost/recipeMarket/customer/verify?email=" + userMail +"'>인증할게요<a>";
 			message.setContent(txt, "text/html; charset=utf-8");
 			// Send message
@@ -111,5 +112,6 @@ public class Mail {
 			mex.printStackTrace();
 		}
 	}
-
 }
+
+	
