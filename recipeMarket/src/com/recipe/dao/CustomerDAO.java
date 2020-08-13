@@ -91,6 +91,7 @@ public class CustomerDAO {
 				"    c.customer_gender,\r\n" + 
 				"    c.customer_phone,\r\n" + 
 				"    c.customer_addr,\r\n" + 
+				"    c.VERIFICATION,\r\n" + 
 				"    p.zipcode,\r\n" + 
 				"    p.buildingno,\r\n" + 
 				"    sido || ' ' || nvl(p.sigungu, ' ') || ' ' || nvl(p.eupmyun, ' ') city,\r\n" + 
@@ -101,8 +102,7 @@ public class CustomerDAO {
 				"    LEFT JOIN postal p ON ( c.buildingno = p.buildingno )\r\n" + 
 				"WHERE\r\n" + 
 				"    c.customer_email = ?\r\n" + 
-				"    AND c.customer_status = '1'\r\n" + 
-				"    AND c.verification = 'y'";
+				"    AND c.customer_status = '1'";
 		try {
 			pstmt = con.prepareStatement(selectByEmailSQL);
 			pstmt.setString(1, email);
@@ -115,6 +115,7 @@ public class CustomerDAO {
 				c.setCustomerBirthDate(rs.getDate("customer_birth_date"));
 				c.setCustomerGender(rs.getString("customer_gender"));
 				c.setCustomerPhone(rs.getString("customer_phone"));
+				c.setVerification(rs.getString("verification"));
 				Postal p = new Postal();
 				p.setZipcode(rs.getString("zipcode"));
 				p.setBuildingno(rs.getString("buildingno"));

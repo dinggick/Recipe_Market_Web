@@ -30,9 +30,13 @@ public class SNSController implements Controller {
 		
 		try {
 			Customer c = service.findByEmail(snsEmail);
+			
+			if(c.getVerification().equals("n")) throw new FindException("verify");
+			
 			request.getSession().setAttribute("loginInfo", snsEmail);
 			request.getSession().setAttribute("userName", c.getCustomerName());
 			request.getSession().setAttribute("userType", "C");
+			
 			return "/success.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
