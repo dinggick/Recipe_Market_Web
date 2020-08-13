@@ -27,7 +27,9 @@
 /* purchase button & cart button style */
 
 .purchaseBtn,
-.cartBtn {
+.cartBtn,
+.modifyBtn,
+.removeBtn {
     background-color: #8bd8bd;
     border: none;
     color: white;
@@ -46,7 +48,9 @@
 }
 
 .purchaseBtn:hover,
-.cartBtn:hover {
+.cartBtn:hover,
+.modifyBtn:hover,
+.removeBtn:hover {
     opacity: 1.0;
     transition: 0.3s;
 }

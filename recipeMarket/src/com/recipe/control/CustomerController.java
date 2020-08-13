@@ -150,6 +150,9 @@ public class CustomerController implements Controller {
 
 			try {
 				accountService.remove(c);
+				request.getSession().removeAttribute("loginInfo");
+				request.getSession().removeAttribute("userName");
+				request.getSession().removeAttribute("userType");
 				return "/success.jsp";
 			} catch (RemoveException e) {
 				e.printStackTrace();
