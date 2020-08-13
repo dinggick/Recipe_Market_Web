@@ -49,7 +49,7 @@ public class CustomerController implements Controller {
 			System.out.println(customer_name);
 			String customer_birth_date = request.getParameter("customer_birth_date");
 			System.out.println(customer_birth_date);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yy-MMdd");
 			Date dt = null;
 			try {
 				dt = new Date(sdf.parse(customer_birth_date).getTime());
