@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="${contextPath}/css/header.css">
     <link rel="stylesheet" href="${contextPath}/css/footer.css">
+    <link rel="stylesheet" href="./css/divContent.css">
 
     <link rel="stylesheet" href="${contextPath}/css/customerInfo.css">
 
@@ -72,9 +73,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h1>
                                내 정보
-            </span>
+            </h1>
 
         </div>
 

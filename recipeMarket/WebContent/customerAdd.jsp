@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="./css/header.css">
 <link rel="stylesheet" href="./css/footer.css">
+<link rel="stylesheet" href="./css/divContent.css">
 
 <link rel="stylesheet" href="./css/customerAdd.css">
 
@@ -24,6 +25,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="./js/commonSection.js"></script>
+
 
 <script src="./js/header.js"></script>
 <script src="./js/footer.js"></script>
@@ -101,7 +103,7 @@ $(() => {
 
 			<div class="titleWrapper">
 
-				<span> 회원가입 </span>
+				<h1> 회원가입 </h1>
 
 			</div>
 
