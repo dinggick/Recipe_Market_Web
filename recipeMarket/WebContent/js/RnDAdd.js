@@ -143,7 +143,7 @@ $(() => {
     $(".addBtn").on("click", function(evt) {
 //    	alert(rdEmail + " " + rdPwd + " " + rdPhone + " " + flg + " ");
     	if (!rdEmail || !rdPwd || !rRdPwd || !rdPhone || !flg) {
-    		alert($("form").serialize());
+    		alert("모든 입력란을 정확히 입력해주세요.");
     		return false;
     	}
 		
@@ -152,7 +152,7 @@ $(() => {
     		method: "POST",
     		data: $("form").serialize(),
     		success: (responseObj) => {
-    			
+    			alert("회원가입 성공!");
 				location.reload();
     		}
     	});

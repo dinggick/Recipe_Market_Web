@@ -80,10 +80,10 @@
     	            data: { rd_email : $("#rd_email").val() },
     	            success: function(responseObj) {
     	                if (responseObj.status == "success") {
-    	                	alert("Account has been deleted");
+    	                	alert("수정되었습니다.");
     	                	location.href = "${contextPath}/rnd/list?currentPage=${recentPage}";
     	                } else {
-    	                	alert("Account has not been deleted");
+    	                	alert("수정에 실패했습니다.");
     	                }
     	            }
     	        });

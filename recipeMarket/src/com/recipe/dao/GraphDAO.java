@@ -54,7 +54,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			rs.previous();
 
@@ -118,7 +118,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 
@@ -184,7 +184,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 
@@ -276,7 +276,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 

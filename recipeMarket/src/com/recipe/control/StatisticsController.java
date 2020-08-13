@@ -57,7 +57,8 @@ public class StatisticsController implements Controller {
 				String year = request.getParameter("year");
 				session.setAttribute("year", year);
 				
-				dataList = service.findByYearG1(year);				
+				dataList = service.findByYearG1(year);
+				
 				request.setAttribute("data_list", dataList);
 												
 				jspFileName = "/Graph1.jsp";
@@ -154,7 +155,6 @@ public class StatisticsController implements Controller {
 			
 			try {
 				List<Pair<String, Pair<Integer, Integer>>> dataList = null;
-				
 				
 				dataList = service.findByConditionG4(rd_email, start_date, end_date, gender1, gender2, start_age, end_age, order_by, count);
 				request.setAttribute("data_list", dataList);

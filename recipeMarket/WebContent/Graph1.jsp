@@ -103,10 +103,24 @@
 			$("option[value=" + ${year} + "]").attr("selected", "selected");
 			
 			$(".selectYear").on("change", function(evt) {
-				$(evt.target).prop("selected", true);
-				var url = "${contextPath}/statistics/graph1?";
-				url += "year=" + $("option:selected").val();
-				location.href = url;
+				$.ajax({
+					url: "${contextPath}/statistics/graph1",
+					data: { "year" : $("option:selected").val() },
+					success: function(responseObj) {
+						$(evt.target).prop("selected", true);
+						if (responseObj.status == "fail") {
+							alert(responseObj.msg);
+						}
+						else {
+// 							alert($("option:selected").val());
+							location.href = "${contextPath}/statistics/graph1?year=" + $("option:selected").val();
+						}
+					}
+				});
+// 				$(evt.target).prop("selected", true);
+// 				var url = "${contextPath}/statistics/graph1?";
+// 				url += "year=" + $("option:selected").val();
+// 				location.href = url;
 			});
 			
 			$("form").on("submit", function(evt) {
