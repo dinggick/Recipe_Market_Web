@@ -7,6 +7,18 @@ addEventListener("load", () => {
     $(".searchText").focus();
     
     $.ajax({
+    	url : "/recipeMarket/userType",
+    	data : {userType : "R"},
+    	success : (data, textStatus, jqXHR) => {
+    		if(data.status == "success") {
+    			
+    		} else {
+    			alert("user type error");
+    		}
+    	}
+    });
+    
+    $.ajax({
     	url : "/recipeMarket/recommendRecipe",
     	success : (data, textStatus, jqXHR) => {
     		$(".bottomSection").append(data);
