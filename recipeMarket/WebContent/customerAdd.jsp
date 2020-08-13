@@ -125,7 +125,7 @@ $(() => {
 							<tr>
 								<td><input class="dataInput" type="text"
 									id="customer_email" size="70" name="customer_email"
-									placeholder="이메일을 입력하세요."></td>
+									placeholder="이메일을 입력하세요." value="${param.email}"></td>
 							</tr>
 						</div>
 

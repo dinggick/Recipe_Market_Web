@@ -29,7 +29,17 @@
 			    	if(data.status == "success") {
 			        	location.href = "/recipeMarket";
 			        } else {
-			            location.href = "/recipeMarket/customerAdd.jsp";
+			            var form = document.createElement("form");
+			        	form.setAttribute("method", "POST");
+			        	form.setAttribute("action", "/recipeMarket/customerAdd.jsp");
+			        	
+			        	var input = document.createElement("input");
+			        	input.setAttribute("type", "hidden");
+			        	input.setAttribute("name", "email");
+			        	input.setAttribute("value", email);
+			        	form.appendChild(input);
+			        	document.body.appendChild(form);
+			        	form.submit();
 			        }
 			    }
 			});
@@ -54,11 +64,18 @@
 		
 		function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
 // 			console.log('statusChangeCallback');
-// 			console.log(response);                   // The current login status of the person.
+			console.log(response);                   // The current login status of the person.
 			if (response.status === 'connected') {   // Logged into your webpage and Facebook.
 				testAPI();  
 			} else {                                 // Not logged into your webpage or we are unable to tell.
-				document.getElementById('status').innerHTML = 'Please log into this webpage.';
+// 				document.getElementById('status').innerHTML = 'Please log into this webpage.';
+				FB.login(function(responseObj) {
+					if(responseObj.authResponse) {
+						testAPI();
+					} else {
+						console.log("not authorized");
+					}
+				});
 			}
 		}
 
