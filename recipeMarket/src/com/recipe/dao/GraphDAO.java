@@ -241,13 +241,13 @@ public class GraphDAO {
 				"                    JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
 				"                WHERE " + (rd_email.equals("all") ? "" : "(r.rd_email = ?) AND ") +				
 				"                    (TO_CHAR(p.purchase_date, 'YYYYMMDD') BETWEEN ? AND ?)\r\n" + 
-				"                    AND (c.customer_gender = ?)\r\n" + 
+				"                    AND ((c.customer_gender = ?)\r\n" + 
 				"                            OR\r\n" + 
-				"                        (c.customer_gender = ?)\r\n" + 
+				"                        (c.customer_gender = ?))\r\n" + 
 				"                    AND \r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) >= ?\r\n" + 
+				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) >= ?\r\n" + 
 				"                            AND\r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) <= ?\r\n" + 
+				"                        TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) <= ?)\r\n" + 
 				"                GROUP BY ri.recipe_name\r\n" + 
 				"                ORDER BY " + order_by + " DESC) a\r\n" + 
 				"        )\r\n" + 
@@ -272,6 +272,8 @@ public class GraphDAO {
 			pstmt.setInt(idx++, start_age);
 			pstmt.setInt(idx++, end_age);
 			pstmt.setInt(idx, count);
+			
+			System.out.println(rd_email + " " + startDate + " " + endDate + " " + gender1 + " " + gender2 + " " + start_age + " " + end_age + " " + count);
 
 			rs = pstmt.executeQuery();
 
