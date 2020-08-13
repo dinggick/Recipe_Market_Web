@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@	page import="com.recipe.vo.Customer"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
+
+<c:set var="rnd" value="${requestScope.rnd}"/>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -6,24 +13,32 @@
 
     <title>RnDAdd</title>
 
-    <link rel="icon" href="../images/titlecon.png">
+    <link rel="icon" href="/recipeMarket/images/titlecon.png">
 
-    <link rel="stylesheet" href="../css/adminCommonSection.css">
+    <link rel="stylesheet" href="/recipeMarket/css/adminCommonSection.css">
 
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="/recipeMarket/css/header.css">
+    <link rel="stylesheet" href="/recipeMarket/css/footer.css">
     
-    <link rel="stylesheet" href="../css/RnDAdd.css">
+    <link rel="stylesheet" href="/recipeMarket/css/RnDAdd.css">
     <!-- <link rel="stylesheet" href="./css/RnDInfo.css"> -->
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="../js/adminCommonSection.js"></script>
-    <script src="../js/RnDAdd.js"></script>
+    <script src="/recipeMarket/js/adminCommonSection.js"></script>
+    <script src="/recipeMarket/js/RnDAdd.js"></script>
 
-    <script src="../js/header.js"></script>
-    <script src="../js/footer.js"></script>
-    <script src="../js/dropdownMenu.js"></script>
+	<c:choose>
+		<c:when test="${userType == 'A'}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
+    <script src="/recipeMarket/js/footer.js"></script>
+    <script src="/recipeMarket/js/dropdownMenu.js"></script>
 </head>
 <body>
     <header>
@@ -33,27 +48,24 @@
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
+		<div class="headerRightSection">
+			<c:choose>
+				<c:when test="${userType == 'A'}">
+					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
+				</c:when>
+				<c:otherwise>
+					<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
+				</c:otherwise>
+			</c:choose>
+		</div>
     </header>
 
     <div class="bodySection">
     <section class="leftSection">
         <div class="titleWrapper">
-            <span>
+            <h3>
                 	계정 추가
-            </span>
+            </h3>
         </div>
 
         <div class="underLineWrapper">
@@ -65,8 +77,8 @@
                 <li>
                     <span>RnD 관리</span>
                     <ul>
-                        <li><a href="RnDAdd.html">계정 추가</a></li>
-                        <li><a href="../rnd/list?currentPage=">계정 목록</a></li>
+                        <li><a href="/recipeMarket/RnDAdd.jsp">계정 추가</a></li>
+                        <li><a href="/recipeMarket/rnd/list?currentPage=">계정 목록</a></li>
                     </ul>
                 </li>
                 
@@ -97,7 +109,7 @@
                         <td><span class="invalidId">메일 형식이 올바르지 않습니다.</span></td>
                     </tr>
                     <tr>
-                        <td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" placeholder="비밀번호를 입력하세요. (8자 이상, 영문 및 특수문자 포함)" required></td>
+                        <td><input class="dataInput" type="password" id="rd_pwd" name="rd_pwd" placeholder="비밀번호를 입력하세요. (8자 이상, 숫자, 영문 및 특수문자 포함)" required></td>
                         <td><span class="invalidPwd">비밀번호 형식이 올바르지 않습니다.</span></td>
                     </tr>
                     <tr>

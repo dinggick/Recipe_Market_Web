@@ -64,6 +64,11 @@ public class RnDController implements Controller {
 		
 		String jspFileName = "/fail.jsp";
 		
+		if (session.getAttribute("loginInfo") == null) {
+			request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
+			return jspFileName;
+		}
+		
 		if("/add".equals(pathInfo)) { /* Add RnD's account */
 			try {
 				service.add(RnDMethod.getNewInstance(request));
@@ -138,24 +143,20 @@ public class RnDController implements Controller {
 				e.printStackTrace();
 				request.setAttribute("msg", e.getMessage());
 			}
-		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */
-			String loginInfo = (String)session.getAttribute("loginInfo");
+		} else if ("/search".equals(pathInfo)) { /* For select tag's option's text, only for admin, rnd */			
+			String user = (String)session.getAttribute("userType");
 			
-			try {
-				service.findById(loginInfo);
-				session.setAttribute("rndAccount", loginInfo);
-				jspFileName = "/conditionSearch.jsp";
-			} catch (FindException e) {
+			if (user == "A") { // Admin 의 경우 전체 RnD 의 통계 자료를 확인할 수 있다.
 				try {
-					List<RnD> rd_list = service.findAll();
-					System.out.println(rd_list);
-					request.setAttribute("rd_list", rd_list);
-					
+					List<RnD> rd_list = null;
+					rd_list = service.findAll();
+					request.setAttribute("rd_list", rd_list);	
 					jspFileName = "/conditionSearch.jsp";
-				} catch (FindException e1) {
-					e1.printStackTrace();
-					request.setAttribute("msg", e.getMessage());
+				} catch (FindException e) {
+					e.printStackTrace();
 				}
+			} else if (user == "R") { // RnD 의 경우 자신에 대한 통계만을 볼 수 있다.
+				jspFileName = "/conditionSearch.jsp";
 			}
 		}
 		

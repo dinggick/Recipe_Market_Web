@@ -62,8 +62,8 @@ $(() => {
 
         $("#r_rd_pwd").parent().parent().remove();
 
-        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">reviseBtn</button>");
-        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">deleteBtn</button>");
+        $buttonSection.append("<button class=\"reviseBtn\" type=\"button\">수정</button>");
+        $buttonSection.append("<button class=\"deleteBtn\" type=\"submit\">삭제</button>");
         
         $.ajax({
             url: "./modify",

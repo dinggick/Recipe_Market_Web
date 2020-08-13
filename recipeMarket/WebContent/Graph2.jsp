@@ -24,7 +24,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="${contextPath}/js/adminCommonSection.js"></script>
 
-    <script src="${contextPath}/js/header.js"></script>
+	<c:choose>
+		<c:when test="${empty rndAccount}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
 
@@ -82,19 +90,16 @@
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
+		<div class="headerRightSection">
+			<c:choose>
+				<c:when test="${userType == 'A'}">
+					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
+				</c:when>
+				<c:otherwise>
+					<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
+				</c:otherwise>
+			</c:choose>
+		</div>
     </header>
 
     <div class="bodySection">
@@ -103,9 +108,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h3>
                 	통계
-            </span>
+            </h3>
 
         </div>
 
@@ -115,8 +120,10 @@
 
         <div class="menuWrapper">
             <ul>
-				<jsp:include page="adminMenu.jsp"/>
-            </ul>                                 
+            	<c:if test="${userType == 'A'}">
+					<jsp:include page="adminMenu.jsp"/>
+				</c:if>
+        	</ul>                                  
         </div>
 
     </section>

@@ -44,6 +44,11 @@ public class StatisticsController implements Controller {
 		
 		String pathInfo = request.getServletPath().substring(request.getServletPath().lastIndexOf("/"));
 		String jspFileName = "/fail.jsp";
+		
+		if (session.getAttribute("loginInfo") == null) {
+			request.setAttribute("msg", "로그인이 필요한 페이지입니다.");
+			return jspFileName;
+		}
 				
 		if("/graph1".equals(pathInfo)) { /* Show graph1 */
 			try {
@@ -54,9 +59,7 @@ public class StatisticsController implements Controller {
 				
 				dataList = service.findByYearG1(year);				
 				request.setAttribute("data_list", dataList);
-				
-				System.out.println(dataList);
-								
+												
 				jspFileName = "/Graph1.jsp";
 				
 			} catch (FindException e) {
@@ -95,8 +98,10 @@ public class StatisticsController implements Controller {
 				String[] dt = term.split("_");
 				String startDate = dt[0], endDate = dt[1];
 				
-				session.setAttribute("startDate", dt[0].substring(0, 4) + "/" + dt[0].substring(4, 6));
-				session.setAttribute("endDate", dt[1].substring(0, 4) + "/" + dt[1].substring(4, 6));
+				session.setAttribute("startMonth", dt[0].substring(0, 4));
+				session.setAttribute("startDate", dt[0].substring(4, 6));
+				session.setAttribute("endMonth", dt[1].substring(0, 4));
+				session.setAttribute("endDate", dt[1].substring(4, 6));
 				
 				dataList = service.findBySeasonG3(startDate, endDate, count);
 				

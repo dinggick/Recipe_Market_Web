@@ -6,13 +6,16 @@
     
     /* font-family: 'Roboto Slab', serif; */
 }
+body {
+	height: 700px;
+}
 .bodySection {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
 
-    height: 700px;
+    height: 100%;
     width: 100%;
 
     margin: 0px;
@@ -38,11 +41,14 @@
     width: 100%;
     text-align: center;
 }
-.titleWrapper > span {
-    color: black;
-    font-size: 1.5em;
-    font-weight: border;
-    /* font-family: fantasy */
+/* .titleWrapper > span { */
+/*     color: black; */
+/*     font-size: 1.3em; */
+/*     font-weight: border; */
+/*     font-family: fantasy */
+/* } */
+.titleWrapper > h1 {
+	
 }
 .underLineWrapper {
     height: 20px;

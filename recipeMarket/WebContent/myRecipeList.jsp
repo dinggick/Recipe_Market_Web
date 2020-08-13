@@ -24,10 +24,9 @@
 <!-- javaScript -->
 <script src="${contextPath}/js/dropdownMenu.js"></script>
 <script src="${contextPath}/js/favoriteBtn.js"></script>
-<script src="${contextPath}/js/header.js"></script>
+<%-- <script src="${contextPath}/js/header.js"></script> --%>
+<script src="${contextPath}/js/header_rnd.js"></script>
 <script src="${contextPath}/js/footer.js"></script>
-
-
 <script>
 var orderType = "${orderType}";
 var pageNo = "${pageNo}";
@@ -82,17 +81,18 @@ $(function()  {
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">SIGN IN</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="login.html">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
+			<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
+<!--             드롭다운 메뉴 -->
+<!--             <div class="dropdown"> -->
+<!--                 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
+<!--                 <h1 class="account">SIGN IN</h1> -->
+<!--                 드롭다운 메뉴 구성 (동적 생성 필요) -->
+<!--                 <div class="dropdown-content"> -->
+<!--                     <a href="login.html">로그인</a> -->
+<!--                     <a href="#">Menu 2</a> -->
+<!--                     <a href="#">Menu 3</a> -->
+<!--                 </div> -->
+<!--             </div> -->
         </div>
     </header>
     <div class="divContent">

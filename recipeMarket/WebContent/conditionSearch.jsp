@@ -5,19 +5,13 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"></c:set>
 
-<%	List<RnD> rd_list = (List)request.getAttribute("rd_list");
-	Object obj = session.getAttribute("rndAccount");
-	RnD rd = null;
-	if (obj != null) {
-		rd = (RnD)obj;
-	}
-%>
+<%	List<RnD> rd_list = (List)request.getAttribute("rd_list");%>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RnDInfo</title>
+    <title>조건별 통계</title>
 
     <link rel="icon" href="../images/titlecon.png">
 
@@ -32,7 +26,15 @@
     <script src="${contextPath}/js/adminCommonSection.js"></script>
     <script src="${contextPath}/js/conditionSearch.js"></script>
 
-    <script src="${contextPath}/js/header.js"></script>
+	<c:choose>
+		<c:when test="${userType == 'A'}">
+			<script src="${contextPath}/js/header_admin.js"></script>
+	    </c:when>
+	    <c:otherwise>
+	    	<script src="${contextPath}/js/header_rnd.js"></script>
+	    </c:otherwise>
+    </c:choose>
+    
     <script src="${contextPath}/js/footer.js"></script>
     <script src="${contextPath}/js/dropdownMenu.js"></script>
 
@@ -89,14 +91,18 @@
     </style>
     
     <script>
+		function isDatetime(d) { 
+			var re = /[0-9]{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])/;
+			return re.test(d);
+		}
+		
     	$(function() {
-        	var date_pattern = /^(19|20)\d{2}/(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[0-1])$/;
         	var start_date_flg = false;
         	var end_date_flg = false;
 
         	$("#start_date").on("blur", function() {
         		var startDate = $("#start_date").val();
-        		if (date_pattern.test(form.name.startDate)) {
+        		if (isDatetime(startDate)) {
         			start_date_flg = true;
         		} else {
         			start_date_flg = false;
@@ -105,18 +111,18 @@
     	
         	$("#end_date").on("blur", function() {
         		var endDate = $("#end_date").val();
-        		if (date_pattern.test(form.name.endDate)) {
+        		if (isDatetime(endDate)) {
         			end_date_flg = true;
         		} else {
         			end_date_flg = false;
         		}      		
         	});
-        	
-        	$(".searchBtn").on("click", function(evt) {
+        	        	
+        	$(".searchBtn").click(function() {
         		if (!start_date_flg || !end_date_flg) {
-        			alert("날짜형식이 잘못되었습니다.")
-        			return false;
-        		}
+    				alert("날짜형식이 잘못되었습니다.")
+    				return false;
+    			}
         	});
     	});
     </script>
@@ -130,19 +136,16 @@
             <h1 class="home">RECIPE MARKET</h1>
         </div>
         <!-- 오른쪽 영역 -->
-        <div class="headerRightSection">
-            <!-- 드롭다운 메뉴 -->
-            <div class="dropdown">
-                <!-- 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-                <h1 class="account">Sign in</h1>
-                <!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
-                <div class="dropdown-content">
-                    <a href="#">로그인</a>
-                    <a href="#">Menu 2</a>
-                    <a href="#">Menu 3</a>
-                </div>
-            </div>
-        </div>
+		<div class="headerRightSection">
+			<c:choose>
+				<c:when test="${userType == 'A'}">
+					<jsp:include page="/dropdownMenu_admin.jsp"></jsp:include>
+				</c:when>
+				<c:otherwise>
+					<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
+				</c:otherwise>
+			</c:choose>
+		</div>
     </header>
 
     <div class="bodySection">
@@ -151,9 +154,9 @@
 
         <div class="titleWrapper">
 
-            <span>
+            <h3>
                 	통계
-            </span>
+            </h3>
 
         </div>
 
@@ -163,8 +166,10 @@
 
         <div class="menuWrapper">
             <ul>
-				<jsp:include page="adminMenu.jsp"/>
-            </ul>                            
+            	<c:if test="${userType == 'A'}">
+					<jsp:include page="adminMenu.jsp"/>
+				</c:if>
+        	</ul>                              
         </div>
 
     </section>
@@ -182,12 +187,15 @@
                             <td style="text-align: center">
                             	<select id="rd_email" name="rd_email" style="padding: 7px 20px">
                             		<c:choose>
-                            			<c:when test="${empty rd_list}">
+                            			<c:when test="${userType == 'R'}">
                             				<option value="${rndAccount}">
                             					${rndAccount}
                             				</option>
                             			</c:when>
                             			<c:otherwise>
+                                 			<option value="all">
+                                 				전체
+                                 			</option>                            				
                             				<c:forEach items="${rd_list}" var="rd">
                             				    <option value="${rd.rdEmail}">
                             						${rd.rdEmail}
@@ -276,9 +284,7 @@
                         </tr>
                                             
                     </table>
-                    <button class="searchBtn" type="submit" style="cursor: pointer">
-                    	검색
-                    </button>               
+                    <button class="searchBtn" type="submit" style="cursor: pointer">검색</button>               
 
                 </form>
             </div>
@@ -295,4 +301,4 @@
     </footer>
 
 </body>
-</html>>
+</html>

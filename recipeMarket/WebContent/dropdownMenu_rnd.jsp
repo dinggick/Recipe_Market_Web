@@ -18,10 +18,10 @@
 			<h1 class="account">${sessionScope.userName}님</h1>
 			<!-- 드롭다운 메뉴 구성 (동적 생성 필요) -->
 			<div class="dropdown-content">
-				<a href="#">내 정보 보기</a>
-				<a href="/recipeMarket/recipeAdd">레시피 등록</a>
-				<a href="/recipeMarket/myRecipeList">내 레시피 목록</a>
-				<a href="#">통계</a>
+				<a href="${contextPath}/rnd/info?rd_email=${loginInfo}">내 정보 보기</a>
+				<a href="${contextPath}/recipeAdd">레시피 등록</a>
+				<a href="${contextPath}/myRecipeList">내 레시피 목록</a>
+				<a href="${contextPath}/rnd/search">통계</a>
 				<a href="${contextPath}/logout/rnd">로그아웃</a>
 			</div>
 		</c:otherwise>
