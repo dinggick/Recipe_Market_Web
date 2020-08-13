@@ -71,8 +71,6 @@ public class LoginController implements Controller {
 			String rndName = rndService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", rndName);
-			request.getSession().setAttribute("userType", "R");
-			request.getSession().setAttribute("rndAccount", id);
 			return "/index_rnd.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
@@ -90,7 +88,6 @@ public class LoginController implements Controller {
 			adminAccountService.login(id, pwd);
 			request.getSession().setAttribute("loginInfo", id);
 			request.getSession().setAttribute("userName", "관리자");
-			request.getSession().setAttribute("userType", "A");
 			return "/index_admin.jsp";
 		} catch (FindException e) {
 			e.printStackTrace();
