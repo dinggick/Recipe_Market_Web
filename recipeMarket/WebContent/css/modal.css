@@ -183,4 +183,5 @@ button.close {
 	box-shadow: 0px 10px 15px;
 	color: #fff;
 	transform: translateY(-2px);
+	cursor: pointer;
 }
