@@ -20,6 +20,7 @@ public class UserTypeController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userType = request.getParameter("userType");
+		System.out.println(userType);
 		
 		if("A".equals(userType) || "R".equals(userType) || "C".equals(userType)) {
 			System.out.println(userType);
