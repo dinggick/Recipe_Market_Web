@@ -61,19 +61,21 @@ addEventListener("load", () => {
     });
     
     
-    $(".removeBtn").click(function(e) {    	
-    	var form = document.createElement("form");
-    	form.setAttribute("method", "POST");
-    	form.setAttribute("action", "/recipeMarket/recipeRemove");
-    	
-    	var input = document.createElement("input");
-    	input.setAttribute("type", "hidden");
-    	input.setAttribute("name", "recipeCode");
-    	input.setAttribute("value", recipeCode);
-    	form.appendChild(input);
-    	
-    	document.body.appendChild(form);
-    	form.submit();
+    $(".removeBtn").click(function(e) {
+    	if(confirm("정말 삭제하시겠습니까?")) {
+    		var form = document.createElement("form");
+        	form.setAttribute("method", "POST");
+        	form.setAttribute("action", "/recipeMarket/recipeRemove");
+        	
+        	var input = document.createElement("input");
+        	input.setAttribute("type", "hidden");
+        	input.setAttribute("name", "recipeCode");
+        	input.setAttribute("value", recipeCode);
+        	form.appendChild(input);
+        	
+        	document.body.appendChild(form);
+        	form.submit();
+    	}
     });
 
 	$(".labelLike").click(function() {
