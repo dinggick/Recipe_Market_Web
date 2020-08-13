@@ -159,7 +159,7 @@ public class CustomerController implements Controller {
 			String email = request.getParameter("email");
 			try {
 				accountService.verify(email);
-				return "/success.jsp";
+				return "/static/login.html";
 			} catch (ModifyException e) {
 				e.printStackTrace();
 				return "/fail.jsp";

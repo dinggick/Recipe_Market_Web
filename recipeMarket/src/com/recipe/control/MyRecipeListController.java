@@ -31,7 +31,7 @@ public class MyRecipeListController implements Controller {
 		String servletPath = "";
 		HttpSession session = request.getSession();
 		System.out.println("나의 레시피 뷰");
-		String rdEmail = "rd04@recipe.com";//(String)session.getAttribute("loginInfo");
+		String rdEmail = (String)session.getAttribute("loginInfo");
 		System.out.println("--------- rdEmail : " + rdEmail);
 
 		int pageSize = 10;

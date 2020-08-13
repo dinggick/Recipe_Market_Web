@@ -68,11 +68,16 @@ img.delete {
 	width: 100%;
 	margin-bottom: 10px;
 }
+img.delete {
+	cursor: pointer;
+}
 img.cartAdd {
 	width: 100%;
 	margin-bottom: 10px;
 }
-
+img.cartAdd:hover {
+	cursor: pointer;	
+}
 table.favoriteList>tbody>tr:hover {
 	background: #8bd8bd;
 	color: black;
