@@ -122,6 +122,7 @@ public class ReviewDAO {
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setInt(1, r.getPurchase().getPurchaseCode());
+			//System.out.println(r.getRecipeInfo().getRecipeCode());
 			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
 			pstmt.setString(3, r.getReviewComment());
 			pstmt.executeUpdate();

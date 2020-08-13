@@ -132,9 +132,9 @@ $(function(){
          }
       });
        
-      purchaseTableObj.on('click', 'tr', function(e){
-         var purchaseCode = $(this).find('input.purchaseCode').val();
-         var recipeCode = $(this).find('input.recipeCode').val();
+      purchaseTableObj.on('click', '.addReview', function(e){
+         var purchaseCode = $(this).parent().find('input.purchaseCode').val();
+         var recipeCode = $(this).parent().find('input.recipeCode').val();
          
           $("#reviewModal").show();
 
