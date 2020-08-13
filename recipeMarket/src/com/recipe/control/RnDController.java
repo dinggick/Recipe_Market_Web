@@ -110,7 +110,6 @@ public class RnDController implements Controller {
 				request.setAttribute("msg", e.getMessage());
 			}
 		} else if ("/info".equals(pathInfo)) { /* Show RnD's account */
-			System.out.println("world");
 			try {
 				RnD rnd = service.findById(request.getParameter("rd_email"));
 				request.setAttribute("rnd", rnd);

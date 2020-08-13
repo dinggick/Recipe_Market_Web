@@ -10,7 +10,6 @@ import com.recipe.exception.FindException;
 import com.recipe.service.AccountService;
 import com.recipe.service.AdminAccountService;
 import com.recipe.service.RnDService;
-import com.recipe.vo.Customer;
 
 public class LoginController implements Controller {
 	private static LoginController instance;

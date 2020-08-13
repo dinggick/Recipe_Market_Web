@@ -219,11 +219,7 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Pair<Integer, Integer>>> selectByConditionG4(String rd_email,
-			String startDate, String endDate,
-			String gender1, String gender2,
-			int start_age, int end_age, 
-			int order_by, int count) throws FindException {
+	public List<Pair<String, Pair<Integer, Integer>>> selectByConditionG4(String rd_email, String startDate, String endDate, String gender1, String gender2, int start_age, int end_age, int order_by, int count) throws FindException {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;

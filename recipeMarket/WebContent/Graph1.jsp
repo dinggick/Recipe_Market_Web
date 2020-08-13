@@ -68,7 +68,7 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['구매 총액', '남', '여' ],
+            ['셩별', '남', '여' ],
 			<% for (int i = 1; i < 6; ++i) {
 				String age_group = Integer.toString(i * 10);
 				System.out.println(age_group);
@@ -148,7 +148,7 @@
 
         <div class="menuWrapper">
             <ul>
-            	<c:if test="${empty rndAccount}">
+            	<c:if test="${userType == 'A'}">
 					<jsp:include page="adminMenu.jsp"/>
 				</c:if>
         	</ul>                                 
