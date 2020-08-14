@@ -267,33 +267,6 @@ public class GraphDAO {
 		"                ) b\r\n" + 
 		"        ORDER BY " + order_by + " DESC))\r\n" + 
 		"WHERE rownum <= ?";
-/*
-		String selectByYearMonthSQL = 
-				"SELECT recipe_name, total_sales, total_amount\r\n" + 
-				"FROM (\r\n" + 
-				"        SELECT rownum r, a.*\r\n" + 
-				"        FROM (\r\n" + 
-				"                SELECT ri.recipe_name AS recipe_name,\r\n" + 
-				"                    SUM(ri.recipe_price * pd.purchase_quantity) AS total_sales,\r\n" + 
-				"                    SUM(pd.purchase_quantity) AS total_amount\r\n" + 
-				"                FROM rd r JOIN recipe_info ri ON (r.rd_email = ri.rd_email)\r\n" + 
-				"                    JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
-				"                    JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
-				"                    JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
-				"                WHERE " + (rd_email.equals("all") ? "" : "(r.rd_email = ?) AND ") +				
-				"                    (TO_CHAR(p.purchase_date, 'YYYYMMDD') BETWEEN ? AND ?)\r\n" + 
-				"                    AND ((c.customer_gender = ?)\r\n" + 
-				"                            OR\r\n" + 
-				"                        (c.customer_gender = ?))\r\n" + 
-				"                    AND \r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) >= ?\r\n" + 
-				"                            AND\r\n" + 
-				"                        TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) <= ?)\r\n" + 
-				"                GROUP BY ri.recipe_name\r\n" + 
-				"                ORDER BY " + order_by + " DESC) a\r\n" + 
-				"        )\r\n" + 
-				"WHERE rownum <= ?";
-				*/
 
 		try {
 			con = MyConnection.getConnection();
