@@ -165,11 +165,24 @@
                 <form class="selectSection">
 
                     <select class="selectTerm" name="term">
-                        <option value="202006_202008">2020 여름</option>
-                        <option value="202003_202005">2020 봄</option>
-                        <option value="201912_202002">2019 겨울</option>
-                        <option value="201909_201911">2019 가을</option>
-                        <option value="201906_201908">2019 여름</option>
+	                    <optgroup label="2020년">
+	                        <option value="202006_202008">2020 여름</option>
+	                        <option value="202003_202005">2020 봄</option>
+	                    </optgroup>
+	                    
+	                    <optgroup label="2019년">                    
+	                        <option value="201912_202002">2019 겨울</option>
+	                        <option value="201909_201911">2019 가을</option>
+	                        <option value="201906_201908">2019 여름</option>
+	                        <option value="201903_201905">2019 봄</option>
+	                    </optgroup>
+	                    
+	                    <optgroup label="2018년">                        
+	                        <option value="201812_201902">2018 겨울</option>
+	                        <option value="201809_201811">2018 가을</option>
+	                        <option value="201806_201808">2018 여름</option>
+	                        <option value="201803_201805">2018 봄</option>
+	                    </optgroup>
                     </select>
 
                     <select class="topCount" name="count">
