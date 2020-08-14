@@ -100,7 +100,7 @@ addEventListener("load", () => {
 			data : {recipeCode : recipeCode},
 			success : (data, textStatus, jqXHR) => {
 				if(data.status == "success") {
-    				alert("좋아요를 누르셨습니다");
+    				
     				location.reload();
     			} else {
     				alert("좋아요 실패 : " + data.msg);
@@ -116,7 +116,7 @@ addEventListener("load", () => {
 			data : {recipeCode : recipeCode},
 			success : (data, textStatus, jqXHR) => {
 				if(data.status == "success") {
-    				alert("싫어요를 누르셨습니다");
+    				
     				location.reload();
     			} else {
     				alert("싫어요 실패 : " + data.msg);

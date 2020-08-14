@@ -73,7 +73,7 @@ $(() => {
 			data: $("form").serialize(),
 			success: function(responseObj) {
 				if (responseObj.status == "success") {
-					alert("회원가입 성공");
+					alert("인증메일을 확인해주세요.");
 					location.href = "/recipeMarket";
 				} else {
 					alert("회원가입 실패 : " + responseObj.msg);
