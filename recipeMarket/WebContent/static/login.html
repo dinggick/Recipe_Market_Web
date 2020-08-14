@@ -130,6 +130,7 @@
 // 				console.log('Successful login for: ' + response.name);
 // 				document.getElementById('status').innerHTML =
 // 					'Thanks for logging in, ' + response.name + '!';
+// 				console.log(response);
 				snsLogin(response.email);
 			});
 		}
@@ -141,8 +142,7 @@
 					Kakao.API.request({
 						  url: '/v2/user/me',
 						  success: function(response) {
-							  alert(response.kakao_account.email);
-						    snsLogin(response.kakao_account.email);
+						  	snsLogin(response.kakao_account.email);
 						  },
 						  fail: function(error) {
 						    console.log(error);
