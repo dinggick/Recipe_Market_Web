@@ -275,7 +275,7 @@ public class RecipeInfoDAO {
          int recipeCode = recipe_InfoVo.getRecipeCode();   //레시피코드값 넣기
 
          String oldFileName = oldImageUrl.substring(oldImageUrl.lastIndexOf("/") + 1);   //"어피치찜.png"으로 자름
-         String newFileName = recipeCode + oldFileName.substring(oldFileName.lastIndexOf("."));   //"레시피명.png"로 확장자명 살리기 
+         String newFileName = recipeCode + oldFileName.substring(oldFileName.lastIndexOf("."));   //"레시피명.png"로 확장자명 살리기
          recipe_InfoVo.setImgUrl(imageUrl + newFileName);   //"http://localhost/files/img/" + "레시피명.png"로 변경해서 넣음
          
          File oldFile = new File(savePath + oldFileName);
