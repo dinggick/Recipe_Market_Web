@@ -164,7 +164,7 @@ public class GraphDAO {
 				"            SELECT ri.recipe_name AS recipe_name,\r\n" + 
 				"                ri.rd_email,\r\n" + 
 				"                SUM(pd.purchase_quantity) AS sales_volume\r\n" + 
-				"            FROM recipe_info ri JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
+				"            FROM recipe_info ri JOIN purchase_detail pd ON (ri.recipe_code = pd.recipe_code)\r\n" + 
 				"                JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
 				"            WHERE TO_CHAR(p.purchase_date, 'YYYYMM') BETWEEN ? AND ? -- '202012' AND '202102' is 2020's winter\r\n" + 
 				"            GROUP BY ri.recipe_name, ri.rd_email\r\n" + 
@@ -242,7 +242,7 @@ public class GraphDAO {
 		"                            SUM(pd.purchase_quantity) AS total_amount\r\n" + 
 		"                    \r\n" + 
 		"                        FROM rd r JOIN recipe_info ri ON (r.rd_email = ri.rd_email)\r\n" + 
-		"                            JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
+		"                            JOIN purchase_detail pd ON (ri.recipe_code = pd.recipe_code)\r\n" + 
 		"                            JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
 		"                            JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
 		"                    \r\n" + 
