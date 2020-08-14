@@ -157,7 +157,7 @@ public class GraphDAO {
 		List<Pair<String, Pair<String, Integer>>> list = null;
 
 		String selectByYearMonthSQL = 
-				"SELECT recipe_name, rd_email, sales_volume\r\n" + 
+				"SELECT rd_email, recipe_name, sales_volume\r\n" + 
 				"FROM (\r\n" + 
 				"        SELECT rownum, a.*\r\n" + 
 				"        FROM (\r\n" + 
@@ -359,7 +359,7 @@ public class GraphDAO {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
 			List<Pair<String, Pair<Integer, Integer>>> list = dao.selectByConditionG4(
-					"all", "19900601", "20200801", "M", "F", 40, 49, 3, 20);
+					"all", "19900601", "20200801", "M", "F", 0, 99, 3, 20);
 			for (Pair<String, Pair<Integer, Integer>> p : list) {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
