@@ -137,12 +137,12 @@
 		$(function() {
 			Kakao.Auth.createLoginButton({ 
 				container: '#kakao-login-btn', 
-				success: function(authObj) { 
+				success: function(authObj) {
 					Kakao.API.request({
 						  url: '/v2/user/me',
 						  success: function(response) {
-							  alert(response.kakao_account.email);
-						    snsLogin(response.kakao_account.email);
+							  console.log(response);
+// 						    snsLogin(response.kakao_account.email);
 						  },
 						  fail: function(error) {
 						    console.log(error);

@@ -70,12 +70,13 @@ $(() => {
             data: $("form").serialize(),
             success: (responseObj) => {
                 if (responseObj.status == "success") {
-                	alert("수정되었습니다");
-                	location.reload();
+                	alert("삭제되었습니다");
+                	location.href="/recipeMarket/rnd/list";
                 } else {
-                	alert("수정에 실패하였습니다");
+                	alert("삭제에 실패하였습니다");
+                	location.reload();
                 }
-            	location.reload();
+            	
             }
         });
         
