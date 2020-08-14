@@ -1,3 +1,25 @@
+
+function loadRecommendRecipe() {
+	$.ajax({
+    	url : "/recipeMarket/recommendRecipe",
+    	success : (data, textStatus, jqXHR) => {
+    		$(".bestRecipeSection").remove();
+    		$(".bottomSection").append(data);
+    	}
+    });
+}
+    $.ajax({
+    	url : "/recipeMarket/userType",
+    	data : {userType : "C"},
+    	success : (data, textStatus, jqXHR) => {
+    		if(data.status == "success") {
+    		
+    		} else {
+    			alert("user type error");
+    		}
+    	}
+    });
+
 addEventListener("load", () => {
     //main화면의 middleSection 영역의 크기를 동적으로 결정하기 위한 코드. 최초에 페이지 load시, 화면이 변경될 시에 크기를 결정한다
     $(".middleSection").css("height", screen.height - parseFloat($("header").css("height")) * 3.5);
@@ -6,12 +28,7 @@ addEventListener("load", () => {
     //페이지 최초 접속 시 검색창에 focus를 준다
     $(".searchText").focus();
     
-    $.ajax({
-    	url : "/recipeMarket/recommendRecipe",
-    	success : (data, textStatus, jqXHR) => {
-    		$(".bottomSection").append(data);
-    	}
-    });
+    loadRecommendRecipe();
     
     $(".bottomSection").on("click", ".card", function() {
     	var recipeCode = $(this).find("input[type=hidden]").val();
@@ -39,6 +56,7 @@ addEventListener("load", () => {
     		success: (data, textStatus, jqXHR) => {
     			if(data.status == "success") {
     				alert("좋아요를 누르셨습니다");
+    				loadRecommendRecipe();
     			} else {
     				alert("좋아요 실패 : " + data.msg);
     			}
@@ -55,6 +73,7 @@ addEventListener("load", () => {
     		success: (data, textStatus, jqXHR) => {
     			if(data.status == "success") {
     				alert("싫어요를 누르셨습니다");
+    				loadRecommendRecipe();
     			} else {
     				alert("싫어요 실패 : " + data.msg);
     			}

@@ -80,10 +80,10 @@
     	            data: { rd_email : $("#rd_email").val() },
     	            success: function(responseObj) {
     	                if (responseObj.status == "success") {
-    	                	alert("Account has been deleted");
+    	                	alert("수정되었습니다.");
     	                	location.href = "${contextPath}/rnd/list?currentPage=${recentPage}";
     	                } else {
-    	                	alert("Account has not been deleted");
+    	                	alert("수정에 실패했습니다.");
     	                }
     	            }
     	        });
@@ -160,17 +160,13 @@
                         <tr>
                             <td><label for="rd_phone">연락처</label></td><td><input class="dataInput" type="tel" id="rd_phone" name="rd_phone" readonly value="${rnd.rdPhone}"></td>
                         </tr>                    
-                    </table>                   
-                    <div class="buttonSection">
-                        <button class="reviseBtn" type="button" style="cursor: pointer">
-                            	수정
-                        </button>
-                        <c:if test="${userType == 'A'}">
-                        	<button class="deleteBtn" type="submit" style="cursor: pointer">
-                            	삭제
-                        	</button>
-                        </c:if>
-                    </div>
+                    </table>
+                    <c:if test="${userType == 'A'}">            
+	                    <div class="buttonSection">
+	                    	<button class="reviseBtn" type="button" style="cursor: pointer">수정</button>
+	                    	<button class="deleteBtn" type="submit" style="cursor: pointer">삭제</button>
+	                    </div>
+                    </c:if>
                 </form>
             </div>
         </div>                             

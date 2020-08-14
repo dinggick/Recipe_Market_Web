@@ -4,32 +4,34 @@
 <meta charset="UTF-8">
 <title>./jq/searchPost.html</title>
 <style>
-html,body{margin:0px; overflow: hidden;height:100%;border:1px solid red; styler="background-color:ghostwhite";}
+html,body{margin:0px; overflow: hidden;height:100%;border:1px solid black; background-color:ghostwhite;}
 div.post{ width: 100%; height:100%;}
-div.post>div.list{width: 100%; height:80%; border:2px double green; margin-top:10px;    ;overflow-y: auto;   }
+div.post>div.list{width: 100%; height:100%; border:2px double black ; margin-top:10px; overflow-y: auto;   }
 div.post>div.list>ul{list-style-type: none; padding: 0px;}
-div.post>div.list>ul>li>div.code{width:15%; display: inline-block;}
+div.post>div.list>ul>li>div.code{width:15%; display: inline-block; text-align:center;}
 div.post>div.list>ul>li>div.baseAddr{display: inline-block;}
 div.post>div.list>ul>li>div.buildingno{display: none;}
-
+div.post>div.list>ul>li:hover{cursor:pointer; }
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
 $(function(){
-   $("div.post>div.search>input[type=search]").keypress((e) => {
-      
-      console.log("test");
+	$("form").submit(function(){
+		return false;
+	});
+   $("#searchPost").keypress((e) => {
       if(e.which == 13) {
          $.ajax({
             url: "./post/search",
             data: {searchKeyword:e.target.value},
             success: (data, textStatus, jqXHR) => {
-               $("div.post>div.list>ul").html("");
+               $(".list>ul").html("");
                if(data.status == "success") {
+            	   var li = "";
                   for(const postal of data.data) {
-                     var li = "<li><div class='code'>"+postal.zipCode+"</div><div class='baseAddr'>"+postal.city+postal.doro+" "+postal.building+"</div><div class='buildingno'>"+postal.buildingno+"</div></li>";
+                     li = "<li><div class='code'>"+postal.zipCode+"</div><div class='baseAddr'>"+postal.city+postal.doro+" "+postal.building+"</div><div class='buildingno'>"+postal.buildingno+"</div></li>";
                      $("div.post>div.list>ul").html($("div.post>div.list>ul").html() + li);
                   }
                   
@@ -38,7 +40,7 @@ $(function(){
                      var baseAddrValue = $(this).find('div.baseAddr').html();
                      var buildingnoValue = $(this).children('div.buildingno').html();
                      
-                     alert(codeValue);
+                   	
 
                      var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
                      $openerFieldsetObj.find("#customer_zip").val(codeValue);
@@ -53,17 +55,54 @@ $(function(){
          });
       }
    });
+   
+   $("#postsearchBtn").click(function() {
+	   $.ajax({
+           url: "./post/search",
+           data: {searchKeyword:$("#searchPost").val()},
+           success: (data, textStatus, jqXHR) => {
+              $(".list>ul").html("");
+              if(data.status == "success") {
+           	   var li = "";
+                 for(const postal of data.data) {
+                    li = "<li><div class='code'>"+postal.zipCode+"</div><div class='baseAddr'>"+postal.city+postal.doro+" "+postal.building+"</div><div class='buildingno'>"+postal.buildingno+"</div></li>";
+                    $("div.post>div.list>ul").html($("div.post>div.list>ul").html() + li);
+                 }
+                 
+                 $("div.post>div.list>ul>li").click(function(e){
+                    var codeValue = $(this).find('div.code').html();
+                    var baseAddrValue = $(this).find('div.baseAddr').html();
+                    var buildingnoValue = $(this).children('div.buildingno').html();
+                    
+            
+                    var $openerFieldsetObj = $(window.opener.document.querySelector("form"));
+                    $openerFieldsetObj.find("#customer_zip").val(codeValue);
+                    $openerFieldsetObj.find("#customer_juso").val(baseAddrValue);
+                    $openerFieldsetObj.find("#buildingno").val(buildingnoValue);
+                    self.close();
+                 });
+              } else {
+                 //
+              }
+           }
+        });
+   });
 });
 </script>
 </head>
 <body>
 <div class="post">
   <div class="search">
-    <span>도로명주소</span>
-    <input type="search" value="" name="searchKeyword">
+    <form>
+      <fieldset style="border:1.8px solid black;">
+        <legend><span>도로명주소</span></legend>
+        <input type="search" value="" id="searchPost" name="searchKeyword" placeholder="도로명 입력">
+        <input type="button" value="검색" id="postsearchBtn">   
+        </fieldset>
+    </form>
   </div>
   <div class="list">
-  <ul>
+  <ul >
     
   </ul>
   </div>

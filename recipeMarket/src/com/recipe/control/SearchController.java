@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.recipe.exception.FindException;
-import com.recipe.mail.Mail;
 import com.recipe.service.FavoriteService;
 import com.recipe.service.RecipeService;
 import com.recipe.vo.Favorite;
@@ -36,42 +35,62 @@ public class SearchController implements Controller {
 		request.setCharacterEncoding("UTF-8");
 		String servletPath = "";
 		List<String> ingName = new ArrayList<>();
-//		Mail mail = new Mail();
-//		mail.sendEmail();
-//		
 		String value = request.getParameter("ingName");
-		request.setAttribute("ingName", value.trim());
-		String[] str = value.trim().split(" ");
-		for (String s : str) {
-			ingName.add(s);
-			
-		}				
+
 		try {
-			List<RecipeInfo> infos = service.findRecipe(ingName);
-			request.setAttribute("recipeList", infos);
-			String customerEmail = (String) request.getSession().getAttribute("loginInfo");
-			if(customerEmail != null) {
-				List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
-				List<Boolean> favoriteCheckList = new ArrayList<Boolean>();
-				
-				for(int i = 0; i < infos.size(); i++) {
-					int j = 0;
-					for(j = 0; j < favoriteListByEmail.size(); j++) {
-						if(infos.get(i).equals(favoriteListByEmail.get(j).getRecipeInfo())) {
-							favoriteCheckList.add(true);
+			int d = Integer.parseInt(value);
+			try {
+				RecipeInfo recipe = service.findByCode(d);
+				System.out.println(recipe);
+				request.setAttribute("recipeInfo", recipe);
+				String customerEmail = (String) request.getSession().getAttribute("loginInfo");
+				if(customerEmail != null) {
+					List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
+					int i = 0;
+					for(i = 0; i < favoriteListByEmail.size(); i++) {
+						if(recipe.equals(favoriteListByEmail.get(i).getRecipeInfo())) {
+							request.setAttribute("favoriteCheck", true);
+							break;
 						}
 					}
-					if(j == favoriteListByEmail.size()) favoriteCheckList.add(false);
+					if(i == favoriteListByEmail.size()) request.setAttribute("favoriteCheck", false);
 				}
-				request.setAttribute("favoriteCheckList", favoriteCheckList);
+				servletPath = "/recipeInfo?recipeCode=" + d;
+			} catch (FindException e) {
+				servletPath = "/recipeList.jsp";
 			}
 			
+		} catch (NumberFormatException nfe) {
+			request.setAttribute("ingName", value.trim());
+			String[] str = value.trim().split(" ");
+			for (String s : str) {
+				ingName.add(s);				
+			}				
+			try {
+				List<RecipeInfo> infos = service.findRecipe(ingName);
+				request.setAttribute("recipeList", infos);
+				String customerEmail = (String) request.getSession().getAttribute("loginInfo");
+				if(customerEmail != null) {
+					List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
+					List<Boolean> favoriteCheckList = new ArrayList<Boolean>();
+					
+					for(int i = 0; i < infos.size(); i++) {
+						int j = 0;
+						for(j = 0; j < favoriteListByEmail.size(); j++) {
+							if(infos.get(i).equals(favoriteListByEmail.get(j).getRecipeInfo())) {
+								favoriteCheckList.add(true);
+							}
+						}
+						if(j == favoriteListByEmail.size()) favoriteCheckList.add(false);
+					}
+					request.setAttribute("favoriteCheckList", favoriteCheckList);
+				}				
+				servletPath = "/recipeList.jsp";
+			} catch (FindException e) {
+				servletPath = "/recipeList.jsp";				
+			}
 			
-			servletPath = "/recipeList.jsp";
-		} catch (FindException e) {
-			servletPath = "/recipeList.jsp";
-			
-		}
+		}	
 		return servletPath;
 	}
 

@@ -43,6 +43,22 @@
 
 <script>
 $(function()  {
+	function targetPageURL(page) {
+		return "${contextPath}/review/myReviewList?currentPage=" + page;
+	}
+	
+		$("img[alt=prev1]").click(function() {
+			location.href = targetPageURL(${currentPage - 1});
+		});
+	$("img[alt=next1]").click(function() {
+			location.href = targetPageURL(${currentPage + 1});
+		});
+		$("img[alt=prev2]").click(function() {
+			location.href = targetPageURL(${startPage - CNT_PER_PAGEGROUP});
+		});
+	$("img[alt=next2]").click(function() {
+			location.href = targetPageURL(${endPage + 1});
+		});
 	var $rightSectionObj = $("div.divContent>section.rightSection");
 	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
 	var $myReviewListObj = $recipeInfoObj.find("table.myReviewList");
@@ -69,6 +85,7 @@ $(function()  {
 			}); //end of Ajax
 			return false;
 		} // 삭제 이벤트 발생
+		
 		
 		var recipeCodeForm = $("div.divContent>section.rightSection>form");
 		var recipeCodeObj = $('input[id=recipeCode]');
@@ -167,10 +184,10 @@ $(function()  {
 				<c:forEach begin="${startPage}" end="${endPage}" var="i">
 					<c:choose>
 						<c:when test="${currentPage == i}">
-							<a href="${contextPath}/reivew/myReviewList?currentPage=${i}" style="color: #D2302C; font-weight: border"> ${i}</a>				
+							<a href="${contextPath}/review/myReviewList?currentPage=${i}" style="color: #D2302C; font-weight: border"> ${i}</a>				
 						</c:when>
 						<c:otherwise>
-							<a href="${contextPath}/reivew/myReviewList?currentPage=${i}">${i}</a>
+							<a href="${contextPath}/review/myReviewList?currentPage=${i}">${i}</a>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>

@@ -44,6 +44,7 @@ public class RecipeModifyController implements Controller {
 			}
 		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage().replace("\"", ""));
+			return "/fail.jsp";
 		}
 
 		servletPath = "/recipeModify.jsp";

@@ -54,7 +54,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			rs.previous();
 
@@ -118,7 +118,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 
@@ -184,7 +184,7 @@ public class GraphDAO {
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 
@@ -219,11 +219,7 @@ public class GraphDAO {
 	 * @throws FindException
 	 * @author yonghwan
 	 */
-	public List<Pair<String, Pair<Integer, Integer>>> selectByConditionG4(String rd_email,
-			String startDate, String endDate,
-			String gender1, String gender2,
-			int start_age, int end_age, 
-			int order_by, int count) throws FindException {
+	public List<Pair<String, Pair<Integer, Integer>>> selectByConditionG4(String rd_email, String startDate, String endDate, String gender1, String gender2, int start_age, int end_age, int order_by, int count) throws FindException {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -245,13 +241,13 @@ public class GraphDAO {
 				"                    JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
 				"                WHERE " + (rd_email.equals("all") ? "" : "(r.rd_email = ?) AND ") +				
 				"                    (TO_CHAR(p.purchase_date, 'YYYYMMDD') BETWEEN ? AND ?)\r\n" + 
-				"                    AND (c.customer_gender = ?)\r\n" + 
+				"                    AND ((c.customer_gender = ?)\r\n" + 
 				"                            OR\r\n" + 
-				"                        (c.customer_gender = ?)\r\n" + 
+				"                        (c.customer_gender = ?))\r\n" + 
 				"                    AND \r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) >= ?\r\n" + 
+				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) >= ?\r\n" + 
 				"                            AND\r\n" + 
-				"                        (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) * 10) <= ?\r\n" + 
+				"                        TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12)) <= ?)\r\n" + 
 				"                GROUP BY ri.recipe_name\r\n" + 
 				"                ORDER BY " + order_by + " DESC) a\r\n" + 
 				"        )\r\n" + 
@@ -276,11 +272,13 @@ public class GraphDAO {
 			pstmt.setInt(idx++, start_age);
 			pstmt.setInt(idx++, end_age);
 			pstmt.setInt(idx, count);
+			
+			System.out.println(rd_email + " " + startDate + " " + endDate + " " + gender1 + " " + gender2 + " " + start_age + " " + end_age + " " + count);
 
 			rs = pstmt.executeQuery();
 
 			if (!rs.next())
-				throw new FindException("There is no data corresponding to the condition.");
+				throw new FindException("조건에 일치하는 데이터가 존재하지 않습니다.");
 
 			list = new ArrayList<>();
 

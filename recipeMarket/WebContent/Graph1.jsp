@@ -21,10 +21,15 @@
 	String age_group = Integer.toString(list.get(i).getKey());
 	String group_gender = list.get(i).getValue().getKey();
 	Integer purchase_amount = list.get(i).getValue().getValue();
+	
+	System.out.println(age_group + " " + group_gender + " " + purchase_amount);
         		
 	String group = age_group + group_gender;
+	
+	System.out.println(map.get(group));
+	
 	Integer pre_amount = map.get(group);
-        		        		        		
+	        		        		        		
 	map.put(group, pre_amount + purchase_amount);     		
 }%>
 
@@ -68,7 +73,7 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-            ['구매 총액', '남', '여' ],
+            ['셩별', '남', '여' ],
 			<% for (int i = 1; i < 6; ++i) {
 				String age_group = Integer.toString(i * 10);
 				System.out.println(age_group);
@@ -98,11 +103,26 @@
 			$("option[value=" + ${year} + "]").attr("selected", "selected");
 			
 			$(".selectYear").on("change", function(evt) {
-				$(evt.target).prop("selected", true);
-				var url = "${contextPath}/statistics/graph1?";
-				url += "year=" + $(".selectTerm").val();
-				location.href = url;
+				$.ajax({
+					url: "${contextPath}/statistics/graph1",
+					data: { "year" : $("option:selected").val() },
+					success: function(responseObj) {
+						$(evt.target).prop("selected", true);
+						if (responseObj.status == "fail") {
+							alert(responseObj.msg);
+						}
+						else {
+// 							alert($("option:selected").val());
+							location.href = "${contextPath}/statistics/graph1?year=" + $("option:selected").val();
+						}
+					}
+				});
+// 				$(evt.target).prop("selected", true);
+// 				var url = "${contextPath}/statistics/graph1?";
+// 				url += "year=" + $("option:selected").val();
+// 				location.href = url;
 			});
+			
 			$("form").on("submit", function(evt) {
 				return false;
 			});
@@ -148,7 +168,7 @@
 
         <div class="menuWrapper">
             <ul>
-            	<c:if test="${empty rndAccount}">
+            	<c:if test="${userType == 'A'}">
 					<jsp:include page="adminMenu.jsp"/>
 				</c:if>
         	</ul>                                 

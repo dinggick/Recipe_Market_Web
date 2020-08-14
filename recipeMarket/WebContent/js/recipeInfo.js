@@ -16,7 +16,7 @@ addEventListener("load", () => {
     // $(".ad").height($(".recipeInfo").height() - $(".remoteControl").outerHeight());
     $(".ad").height($(".ad").height() * 1.05);
 
-	var recipeCode = $("input[type=hidden]").val();
+	var recipeCode = $(".recipeCode").val();
 
     $(".purchaseBtn").click(function(e){
     	var quantity = $(".buttonSection>input[type=number]").val();
@@ -39,25 +39,59 @@ addEventListener("load", () => {
 				    	form.submit();
     				}
     			} else {
-    				location.href = "/recipeMarket/static/login.html";
+    				if(data.msg == "loginIssue") {
+    					alert("로그인이 필요합니다.");
+    					location.href = "/recipeMarket/static/login.html";
+    				}
     			}
     		}
     	});
     });
     
-    $(".modifyBtn").click(function(e) {    	
-    	var form = document.createElement("form");
-    	form.setAttribute("method", "POST");
-    	form.setAttribute("action", "/recipeMarket/recipeModify");
-    	
-    	var input = document.createElement("input");
-    	input.setAttribute("type", "hidden");
-    	input.setAttribute("name", "recipeCode");
-    	input.setAttribute("value", recipeCode);
-    	form.appendChild(input);
-    	
-    	document.body.appendChild(form);
-    	form.submit();
+    $(".modifyBtn").click(function(e) {
+    	var rdEmail = $(".rdEmail").val();
+
+		$.ajax({
+			url : "/recipeMarket/editerCheck",
+			data : {rdEmail : rdEmail},
+			success : (data, textStatus, jqXHR) => {
+				if(data.status == "success") {			    	
+			    	var form = document.createElement("form");
+			    	form.setAttribute("method", "POST");
+			    	form.setAttribute("action", "/recipeMarket/recipeModify");
+			    	
+			    	var input = document.createElement("input");
+			    	input.setAttribute("type", "hidden");
+			    	input.setAttribute("name", "recipeCode");
+			    	input.setAttribute("value", recipeCode);
+			    	form.appendChild(input);
+			    	document.body.appendChild(form);
+			    	form.submit();
+				} else {
+					alert("레시피 수정 실패 : " + data.msg);
+				}
+			}
+		});
+    });
+    
+    
+    $(".removeBtn").click(function(e) {
+    	if(confirm("정말 삭제하시겠습니까?")) {
+    		var rdEmail = $(".rdEmail").val();
+
+			$.ajax({
+				url : "/recipeMarket/recipeRemove",
+				data : {recipeCode : recipeCode, rdEmail : rdEmail},
+				success : (data, textStatus, jqXHR) => {
+					if(data.status == "success") {
+						alert("레시피가 삭제되었습니다.");
+						location.href = "/recipeMarket/myRecipeList";
+					} else {
+						alert("레시피 수정 실패 : " + data.msg);
+					}
+				}
+			});
+    	}
     });
 
 	$(".labelLike").click(function() {
@@ -66,7 +100,7 @@ addEventListener("load", () => {
 			data : {recipeCode : recipeCode},
 			success : (data, textStatus, jqXHR) => {
 				if(data.status == "success") {
-    				alert("좋아요를 누르셨습니다");
+    				
     				location.reload();
     			} else {
     				alert("좋아요 실패 : " + data.msg);
@@ -82,7 +116,7 @@ addEventListener("load", () => {
 			data : {recipeCode : recipeCode},
 			success : (data, textStatus, jqXHR) => {
 				if(data.status == "success") {
-    				alert("싫어요를 누르셨습니다");
+    				
     				location.reload();
     			} else {
     				alert("싫어요 실패 : " + data.msg);
@@ -108,6 +142,7 @@ addEventListener("load", () => {
 				    	form.submit();
     				}
     			} else {
+    				alert("로그인이 필요합니다.");
     				location.href = "/recipeMarket/static/login.html";
     			}
     		}

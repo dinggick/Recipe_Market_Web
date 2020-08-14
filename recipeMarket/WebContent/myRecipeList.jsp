@@ -24,7 +24,6 @@
 <!-- javaScript -->
 <script src="${contextPath}/js/dropdownMenu.js"></script>
 <script src="${contextPath}/js/favoriteBtn.js"></script>
-<%-- <script src="${contextPath}/js/header.js"></script> --%>
 <script src="${contextPath}/js/header_rnd.js"></script>
 <script src="${contextPath}/js/footer.js"></script>
 <script>
@@ -42,10 +41,25 @@ $(function()  {
 	var $recipeInfoObj = $rightSectionObj.find("div.recipeInfo");
 	var $myReviewListObj = $recipeInfoObj.find("table.myReviewList");
 	
+	$('table> thead').click(function(event){
+		event.stopPropagation();
+	})
+	
 	// 후기 목록 중 <td>클릭시 레시피상세정보 보기
 	$myReviewListObj.on('click', 'tr', function(e){
-		var recipe_code = $(this).attr('data-recipe-code');
-		console.log(recipe_code);
+		var recipeCode = $(this).attr('data-recipe-code');
+		
+		var form = document.createElement("form");
+    	form.setAttribute("method", "POST");
+    	form.setAttribute("action", "/recipeMarket/recipeInfo");
+    	
+    	var input = document.createElement("input");
+    	input.setAttribute("type", "hidden");
+    	input.setAttribute("name", "recipeCode");
+    	input.setAttribute("value", recipeCode);
+    	form.appendChild(input);
+    	document.body.appendChild(form);
+    	form.submit();
 	});
 
 	// 처음으로(1페이지로)
@@ -64,7 +78,6 @@ $(function()  {
 	$("img[alt=next2]").click(function() {
 		goPage("${totalPage}");
 	});
-	
 }); // end of load
 
 
@@ -81,18 +94,7 @@ $(function()  {
         </div>
         <!-- 오른쪽 영역 -->
         <div class="headerRightSection">
-			<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>		
-<!--             드롭다운 메뉴 -->
-<!--             <div class="dropdown"> -->
-<!--                 로그인 버튼(누르면 드롭다운 메뉴 보이도록) -->
-<!--                 <h1 class="account">SIGN IN</h1> -->
-<!--                 드롭다운 메뉴 구성 (동적 생성 필요) -->
-<!--                 <div class="dropdown-content"> -->
-<!--                     <a href="login.html">로그인</a> -->
-<!--                     <a href="#">Menu 2</a> -->
-<!--                     <a href="#">Menu 3</a> -->
-<!--                 </div> -->
-<!--             </div> -->
+			<jsp:include page="/dropdownMenu_rnd.jsp"></jsp:include>
         </div>
     </header>
     <div class="divContent">
@@ -118,8 +120,8 @@ $(function()  {
 			        	<td>NO</td>
 			        	<td>레시피명</td>
 			        	<td>가격</td>
-			        	<td>판매량 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort1"></a></td>
-			        	<td>총매출액 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="17px" alt="sort2"></a></td>
+			        	<td>판매량 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=P" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="20px" alt="sort1" class="nn"></a></td>
+			        	<td>총매출액 &nbsp<a href="/recipeMarket/myRecipeList?pageNo=${pageNo}&orderType=T" style="text-decoration: none;"> <img src="${contextPath}/img/sort.png" height="20px" alt="sort2" class="nn"></a></td>
 		        	</thead>
 		        	<tbody>
 		        		<c:if test="${empty myRecipeListPage}">

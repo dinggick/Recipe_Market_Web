@@ -1,3 +1,15 @@
+$.ajax({
+    	url : "/recipeMarket/userType",
+    	data : {userType : "R"},
+    	success : (data, textStatus, jqXHR) => {
+    		if(data.status == "success") {
+    			
+    		} else {
+    			alert("user type error");
+    		}
+    	}
+    });
+
 addEventListener("load", () => {
     //main화면의 middleSection 영역의 크기를 동적으로 결정하기 위한 코드. 최초에 페이지 load시, 화면이 변경될 시에 크기를 결정한다
     $(".middleSection").css("height", screen.height - parseFloat($("header").css("height")) * 3.5);

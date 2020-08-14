@@ -47,7 +47,7 @@ public class ReviewDAO {
 				"                                 AND p.purchase_code = pd.purchase_code )\r\n" + 
 				"    JOIN customer c ON ( c.customer_email = p.customer_email )\r\n" + 
 				"WHERE\r\n" + 
-				"    r.recipe_code = ?\r\n" + 
+				"    pd.recipe_code = ?\r\n" + 
 				"ORDER BY REVIEW_DATE DESC";
 		
 		try {
@@ -58,6 +58,7 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = con.prepareStatement(selectSQL);
+			System.out.println(recipeCode);
 			pstmt.setInt(1, recipeCode);
 			rs = pstmt.executeQuery();
 			reviewList = new ArrayList<>();
@@ -122,6 +123,7 @@ public class ReviewDAO {
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setInt(1, r.getPurchase().getPurchaseCode());
+			//System.out.println(r.getRecipeInfo().getRecipeCode());
 			pstmt.setInt(2, r.getRecipeInfo().getRecipeCode());
 			pstmt.setString(3, r.getReviewComment());
 			pstmt.executeUpdate();

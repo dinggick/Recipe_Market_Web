@@ -9,7 +9,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    height: 700px;
     width: 100%;
 
     margin: 0px;
@@ -53,7 +52,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     height: inherit; 
     width: 80%;
 }

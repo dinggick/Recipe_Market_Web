@@ -50,7 +50,7 @@ $(() => {
     
     $buttonSection.on("click", ".confirmBtn", function(evt) { 
         if (!rdPwd) {
-            alert("Passwords do not match");
+            alert("비밀번호가 일치하지않습니다");
             $("#r_rd_pwd").css("border", "0.5px solid red");
             return false;
         }
@@ -70,9 +70,10 @@ $(() => {
             data: $("form").serialize(),
             success: (responseObj) => {
                 if (responseObj.status == "success") {
-                	alert("Account has been modified");
+                	alert("수정되었습니다");
+                	location.reload();
                 } else {
-                	alert("Account has not been modified");
+                	alert("수정에 실패하였습니다");
                 }
             	location.reload();
             }

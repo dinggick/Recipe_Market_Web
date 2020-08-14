@@ -63,7 +63,12 @@ $(function(){
 				}
 			});
 		});
-
+		
+    	//전체보기
+    	$('.All').click(function(){
+    		location.href="/recipeMarket/purchaseList";
+    	});
+    	
 		//1주일 날짜검색
 		$('.weeks').click(function() {
 			var date = new Date();
@@ -132,9 +137,9 @@ $(function(){
          }
       });
        
-      purchaseTableObj.on('click', 'tr', function(e){
-         var purchaseCode = $(this).find('input.purchaseCode').val();
-         var recipeCode = $(this).find('input.recipeCode').val();
+      purchaseTableObj.on('click', '.addReview', function(e){
+         var purchaseCode = $(this).parent().find('input.purchaseCode').val();
+         var recipeCode = $(this).parent().find('input.recipeCode').val();
          
           $("#reviewModal").show();
 
@@ -192,7 +197,7 @@ $(function(){
         <section class="rightSection">
             <div class="purchaseInfo">
             <div id="datepicker" class="date"></div>
-            <div class="dd"><button type="submit" class="weeks conditon">1주일</button><button type="submit" class="month conditon">1개월</button><button type="submit" class="quarter conditon">3개월</button><button type="submit" class="half conditon">6개월</button><button type="submit" class="conditon" id="dt">조건검색</button></div>
+            <div class="dd"><button type="submit" class="All conditon">전체보기</button><button type="submit" class="weeks conditon">1주일</button><button type="submit" class="month conditon">1개월</button><button type="submit" class="quarter conditon">3개월</button><button type="submit" class="half conditon">6개월</button><button type="submit" class="conditon" id="dt">조건검색</button></div>
                 <table id="pucrhase">
                 	<tr><td class="line2">구매날짜</td><td class="line2">상품명</td><td class="line2">수량</td><td class="line2">구매금액</td><td class="line2">후기등록<td></tr>
                 	   <c:if test="${empty list}">

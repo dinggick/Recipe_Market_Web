@@ -57,31 +57,34 @@ $(() => {
         $("#customer_zip + button[type=button]").remove();
     });
 
+    var flg = false;
     $(".infoWrapper").on("blur", "#customer_pwd, #customer_re_pwd", function(evt) {
         if ($("#customer_pwd").val() == undefined || $("#customer_re_pwd").val() == undefined)
             return;
         
-        if ($("#customer_pwd").val() != $("#customer_re_pwd").val())
-            $("#customer_re_pwd").css("border", "0.5px solid red");
-
-        else
-            $("#customer_re_pwd").css("border", "none");
-            
-        if (chkPwd($("#customer_pwd").val())) {
-            $(".invalidPwd").fadeOut();
-        }
-        else {
-            $("#customer_pwd").css("border", "0.5px solid red");
-            $(".invalidPwd").fadeIn();
-        }
+//        if ($("#customer_pwd").val() != $("#customer_re_pwd").val())
+//            $("#customer_re_pwd").css("border", "0.5px solid red");
+//
+//        else
+//            $("#customer_re_pwd").css("border", "none");
+//            
+//        if (chkPwd($("#customer_pwd").val())) {
+//            $(".invalidPwd").fadeOut();
+//        }
+//        else {
+//            $("#customer_pwd").css("border", "0.5px solid red");
+//            $(".invalidPwd").fadeIn();
+//        }
             
         if ($("#customer_pwd").val() != $("#customer_re_pwd").val()) {
             $("#customer_re_pwd").css("border", "0.5px solid red");
             $(".eqaulPwd").fadeIn();
+            flg = false;
         }
         else {
             $("#customer_re_pwd").css("border", "none");
             $(".eqaulPwd").fadeOut();
+            flg = true;
         }
     });
     $(".formWrapper").on("click", ".searchBtn", function(){
@@ -108,6 +111,10 @@ $(() => {
     });
     
     $(".buttonSection").on("click", ".confirmBtn", function(evt) {
+    	if (flg == false) {
+    		alert("비밀번호가 일치하지 않습니다.");
+    		return false;
+    	}
     	$.ajax({
     		url: "../customer/update",
     		data: $("form").serialize(),
@@ -116,7 +123,7 @@ $(() => {
     				alert("수정되었습니다.");
     				
     			} else {
-    				alert("error");
+    				alert("수정 실패 : " + data.msg);
     			}
     		}
     	});

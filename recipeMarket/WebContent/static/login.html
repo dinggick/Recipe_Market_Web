@@ -7,8 +7,10 @@
     <meta charset="utf-8" />
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="152161735609-pa6qec9tnnfbut4jbk88u0lksv7i9eu3.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/client:platform.js?onload=init" async defer></script>
     <title>Recipe Market</title>
+    <link rel="icon" href="/recipeMarket/img/titlecon.png">
+    
     <link rel="stylesheet" href="/recipeMarket/css/header.css">
     <link rel="stylesheet" href="/recipeMarket/css/divContent.css">
     <link rel="stylesheet" href="/recipeMarket/css/footer.css">
@@ -26,17 +28,45 @@
 				url : "/recipeMarket/sns",
 			    data : {snsEmail : email},
 			    success : (data, textStatus, jqXHR) => {
+			    	console.log(data);
 			    	if(data.status == "success") {
 			        	location.href = "/recipeMarket";
 			        } else {
-			            location.href = "/recipeMarket/register";
+			        	if(data.msg == "verify") {
+			        		alert("이메일 인증이 필요합니다.");
+			        	} else {
+			        		var form = document.createElement("form");
+				        	form.setAttribute("method", "POST");
+				        	form.setAttribute("action", "/recipeMarket/customerAdd.jsp");
+				        	
+				        	var input = document.createElement("input");
+				        	input.setAttribute("type", "hidden");
+				        	input.setAttribute("name", "email");
+				        	input.setAttribute("value", email);
+				        	form.appendChild(input);
+				        	document.body.appendChild(form);
+				        	form.submit();
+			        	}
 			        }
 			    }
 			});
     	}
+    	
+    	function init() {
+            gapi.load('auth2', function() {
+                auth2 = gapi.auth2.init({
+                    client_id: '152161735609-pa6qec9tnnfbut4jbk88u0lksv7i9eu3.apps.googleusercontent.com',
+                    cookiepolicy: 'single_host_origin',
+                    scope: 'profile email'
+                });
+                element = document.getElementById('glogin');
+                auth2.attachClickHandler(element, {}, onSignUp, onFailure);
+            });
+        }
     
-		function onSignIn(googleUser) {
+		function onSignUp(googleUser) {
 			// Useful data for your client-side scripts:
+			
 			var profile = googleUser.getBasicProfile();
 // 			console.log("ID: " + profile.getId()); // Don't send this directly to your server!
 // 			console.log('Full Name: ' + profile.getName());
@@ -46,28 +76,32 @@
 // 			console.log("Email: " + profile.getEmail());
 			
 			// The ID token you need to pass to your backend:
-			var id_token = googleUser.getAuthResponse().id_token;
+// 			var id_token = googleUser.getAuthResponse().id_token;
 // 			console.log("ID Token: " + id_token);
 			
 			snsLogin(profile.getEmail());
 		};
 		
-		function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-// 			console.log('statusChangeCallback');
-// 			console.log(response);                   // The current login status of the person.
-			if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-				testAPI();  
-			} else {                                 // Not logged into your webpage or we are unable to tell.
-				document.getElementById('status').innerHTML = 'Please log into this webpage.';
-			}
+		function onFailure() {
+			
 		}
-
-
-		function checkLoginState() {               // Called when a person is finished with the Login Button.
-			FB.getLoginStatus(function(response) {   // See the onlogin handler
-				statusChangeCallback(response);
-			});
-		}
+		
+// 		function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+// // 			console.log('statusChangeCallback');
+// // 			console.log(response);                   // The current login status of the person.
+// 			if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+// 				testAPI();  
+// 			} else {                                 // Not logged into your webpage or we are unable to tell.
+// // 				document.getElementById('status').innerHTML = 'Please log into this webpage.';
+// 				FB.login(function(responseObj) {
+// 					if(responseObj.authResponse) {
+// // 						testAPI();
+// 					} else {
+// 						console.log("not authorized");
+// 					}
+// 				});
+// 			}
+// 		}
 		
 		window.fbAsyncInit = function() {
 			FB.init({
@@ -77,10 +111,16 @@
 				version    : 'v8.0'           // Use this Graph API version for this call.
 			});
 
-
-			FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
-				statusChangeCallback(response);        // Returns the login status.
+			FB.Event.subscribe('auth.login', function(response) {
+// 				console.log("login_event");
+// 				console.log(response.status);
+// 				console.log(response);
+				testAPI();
 			});
+
+// 			FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+// 				statusChangeCallback(response);        // Returns the login status.
+// 			});
 		};
 			 
 		function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
@@ -101,6 +141,7 @@
 					Kakao.API.request({
 						  url: '/v2/user/me',
 						  success: function(response) {
+							  alert(response.kakao_account.email);
 						    snsLogin(response.kakao_account.email);
 						  },
 						  fail: function(error) {
@@ -111,6 +152,22 @@
 				fail: function(err) { 
 					alert(JSON.stringify(err)); 
 				} 
+			});
+			
+			$("form").submit(function() {
+				$.ajax({
+					url : "/recipeMarket/login/customer",
+					data : $(this).serialize(),
+					success : (data, textStatus, jqXHR) => {
+						if(data.status == "success") {
+							location.href = "/recipeMarket";
+						} else {
+							alert(data.msg);
+						}
+					}
+				});
+				
+				return false;
 			});
 		});
 		Kakao.init('b932178c1427f085336fdc6c27e2bb5c');
@@ -148,8 +205,8 @@
                 <label><input type="text" name="id" placeholder="Email..."></label>
                 <label><input type="password" name="pwd" placeholder="Password..."></label>
                 <button type="submit">로그인</button>
-                <label><a href="#">회원가입</a> <a onclick="openModal();"data-toggle="modal"  data-target="#pwdModal">비밀번호 찾기</a></label>
-                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark">구글 로그인</div>
+                <label><a href="/recipeMarket/customerAdd.jsp">회원가입</a> <a onclick="openModal();"data-toggle="modal"  data-target="#pwdModal">비밀번호 찾기</a></label>
+                <div id="glogin" class="g-signin2" data-theme="dark">구글 로그인</div>
                 <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
 				<a id="kakao-login-btn"></a>
             </form>

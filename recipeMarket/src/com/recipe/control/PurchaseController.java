@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.recipe.exception.AddException;
-import com.recipe.mail.Mail;
+import com.recipe.mail.PurchaseMail;
 import com.recipe.service.PurchaseService;
 import com.recipe.vo.Customer;
 import com.recipe.vo.Purchase;
@@ -35,6 +35,12 @@ public class PurchaseController implements Controller {
 		HttpSession session = request.getSession();
 		String customerEmail = (String)session.getAttribute("loginInfo");
 		//String customerEmail = request.getParameter("customerEmail");
+		
+		if(customerEmail == null) {
+			request.setAttribute("msg", "loginIssue");
+			return "/fail.jsp";
+		}
+		
 		String servletPath="";
 		Purchase p = new Purchase();
 		List<PurchaseDetail> pdList = new ArrayList<PurchaseDetail>();
@@ -76,8 +82,8 @@ public class PurchaseController implements Controller {
 			p.setCustomerEmail(c);
 			
 			service.buy(p);
-			Mail mail = new Mail();
-			mail.sendPurchaseInfo(c.getCustomerEmail(), p);
+			Thread thread = new Thread(new PurchaseMail(c.getCustomerEmail(), p));
+			thread.start();
 			servletPath = "/success.jsp";
 			return servletPath;
 		} catch (AddException e) {

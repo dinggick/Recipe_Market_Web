@@ -25,6 +25,7 @@
 
 <script src="./js/commonSection.js"></script>
 
+
 <script src="./js/header.js"></script>
 <script src="./js/footer.js"></script>
 <script src="./js/dropdownMenu.js"></script>
@@ -55,6 +56,16 @@
 <script>
 $(() => {
 	$("form").submit(function(evt) {
+// 		var inputVal = $("#customer_birth_date").val();
+// 		var birth = Date.parse(dt + "00:00:00");		
+// 		var now = new Date();
+		
+// 		var age = (now.getMonth() - birth.getMonth()) / 12;
+// 		if (age < 14) {
+// 			alert("만 14세 이상만 가입할 수 있습니다.");
+// 			return false;
+// 		}
+
 		$.ajax({
 			url: "./customer/register",
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
@@ -62,7 +73,7 @@ $(() => {
 			data: $("form").serialize(),
 			success: function(responseObj) {
 				if (responseObj.status == "success") {
-					alert("회원가입 성공");
+					alert("인증메일을 확인해주세요.");
 					location.href = "/recipeMarket";
 				} else {
 					alert("회원가입 실패 : " + responseObj.msg);
@@ -101,7 +112,7 @@ $(() => {
 
 			<div class="titleWrapper">
 
-				<span> 회원가입 </span>
+				<h1> 회원가입 </h1>
 
 			</div>
 
@@ -125,7 +136,7 @@ $(() => {
 							<tr>
 								<td><input class="dataInput" type="text"
 									id="customer_email" size="70" name="customer_email"
-									placeholder="이메일을 입력하세요."></td>
+									placeholder="이메일을 입력하세요." value="${param.email}"></td>
 							</tr>
 						</div>
 
@@ -163,7 +174,7 @@ $(() => {
 							<tr>
 								<td><input class="dataInput" type="text"
 									id="customer_birth_date" size="70" name="customer_birth_date"
-									placeholder="생년월일을 입력하세요.(ex>860724)"></td>
+									placeholder="생년월일을 입력하세요.(ex>1986-07-24)"></td>
 							</tr>
 						</div>
 
