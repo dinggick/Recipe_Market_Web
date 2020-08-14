@@ -87,7 +87,7 @@
 									</c:choose>
 									<button class="cartBtn">장바구니 추가</button>
 			                        <button class="purchaseBtn">구매하기</button>
-			                        <input type="number" name="quantity" value="1">
+			                        <input type="number" name="quantity" value="1" style="margin-left: 20px; width: 50px;">
 								</c:when>
 								<c:otherwise>
 									<button class="modifyBtn">수정</button>
