@@ -73,18 +73,23 @@ public class SearchController implements Controller {
 				if(customerEmail != null) {
 					List<Favorite> favoriteListByEmail = favoriteService.findById(customerEmail);
 					List<Boolean> favoriteCheckList = new ArrayList<Boolean>();
+					System.out.println("checklist size : " + favoriteCheckList.size());
 					
 					for(int i = 0; i < infos.size(); i++) {
 						int j = 0;
 						for(j = 0; j < favoriteListByEmail.size(); j++) {
 							if(infos.get(i).equals(favoriteListByEmail.get(j).getRecipeInfo())) {
 								favoriteCheckList.add(true);
+								break;
 							}
 						}
 						if(j == favoriteListByEmail.size()) favoriteCheckList.add(false);
 					}
 					request.setAttribute("favoriteCheckList", favoriteCheckList);
-				}				
+
+					System.out.println("info size : " + infos.size());
+					System.out.println("checklist size : " + favoriteCheckList.size());
+				}
 				servletPath = "/recipeList.jsp";
 			} catch (FindException e) {
 				servletPath = "/recipeList.jsp";				

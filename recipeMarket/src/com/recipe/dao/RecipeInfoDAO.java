@@ -130,7 +130,7 @@ public class RecipeInfoDAO {
             "LEFT JOIN RECIPE_INFO RIN ON RI.recipe_code = RIN.recipe_code\r\n" + 
             "LEFT JOIN INGREDIENT ING ON RI.ing_code = ING.ing_code\r\n" + 
             "LEFT JOIN POINT PT ON RIN.RECIPE_CODE = PT.RECIPE_CODE\r\n" + 
-            "WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1";
+            "WHERE rin.recipe_name LIKE ? AND RIN.RECIPE_STATUS = 1 order by like_count desc";
       try {
          
          pstmt = con.prepareStatement(newSQL);
@@ -314,12 +314,13 @@ public class RecipeInfoDAO {
          quary = "INSERT INTO RECIPE_INFO VALUES(?, ?, ?, ?, ?, ?, ?, ?)";      //RECIPE_INFO 에 값들을 넣어주는 쿼리문
          pstmt = con.prepareStatement(quary);
          pstmt.setInt(1, recipe_InfoVo.getRecipeCode());
-         pstmt.setString(2, recipe_InfoVo.getRecipeName());
-         pstmt.setString(3, recipe_InfoVo.getRecipeSumm());
-         pstmt.setDouble(4, recipe_InfoVo.getRecipePrice());
-         pstmt.setString(5, recipe_InfoVo.getRecipeProcess());
-         pstmt.setString(6, recipe_InfoVo.getImgUrl());
-         pstmt.setString(7, rdEmail);
+         pstmt.setString(2, rdEmail);
+         pstmt.setString(3, recipe_InfoVo.getRecipeName());
+         pstmt.setString(4, recipe_InfoVo.getRecipeSumm());
+         pstmt.setDouble(5, recipe_InfoVo.getRecipePrice());
+         pstmt.setString(6, recipe_InfoVo.getRecipeProcess());
+         pstmt.setString(7, recipe_InfoVo.getImgUrl());
+         
          
          pstmt.setString(8, ("1"));      //status는 1로 고정
 
