@@ -34,7 +34,6 @@ public class LoginController implements Controller {
 		request.setCharacterEncoding("UTF-8");
 
 		String requestURL = request.getServletPath();
-		System.out.println(requestURL);
 		
 		if("/login/customer".equals(requestURL)) {
 			return customerLogin(request, response);
