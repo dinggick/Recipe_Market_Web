@@ -97,7 +97,7 @@ $(() => {
     $(".buttonSection").on("click", ".deleteBtn", function(evt) {
     	if(!confirm("삭제하시겠습니까?")) return false;
     	$.ajax({
-    		url: "../customer/delete",
+    		url: "/recipeMarket/customer/delete",
     		data: $("form").serialize(),
     		success: function(responseObj) {
     			if (responseObj.status == "success") {
@@ -116,7 +116,7 @@ $(() => {
     		return false;
     	}
     	$.ajax({
-    		url: "../customer/update",
+    		url: "/recipeMarket/customer/update",
     		data: $("form").serialize(),
     		success: function(responseObj) {
     			if (responseObj.status == "success") {
