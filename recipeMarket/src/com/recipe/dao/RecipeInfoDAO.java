@@ -272,7 +272,7 @@ public class RecipeInfoDAO {
          }
 
          //DB에 들어갈 이미지파일명 바꾸기
-         String imageUrl = "http://localhost/files/img/";
+         String imageUrl = "http://13.124.152.158:8080/files/img/";
          String savePath = rootUploadPath + File.separator + "files" + File.separator + "img" + File.separator;
          String oldImageUrl = recipe_InfoVo.getImgUrl();   //"http://localhost/files/img/어피치찜.png"   
          int recipeCode = recipe_InfoVo.getRecipeCode();   //레시피코드값 넣기
@@ -299,7 +299,7 @@ public class RecipeInfoDAO {
          // img_url 별도의 다른 도메인을 사용하거나,아니면 등록 자체에 외부 url 을 등록하는게 아니라면 예) 네이버
          // 도메인까지 DB 에 넣는건 이후에 도메인 확장성을 생각하면 불필요하다고 생각한다.
          // 변동이 거의 없는 고정경로를 변수선언해서 관리하는게 이후에 유지보수성이 좋다.
-         recipe_InfoVo.setRecipeProcess("http://localhost" + recipeProessPath + recipe_InfoVo.getRecipeCode() + ".txt");      //recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
+         recipe_InfoVo.setRecipeProcess("http://13.124.152.158:8080" + recipeProessPath + recipe_InfoVo.getRecipeCode() + ".txt");      //recipeprocess에 레시피코드를 파일명으로 한 파일생성경로를 넣어준다.
          //Win전용 Process경로
 //         ("http://localhost/files/recipeProcess/")
          //Win전용 Img경로
@@ -327,7 +327,7 @@ public class RecipeInfoDAO {
          pstmt.executeUpdate();
          pstmt.close();
 
-         fileOutput(recipe_InfoVo.getRecipeProcess().replace("http://localhost", rootUploadPath), ingInfo + "\n" + process);
+         fileOutput(recipe_InfoVo.getRecipeProcess().replace("http://13.124.152.158:8080", rootUploadPath), ingInfo + "\n" + process);
          
          quary = "INSERT INTO POINT VALUES(?, 0, 0)";      //좋아요싫어요 초기값설정해주는 쿼리문
          pstmt = con.prepareStatement(quary);
@@ -441,7 +441,7 @@ public class RecipeInfoDAO {
          }
 
          //DB에 들어갈 이미지파일명 바꾸기
-         String imageUrl = "http://localhost/files/img/";
+         String imageUrl = "http://13.124.152.158:8080/files/img/";
          String savePath = rootUploadPath + File.separator + "files" + File.separator + "img" + File.separator;
          String oldImageUrl = recipe_InfoVo.getImgUrl();   //"http://localhost/files/img/어피치찜.png"   
          int recipeCode = recipe_InfoVo.getRecipeCode();   //레시피코드값 넣기

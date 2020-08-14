@@ -123,7 +123,7 @@ $(() => {
     				alert("수정되었습니다.");
     				
     			} else {
-    				alert("수정 실패 : " + data.msg);
+    				alert("수정 실패 : " + responseObj.msg);
     			}
     		}
     	});

@@ -130,6 +130,7 @@
 // 				console.log('Successful login for: ' + response.name);
 // 				document.getElementById('status').innerHTML =
 // 					'Thanks for logging in, ' + response.name + '!';
+// 				console.log(response);
 				snsLogin(response.email);
 			});
 		}
@@ -143,6 +144,7 @@
 						  success: function(response) {
 							  console.log(response);
 // 						    snsLogin(response.kakao_account.email);
+						  	snsLogin(response.kakao_account.email);
 						  },
 						  fail: function(error) {
 						    console.log(error);
