@@ -226,7 +226,48 @@ public class GraphDAO {
 		ResultSet rs = null;
 
 		List<Pair<String, Pair<Integer, Integer>>> list = null;
-
+		
+		String selectByYearMonthSQL = 
+		"SELECT recipe_name, total_sales, total_amount\r\n" + 
+		"FROM (\r\n" + 
+		"    SELECT rownum r, recipe_name, total_sales, total_amount\r\n" + 
+		"    FROM (\r\n" + 
+		"    \r\n" + 
+		"        SELECT recipe_name, total_amount * recipe_price total_sales, total_amount\r\n" + 
+		"        FROM (\r\n" + 
+		"                SELECT a.*\r\n" + 
+		"                FROM (\r\n" + 
+		"                        SELECT ri.recipe_name AS recipe_name,\r\n" + 
+		"                            ri.recipe_price AS recipe_price,\r\n" + 
+		"                            SUM(pd.purchase_quantity) AS total_amount\r\n" + 
+		"                    \r\n" + 
+		"                        FROM rd r JOIN recipe_info ri ON (r.rd_email = ri.rd_email)\r\n" + 
+		"                            JOIN purchase_detail pd ON (ri.recipe_code = pd.purchase_code)\r\n" + 
+		"                            JOIN purchase p ON (pd.purchase_code = p.purchase_code)\r\n" + 
+		"                            JOIN customer c ON (p.customer_email = c.customer_email)\r\n" + 
+		"                    \r\n" + 
+		"                        WHERE " + (rd_email.equals("all") ? "" : "(r.rd_email = ?) AND               \r\n") + 
+		"                    \r\n" + 
+		"                                ((TO_CHAR(p.purchase_date, 'YYYYMMDD') >= ?)\r\n" + 
+		"                            AND\r\n" + 
+		"                                (TO_CHAR(p.purchase_date, 'YYYYMMDD') <= ?))\r\n" + 
+		"                    \r\n" + 
+		"                            AND \r\n" + 
+		"                                ((c.customer_gender = ?)\r\n" + 
+		"                                    OR\r\n" + 
+		"                                (c.customer_gender = ?))\r\n" + 
+		"                    \r\n" + 
+		"                            AND \r\n" + 
+		"                                ((TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12))) >= ?\r\n" + 
+		"                                    AND\r\n" + 
+		"                                (TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12))) <= ?)\r\n" + 
+		"                \r\n" + 
+		"                        GROUP BY ri.recipe_name, ri.recipe_price\r\n" + 
+		"                        ) a\r\n" + 
+		"                ) b\r\n" + 
+		"        ORDER BY " + order_by + " DESC))\r\n" + 
+		"WHERE rownum <= ?";
+/*
 		String selectByYearMonthSQL = 
 				"SELECT recipe_name, total_sales, total_amount\r\n" + 
 				"FROM (\r\n" + 
@@ -251,7 +292,8 @@ public class GraphDAO {
 				"                GROUP BY ri.recipe_name\r\n" + 
 				"                ORDER BY " + order_by + " DESC) a\r\n" + 
 				"        )\r\n" + 
-				"WHERE rownum <= ?";;
+				"WHERE rownum <= ?";
+				*/
 
 		try {
 			con = MyConnection.getConnection();
@@ -317,7 +359,7 @@ public class GraphDAO {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
 			List<Pair<String, Pair<Integer, Integer>>> list = dao.selectByConditionG4(
-					"jjj1211@hanmir.com", "19900601", "20200801", "M", "F", 40, 49, 2, 10);
+					"all", "19900601", "20200801", "M", "F", 40, 49, 3, 20);
 			for (Pair<String, Pair<Integer, Integer>> p : list) {
 				System.out.println(p.getKey() + " " + p.getValue().getKey() + " " + p.getValue().getValue());
 			}
