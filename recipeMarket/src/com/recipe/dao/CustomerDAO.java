@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import com.recipe.exception.AddException;
 import com.recipe.exception.DuplicatedException;
@@ -185,7 +186,8 @@ public class CustomerDAO {
 				updateSQL += "SET ";
 
 			}
-			updateSQL += " customer_birth_date = '" + c.getCustomerBirthDate() + "' ";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			updateSQL += " customer_birth_date = to_date('" + sdf.format(c.getCustomerBirthDate()) + "', 'yyyy-MM-dd') ";
 			isModified = true;
 		}
 

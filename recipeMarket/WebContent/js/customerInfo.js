@@ -121,9 +121,10 @@ $(() => {
     		success: function(responseObj) {
     			if (responseObj.status == "success") {
     				alert("수정되었습니다.");
-    				
+    				location.realod();
     			} else {
     				alert("수정 실패 : " + responseObj.msg);
+    				location.realod();
     			}
     		}
     	});

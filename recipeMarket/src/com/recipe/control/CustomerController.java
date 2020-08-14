@@ -147,6 +147,8 @@ public class CustomerController implements Controller {
 				dt = new Date(sdf.parse(customer_birth_date).getTime());
 			} catch (ParseException e1) {
 				e1.printStackTrace();
+				request.setAttribute("msg", "올바른 날짜 형식을 입력하세요");
+				return "/fail.jsp";
 			}
 
 			String customer_gender = request.getParameter("customer_gender");
