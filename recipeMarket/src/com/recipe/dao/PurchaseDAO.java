@@ -251,7 +251,7 @@ public class PurchaseDAO {
 		//purchase테이블에서 추가
 		String insertSQL="INSERT INTO PURCHASE VALUES (PURCHASE_SEQ.NEXTVAL,?,SYSDATE)";
 		//purchaseDetail에서 현재 시퀀스로 받아 추가
-		String insertSQL2="INSERT INTO PURCHASE_DETAIL VALUES(PURCHASE_SEQ.CURRVAL,?,?)";
+		String insertSQL2="INSERT INTO PURCHASE_DETAIL VALUES(?,PURCHASE_SEQ.CURRVAL,?)";
 		
 		String deleteSQL = "DELETE CART WHERE RECIPE_CODE=? AND CUSTOMER_EMAIL=?";
 		try {
