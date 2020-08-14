@@ -45,7 +45,7 @@ public class RecipeEditController implements Controller {
          String imageUrl = "http://localhost/files/img/";
          String rootUploadPath = request.getSession().getServletContext().getRealPath("/").replace("wtpwebapps" + File.separator + "recipeMarket" + File.separator, "webapps" + File.separator + "ROOT");
          String imageUploadPath = rootUploadPath + File.separator + "files" + File.separator + "img" + File.separator;
-
+         System.out.println("dd" + rootUploadPath);
          // 파일 업로드 상태
          MultipartRequest mRequest = new MultipartRequest(request, imageUploadPath, "utf-8");
          
