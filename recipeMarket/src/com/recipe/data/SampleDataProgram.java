@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.GregorianCalendar;
 
 import com.recipe.jdbc.MyConnection;
 
 public class SampleDataProgram {
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
 //		Connection conn = null;
 //		PreparedStatement pstmt = null;
 //
@@ -17,7 +18,7 @@ public class SampleDataProgram {
 //		} catch (ClassNotFoundException | SQLException e1) {
 //			e1.printStackTrace();
 //		}
-
+//
 //		String customerSql = "Insert into CUSTOMER (CUSTOMER_EMAIL,CUSTOMER_PWD,CUSTOMER_NAME,CUSTOMER_GENDER,CUSTOMER_BIRTH_DATE,CUSTOMER_PHONE,BUILDINGNO,CUSTOMER_ADDR,VERIFICATION,CUSTOMER_STATUS) values (?,?,?,?,?,?,?,?,?,?)";
 //		for(int i = 0; i < 1000; i++) { //customer add
 //			try {
@@ -45,7 +46,7 @@ public class SampleDataProgram {
 		
 //		String purchaseSql = "INSERT INTO purchase VALUES (PURCHASE_SEQ.NEXTVAL, ?, ?)";
 //		String purchaseDetailSql = "INSERT INTO purchase_detail VALUES (?, ?, ?)";
-//		for(int i = 1; i <= 2002; i++) { //date add
+//		for(int i = 1; i <= 2001; i++) { //date add
 //			try {
 //				pstmt = conn.prepareStatement(purchaseDetailSql);
 //				pstmt.setInt(1, (int)(Math.random() * 1000) % 500);
@@ -69,5 +70,47 @@ public class SampleDataProgram {
 //				}
 //			}
 //		}
-	}
+//		
+//	}
+	public static void main(String[] args) {
+
+        GregorianCalendar gc = new GregorianCalendar();
+
+        String updateSQL = "UPDATE purchase set purchase_date = ? where purchase_code = ?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+			conn = MyConnection.getConnection();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        for(int i = 1; i <= 2001; i++) {
+        	try {
+				pstmt = conn.prepareStatement(updateSQL);
+				int year = randBetween(2018, 2020);
+
+	            gc.set(gc.YEAR, year);
+	            int dayOfYear = 0;
+	            if(year != 2020) dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
+	            else dayOfYear = randBetween(1, 227);
+	            gc.set(gc.DAY_OF_YEAR, dayOfYear);
+
+	            pstmt.setDate(1, (new Date(gc.getTimeInMillis())));
+	            pstmt.setInt(2, i);
+	            pstmt.executeUpdate();
+	            pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        	
+        }
+        
+
+    }
+
+    public static int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
+    }
 }

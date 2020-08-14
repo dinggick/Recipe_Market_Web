@@ -46,9 +46,8 @@ public class CustomerController implements Controller {
 			String customer_email = request.getParameter("customer_email");
 			String customer_pwd = request.getParameter("customer_pwd");
 			String customer_name = request.getParameter("customer_name");
-			System.out.println(customer_name);
 			String customer_birth_date = request.getParameter("customer_birth_date");
-			System.out.println(customer_birth_date);
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 			Date dt = null;
 			try {
@@ -65,7 +64,6 @@ public class CustomerController implements Controller {
 			postal.setBuildingno(buildingno);
 			String customer_addr = request.getParameter("customer_addr");
 
-			System.out.println(customer_addr);
 
 			Customer c = new Customer(customer_email, customer_pwd, customer_name, customer_gender, dt, customer_phone,
 					postal, customer_addr);
