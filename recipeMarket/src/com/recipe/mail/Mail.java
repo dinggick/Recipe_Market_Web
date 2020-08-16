@@ -69,7 +69,7 @@ public class Mail {
 			String txt = "";
 			txt +=  "<br><img style='width: 200px;' src=\"https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FRPxFA%2FbtqGuM2ZBAe%2FUKRpsekkax1dKUJnmM9r4k%2Fimg.png\">";
 			txt += "<br>Recipe Market에 가입하신걸 환영합니다. 아래 링크를 눌러 이메일인증을 해주세요.";
-			txt += "<br><a href='http://localhost/recipeMarket/customer/verify?email=" + userMail +"'>인증할게요<a>";
+			txt += "<br><a href='http://13.124.152.158:8080/recipeMarket/customer/verify?email=" + userMail +"'>인증할게요<a>";
 			message.setContent(txt, "text/html; charset=utf-8");
 			// Send message
 			Transport.send(message);

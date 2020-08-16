@@ -1,5 +1,5 @@
 function checkFavoriteBtn(favoriteBtn) {
-	if(favoriteBtn.src == "http://localhost/recipeMarket/img/filled_heart.png") return true;
+	if(favoriteBtn.src == "http://13.124.152.158:8080/recipeMarket/img/filled_heart.png") return true;
 	else return false;
 }
 
@@ -7,12 +7,12 @@ window.addEventListener("load", () => {
     //즐겨찾기 이벤트 처리
 	
 	$("body").on("mouseover", ".favorite", function(e){
-		if(checkFavoriteBtn(e.target)) e.target.src = "http://localhost/recipeMarket/img/heart.png";
-		else e.target.src = "http://localhost/recipeMarket/img/filled_heart.png";
+		if(checkFavoriteBtn(e.target)) e.target.src = "http://13.124.152.158:8080/recipeMarket/img/heart.png";
+		else e.target.src = "http://13.124.152.158:8080/recipeMarket/img/filled_heart.png";
 	});
 	$("body").on("mouseout", ".favorite", function(e) {
-		if(checkFavoriteBtn(e.target)) e.target.src = "http://localhost/recipeMarket/img/heart.png";
-		else e.target.src = "http://localhost/recipeMarket/img/filled_heart.png";
+		if(checkFavoriteBtn(e.target)) e.target.src = "http://13.124.152.158:8080/recipeMarket/img/heart.png";
+		else e.target.src = "http://13.124.152.158:8080/recipeMarket/img/filled_heart.png";
 	});
 	$("body").on("click", ".favorite", function(e) {
 		if(checkFavoriteBtn(e.target)) { //즐겨찾기 되어있지 않다면 즐겨찾기 추가
