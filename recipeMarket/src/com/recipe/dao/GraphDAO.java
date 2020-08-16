@@ -38,7 +38,7 @@ public class GraphDAO {
 				+ "FROM customer c JOIN purchase p ON (c.customer_email = p.customer_email)\r\n"
 				+ "    JOIN purchase_detail pd ON (p.purchase_code = pd.purchase_code)\r\n"
 				+ "    JOIN recipe_info ON (pd.recipe_code = recipe_info.recipe_code)\r\n"
-				+ "WHERE TO_CHAR(p.purchase_date, 'YYYY') = ?\r\n"
+				+ "WHERE TO_CHAR(p.purchase_date, 'YYYY') = ? AND TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10) < 10\r\n"
 				+ "GROUP BY TRUNC(TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), customer_birth_date) / 12) / 10)\r\n"
 				+ "    , c.customer_gender\r\n"
 				+ "ORDER BY 1\r\n"
