@@ -1,6 +1,6 @@
 # Recipe_Market
 
-밀키트 판매 웹 서비스 프로젝트 (7/17 ~ 8/14)  
+밀키트 판매 웹 서비스 프로젝트 (20/7/17 ~ 20/8/14)  
 
 Front-End : HTML, CSS, JQuery  
 Back-End : Java Servlet, Oracle, JSP  
